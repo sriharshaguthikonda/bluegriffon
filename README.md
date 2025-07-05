@@ -76,6 +76,8 @@ This repository includes a GitHub Actions workflow at
 `.github/workflows/build-bluegriffon.yml`. It runs on GitHub's v4 hosted runner
 and uses `actions/upload-artifact@v4` to store the build output. Trigger the
 workflow from the Actions tab to build BlueGriffon on Windows.
+This workflow sets `MOZ_WINDOWS_BOOTSTRAP=1` to bypass the Windows bootstrap check.
+
 
 ## Want to contribute to BlueGriffon?
 

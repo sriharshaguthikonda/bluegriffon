@@ -37,6 +37,8 @@ jobs:
         run: |
           cd bluegriffon-source
           py -2 ./mach bootstrap
+        env:
+          MOZ_WINDOWS_BOOTSTRAP: "1"
 
       - name: Build
         shell: bash
