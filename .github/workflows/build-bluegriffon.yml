@@ -1,6 +1,7 @@
+---
 name: Build BlueGriffon
 
-on:
+'on':
   workflow_dispatch:
   push:
     branches: [main]
@@ -8,7 +9,7 @@ on:
 
 jobs:
   build-windows:
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
       - name: Checkout BlueGriffon
         uses: actions/checkout@v4
@@ -35,7 +36,7 @@ jobs:
         shell: bash
         run: |
           cd bluegriffon-source
-          py -2 ./mach --no-interactive bootstrap
+          py -2 ./mach bootstrap
 
       - name: Build
         shell: bash
@@ -60,4 +61,3 @@ jobs:
         with:
           name: bluegriffon-windows
           path: bluegriffon-source/obj*/dist/*
-
