@@ -1,0 +1,55 @@
+name: Build BlueGriffon
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - master
+      - main
+
+jobs:
+  build-linux:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout BlueGriffon
+        uses: actions/checkout@v3
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y autoconf2.13 build-essential ccache \
+            clang libgtk-3-dev libdbus-glib-1-dev libxt-dev \
+            libxcomposite-dev libgstreamer1.0-dev \
+            libgstreamer-plugins-base1.0-dev python3-setuptools \
+            python3-dev unzip curl rsync
+
+      - name: Fetch Gecko source
+        run: |
+          git clone --depth 1 https://github.com/mozilla/gecko-dev.git gecko
+          cd gecko
+          git fetch --depth 1 origin $(cat ../config/gecko_dev_revision.txt)
+          git checkout $(cat ../config/gecko_dev_revision.txt)
+          cd ..
+
+      - name: Add BlueGriffon sources to Gecko tree
+        run: |
+          mkdir -p gecko/bluegriffon
+          rsync -a --exclude=gecko --exclude=.git ./ gecko/bluegriffon/
+          cd gecko
+          patch -p1 < bluegriffon/config/gecko_dev_content.patch
+          patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+          cp bluegriffon/config/mozconfig.ubuntu64 .mozconfig
+          cd ..
+
+      - name: Build
+        working-directory: gecko
+        run: |
+          ./mach --no-interactive bootstrap --application-choice=browser
+          ./mach build
+          ./mach package
+
+      - name: Upload package
+        uses: actions/upload-artifact@v3
+        with:
+          name: bluegriffon-build
+          path: gecko/opt/dist
