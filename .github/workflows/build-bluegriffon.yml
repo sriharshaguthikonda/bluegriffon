@@ -20,6 +20,15 @@ jobs:
         shell: powershell
         run: choco install python2 --no-progress -y
 
+      - name: Setup MSYS2
+        uses: msys2/setup-msys2@v2
+        with:
+          update: true
+          install: >-
+            base-devel
+            git
+            mingw-w64-x86_64-toolchain
+
       - name: Fetch gecko-dev
         shell: bash
         run: |

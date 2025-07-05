@@ -74,8 +74,9 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 This repository includes a GitHub Actions workflow at
 `.github/workflows/build-bluegriffon.yml`. It runs on GitHub's v4 hosted runner
-and uses `actions/upload-artifact@v4` to store the build output. It sets the
-`MOZ_WINDOWS_BOOTSTRAP` environment variable to allow `mach bootstrap` to run
+and uses `actions/upload-artifact@v4` to store the build output. The workflow
+installs MSYS2 through `msys2/setup-msys2` and sets the
+`MOZ_WINDOWS_BOOTSTRAP` environment variable so that `mach bootstrap` can run
 under Windows. Trigger the workflow from the Actions tab to build BlueGriffon on
 Windows.
 
