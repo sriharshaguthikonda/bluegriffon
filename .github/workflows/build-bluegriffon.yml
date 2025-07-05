@@ -1,0 +1,59 @@
+name: Build BlueGriffon
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout BlueGriffon
+        uses: actions/checkout@v3
+        with:
+          path: bluegriffon
+
+      - name: Fetch gecko-dev
+        shell: bash
+        run: |
+          GECKO_REV=$(cat bluegriffon/config/gecko_dev_revision.txt)
+          git clone https://github.com/mozilla/gecko-dev.git bluegriffon-source
+          cd bluegriffon-source
+          git checkout $GECKO_REV
+          mv ../bluegriffon ./bluegriffon
+          patch -p 1 < bluegriffon/config/gecko_dev_content.patch
+          patch -p 1 < bluegriffon/config/gecko_dev_idl.patch
+          cp bluegriffon/config/mozconfig.win .mozconfig
+
+      - name: Bootstrap build dependencies
+        shell: bash
+        run: |
+          cd bluegriffon-source
+          ./mach --no-interactive bootstrap --application-choice=browser
+
+      - name: Build
+        shell: bash
+        run: |
+          cd bluegriffon-source
+          ./mach build
+
+      - name: Package
+        shell: bash
+        run: |
+          cd bluegriffon-source
+          ./mach package
+
+      - name: Build installer
+        shell: bash
+        run: |
+          cd bluegriffon-source
+          MOZ_MAKE=mozmake ./mach installer
+
+      - name: Upload Windows package
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-windows
+          path: bluegriffon-source/obj*/dist/*
+
