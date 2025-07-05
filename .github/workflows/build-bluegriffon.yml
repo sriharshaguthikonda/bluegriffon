@@ -36,6 +36,7 @@ jobs:
         shell: bash
         run: |
           cd bluegriffon-source
+          export MOZ_WINDOWS_BOOTSTRAP=1
           py -2 ./mach bootstrap
 
       - name: Build
