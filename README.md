@@ -70,6 +70,12 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach package`
 
+## Continuous Integration
+
+BlueGriffon now ships with a GitHub Actions workflow that builds the Windows executable. The workflow
+uses GitHub's v4 runners and uploads the resulting packages as artifacts.
+You can find the workflow in `.github/workflows/build.yml`.
+
 ## Want to contribute to BlueGriffon?
 
 There are two ways to contribute:

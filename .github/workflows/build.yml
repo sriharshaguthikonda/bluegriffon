@@ -1,0 +1,49 @@
+name: Build BlueGriffon
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node (required for artifact actions)
+        uses: actions/setup-node@v3
+        with:
+          node-version: '20'
+
+      - name: Fetch Gecko source
+        run: |
+          git clone https://github.com/mozilla/gecko-dev bluegriffon-source
+          cd bluegriffon-source
+          git reset --hard $(cat ../config/gecko_dev_revision.txt)
+          patch -p 1 < ../config/gecko_dev_content.patch
+          patch -p 1 < ../config/gecko_dev_idl.patch
+          mv ../* .
+          rm -rf .git
+          git init
+          git add .
+          git commit -m "local" > /dev/null
+
+      - name: Configure build
+        working-directory: bluegriffon-source
+        run: |
+          cp config/mozconfig.win .mozconfig
+
+      - name: Build BlueGriffon
+        working-directory: bluegriffon-source
+        run: |
+          ./mach build
+          ./mach package
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-windows
+          path: bluegriffon-source/obj*/dist/*
+
+
