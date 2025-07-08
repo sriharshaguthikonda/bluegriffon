@@ -62,6 +62,9 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach build`
 
+When building on GitHub Actions the workflow [`build-bluegriffon.yml`](.github/workflows/build-bluegriffon.yml) uses the v4 runner and pins Python 3.11 to avoid
+`ModuleNotFoundError: No module named 'imp'` errors during `./mach build`.
+
 ## Run BlueGriffon in a temporary profile
 
 `./mach run`
