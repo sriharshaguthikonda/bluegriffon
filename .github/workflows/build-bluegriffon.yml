@@ -18,6 +18,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential autoconf2.13 clang python3 python3-pip patch rsync
 
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
       - name: Clone Gecko sources
         run: |
           git clone https://github.com/mozilla/gecko-dev gecko-dev
