@@ -36,7 +36,7 @@ jobs:
       - name: Patch Python compatibility
         working-directory: gecko-dev
         run: |
-          sed -i '1s;^;try:\n    import __builtin__\nexcept ImportError:\n    import builtins as __builtin__\n;' build/mach_bootstrap.py
+          sed -i "s/^import __builtin__/try:\n    import __builtin__\nexcept ImportError:\n    import builtins as __builtin__/" build/mach_bootstrap.py
 
       - name: Create mozconfig
         run: |
