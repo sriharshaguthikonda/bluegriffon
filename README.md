@@ -70,6 +70,12 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach package`
 
+## Build on GitHub Actions
+
+A workflow file located at `.github/workflows/build.yml` mirrors the manual steps
+above. It downloads the Gecko sources, applies the BlueGriffon patches and
+builds a package on every push or pull request using GitHub's runners.
+
 ## Want to contribute to BlueGriffon?
 
 There are two ways to contribute:
