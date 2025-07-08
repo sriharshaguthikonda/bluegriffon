@@ -70,6 +70,12 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach package`
 
+## Continuous Integration
+
+GitHub Actions builds BlueGriffon using Python 3.11 on the v4 runner. A patch is
+applied to `mach_bootstrap.py` so the legacy Gecko sources work under Python 3
+and avoid errors from modules like `__builtin__`.
+
 ## Want to contribute to BlueGriffon?
 
 There are two ways to contribute:
