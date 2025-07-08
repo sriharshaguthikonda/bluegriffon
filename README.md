@@ -73,9 +73,11 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 ## Continuous Integration
 
 GitHub Actions builds the Windows installer using the workflow defined in
-`.github/workflows/build-windows.yml`. The workflow checks out the source,
-clones `gecko-dev`, applies BlueGriffon patches and packages the project on the
-v4 runner. The resulting `setup.exe` is uploaded using
+`.github/workflows/build-windows.yml`. The workflow installs Inno Setup from
+Chocolatey and downloads the latest **MozillaBuild** package directly from the
+Mozilla FTP server. After the dependencies are installed, the workflow checks
+out the source, clones `gecko-dev`, applies BlueGriffon patches and packages
+the project on the v4 runner. The resulting `setup.exe` is uploaded using
 `actions/upload-artifact@v4`.
 
 ## Want to contribute to BlueGriffon?

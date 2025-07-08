@@ -10,6 +10,12 @@ jobs:
     runs-on: windows-latest-4
     steps:
       - uses: actions/checkout@v4
+      - name: Install dependencies
+        shell: powershell
+        run: |
+          choco install -y innosetup
+          Invoke-WebRequest https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe -OutFile MozillaBuildSetup.exe
+          Start-Process .\MozillaBuildSetup.exe -ArgumentList '/S' -NoNewWindow -Wait
       - name: Set up build environment
         run: |
           git clone https://github.com/mozilla/gecko-dev bluegriffon-source
