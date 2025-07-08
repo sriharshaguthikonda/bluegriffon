@@ -1,0 +1,28 @@
+name: Build executables
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Bootstrap build dependencies
+        run: ./mach bootstrap --application-choice=browser --no-interactive
+
+      - name: Build
+        run: ./mach build
+
+      - name: Package
+        run: ./mach package
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-build
+          path: obj-*/dist/**
