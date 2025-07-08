@@ -70,6 +70,14 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach package`
 
+## Continuous Integration
+
+GitHub Actions builds the Windows installer using the workflow defined in
+`.github/workflows/build-windows.yml`. The workflow checks out the source,
+clones `gecko-dev`, applies BlueGriffon patches and packages the project on the
+v4 runner. The resulting `setup.exe` is uploaded using
+`actions/upload-artifact@v4`.
+
 ## Want to contribute to BlueGriffon?
 
 There are two ways to contribute:

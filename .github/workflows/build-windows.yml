@@ -1,0 +1,30 @@
+name: Build Windows Executable
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest-4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up build environment
+        run: |
+          git clone https://github.com/mozilla/gecko-dev bluegriffon-source
+          cd bluegriffon-source
+          git reset --hard $(cat bluegriffon/config/gecko_dev_revision.txt)
+          patch -p 1 < bluegriffon/config/gecko_dev_content.patch
+          patch -p 1 < bluegriffon/config/gecko_dev_idl.patch
+          copy bluegriffon\config\mozconfig.win .mozconfig
+      - name: Build and package
+        run: |
+          cd bluegriffon-source
+          ./mach build
+          ./mach package
+      - name: Upload installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: BlueGriffon-setup
+          path: '**/setup.exe'
