@@ -70,6 +70,11 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach package`
 
+## Continuous Integration
+
+GitHub Actions builds BlueGriffon using Python 3.11. This prevents failures
+from deprecated modules such as `imp` that were removed in Python 3.12.
+
 ## Want to contribute to BlueGriffon?
 
 There are two ways to contribute:
