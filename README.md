@@ -62,6 +62,10 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach build`
 
+BlueGriffon is also built automatically on GitHub using a workflow that sets up
+Python 3.11 to avoid compatibility issues with the “imp” module removal in newer
+runners.
+
 ## Run BlueGriffon in a temporary profile
 
 `./mach run`
