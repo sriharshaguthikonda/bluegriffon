@@ -1,0 +1,49 @@
+name: Build BlueGriffon
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout BlueGriffon
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y build-essential autoconf2.13 clang python3 python3-pip patch rsync
+
+      - name: Clone Gecko sources
+        run: |
+          git clone https://github.com/mozilla/gecko-dev gecko-dev
+          mkdir gecko-dev/bluegriffon
+          rsync -a --exclude gecko-dev ./ gecko-dev/bluegriffon/
+          cd gecko-dev
+          git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
+          patch -p1 < bluegriffon/config/gecko_dev_content.patch
+          patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+
+      - name: Create mozconfig
+        run: |
+          cp bluegriffon/config/mozconfig.ubuntu64 .mozconfig
+        working-directory: gecko-dev
+
+      - name: Build
+        run: ./mach build
+        working-directory: gecko-dev
+
+      - name: Package
+        run: ./mach package
+        working-directory: gecko-dev
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-build
+          path: gecko-dev/obj*/dist
+
