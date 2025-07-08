@@ -62,6 +62,10 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach build`
 
+**Note:** The build system currently relies on Python's `imp` module, which was
+removed in Python 3.12. Use Python 3.10 (or another version below 3.12) when
+running `./mach` locally or in CI.
+
 ## Run BlueGriffon in a temporary profile
 
 `./mach run`
