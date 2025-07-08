@@ -1,0 +1,41 @@
+name: Build Windows EXE
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Install build dependencies
+        run: |
+          choco install -y mozilla-build innosetup
+
+      - name: Fetch Gecko source
+        run: |
+          git clone https://github.com/mozilla/gecko-dev C:\gecko-dev
+          cd C:\gecko-dev
+          git reset --hard $(Get-Content $Env:GITHUB_WORKSPACE\config\gecko_dev_revision.txt)
+          git apply $Env:GITHUB_WORKSPACE\config\gecko_dev_content.patch
+          git apply $Env:GITHUB_WORKSPACE\config\gecko_dev_idl.patch
+          Copy-Item $Env:GITHUB_WORKSPACE\* -Destination . -Recurse -Force
+
+      - name: Build and package
+        run: |
+          cd C:\gecko-dev
+          Copy-Item $Env:GITHUB_WORKSPACE\config\mozconfig.win .mozconfig -Force
+          ./mach build
+          ./mach package
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-exe
+          path: '**/*.exe'

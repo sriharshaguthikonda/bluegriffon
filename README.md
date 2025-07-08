@@ -70,6 +70,13 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach package`
 
+## Continuous integration
+
+The repository provides a GitHub Actions workflow that builds the Windows
+version of BlueGriffon. The workflow clones the Gecko sources, applies the
+required patches and packages the application. The resulting executable is
+published as an artifact.
+
 ## Want to contribute to BlueGriffon?
 
 There are two ways to contribute:
