@@ -1,0 +1,122 @@
+name: Build Standalone WebView2 Sample (Windows)
+
+on:
+  push:
+    branches:
+      - poc/webview2-integration # Or your main/dev branch if sample is there
+    paths: # Only run if files in this sample directory change
+      - 'standalone_webview2_sample/**'
+      - '.github/workflows/build-standalone-sample.yml'
+  pull_request:
+    paths:
+      - 'standalone_webview2_sample/**'
+      - '.github/workflows/build-standalone-sample.yml'
+  workflow_dispatch: # Allow manual triggering
+
+jobs:
+  build-standalone-windows:
+    runs-on: windows-latest
+
+    defaults:
+      run:
+        working-directory: standalone_webview2_sample # All commands run from here unless specified
+
+    steps:
+    - name: Checkout repository code
+      uses: actions/checkout@v4
+
+    - name: Setup MSVC developer environment
+      uses: microsoft/setup-msvc-dev@v1
+      with:
+        architecture: 'x64' # Or 'x86' if you want to build for 32-bit
+
+    - name: Install CMake (if not already on runner, or to ensure version)
+      uses: jwlawson/actions-setup-cmake@v1.14 # Or another CMake setup action
+      with:
+        cmake-version: '3.20.x' # Specify a version
+
+    - name: Download and Extract WebView2 SDK
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = "Stop"
+        $nugetVersion = "1.0.2210.55" # Specify a recent, stable version
+        # SDK will be placed in third_party relative to GITHUB_WORKSPACE (repo root)
+        # CMakeLists.txt expects it at ../third_party/webview2_sdk relative to sample dir
+        $sdkCheckoutBaseDir = "${{ github.workspace }}/third_party"
+        $sdkDir = Join-Path -Path $sdkCheckoutBaseDir -ChildPath "webview2_sdk"
+        $tempExtractDir = "${{ github.workspace }}/webview2_temp_extract_sample"
+
+        New-Item -ItemType Directory -Force -Path $sdkDir | Out-Null
+        New-Item -ItemType Directory -Force -Path $tempExtractDir | Out-Null
+
+        Write-Host "Downloading WebView2 SDK version ${nugetVersion}..."
+        Invoke-WebRequest `
+          -Uri "https://www.nuget.org/api/v2/package/Microsoft.Web.WebView2/${nugetVersion}" `
+          -OutFile "${{ github.workspace }}/webview2_sample.zip"
+
+        Write-Host "Extracting WebView2 SDK..."
+        Expand-Archive -Path "${{ github.workspace }}/webview2_sample.zip" -DestinationPath $tempExtractDir -Force
+
+        $includeDest = Join-Path -Path $sdkDir -ChildPath "include"
+        $libDest = Join-Path -Path $sdkDir -ChildPath "lib/x64" # Assuming x64
+        $binDest = Join-Path -Path $sdkDir -ChildPath "bin/x64" # For WebView2Loader.dll
+
+        New-Item -ItemType Directory -Force -Path $includeDest | Out-Null
+        New-Item -ItemType Directory -Force -Path $libDest | Out-Null
+        New-Item -ItemType Directory -Force -Path $binDest | Out-Null
+
+        Write-Host "Copying WebView2 SDK headers to $includeDest"
+        Copy-Item -Path (Join-Path -Path $tempExtractDir -ChildPath "build/native/include/*") -Destination $includeDest -Recurse -Force
+
+        Write-Host "Copying WebView2 SDK libs (x64) to $libDest"
+        Copy-Item -Path (Join-Path -Path $tempExtractDir -ChildPath "build/native/lib/x64/*") -Destination $libDest -Recurse -Force
+
+        Write-Host "Copying WebView2Loader.dll (x64) to $binDest"
+        Copy-Item -Path (Join-Path -Path $tempExtractDir -ChildPath "build/native/bin/x64/WebView2Loader.dll") -Destination $binDest -Force
+
+        Write-Host "Cleaning up temporary WebView2 SDK files..."
+        Remove-Item -Path "${{ github.workspace }}/webview2_sample.zip" -Force
+        Remove-Item -Path $tempExtractDir -Recurse -Force
+
+        Write-Host "WebView2 SDK setup complete in $sdkDir"
+        # Set environment variable for CMake to find the SDK (alternative to CMake -D option)
+        echo "WEBVIEW2_SDK_PATH_ENV=$sdkDir" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
+
+    - name: Configure CMake
+      # The working-directory default applies here
+      run: |
+        cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
+        # The WEBVIEW2_SDK_PATH_ENV set above should be picked up by CMakeLists.txt
+        # Alternatively, explicitly pass:
+        # cmake -S . -B build -DCMAKE_BUILD_TYPE=Release -DWEBVIEW2_SDK_PATH="${{ github.workspace }}/third_party/webview2_sdk"
+
+    - name: Build with CMake
+      # The working-directory default applies here
+      run: cmake --build build --config Release
+
+    - name: Prepare Artifacts
+      shell: bash # Use bash for easier path manipulation here
+      run: |
+        ARTIFACT_DIR="${{ github.workspace }}/standalone-webview2-sample-build"
+        mkdir -p "$ARTIFACT_DIR"
+
+        # Copy executable from CMake build directory
+        cp "standalone_webview2_sample/build/Release/MinimalWebView2.exe" "$ARTIFACT_DIR/"
+
+        # WebView2Loader.dll is copied by CMake's post-build step next to the .exe
+        # If not, copy it from the SDK location:
+        # cp "${{ github.workspace }}/third_party/webview2_sdk/bin/x64/WebView2Loader.dll" "$ARTIFACT_DIR/"
+        # However, the CMakeLists.txt is configured to place it in the same directory as the exe.
+        # So, just ensure the build output directory is what we grab.
+        cp "standalone_webview2_sample/build/Release/WebView2Loader.dll" "$ARTIFACT_DIR/"
+
+        echo "Artifacts prepared in $ARTIFACT_DIR"
+        ls -R "$ARTIFACT_DIR"
+
+    - name: Upload Standalone Sample Build Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: Standalone-WebView2-Sample-Windows
+        path: ${{ github.workspace }}/standalone-webview2-sample-build/
+```
