@@ -2,7 +2,7 @@
    - License, v. 2.0. If a copy of the MPL was not distributed with this
    - file, You can obtain one at http://mozilla.org/MPL/2.0/. -->
 
-<!-- See https://github.com/mozilla/gecko-dev/blame/master/dom/locales/en-US/chrome/netErrorApp.dtd
+<!-- See https://github.com/mozilla-firefox/firefox/blob/master/dom/locales/en-US/chrome/netErrorApp.dtd
 
 <!ENTITY securityOverride.linkText "Możesz także dodać wyjątek…">
 <!ENTITY securityOverride.getMeOutOfHereButton "Zabierz mnie stąd">
