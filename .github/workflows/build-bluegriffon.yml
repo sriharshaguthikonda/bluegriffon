@@ -18,6 +18,11 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y build-essential autoconf2.13 clang python3 python3-pip patch rsync
 
+      - name: Set up Python 2.7
+        uses: actions/setup-python@v5
+        with:
+          python-version: '2.7'
+
       - name: Clone Gecko sources
         run: |
           git clone https://github.com/mozilla/gecko-dev gecko-dev
@@ -27,6 +32,11 @@ jobs:
           git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
           patch -p1 < bluegriffon/config/gecko_dev_content.patch
           patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+
+      - name: Patch Python compatibility
+        working-directory: gecko-dev
+        run: |
+          sed -i "s/^import __builtin__/try:\n    import __builtin__\nexcept ImportError:\n    import builtins as __builtin__/" build/mach_bootstrap.py
 
       - name: Create mozconfig
         run: |
