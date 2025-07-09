@@ -119,4 +119,3 @@ jobs:
       with:
         name: Standalone-WebView2-Sample-Windows
         path: ${{ github.workspace }}/standalone-webview2-sample-build/
-```
