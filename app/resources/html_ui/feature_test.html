@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Feature Test (WebView2 PoC)</title>
+    <style>
+        body { font-family: sans-serif; margin: 20px; }
+        #dataDisplay { margin-top: 15px; padding: 10px; border: 1px solid #ccc; background-color: #f9f9f9; min-height: 50px; }
+        button { padding: 10px; font-size: 1em; }
+    </style>
+</head>
+<body>
+    <h1>Dynamic Data Feature Test</h1>
+    <button id="getDataButton">Get Data from C++</button>
+    <div id="dataDisplay">Click the button to fetch data...</div>
+
+    <!-- We'll assume appBridge is globally available or included if this were a multi-file JS setup -->
+    <script src="about_dialog.js"></script> <!-- Reusing appBridge from about_dialog.js for PoC -->
+    <script src="feature_test.js"></script>
+</body>
+</html>

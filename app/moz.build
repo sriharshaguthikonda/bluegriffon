@@ -21,6 +21,8 @@ if CONFIG['LIBXUL_SDK']:
     ]
 SOURCES += [
     'nsEditorApp.cpp',
+    'WebView2TestWindow.cpp',
+    'HTMLDialogWindow.cpp',
 ]
 
 #FINAL_TARGET_FILES += ['blocklist.xml']
@@ -37,6 +39,8 @@ LOCAL_INCLUDES += [
     '/toolkit/xre',
     '/xpcom/base',
     '/xpcom/build',
+    # Assuming SDK placed in bluegriffon-source/third_party/webview2_sdk/
+    '$(topsrcdir)/third_party/webview2_sdk/include',
 ]
 
 if not CONFIG['MOZ_METRO']:
@@ -56,6 +60,15 @@ if CONFIG['_MSC_VER']:
 if CONFIG['OS_ARCH'] == 'WINNT':
     RCINCLUDE = 'splash.rc'
     DEFINES['MOZ_PHOENIX'] = True
+    # Add Windows specific libraries needed for a GUI app and WebView2
+    OS_LIBS += [
+        'User32.lib',
+        'Gdi32.lib',
+        'Shlwapi.lib', # For PathCombine
+        # Assuming SDK placed in bluegriffon-source/third_party/webview2_sdk/
+        # And assuming an x64 build. Adjust path for x86 if necessary.
+        '$(topsrcdir)/third_party/webview2_sdk/lib/x64/WebView2Loader.dll.lib',
+    ]
 
 # Control the default heap size.
 # This is the heap returned by GetProcessHeap().

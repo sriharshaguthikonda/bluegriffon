@@ -61,9 +61,16 @@ endif
 
 ifndef LIBXUL_SDK
 #channel-prefs.js is handled separate from other prefs due to bug 756325
-libs:: $(srcdir)/profile/channel-prefs.js
+libs:: $(srcdir)/profile/channel-prefs.js $(srcdir)/resources/html_ui/about_dialog.html $(srcdir)/resources/html_ui/about_dialog.css $(srcdir)/resources/html_ui/about_dialog.js $(srcdir)/resources/html_ui/feature_test.html $(srcdir)/resources/html_ui/feature_test.js
 	$(NSINSTALL) -D $(DIST)/bin/defaults/pref
-	$(call py_action,preprocessor,-Fsubstitution $(PREF_PPFLAGS) $(ACDEFINES) $^ -o $(DIST)/bin/defaults/pref/channel-prefs.js)
+	$(call py_action,preprocessor,-Fsubstitution $(PREF_PPFLAGS) $(ACDEFINES) $(filter %channel-prefs.js,$^) -o $(DIST)/bin/defaults/pref/channel-prefs.js)
+	# Copy HTML UI resources
+	$(NSINSTALL) -D $(DIST)/bin/resources/html_ui
+	$(INSTALL) $(srcdir)/resources/html_ui/about_dialog.html $(DIST)/bin/resources/html_ui/
+	$(INSTALL) $(srcdir)/resources/html_ui/about_dialog.css $(DIST)/bin/resources/html_ui/
+	$(INSTALL) $(srcdir)/resources/html_ui/about_dialog.js $(DIST)/bin/resources/html_ui/
+	$(INSTALL) $(srcdir)/resources/html_ui/feature_test.html $(DIST)/bin/resources/html_ui/
+	$(INSTALL) $(srcdir)/resources/html_ui/feature_test.js $(DIST)/bin/resources/html_ui/
 endif
 
 ifeq (cocoa,$(MOZ_WIDGET_TOOLKIT))

@@ -19,6 +19,11 @@
 #include <stdarg.h>
 #include <time.h>
 
+#if defined(XP_WIN)
+#include "WebView2TestWindow.h" // Our new header
+#include "HTMLDialogWindow.h"   // And the HTML dialog header
+#endif
+
 #include "nsCOMPtr.h"
 #include "nsIFile.h"
 
@@ -259,6 +264,20 @@ InitXPCOMGlue(const char *argv0)
 
 int main(int argc, char* argv[], char* envp[])
 {
+#if defined(XP_WIN)
+  // Get hInstance for the current executable
+  HINSTANCE hInstance = GetModuleHandle(NULL);
+  // Launch our test window. For PoC, we're not deeply checking success/failure here,
+  // but in a real scenario, you would.
+  if (hInstance) { // Ensure hInstance is valid
+      LaunchWebView2TestWindow(hInstance);
+      // Launch our HTML dialog PoC window
+      LaunchHTMLDialogWindow(hInstance, L"about_dialog.html", L"About BlueGriffon (HTML PoC)");
+      // Launch our HTML feature test window
+      LaunchHTMLDialogWindow(hInstance, L"feature_test.html", L"Feature Test (HTML PoC)");
+  }
+#endif
+
   mozilla::TimeStamp start = mozilla::TimeStamp::Now();
 
 #ifdef HAS_DLL_BLOCKLIST
