@@ -18,6 +18,7 @@ set -x
 
 echo "Build log: $log_path"
 echo "PWD (start): $(pwd)"
+echo "uname: $(uname -a || true)"
 
 if [ -n "${BUILD_WORKDIR:-}" ]; then
   workdir="$(cygpath -u "$BUILD_WORKDIR" 2>/dev/null || true)"
@@ -29,6 +30,8 @@ if [ -n "${BUILD_WORKDIR:-}" ]; then
   fi
 fi
 echo "PWD (after): $(pwd)"
+echo "Listing .github/scripts:"
+ls -la .github/scripts || true
 
 # Ensure "python" is executable for mach.
 PYTHON_EXE_CAND="${PYTHON_EXE:-/c/mozilla-build/python3/python.exe}"

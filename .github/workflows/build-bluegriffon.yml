@@ -38,8 +38,12 @@ jobs:
           echo ==== build start %DATE% %TIME% ==== > "%LOG%"
           echo Workspace: %GITHUB_WORKSPACE% >> "%LOG%"
           dir "%GITHUB_WORKSPACE%" >> "%LOG%" 2>&1
+          dir "%GITHUB_WORKSPACE%\.github\scripts" >> "%LOG%" 2>&1
           dir "C:\mozilla-build" >> "%LOG%" 2>&1
           echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
+          echo PATH: %PATH% >> "%LOG%"
+          where git >> "%LOG%" 2>&1
+          where bash >> "%LOG%" 2>&1
           where python >> "%LOG%" 2>&1
           if not exist "C:\mozilla-build\msys2\usr\bin\bash.exe" (
             echo ERROR: MozillaBuild bash.exe not found. >> "%LOG%"
