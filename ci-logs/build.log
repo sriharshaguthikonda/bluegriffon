@@ -1,61 +1,712 @@
-==== build start Thu 03/05/2026 22:36:08.49 ==== 
+==== build start Thu 03/05/2026 23:03:55.54 ==== 
 Workspace: D:\a\bluegriffon\bluegriffon 
  Volume in drive D is Temporary Storage
- Volume Serial Number is 7CE9-20F5
+ Volume Serial Number is 0A6C-9B05
 
  Directory of D:\a\bluegriffon\bluegriffon
 
-03/05/2026  10:36 PM    <DIR>          .
-03/05/2026  10:34 PM    <DIR>          ..
-03/05/2026  10:34 PM    <DIR>          .github
-03/05/2026  10:34 PM    <DIR>          app
-03/05/2026  10:34 PM               107 app-rules.mk
-03/05/2026  10:34 PM               724 app.mozbuild
-03/05/2026  10:34 PM    <DIR>          base
-03/05/2026  10:34 PM    <DIR>          branding
-03/05/2026  10:36 PM                93 build.log
-03/05/2026  10:34 PM             1,357 build.mk
-03/05/2026  10:34 PM    <DIR>          components
-03/05/2026  10:34 PM    <DIR>          config
-03/05/2026  10:34 PM             2,404 confvars.sh
-03/05/2026  10:34 PM                30 defs.mk
-03/05/2026  10:34 PM    <DIR>          extensions
-03/05/2026  10:34 PM    <DIR>          installer
-03/05/2026  10:34 PM    <DIR>          langpacks
-03/05/2026  10:34 PM            16,285 LICENSE
-03/05/2026  10:34 PM    <DIR>          locales
-03/05/2026  10:34 PM             2,192 Makefile.in
-03/05/2026  10:34 PM             2,642 makefiles.sh
-03/05/2026  10:34 PM    <DIR>          modules
-03/05/2026  10:34 PM               539 moz.build
-03/05/2026  10:34 PM               351 moz.configure
-03/05/2026  10:34 PM             3,443 README.md
-03/05/2026  10:34 PM    <DIR>          sidebars
-03/05/2026  10:34 PM    <DIR>          src
-03/05/2026  10:34 PM    <DIR>          themes
+03/05/2026  11:03 PM    <DIR>          .
+03/05/2026  11:01 PM    <DIR>          ..
+03/05/2026  11:02 PM    <DIR>          .github
+03/05/2026  11:02 PM    <DIR>          app
+03/05/2026  11:02 PM               107 app-rules.mk
+03/05/2026  11:02 PM               724 app.mozbuild
+03/05/2026  11:02 PM    <DIR>          base
+03/05/2026  11:02 PM    <DIR>          branding
+03/05/2026  11:03 PM                93 build.log
+03/05/2026  11:02 PM             1,357 build.mk
+03/05/2026  11:02 PM    <DIR>          components
+03/05/2026  11:02 PM    <DIR>          config
+03/05/2026  11:02 PM             2,404 confvars.sh
+03/05/2026  11:02 PM                30 defs.mk
+03/05/2026  11:02 PM    <DIR>          extensions
+03/05/2026  11:02 PM    <DIR>          installer
+03/05/2026  11:02 PM    <DIR>          langpacks
+03/05/2026  11:02 PM            16,285 LICENSE
+03/05/2026  11:02 PM    <DIR>          locales
+03/05/2026  11:02 PM             2,192 Makefile.in
+03/05/2026  11:02 PM             2,642 makefiles.sh
+03/05/2026  11:02 PM    <DIR>          modules
+03/05/2026  11:02 PM               539 moz.build
+03/05/2026  11:02 PM               351 moz.configure
+03/05/2026  11:02 PM             3,443 README.md
+03/05/2026  11:02 PM    <DIR>          sidebars
+03/05/2026  11:02 PM    <DIR>          src
+03/05/2026  11:02 PM    <DIR>          themes
               12 File(s)         30,167 bytes
-              16 Dir(s)  157,734,060,032 bytes free
+              16 Dir(s)  157,733,998,592 bytes free
  Volume in drive C is Windows
  Volume Serial Number is 808A-844D
 
  Directory of C:\mozilla-build
 
-03/05/2026  10:35 PM    <DIR>          .
-03/05/2026  10:35 PM    <DIR>          bin
-03/05/2026  10:35 PM    <DIR>          kdiff3
-03/05/2026  10:35 PM    <DIR>          msys2
-03/05/2026  10:36 PM    <DIR>          python3
+03/05/2026  11:03 PM    <DIR>          .
+03/05/2026  11:02 PM    <DIR>          bin
+03/05/2026  11:02 PM    <DIR>          kdiff3
+03/05/2026  11:03 PM    <DIR>          msys2
+03/05/2026  11:03 PM    <DIR>          python3
 10/16/2025  07:57 PM               914 start-shell.bat
 10/16/2025  07:57 PM                 7 VERSION
                2 File(s)            921 bytes
-               5 Dir(s)  93,014,032,384 bytes free
+               5 Dir(s)  93,002,059,776 bytes free
 Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe 
 VSINSTALL from vswhere:  
 WARNING: vcvars64.bat not found at \VC\Auxiliary\Build\vcvars64.bat; build may fail. 
-'C:\Windows\system32\drivers\etc\hosts' -> '/etc/hosts'
-'C:\Windows\system32\drivers\etc\protocol' -> '/etc/protocols'
-'C:\Windows\system32\drivers\etc\services' -> '/etc/services'
-'C:\Windows\system32\drivers\etc\networks' -> '/etc/networks'
-stty: 'standard input': Inappropriate ioctl for device
-.github/scripts/build-bluegriffon-windows.sh: line 12: /d/a/bluegriffon/bluegriffon/build.log: Device or resource busy
-==== build end (exit 1) ==== 
++ echo 'Build log: /d/a/bluegriffon/bluegriffon/build.log'
+Build log: /d/a/bluegriffon/bluegriffon/build.log
+++ pwd
++ echo 'PWD (start): /d/a/bluegriffon/bluegriffon'
+PWD (start): /d/a/bluegriffon/bluegriffon
++ '[' -n 'D:\a\bluegriffon\bluegriffon' ']'
+++ cygpath -u 'D:\a\bluegriffon\bluegriffon'
++ workdir=/d/a/bluegriffon/bluegriffon
++ '[' -n /d/a/bluegriffon/bluegriffon ']'
++ echo 'Changing to BUILD_WORKDIR: /d/a/bluegriffon/bluegriffon'
+Changing to BUILD_WORKDIR: /d/a/bluegriffon/bluegriffon
++ cd /d/a/bluegriffon/bluegriffon
+++ pwd
++ echo 'PWD (after): /d/a/bluegriffon/bluegriffon'
+PWD (after): /d/a/bluegriffon/bluegriffon
++ git clone https://github.com/mozilla/gecko-dev gecko-dev
+Cloning into 'gecko-dev'...
+Updating files:   1% (4441/387841)
+Updating files:   2% (7757/387841)
+Updating files:   2% (9154/387841)
+Updating files:   3% (11636/387841)
+Updating files:   3% (13721/387841)
+Updating files:   4% (15514/387841)
+Updating files:   4% (18602/387841)
+Updating files:   5% (19393/387841)
+Updating files:   6% (23271/387841)
+Updating files:   6% (23623/387841)
+Updating files:   7% (27149/387841)
+Updating files:   7% (28888/387841)
+Updating files:   8% (31028/387841)
+Updating files:   9% (34906/387841)
+Updating files:   9% (34962/387841)
+Updating files:  10% (38785/387841)
+Updating files:  10% (39840/387841)
+Updating files:  11% (42663/387841)
+Updating files:  11% (43741/387841)
+Updating files:  12% (46541/387841)
+Updating files:  12% (49009/387841)
+Updating files:  13% (50420/387841)
+Updating files:  13% (53963/387841)
+Updating files:  14% (54298/387841)
+Updating files:  14% (58094/387841)
+Updating files:  15% (58177/387841)
+Updating files:  16% (62055/387841)
+Updating files:  16% (62104/387841)
+Updating files:  17% (65933/387841)
+Updating files:  17% (67151/387841)
+Updating files:  18% (69812/387841)
+Updating files:  18% (70636/387841)
+Updating files:  19% (73690/387841)
+Updating files:  19% (74067/387841)
+Updating files:  20% (77569/387841)
+Updating files:  20% (80570/387841)
+Updating files:  21% (81447/387841)
+Updating files:  21% (84928/387841)
+Updating files:  22% (85326/387841)
+Updating files:  23% (89204/387841)
+Updating files:  23% (90250/387841)
+Updating files:  24% (93082/387841)
+Updating files:  24% (95868/387841)
+Updating files:  25% (96961/387841)
+Updating files:  26% (100839/387841)
+Updating files:  26% (102639/387841)
+Updating files:  27% (104718/387841)
+Updating files:  27% (106944/387841)
+Updating files:  28% (108596/387841)
+Updating files:  29% (112474/387841)
+Updating files:  29% (112874/387841)
+Updating files:  30% (116353/387841)
+Updating files:  30% (119062/387841)
+Updating files:  31% (120231/387841)
+Updating files:  32% (124110/387841)
+Updating files:  32% (125256/387841)
+Updating files:  33% (127988/387841)
+Updating files:  33% (131049/387841)
+Updating files:  34% (131866/387841)
+Updating files:  35% (135745/387841)
+Updating files:  35% (136813/387841)
+Updating files:  36% (139623/387841)
+Updating files:  36% (142696/387841)
+Updating files:  37% (143502/387841)
+Updating files:  38% (147380/387841)
+Updating files:  38% (148792/387841)
+Updating files:  39% (151258/387841)
+Updating files:  39% (154728/387841)
+Updating files:  40% (155137/387841)
+Updating files:  41% (159015/387841)
+Updating files:  41% (160566/387841)
+Updating files:  42% (162894/387841)
+Updating files:  42% (166296/387841)
+Updating files:  43% (166772/387841)
+Updating files:  43% (168260/387841)
+Updating files:  44% (170651/387841)
+Updating files:  44% (170895/387841)
+Updating files:  44% (174017/387841)
+Updating files:  45% (174529/387841)
+Updating files:  45% (176581/387841)
+Updating files:  46% (178407/387841)
+Updating files:  46% (179341/387841)
+Updating files:  47% (182286/387841)
+Updating files:  47% (182639/387841)
+Updating files:  48% (186164/387841)
+Updating files:  48% (187268/387841)
+Updating files:  49% (190043/387841)
+Updating files:  49% (190625/387841)
+Updating files:  50% (193921/387841)
+Updating files:  50% (194536/387841)
+Updating files:  50% (196987/387841)
+Updating files:  51% (197799/387841)
+Updating files:  51% (199655/387841)
+Updating files:  52% (201678/387841)
+Updating files:  52% (201843/387841)
+Updating files:  52% (204936/387841)
+Updating files:  53% (205556/387841)
+Updating files:  54% (209435/387841)
+Updating files:  54% (211351/387841)
+Updating files:  55% (213313/387841)
+Updating files:  55% (216664/387841)
+Updating files:  56% (217191/387841)
+Updating files:  57% (221070/387841)
+Updating files:  57% (222604/387841)
+Updating files:  58% (224948/387841)
+Updating files:  59% (228827/387841)
+Updating files:  59% (228973/387841)
+Updating files:  59% (231910/387841)
+Updating files:  60% (232705/387841)
+Updating files:  61% (236584/387841)
+Updating files:  61% (238189/387841)
+Updating files:  62% (240462/387841)
+Updating files:  63% (244340/387841)
+Updating files:  63% (244717/387841)
+Updating files:  64% (248219/387841)
+Updating files:  64% (250963/387841)
+Updating files:  65% (252097/387841)
+Updating files:  66% (255976/387841)
+Updating files:  66% (256353/387841)
+Updating files:  67% (259854/387841)
+Updating files:  67% (262498/387841)
+Updating files:  68% (263732/387841)
+Updating files:  69% (267611/387841)
+Updating files:  69% (268752/387841)
+Updating files:  70% (271489/387841)
+Updating files:  70% (275329/387841)
+Updating files:  71% (275368/387841)
+Updating files:  72% (279246/387841)
+Updating files:  72% (281367/387841)
+Updating files:  73% (283124/387841)
+Updating files:  74% (287003/387841)
+Updating files:  74% (287094/387841)
+Updating files:  75% (290881/387841)
+Updating files:  75% (292679/387841)
+Updating files:  76% (294760/387841)
+Updating files:  76% (298093/387841)
+Updating files:  77% (298638/387841)
+Updating files:  78% (302516/387841)
+Updating files:  78% (304394/387841)
+Updating files:  79% (306395/387841)
+Updating files:  79% (309429/387841)
+Updating files:  80% (310273/387841)
+Updating files:  80% (311753/387841)
+Updating files:  81% (314152/387841)
+Updating files:  81% (317908/387841)
+Updating files:  82% (318030/387841)
+Updating files:  82% (321081/387841)
+Updating files:  83% (321909/387841)
+Updating files:  83% (322804/387841)
+Updating files:  84% (325787/387841)
+Updating files:  84% (326619/387841)
+Updating files:  85% (329665/387841)
+Updating files:  85% (331828/387841)
+Updating files:  86% (333544/387841)
+Updating files:  86% (334653/387841)
+Updating files:  87% (337422/387841)
+Updating files:  87% (337649/387841)
+Updating files:  87% (341022/387841)
+Updating files:  88% (341301/387841)
+Updating files:  88% (344375/387841)
+Updating files:  89% (345179/387841)
+Updating files:  89% (347614/387841)
+Updating files:  90% (349057/387841)
+Updating files:  90% (351369/387841)
+Updating files:  91% (352936/387841)
+Updating files:  91% (356103/387841)
+Updating files:  92% (356814/387841)
+Updating files:  92% (359036/387841)
+Updating files:  92% (360331/387841)
+Updating files:  93% (360693/387841)
+Updating files:  93% (364360/387841)
+Updating files:  94% (364571/387841)
+Updating files:  94% (367688/387841)
+Updating files:  95% (368449/387841)
+Updating files:  95% (371079/387841)
+Updating files:  96% (372328/387841)
+Updating files:  96% (372801/387841)
+Updating files:  97% (376206/387841)
+Updating files:  97% (376576/387841)
+Updating files:  97% (378865/387841)
+Updating files:  98% (380085/387841)
+Updating files:  98% (381460/387841)
+Updating files:  99% (383963/387841)
+Updating files:  99% (385395/387841)
+Updating files: 100% (387841/387841)
+Updating files: 100% (387841/387841), done.
++ git clone --local . gecko-dev/bluegriffon
+Cloning into 'gecko-dev/bluegriffon'...
+warning: source repository is shallow, ignoring --local
+warning: --local is ignored
+Updating files:  28% (4303/15094)
+Updating files:  29% (4378/15094)
+Updating files:  30% (4529/15094)
+Updating files:  31% (4680/15094)
+Updating files:  32% (4831/15094)
+Updating files:  33% (4982/15094)
+Updating files:  34% (5132/15094)
+Updating files:  35% (5283/15094)
+Updating files:  36% (5434/15094)
+Updating files:  37% (5585/15094)
+Updating files:  38% (5736/15094)
+Updating files:  39% (5887/15094)
+Updating files:  40% (6038/15094)
+Updating files:  41% (6189/15094)
+Updating files:  42% (6340/15094)
+Updating files:  43% (6491/15094)
+Updating files:  44% (6642/15094)
+Updating files:  45% (6793/15094)
+Updating files:  46% (6944/15094)
+Updating files:  47% (7095/15094)
+Updating files:  48% (7246/15094)
+Updating files:  49% (7397/15094)
+Updating files:  50% (7547/15094)
+Updating files:  51% (7698/15094)
+Updating files:  52% (7849/15094)
+Updating files:  53% (8000/15094)
+Updating files:  54% (8151/15094)
+Updating files:  55% (8302/15094)
+Updating files:  56% (8453/15094)
+Updating files:  57% (8604/15094)
+Updating files:  58% (8755/15094)
+Updating files:  59% (8906/15094)
+Updating files:  60% (9057/15094)
+Updating files:  61% (9208/15094)
+Updating files:  62% (9359/15094)
+Updating files:  63% (9510/15094)
+Updating files:  64% (9661/15094)
+Updating files:  65% (9812/15094)
+Updating files:  66% (9963/15094)
+Updating files:  67% (10113/15094)
+Updating files:  68% (10264/15094)
+Updating files:  68% (10309/15094)
+Updating files:  69% (10415/15094)
+Updating files:  70% (10566/15094)
+Updating files:  71% (10717/15094)
+Updating files:  72% (10868/15094)
+Updating files:  73% (11019/15094)
+Updating files:  74% (11170/15094)
+Updating files:  75% (11321/15094)
+Updating files:  76% (11472/15094)
+Updating files:  77% (11623/15094)
+Updating files:  78% (11774/15094)
+Updating files:  79% (11925/15094)
+Updating files:  80% (12076/15094)
+Updating files:  81% (12227/15094)
+Updating files:  82% (12378/15094)
+Updating files:  83% (12529/15094)
+Updating files:  84% (12679/15094)
+Updating files:  85% (12830/15094)
+Updating files:  86% (12981/15094)
+Updating files:  87% (13132/15094)
+Updating files:  88% (13283/15094)
+Updating files:  89% (13434/15094)
+Updating files:  90% (13585/15094)
+Updating files:  91% (13736/15094)
+Updating files:  92% (13887/15094)
+Updating files:  93% (14038/15094)
+Updating files:  94% (14189/15094)
+Updating files:  95% (14340/15094)
+Updating files:  96% (14491/15094)
+Updating files:  97% (14642/15094)
+Updating files:  98% (14793/15094)
+Updating files:  99% (14944/15094)
+Updating files: 100% (15094/15094)
+Updating files: 100% (15094/15094), done.
++ cd gecko-dev
+++ cat bluegriffon/config/gecko_dev_revision.txt
++ git reset --hard 042b84a
+Updating files:   3% (16203/422768)
+Updating files:   4% (16911/422768)
+Updating files:   5% (21139/422768)
+Updating files:   6% (25367/422768)
+Updating files:   7% (29594/422768)
+Updating files:   7% (31256/422768)
+Updating files:   8% (33822/422768)
+Updating files:   9% (38050/422768)
+Updating files:  10% (42277/422768)
+Updating files:  10% (42836/422768)
+Updating files:  11% (46505/422768)
+Updating files:  12% (50733/422768)
+Updating files:  13% (54960/422768)
+Updating files:  13% (58664/422768)
+Updating files:  14% (59188/422768)
+Updating files:  15% (63416/422768)
+Updating files:  16% (67643/422768)
+Updating files:  16% (71858/422768)
+Updating files:  17% (71871/422768)
+Updating files:  18% (76099/422768)
+Updating files:  19% (80326/422768)
+Updating files:  20% (84554/422768)
+Updating files:  21% (88782/422768)
+Updating files:  21% (89616/422768)
+Updating files:  22% (93009/422768)
+Updating files:  22% (95772/422768)
+Updating files:  23% (97237/422768)
+Updating files:  24% (101465/422768)
+Updating files:  25% (105692/422768)
+Updating files:  25% (107442/422768)
+Updating files:  26% (109920/422768)
+Updating files:  27% (114148/422768)
+Updating files:  28% (118376/422768)
+Updating files:  28% (120140/422768)
+Updating files:  29% (122603/422768)
+Updating files:  30% (126831/422768)
+Updating files:  31% (131059/422768)
+Updating files:  32% (135286/422768)
+Updating files:  32% (136801/422768)
+Updating files:  33% (139514/422768)
+Updating files:  34% (143742/422768)
+Updating files:  35% (147969/422768)
+Updating files:  35% (151138/422768)
+Updating files:  36% (152197/422768)
+Updating files:  37% (156425/422768)
+Updating files:  38% (160652/422768)
+Updating files:  39% (164880/422768)
+Updating files:  39% (168661/422768)
+Updating files:  40% (169108/422768)
+Updating files:  41% (173335/422768)
+Updating files:  42% (177563/422768)
+Updating files:  43% (181791/422768)
+Updating files:  43% (185219/422768)
+Updating files:  44% (186018/422768)
+Updating files:  45% (190246/422768)
+Updating files:  46% (194474/422768)
+Updating files:  47% (198701/422768)
+Updating files:  47% (200993/422768)
+Updating files:  48% (202929/422768)
+Updating files:  49% (207157/422768)
+Updating files:  50% (211384/422768)
+Updating files:  51% (215612/422768)
+Updating files:  51% (219108/422768)
+Updating files:  52% (219840/422768)
+Updating files:  53% (224068/422768)
+Updating files:  54% (228295/422768)
+Updating files:  55% (232523/422768)
+Updating files:  55% (234451/422768)
+Updating files:  56% (236751/422768)
+Updating files:  57% (240978/422768)
+Updating files:  58% (245206/422768)
+Updating files:  58% (248741/422768)
+Updating files:  59% (249434/422768)
+Updating files:  60% (253661/422768)
+Updating files:  61% (257889/422768)
+Updating files:  62% (262117/422768)
+Updating files:  62% (265503/422768)
+Updating files:  63% (266344/422768)
+Updating files:  64% (270572/422768)
+Updating files:  65% (274800/422768)
+Updating files:  66% (279027/422768)
+Updating files:  66% (280712/422768)
+Updating files:  67% (283255/422768)
+Updating files:  67% (284479/422768)
+Updating files:  67% (287355/422768)
+Updating files:  68% (287483/422768)
+Updating files:  68% (290716/422768)
+Updating files:  69% (291710/422768)
+Updating files:  69% (294381/422768)
+Updating files:  70% (295938/422768)
+Updating files:  70% (297407/422768)
+Updating files:  71% (300166/422768)
+Updating files:  71% (301779/422768)
+Updating files:  72% (304393/422768)
+Updating files:  72% (304810/422768)
+Updating files:  72% (307414/422768)
+Updating files:  73% (308621/422768)
+Updating files:  73% (311659/422768)
+Updating files:  74% (312849/422768)
+Updating files:  74% (315052/422768)
+Updating files:  75% (317076/422768)
+Updating files:  75% (317953/422768)
+Updating files:  75% (320574/422768)
+Updating files:  76% (321304/422768)
+Updating files:  76% (323496/422768)
+Updating files:  76% (325430/422768)
+Updating files:  77% (325532/422768)
+Updating files:  78% (329760/422768)
+Updating files:  78% (330678/422768)
+Updating files:  79% (333987/422768)
+Updating files:  79% (334447/422768)
+Updating files:  80% (338215/422768)
+Updating files:  80% (340134/422768)
+Updating files:  81% (342443/422768)
+Updating files:  81% (345518/422768)
+Updating files:  82% (346670/422768)
+Updating files:  82% (350014/422768)
+Updating files:  83% (350898/422768)
+Updating files:  83% (354043/422768)
+Updating files:  84% (355126/422768)
+Updating files:  84% (358059/422768)
+Updating files:  85% (359353/422768)
+Updating files:  85% (363444/422768)
+Updating files:  86% (363581/422768)
+Updating files:  86% (366455/422768)
+Updating files:  87% (367809/422768)
+Updating files:  87% (370353/422768)
+Updating files:  88% (372036/422768)
+Updating files:  88% (374034/422768)
+Updating files:  89% (376264/422768)
+Updating files:  89% (376597/422768)
+Updating files:  89% (379468/422768)
+Updating files:  90% (380492/422768)
+Updating files:  90% (382388/422768)
+Updating files:  90% (384062/422768)
+Updating files:  91% (384719/422768)
+Updating files:  91% (386299/422768)
+Updating files:  92% (388947/422768)
+Updating files:  92% (389399/422768)
+Updating files:  92% (392916/422768)
+Updating files:  93% (393175/422768)
+Updating files:  93% (396396/422768)
+Updating files:  94% (397402/422768)
+Updating files:  94% (401099/422768)
+Updating files:  95% (401630/422768)
+Updating files:  95% (405161/422768)
+Updating files:  96% (405858/422768)
+Updating files:  96% (409557/422768)
+Updating files:  97% (410085/422768)
+Updating files:  97% (412756/422768)
+Updating files:  98% (414313/422768)
+Updating files:  98% (416347/422768)
+Updating files:  99% (418541/422768)
+Updating files:  99% (419619/422768)
+Updating files:  99% (422688/422768)
+Updating files: 100% (422768/422768)
+Updating files: 100% (422768/422768), done.
+HEAD is now at 042b84af6020 Bug 1313927 - Split no-root test from test_intersectionobservers.html into its own mochitest, so that we can skip that part on Android. r=jet
++ patch -p1
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file browser/base/content/baseMenuOverlay.xul
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file browser/locales/en-US/chrome/browser/baseMenuOverlay.dtd
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file caps/nsScriptSecurityManager.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsCopySupport.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsDocument.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsDocumentEncoder.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsFocusManager.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsGkAtomList.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsHTMLContentSerializer.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsIDocumentEncoder.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsXHTMLContentSerializer.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/base/nsXMLContentSerializer.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/html/HTMLInputElement.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/html/HTMLInputElement.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/interfaces/core/nsIDOMDocument.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/ipc/ColorPickerParent.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/ipc/ColorPickerParent.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/ipc/PBrowser.ipdl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/ipc/TabChild.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/ipc/TabChild.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/ipc/TabParent.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/ipc/TabParent.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/xbl/nsXBLContentSink.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/xbl/nsXBLContentSink.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/xml/nsXMLContentSink.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/xml/nsXMLFragmentContentSink.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/xslt/xslt/txMozillaStylesheetCompiler.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file dom/xul/nsXULContentSink.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/composer/nsComposerCommands.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/composer/nsEditorSpellCheck.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/CSSEditUtils.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/CSSEditUtils.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/EditorBase.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/EditorBase.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/EditorEventListener.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/EditorEventListener.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLAbsPositionEditor.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLAnonymousNodeEditor.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditRules.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditUtils.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditor.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditor.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditorDataTransfer.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditorEventListener.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditorEventListener.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLEditorObjectResizer.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/HTMLStyleEditor.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/TextEditorDataTransfer.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/libeditor/WSRunObject.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/moz.build
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/nsIEditor.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/nsIHTMLEditor.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file extensions/moz.build
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file gfx/src/nsColor.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file gfx/src/nsColor.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file gfx/webrender_bindings/src/bindings.rs
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file image/imgICache.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file layout/base/nsPresContext.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file layout/base/nsPresContext.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file layout/forms/nsColorControlFrame.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file layout/style/Declaration.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file layout/style/nsCSSParser.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file layout/style/nsCSSProps.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file layout/style/nsCSSValue.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file netwerk/protocol/res/nsResProtocolHandler.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file parser/htmlparser/nsExpatDriver.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file parser/htmlparser/nsIExpatSink.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file parser/xml/nsSAXXMLReader.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file python/mozboot/mozboot/osx.py
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file rdf/base/nsRDFContentSink.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file storage/StorageBaseStatementInternal.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file third_party/rust/core-text/.cargo-checksum.json
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file third_party/rust/core-text/src/font_descriptor.rs
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/components/passwordmgr/nsLoginManagerPrompter.js
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/components/satchel/FormHistory.jsm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/components/telemetry/TelemetryStartup.js
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/content/widgets/menu.xml
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/content/widgets/menulist.xml
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/content/widgets/tree.xml
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/content/xul.css
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/mozapps/extensions/content/extensions.js
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/mozapps/extensions/content/extensions.xul
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/mozapps/extensions/internal/XPIProvider.jsm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/mozapps/handling/nsContentDispatchChooser.js
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file toolkit/mozapps/installer/packager.mk
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/PuppetWidget.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/ScreenManager.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/cocoa/nsClipboard.mm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/cocoa/nsCocoaUtils.mm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/cocoa/nsCocoaWindow.mm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/cocoa/nsColorPicker.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/cocoa/nsColorPicker.mm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/cocoa/nsMenuItemX.mm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/cocoa/nsNativeThemeCocoa.mm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/gtk/mozgtk/mozgtk.c
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/gtk/nsColorPicker.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/gtk/nsColorPicker.h
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/nsColorPickerProxy.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/nsIColorPicker.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/nsIScreenManager.idl
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/uikit/nsScreenManager.mm
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/windows/nsColorPicker.cpp
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file widget/windows/nsColorPicker.h
++ patch -p1
+(Stripping trailing CRs from patch; use --binary to disable.)
+patching file editor/nsIEditorMouseObserver.idl
++ cp bluegriffon/config/mozconfig.win .mozconfig
++ ./mach build
+which: no python2.7 in (/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Windows/System32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0/:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl)
+./mach: line 9: exec: python: cannot execute: Is a directory
+==== build end (exit 126) ==== 
