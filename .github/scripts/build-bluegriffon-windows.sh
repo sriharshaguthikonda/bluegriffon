@@ -30,6 +30,22 @@ if [ -n "${BUILD_WORKDIR:-}" ]; then
 fi
 echo "PWD (after): $(pwd)"
 
+# Ensure "python" is executable for mach.
+PYTHON_EXE="/c/mozilla-build/python3/python.exe"
+if [ -x "$PYTHON_EXE" ]; then
+  shim_dir="$PWD/.build-tools"
+  mkdir -p "$shim_dir"
+  cat >"$shim_dir/python" <<'EOF'
+#!/usr/bin/env bash
+exec /c/mozilla-build/python3/python.exe "$@"
+EOF
+  chmod +x "$shim_dir/python"
+  export PATH="$shim_dir:/c/mozilla-build/python3:/c/mozilla-build/python3/Scripts:$PATH"
+  export PYTHON="$PYTHON_EXE"
+fi
+echo "python on PATH: $(command -v python || true)"
+python --version || true
+
 git clone https://github.com/mozilla/gecko-dev gecko-dev
 git clone --local . gecko-dev/bluegriffon
 
