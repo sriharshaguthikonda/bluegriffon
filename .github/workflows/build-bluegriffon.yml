@@ -19,7 +19,7 @@ jobs:
       - name: Build BlueGriffon executable
         shell: cmd
         run: |
-          call "C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh 2>&1 | tee build.log"
+          call "C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh" > build.log 2>&1
 
       - name: Upload executable
         if: always()
@@ -28,6 +28,12 @@ jobs:
           name: bluegriffon-exe
           path: |
             gecko-dev/**/dist/bin/*griffon*.exe
+
+      - name: Show build log tail
+        if: always()
+        shell: powershell
+        run: |
+          if (Test-Path build.log) { Get-Content build.log -Tail 200 }
 
       - name: Upload build log
         if: always()
