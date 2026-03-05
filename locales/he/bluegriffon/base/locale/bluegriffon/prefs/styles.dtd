@@ -1,0 +1,25 @@
+<!ENTITY bgDecidesAll.radio "אוטומטי">
+<!ENTITY bgDecidesAll.desc "ש-BlueGriffon יחליט איך להוסיף סגנונות (styles) ויבחר IDs ו-classes עבורי בעת הצורך">
+<!ENTITY prefixPrompt.label "קידומת ל-IDs ו-classes:">
+<!ENTITY iDecide.radio "ידני">
+<!ENTITY iDecide.desc "אני אחליט">
+<!ENTITY cssPolicy.caption "מדיניות CSS">
+
+<!ENTITY browserSupport.caption "תמיכה בדפדפנים">
+<!ENTITY gecko.label "דפדפנים מבוססים Gecko, כגון Firefox, Camino, ...">
+<!ENTITY webkit.label "דפדפנים מבוססים WebKit, כגון Safari, ...">
+<!ENTITY blink.label "דפדפנים מבוססים Blink, כגון Chrome, ...">
+<!ENTITY presto.label "אופרה">
+<!ENTITY trident.label "אינטרנט אקספלורר">
+<!ENTITY servo.label "Servo">
+<!ENTITY vivliostyle.label "Vivliostyle">
+<!ENTITY weasyprint.label "Weasyprint">
+
+<!ENTITY cssColors.captions "CSS Colors">
+<!ENTITY outputCssColorNames.label "Always try to output CSS 3 color names">
+<!ENTITY rgbColors.label "Prefer rgb(r,v,b) values">
+<!ENTITY hexColors.label "Prefer #rrvvbb values">
+
+<!ENTITY serialization.label "Serialization">
+<!ENTITY shorthands.label "Shorthands">
+<!ENTITY longhands.label "Longhands">

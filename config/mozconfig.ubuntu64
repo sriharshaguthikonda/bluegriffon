@@ -1,0 +1,59 @@
+# sh
+# Build configuration script for Ubuntu 16.04 LTS ***64bits***
+#
+# See http://www.mozilla.org/build/unix.html for build instructions.
+#
+
+##############################
+# Ubuntu 32bits builds are not supported any more for bluegriffon >= 2.4
+##############################
+
+##############################
+# Tweak the following line according to your wishes
+# Warning, the directory must exist in the filesystem
+##############################
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt
+
+###############################
+# here, -j8 means I am building on a computer with
+# 8 logical cores; adapt to your configuration
+###############################
+mk_add_options MOZ_MAKE_FLAGS="-j8"
+
+###############################
+# uncomment the following lines for a optimized build
+# comment them out for a debug build
+###############################
+ac_add_options --enable-optimize
+ac_add_options --disable-debug
+ac_add_options --enable-strip
+
+###############################
+# uncomment the following lines for a debug build
+# comment them out for a optimized build
+###############################
+#ac_add_options --disable-optimize
+#ac_add_options --enable-debug
+
+###############################
+# touch the two following lines only if you know what you're doing
+###############################
+ac_add_options --enable-stdcxx-compat
+
+###############################
+# you should not need to tweak the following lines
+###############################
+ac_add_options --disable-tests
+ac_add_options --disable-crashreporter
+ac_add_options --enable-jemalloc
+ac_add_options --disable-webrtc
+ac_add_options --disable-dbm
+ac_add_options --disable-updater
+ac_add_options --disable-sandbox
+
+###############################
+# DO NOT MODIFY BELOW THIS LINE
+###############################
+ac_add_options --enable-application=bluegriffon
+ac_add_options --enable-chrome-format=jar
+ac_add_options --enable-default-toolkit=cairo-gtk3

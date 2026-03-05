@@ -1,0 +1,77 @@
+<!ENTITY window.title "Набор тегов интернационализации 2.0">
+
+<!ENTITY locally.label "Локально">
+<!ENTITY globally.label "Глобально">
+
+<!ENTITY loading.label "Загрузка...">
+
+<!ENTITY deleteLocalRule.label "Удалить локальное правило">
+
+<!ENTITY translateSectionHeader.label "Перевод">
+<!ENTITY translatable.label "Переводимый">
+<!ENTITY notTranslatable.label "Непереводимый">
+
+<!ENTITY locNoteSectionHeader.label "Примечание по локализации">
+<!ENTITY descriptionLocNoteType.label "Описание">
+<!ENTITY alertLocNoteType.label "Оповещение">
+<!ENTITY locNoteContents.label "Содержание примечания о локализации:">
+<!ENTITY locNoteIRI.label "Примечание о локализации IRI:">
+
+<!ENTITY termSectionHeader.label "Терминология">
+<!ENTITY yesTermTerminology.label "Да">
+<!ENTITY noTermTerminology.label "Нет">
+<!ENTITY termIRI.label "Терминология IRI:">
+<!ENTITY termConfidence.label "Срок доверия:">
+
+<!ENTITY ruleset.label "Набор правил">
+<!ENTITY rulesetType.label "Тип">
+<!ENTITY rulesetExternal.label "Внешний">
+<!ENTITY rulesetInline.label "Встроенный">
+<!ENTITY newRulesetUrlFilepickerbutton.label "Выберите файл ITS 2.0">
+<!ENTITY rulesetQueryLanguage.label "Язык запросов">
+<!ENTITY xpath.label "XPath">
+<!ENTITY css.label "CSS">
+<!ENTITY existingITS.label "Существующий ресурс ITS 2.0:">
+<!ENTITY newRulesetFile.label "Новый файл ITS 2.0">
+
+<!ENTITY addRulesetCancel.label "Отмена">
+<!ENTITY addRulesetOK.label "Создать набор правил">
+
+<!ENTITY addRulesetButton.tooltip "Добавить набор правил">
+<!ENTITY deleteRulesetButton.tooltip "Удалить набор правил">
+<!ENTITY downButton.tooltip "Переместить вниз">
+<!ENTITY upButton.tooltip "Переместить вверх">
+
+<!ENTITY parameter.label "Параметр">
+<!ENTITY value.label "Значение">
+<!ENTITY addParamButton.tooltip "Добавить параметр">
+<!ENTITY deleteParamButton.tooltip "Удалить параметр">
+
+<!ENTITY rule.label "Правило">
+<!ENTITY selector.label "Селектор">
+<!ENTITY ruleMainValue.label "Главное значение">
+<!ENTITY addRuleButton.tooltip "Добавить правило">
+<!ENTITY deleteRuleButton.tooltip "Удалить правило">
+
+<!ENTITY relativeUrl.label "Сделать URL относительным">
+
+<!ENTITY parameterName.label "Имя:">
+<!ENTITY parameterValue.label "Значение:">
+<!ENTITY addParamCancel.label "Отмена">
+<!ENTITY addParamOK.label "Создать параметр">
+
+<!ENTITY closeOtherSections.label "Закрыть все остальные разделы">
+<!ENTITY closeAllSections.label "Закрыть все разделы">
+
+<!ENTITY annotatorsRefSectionHeader.label "Аннотация по инструментам ITS">
+<!ENTITY dataCategory.col "Категория данных">
+<!ENTITY processorIRI.col "Процессор IRI">
+<!ENTITY addAnnotatorsRefButton.tooltip "Добавить ссылку">
+<!ENTITY deleteAnnotatorsRefButton.tooltip "Удалить ссылку">
+<!ENTITY selectAnnotatorRefElement.tooltip "Выбрать узел владельца ссылки">
+
+<!ENTITY dataCategory.label "Категория данных:">
+<!ENTITY processorIRI.label "Процессор IRI:">
+<!ENTITY addAnnotatorsRefCancel.label "Отмена">
+<!ENTITY addAnnotatorsRefOK.label "Добавить ссылку">
+<!ENTITY annotatorsRefWarning.label "Отсутствует ссылка на аннотацию для категории «терминология»">

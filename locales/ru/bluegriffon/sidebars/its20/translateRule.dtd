@@ -1,0 +1,4 @@
+<!ENTITY window.title "Создать или редактировать правило перевода">
+
+<!ENTITY translatable.label "Переводимый">
+<!ENTITY notTranslatable.label "Непереводимый">

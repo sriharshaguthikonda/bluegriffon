@@ -1,0 +1,10 @@
+<!ENTITY windowTitle.label "Деактивировать лицензию">
+
+<!ENTITY message.label "Убедитесь, что вы подключены к Интернету!">
+<!ENTITY warning.label "Нажмите «Выполнить операцию», чтобы деактивировать вашу лицензию и перезапустить BlueGriffon.">
+
+<!ENTITY deactivate.label "Выполнить операцию">
+<!ENTITY closeWindow.label "Отмена">
+
+<!ENTITY error.label "Не могу деактивировать лицензию в это время">
+<!ENTITY inOp.label "Деактивация лицензии">

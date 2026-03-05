@@ -1,0 +1,6 @@
+gfd-sl.jar:
+% locale    gfd    sl    %locale/sl/gfd/
+  locale/sl/gfd/gfdOverlay.dtd    (locale/sl/gfdOverlay.dtd)
+  locale/sl/gfd/gfd.dtd           (locale/sl/gfd.dtd)
+  locale/sl/gfd/addFont.dtd       (locale/sl/addFont.dtd)
+

@@ -1,0 +1,11 @@
+locale bluegriffon hu base/locale/bluegriffon/
+locale branding hu base/locale/branding/
+locale fs hu extensions/fs/
+locale gfd hu extensions/gfd/
+locale cssproperties hu sidebars/cssproperties/
+locale domexplorer hu sidebars/domexplorer/
+locale scripteditor hu sidebars/scripteditor/
+locale stylesheets hu sidebars/stylesheets/
+locale tipoftheday hu extensions/tipoftheday/
+locale aria hu sidebars/aria/
+

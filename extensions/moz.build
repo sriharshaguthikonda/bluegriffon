@@ -1,0 +1,7 @@
+DIRS += [
+    'fs',
+    'gfd',
+    'markdown',
+    'op1',
+    'svg-edit'
+]

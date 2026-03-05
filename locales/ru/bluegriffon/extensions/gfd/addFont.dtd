@@ -1,0 +1,16 @@
+<!ENTITY window.title "Добавить семейство шрифтов в документ">
+
+<!ENTITY fontFamily.label "Семейство шрифта">
+<!ENTITY preview.label "Просмотр">
+
+<!ENTITY subset.label "Подмножества">
+<!ENTITY latin.label "Латинский">
+<!ENTITY greek.label "Греческий">
+<!ENTITY cyrillic.label "Кириллический">
+<!ENTITY khmer.label "Кхмерский">
+
+<!ENTITY variants.label "Варианты">
+<!ENTITY regular.label "Обычный">
+<!ENTITY italic.label "Курсив">
+<!ENTITY bold.label "Жирный">
+<!ENTITY bolditalic.label "Жирный-курсив">

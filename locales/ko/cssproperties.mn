@@ -1,0 +1,15 @@
+bluegriffon-ko.jar:
+% locale    cssproperties    ko    %locale/ko/cssproperties/
+  locale/ko/cssproperties/csspropertiesOverlay.dtd    (locale/ko/csspropertiesOverlay.dtd)
+  locale/ko/cssproperties/cssproperties.dtd           (locale/ko/cssproperties.dtd)
+  locale/ko/cssproperties/editGridTemplate.dtd        (locale/ko/editGridTemplate.dtd)
+  locale/ko/cssproperties/backgrounditem.dtd          (locale/ko/backgrounditem.dtd)
+  locale/ko/cssproperties/griditemposition.dtd        (locale/ko/griditemposition.dtd)
+  locale/ko/cssproperties/transformationitem.dtd      (locale/ko/transformationitem.dtd)
+  locale/ko/cssproperties/transitionitem.dtd          (locale/ko/transitionitem.dtd)
+  locale/ko/cssproperties/textshadowitem.dtd          (locale/ko/textshadowitem.dtd)
+  locale/ko/cssproperties/colorstopitem.dtd           (locale/ko/colorstopitem.dtd)
+  locale/ko/cssproperties/backgrounditem.properties   (locale/ko/backgrounditem.properties)
+  locale/ko/cssproperties/cssproperties.properties    (locale/ko/cssproperties.properties)
+  locale/ko/cssproperties/fontFeatures.properties     (locale/ko/fontFeatures.properties)
+

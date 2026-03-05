@@ -1,0 +1,6 @@
+gfd-nl.jar:
+% locale    gfd    nl    %locale/nl/gfd/
+  locale/nl/gfd/gfdOverlay.dtd    (locale/nl/gfdOverlay.dtd)
+  locale/nl/gfd/gfd.dtd           (locale/nl/gfd.dtd)
+  locale/nl/gfd/addFont.dtd       (locale/nl/addFont.dtd)
+

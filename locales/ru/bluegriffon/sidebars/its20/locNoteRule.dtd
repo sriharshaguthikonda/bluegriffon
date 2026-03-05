@@ -1,0 +1,9 @@
+<!ENTITY window.title "Создание или редактирование правила примечания о локализации">
+
+<!ENTITY description.label "Описание">
+<!ENTITY alert.label "Оповещение">
+
+<!ENTITY locNote.label "Примечание по локализации:">
+<!ENTITY locNotePointer.label "Относительный селектор к примечанию о локализации:">
+<!ENTITY locNoteRef.label "Ссылка IRI на примечание о локализации:">
+<!ENTITY locNoteRefPointer.label "Относительный селектор для узла, содержащего IRI, ссылающийся на примечание о локализации:">

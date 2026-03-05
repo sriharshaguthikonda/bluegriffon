@@ -1,0 +1,25 @@
+<!ENTITY bgDecidesAll.radio "Automatique">
+<!ENTITY bgDecidesAll.desc "Laisser BlueGriffon décider et choisir un ID ou une classe par lui-même">
+<!ENTITY prefixPrompt.label "Entrez un préfixe pour les IDs et classes :">
+<!ENTITY iDecide.radio "Manuel">
+<!ENTITY iDecide.desc "Laissez-moi choisir…">
+<!ENTITY cssPolicy.caption "Politique CSS">
+
+<!ENTITY browserSupport.caption "Support CSS des navigateurs">
+<!ENTITY gecko.label "Navigateurs basés sur Gecko (Firefox, Camino,…)">
+<!ENTITY webkit.label "Navigateurs basés sur WebKit (Safari,…)">
+<!ENTITY blink.label "Navigateurs basés sur Blink (Chrome,…)">
+<!ENTITY presto.label "Opera">
+<!ENTITY trident.label "Internet Explorer">
+<!ENTITY servo.label "Servo">
+<!ENTITY vivliostyle.label "Vivliostyle">
+<!ENTITY weasyprint.label "Weasyprint">
+
+<!ENTITY cssColors.captions "Couleurs CSS">
+<!ENTITY outputCssColorNames.label "Toujours utiliser les noms de couleurs CSS 3 si c'est possible">
+<!ENTITY rgbColors.label "Préférer les valeurs rgb(r,v,b)">
+<!ENTITY hexColors.label "Préférer les valeurs #rrvvbb">
+
+<!ENTITY serialization.label "Sérialisation">
+<!ENTITY shorthands.label "Shorthands">
+<!ENTITY longhands.label "Longhands">

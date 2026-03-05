@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+
+#filter substitution
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+
+
+<dialog title="Release Notes"
+        id="releaseNotesWindow"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        xmlns:html="http://www.w3.org/1999/xhtml"
+        forcecleartheme = "true"
+        buttons="accept"
+        style="height: auto; width: 300px"
+        persist="screenX screenY">
+
+  <hbox align="top">
+    <image src="chrome://bluegriffon/skin/about-logo.png"
+           imagetheming="never"
+           style="border-radius: 15px; width: 150px; height: 90px"/>
+    <vbox class="indent" style="max-width: 450px">
+      <html:p style="font-weight: bold; font-size: larger; margin-bottom: 1em;">BlueGriffon @APP_VERSION@ ("@CODE_NAME@")</html:p>
+          <html:ul>
+            <html:li>OS X Mojave and Catalina support</html:li>
+            <html:li>Ubuntu 18.04 LTS support</html:li>
+            <html:li>Asgard OCR add-on</html:li>
+            <html:li>Windows 10 and Linux UI fixes</html:li>
+          </html:ul>
+    </vbox>
+  </hbox>
+</dialog>

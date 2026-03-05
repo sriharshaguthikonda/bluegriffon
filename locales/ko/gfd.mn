@@ -1,0 +1,6 @@
+gfd-ko.jar:
+% locale    gfd    ko    %locale/ko/gfd/
+  locale/ko/gfd/gfdOverlay.dtd    (locale/ko/gfdOverlay.dtd)
+  locale/ko/gfd/gfd.dtd           (locale/ko/gfd.dtd)
+  locale/ko/gfd/addFont.dtd       (locale/ko/addFont.dtd)
+

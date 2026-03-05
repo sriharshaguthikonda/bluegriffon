@@ -1,0 +1,118 @@
+name: Build BlueGriffon (Windows)
+
+on:
+  push:
+    branches: ["*"]
+  pull_request:
+    branches: ["*"]
+
+jobs:
+  build-windows:
+    if: github.ref != 'refs/heads/ci-logs'
+    runs-on: windows-2022
+    steps:
+      - name: Checkout BlueGriffon
+        uses: actions/checkout@v4
+
+      - name: Install MozillaBuild
+        run: choco install -y mozillabuild
+
+      - name: Build BlueGriffon executable
+        shell: cmd
+        continue-on-error: true
+        run: |
+          set "LOG=%GITHUB_WORKSPACE%\build.log"
+          set "EXIT_FILE=%GITHUB_WORKSPACE%\build-exit.txt"
+          echo ==== build start %DATE% %TIME% ==== > "%LOG%"
+          echo Workspace: %GITHUB_WORKSPACE% >> "%LOG%"
+          dir "%GITHUB_WORKSPACE%" >> "%LOG%" 2>&1
+          dir "C:\mozilla-build" >> "%LOG%" 2>&1
+          if not exist "C:\mozilla-build\start-shell.bat" (
+            echo ERROR: MozillaBuild start-shell.bat not found. >> "%LOG%"
+            echo 2 > "%EXIT_FILE%"
+            exit /b 0
+          )
+          set "BUILD_LOG=%LOG%"
+          cmd /c ""C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh""
+          set "ERR=%ERRORLEVEL%"
+          echo ==== build end (exit %ERR%) ==== >> "%LOG%"
+          echo %ERR% > "%EXIT_FILE%"
+          exit /b 0
+
+      - name: Upload executable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-exe
+          path: |
+            gecko-dev/**/dist/bin/*griffon*.exe
+
+      - name: Show build log tail
+        if: always()
+        shell: powershell
+        run: |
+          if (Test-Path build.log) { Get-Content build.log -Tail 200 }
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: ${{ github.workspace }}\build.log
+
+      - name: Upload build exit code
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-exit
+          path: ${{ github.workspace }}\build-exit.txt
+
+      - name: Commit build log to ci-logs branch
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        shell: powershell
+        run: |
+          if (-not (Test-Path build.log)) {
+            Write-Host "build.log not found; skipping log commit."
+            exit 0
+          }
+
+          $tempLog = Join-Path $env:RUNNER_TEMP "build.log"
+          Copy-Item build.log $tempLog -Force
+
+          git fetch origin ci-logs --depth=1
+          if ($LASTEXITCODE -ne 0) {
+            git checkout --orphan ci-logs
+            git clean -fdx
+          } else {
+            git checkout -B ci-logs origin/ci-logs
+          }
+
+          New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
+          Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
+
+          $sha = "${{ github.sha }}"
+          $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          Set-Content ci-logs\metadata.txt "source-sha: $sha"
+          Add-Content ci-logs\metadata.txt "run: $runUrl"
+
+          git add ci-logs/build.log ci-logs/metadata.txt
+          if (-not (git diff --cached --quiet)) {
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git commit -m "ci logs for $sha [skip ci]"
+            git push origin ci-logs
+          } else {
+            Write-Host "No log changes to commit."
+          }
+
+      - name: Fail if build failed
+        if: always()
+        shell: powershell
+        run: |
+          if (-not (Test-Path build-exit.txt)) {
+            Write-Host "build-exit.txt not found; failing."
+            exit 1
+          }
+          $code = Get-Content build-exit.txt | Select-Object -First 1
+          Write-Host "Build exit code: $code"
+          if ($code -ne 0) { exit 1 }

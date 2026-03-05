@@ -1,0 +1,13 @@
+<!ENTITY window.title "ARIA">
+
+<!ENTITY roleSection.label "Роль">
+<!ENTITY role.label "Роль:">
+<!ENTITY treeView.label "В виде дерева">
+
+<!ENTITY constraintsSection.label "Ограничения">
+<!ENTITY context.label "По родителям:">
+<!ENTITY owns.label "По содержанию:">
+
+<!ENTITY requiredProperties.label "Обязательные состояния и свойства">
+<!ENTITY properties.label "Другие состояния и свойства">
+<!ENTITY inheritedProperties.label "Унаследованные состояния и свойства">

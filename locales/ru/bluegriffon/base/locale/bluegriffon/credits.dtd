@@ -1,0 +1,35 @@
+<!ENTITY brandMotto       "Вы действительно никогда не редактировали прежде веб-сайт.">
+<!ENTITY credit.leads     "Лидеры">
+<!ENTITY credit.contributors "Другие участники">
+<!ENTITY credit.core      "Основные разработки Posse">
+<!ENTITY credit.gecko     "Макетный движок Gecko">
+<!ENTITY credit.thanks    "Особая благодарность">
+
+<!-- localization credits look like this: -->
+<!--
+<!ENTITY credit.translation
+  "<h3>Translators</h3><ul><li>Name Here</li></ul>">
+-->
+<!ENTITY credit.translation "Локализации">
+
+<!ENTITY credit.visuals     "Координатор визуального дизайна">
+<!ENTITY credit.theme       "Дизайн темы">
+<!ENTITY credit.brand       "Фирменный стиль">
+<!ENTITY credit.web         "Веб-дизайн">
+<!ENTITY credit.update      "Обновление Mozilla">
+<!ENTITY credit.qalead      "Лидер по качеству">
+<!ENTITY credit.qa          "Гарантия качества">
+<!ENTITY credit.build       "Сборка и выпуск">
+<!ENTITY credit.infra       "Поддержка инфраструктуры">
+<!ENTITY credit.support     "Поддержка ресурсов">
+<!ENTITY credit.manage      "Управление проектом">
+<!ENTITY credit.marketleads "Лидеры маркетинга">
+<!ENTITY credit.market      "Маркетинг">
+<!ENTITY credit.creators    "Создано">
+<!ENTITY credit.memory      "В память о">
+<!ENTITY credit.poweredByGecko "Работает на Gecko">
+<!ENTITY credit.reviews     "Отзывы о коде">
+
+<!ENTITY license.and "и">
+
+<!ENTITY tm.part0 "является зарегистрированной торговой маркой">

@@ -1,0 +1,11 @@
+locale bluegriffon ko base/locale/bluegriffon/
+locale branding ko base/locale/branding/
+locale fs ko extensions/fs/
+locale gfd ko extensions/gfd/
+locale cssproperties ko sidebars/cssproperties/
+locale domexplorer ko sidebars/domexplorer/
+locale scripteditor ko sidebars/scripteditor/
+locale stylesheets ko sidebars/stylesheets/
+locale tipoftheday ko extensions/tipoftheday/
+locale aria ko sidebars/aria/
+

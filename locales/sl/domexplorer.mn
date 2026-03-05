@@ -1,0 +1,5 @@
+bluegriffon-sl.jar:
+% locale    domexplorer    sl    %locale/sl/domexplorer/
+  locale/sl/domexplorer/domexplorerOverlay.dtd (locale/sl/domexplorerOverlay.dtd)
+  locale/sl/domexplorer/domexplorer.dtd        (locale/sl/domexplorer.dtd)
+
