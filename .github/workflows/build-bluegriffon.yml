@@ -27,13 +27,25 @@ jobs:
           echo Workspace: %GITHUB_WORKSPACE% >> "%LOG%"
           dir "%GITHUB_WORKSPACE%" >> "%LOG%" 2>&1
           dir "C:\mozilla-build" >> "%LOG%" 2>&1
-          if not exist "C:\mozilla-build\start-shell.bat" (
-            echo ERROR: MozillaBuild start-shell.bat not found. >> "%LOG%"
+          if not exist "C:\mozilla-build\msys2\usr\bin\bash.exe" (
+            echo ERROR: MozillaBuild bash.exe not found. >> "%LOG%"
             echo 2 > "%EXIT_FILE%"
             exit /b 0
           )
+          echo Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe >> "%LOG%"
+
+          if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
+            for /f "usebackq delims=" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find "VC\Auxiliary\Build\vcvars64.bat"`) do set "VCVARS=%%i"
+          )
+          if not defined VCVARS (
+            echo WARNING: vcvars64.bat not found; build may fail. >> "%LOG%"
+          ) else (
+            echo Using vcvars: %VCVARS% >> "%LOG%"
+            call "%VCVARS%" >> "%LOG%" 2>&1
+          )
+
           set "BUILD_LOG=%LOG%"
-          cmd /c ""C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh""
+          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
           set "ERR=%ERRORLEVEL%"
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
           echo %ERR% > "%EXIT_FILE%"
