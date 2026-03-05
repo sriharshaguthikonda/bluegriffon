@@ -34,18 +34,29 @@ jobs:
           )
           echo Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe >> "%LOG%"
 
+          for /f "usebackq delims=" %%i in (`"C:\mozilla-build\msys2\usr\bin\cygpath.exe" -u "%GITHUB_WORKSPACE%"`) do set "MSYS_WORKDIR=%%i"
+          if not defined MSYS_WORKDIR (
+            echo ERROR: Failed to resolve MSYS workdir. >> "%LOG%"
+            echo 3 > "%EXIT_FILE%"
+            exit /b 0
+          )
+          echo MSYS workdir: %MSYS_WORKDIR% >> "%LOG%"
+
           if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
-            for /f "usebackq delims=" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -find "VC\Auxiliary\Build\vcvars64.bat"`) do set "VCVARS=%%i"
+            for /f "usebackq delims=" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationPath`) do set "VSINSTALL=%%i"
+            if defined VSINSTALL set "VCVARS=%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
           )
           if not defined VCVARS (
             echo WARNING: vcvars64.bat not found; build may fail. >> "%LOG%"
+          ) else if not exist "%VCVARS%" (
+            echo WARNING: vcvars64.bat not found at %VCVARS%; build may fail. >> "%LOG%"
           ) else (
             echo Using vcvars: %VCVARS% >> "%LOG%"
             call "%VCVARS%" >> "%LOG%" 2>&1
           )
 
           set "BUILD_LOG=%LOG%"
-          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
+          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "cd \"%MSYS_WORKDIR%\" && bash .github/scripts/build-bluegriffon-windows.sh" >> "%LOG%" 2>&1
           set "ERR=%ERRORLEVEL%"
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
           echo %ERR% > "%EXIT_FILE%"
