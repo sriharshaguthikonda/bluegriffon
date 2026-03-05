@@ -1,38 +1,38 @@
-==== build start Thu 03/05/2026 22:00:04.11 ==== 
+==== build start Thu 03/05/2026 22:05:18.61 ==== 
 Workspace: D:\a\bluegriffon\bluegriffon 
  Volume in drive D is Temporary Storage
- Volume Serial Number is 1E58-83D0
+ Volume Serial Number is B639-7512
 
  Directory of D:\a\bluegriffon\bluegriffon
 
-03/05/2026  10:00 PM    <DIR>          .
-03/05/2026  09:58 PM    <DIR>          ..
-03/05/2026  09:58 PM    <DIR>          .github
-03/05/2026  09:58 PM    <DIR>          app
-03/05/2026  09:58 PM               107 app-rules.mk
-03/05/2026  09:58 PM               724 app.mozbuild
-03/05/2026  09:58 PM    <DIR>          base
-03/05/2026  09:58 PM    <DIR>          branding
-03/05/2026  10:00 PM                93 build.log
-03/05/2026  09:58 PM             1,357 build.mk
-03/05/2026  09:58 PM    <DIR>          components
-03/05/2026  09:58 PM    <DIR>          config
-03/05/2026  09:58 PM             2,404 confvars.sh
-03/05/2026  09:58 PM                30 defs.mk
-03/05/2026  09:58 PM    <DIR>          extensions
-03/05/2026  09:58 PM    <DIR>          installer
-03/05/2026  09:58 PM    <DIR>          langpacks
-03/05/2026  09:58 PM            16,285 LICENSE
-03/05/2026  09:58 PM    <DIR>          locales
-03/05/2026  09:58 PM             2,192 Makefile.in
-03/05/2026  09:58 PM             2,642 makefiles.sh
-03/05/2026  09:58 PM    <DIR>          modules
-03/05/2026  09:58 PM               539 moz.build
-03/05/2026  09:58 PM               351 moz.configure
-03/05/2026  09:58 PM             3,443 README.md
-03/05/2026  09:58 PM    <DIR>          sidebars
-03/05/2026  09:58 PM    <DIR>          src
-03/05/2026  09:58 PM    <DIR>          themes
+03/05/2026  10:05 PM    <DIR>          .
+03/05/2026  10:03 PM    <DIR>          ..
+03/05/2026  10:03 PM    <DIR>          .github
+03/05/2026  10:03 PM    <DIR>          app
+03/05/2026  10:03 PM               107 app-rules.mk
+03/05/2026  10:03 PM               724 app.mozbuild
+03/05/2026  10:03 PM    <DIR>          base
+03/05/2026  10:03 PM    <DIR>          branding
+03/05/2026  10:05 PM                93 build.log
+03/05/2026  10:03 PM             1,357 build.mk
+03/05/2026  10:03 PM    <DIR>          components
+03/05/2026  10:03 PM    <DIR>          config
+03/05/2026  10:03 PM             2,404 confvars.sh
+03/05/2026  10:03 PM                30 defs.mk
+03/05/2026  10:03 PM    <DIR>          extensions
+03/05/2026  10:03 PM    <DIR>          installer
+03/05/2026  10:03 PM    <DIR>          langpacks
+03/05/2026  10:03 PM            16,285 LICENSE
+03/05/2026  10:03 PM    <DIR>          locales
+03/05/2026  10:03 PM             2,192 Makefile.in
+03/05/2026  10:03 PM             2,642 makefiles.sh
+03/05/2026  10:03 PM    <DIR>          modules
+03/05/2026  10:03 PM               539 moz.build
+03/05/2026  10:03 PM               351 moz.configure
+03/05/2026  10:03 PM             3,443 README.md
+03/05/2026  10:03 PM    <DIR>          sidebars
+03/05/2026  10:03 PM    <DIR>          src
+03/05/2026  10:03 PM    <DIR>          themes
               12 File(s)         30,167 bytes
               16 Dir(s)  157,734,002,688 bytes free
  Volume in drive C is Windows
@@ -40,13 +40,15 @@ Workspace: D:\a\bluegriffon\bluegriffon
 
  Directory of C:\mozilla-build
 
-03/05/2026  09:59 PM    <DIR>          .
-03/05/2026  09:58 PM    <DIR>          bin
-03/05/2026  09:58 PM    <DIR>          kdiff3
-03/05/2026  09:59 PM    <DIR>          msys2
-03/05/2026  10:00 PM    <DIR>          python3
+03/05/2026  10:05 PM    <DIR>          .
+03/05/2026  10:04 PM    <DIR>          bin
+03/05/2026  10:04 PM    <DIR>          kdiff3
+03/05/2026  10:05 PM    <DIR>          msys2
+03/05/2026  10:05 PM    <DIR>          python3
 10/16/2025  07:57 PM               914 start-shell.bat
 10/16/2025  07:57 PM                 7 VERSION
                2 File(s)            921 bytes
-               5 Dir(s)  93,346,996,224 bytes free
-==== build end (exit 0) ==== 
+               5 Dir(s)  92,974,952,448 bytes free
+Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe 
+WARNING: vcvars64.bat not found; build may fail. 
+==== build end (exit 127) ==== 
