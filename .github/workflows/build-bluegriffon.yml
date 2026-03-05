@@ -34,9 +34,14 @@ jobs:
           )
           echo Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe >> "%LOG%"
 
+          set "VSINSTALL="
+          set "VCVARS="
           if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
             for /f "usebackq delims=" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -property installationPath`) do set "VSINSTALL=%%i"
+            echo VSINSTALL from vswhere: %VSINSTALL% >> "%LOG%"
             if defined VSINSTALL set "VCVARS=%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
+          ) else (
+            echo WARNING: vswhere.exe not found; VS toolchain may be missing. >> "%LOG%"
           )
           if not defined VCVARS (
             echo WARNING: vcvars64.bat not found; build may fail. >> "%LOG%"
@@ -49,6 +54,8 @@ jobs:
 
           set "BUILD_LOG=%LOG%"
           set "BUILD_WORKDIR=%GITHUB_WORKSPACE%"
+          set "CHERE_INVOKING=1"
+          set "MSYSTEM=MINGW64"
           "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh" >> "%LOG%" 2>&1
           set "ERR=%ERRORLEVEL%"
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
