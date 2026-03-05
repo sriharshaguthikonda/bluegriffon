@@ -15,6 +15,17 @@ jobs:
       - name: Checkout BlueGriffon
         uses: actions/checkout@v4
 
+      - name: Setup Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Resolve Python path
+        shell: powershell
+        run: |
+          $py = (Get-Command python).Source
+          "PYTHON_EXE=$py" >> $env:GITHUB_ENV
+
       - name: Install MozillaBuild
         run: choco install -y mozillabuild
 
@@ -28,6 +39,8 @@ jobs:
           echo Workspace: %GITHUB_WORKSPACE% >> "%LOG%"
           dir "%GITHUB_WORKSPACE%" >> "%LOG%" 2>&1
           dir "C:\mozilla-build" >> "%LOG%" 2>&1
+          echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
+          where python >> "%LOG%" 2>&1
           if not exist "C:\mozilla-build\msys2\usr\bin\bash.exe" (
             echo ERROR: MozillaBuild bash.exe not found. >> "%LOG%"
             echo 2 > "%EXIT_FILE%"
@@ -40,7 +53,7 @@ jobs:
           if exist "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" (
             for /f "usebackq delims=" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath`) do set "VSINSTALL=%%i"
             echo VSINSTALL from vswhere: %VSINSTALL% >> "%LOG%"
-            if defined VSINSTALL set "VCVARS=%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
+            if not "%VSINSTALL%"=="" set "VCVARS=%VSINSTALL%\VC\Auxiliary\Build\vcvars64.bat"
           ) else (
             echo WARNING: vswhere.exe not found; VS toolchain may be missing. >> "%LOG%"
           )

@@ -31,17 +31,21 @@ fi
 echo "PWD (after): $(pwd)"
 
 # Ensure "python" is executable for mach.
-PYTHON_EXE="/c/mozilla-build/python3/python.exe"
-if [ -x "$PYTHON_EXE" ]; then
+PYTHON_EXE_CAND="${PYTHON_EXE:-/c/mozilla-build/python3/python.exe}"
+if [[ "$PYTHON_EXE_CAND" =~ ^[A-Za-z]: ]]; then
+  PYTHON_EXE_CAND="$(cygpath -u "$PYTHON_EXE_CAND" 2>/dev/null || true)"
+fi
+if [ -x "$PYTHON_EXE_CAND" ]; then
   shim_dir="$PWD/.build-tools"
   mkdir -p "$shim_dir"
-  cat >"$shim_dir/python" <<'EOF'
+  cat >"$shim_dir/python" <<EOF
 #!/usr/bin/env bash
-exec /c/mozilla-build/python3/python.exe "$@"
+exec "$PYTHON_EXE_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/python"
-  export PATH="$shim_dir:/c/mozilla-build/python3:/c/mozilla-build/python3/Scripts:$PATH"
-  export PYTHON="$PYTHON_EXE"
+  py_dir="$(dirname "$PYTHON_EXE_CAND")"
+  export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
+  export PYTHON="$PYTHON_EXE_CAND"
 fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
