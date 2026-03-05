@@ -13,12 +13,12 @@ mk_add_options MOZ_MAKE_FLAGS="-j8"
 ###############################
 # Uncomment for 32bits OPTIMIZED build, comment out for others
 ###############################
-mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt32
-ac_add_options --target=i386-pc-mingw32
-ac_add_options --host=i386-pc-mingw32
-ac_add_options --enable-optimize
-ac_add_options --disable-debug
-ac_add_options --enable-strip
+#mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt32
+#ac_add_options --target=i386-pc-mingw32
+#ac_add_options --host=i386-pc-mingw32
+#ac_add_options --enable-optimize
+#ac_add_options --disable-debug
+#ac_add_options --enable-strip
 
 ###############################
 # Uncomment for 32bits DEBUG build, comment out for others
@@ -32,12 +32,12 @@ ac_add_options --enable-strip
 ###############################
 # Uncomment for 64bits OPTIMIZED build, comment out for others
 ###############################
-#mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt64
-#ac_add_options --target=x86_64-pc-mingw32
-#ac_add_options --host=x86_64-pc-mingw32
-#ac_add_options --enable-optimize
-#ac_add_options --disable-debug
-#ac_add_options --enable-strip
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt64
+ac_add_options --target=x86_64-pc-mingw32
+ac_add_options --host=x86_64-pc-mingw32
+ac_add_options --enable-optimize
+ac_add_options --disable-debug
+ac_add_options --enable-strip
 
 ###############################
 # Uncomment for 64bits DEBUG build, comment out for others
