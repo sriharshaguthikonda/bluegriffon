@@ -28,7 +28,7 @@ jobs:
             echo ERROR: MozillaBuild start-shell.bat not found. >> "%LOG%"
             exit /b 2
           )
-          call "C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh" >> "%LOG%" 2>&1
+          cmd /c ""C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh"" >> "%LOG%" 2>&1
           set "ERR=%ERRORLEVEL%"
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
           exit /b %ERR%
