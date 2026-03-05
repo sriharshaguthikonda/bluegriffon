@@ -9,6 +9,10 @@ if [ -z "$log_path" ]; then
   log_path="$(pwd)/build.log"
 fi
 
+if ! ( : >>"$log_path" ) 2>/dev/null; then
+  log_path="$(pwd)/build-worker.log"
+fi
+
 exec >>"$log_path" 2>&1
 set -x
 
