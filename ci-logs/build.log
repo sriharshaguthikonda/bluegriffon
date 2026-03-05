@@ -1,54 +1,53 @@
-==== build start Thu 03/05/2026 22:05:18.61 ==== 
+==== build start Thu 03/05/2026 22:25:10.94 ==== 
 Workspace: D:\a\bluegriffon\bluegriffon 
  Volume in drive D is Temporary Storage
- Volume Serial Number is B639-7512
+ Volume Serial Number is FAE4-E509
 
  Directory of D:\a\bluegriffon\bluegriffon
 
-03/05/2026  10:05 PM    <DIR>          .
-03/05/2026  10:03 PM    <DIR>          ..
-03/05/2026  10:03 PM    <DIR>          .github
-03/05/2026  10:03 PM    <DIR>          app
-03/05/2026  10:03 PM               107 app-rules.mk
-03/05/2026  10:03 PM               724 app.mozbuild
-03/05/2026  10:03 PM    <DIR>          base
-03/05/2026  10:03 PM    <DIR>          branding
-03/05/2026  10:05 PM                93 build.log
-03/05/2026  10:03 PM             1,357 build.mk
-03/05/2026  10:03 PM    <DIR>          components
-03/05/2026  10:03 PM    <DIR>          config
-03/05/2026  10:03 PM             2,404 confvars.sh
-03/05/2026  10:03 PM                30 defs.mk
-03/05/2026  10:03 PM    <DIR>          extensions
-03/05/2026  10:03 PM    <DIR>          installer
-03/05/2026  10:03 PM    <DIR>          langpacks
-03/05/2026  10:03 PM            16,285 LICENSE
-03/05/2026  10:03 PM    <DIR>          locales
-03/05/2026  10:03 PM             2,192 Makefile.in
-03/05/2026  10:03 PM             2,642 makefiles.sh
-03/05/2026  10:03 PM    <DIR>          modules
-03/05/2026  10:03 PM               539 moz.build
-03/05/2026  10:03 PM               351 moz.configure
-03/05/2026  10:03 PM             3,443 README.md
-03/05/2026  10:03 PM    <DIR>          sidebars
-03/05/2026  10:03 PM    <DIR>          src
-03/05/2026  10:03 PM    <DIR>          themes
+03/05/2026  10:25 PM    <DIR>          .
+03/05/2026  10:23 PM    <DIR>          ..
+03/05/2026  10:23 PM    <DIR>          .github
+03/05/2026  10:23 PM    <DIR>          app
+03/05/2026  10:23 PM               107 app-rules.mk
+03/05/2026  10:23 PM               724 app.mozbuild
+03/05/2026  10:23 PM    <DIR>          base
+03/05/2026  10:23 PM    <DIR>          branding
+03/05/2026  10:25 PM                93 build.log
+03/05/2026  10:23 PM             1,357 build.mk
+03/05/2026  10:23 PM    <DIR>          components
+03/05/2026  10:23 PM    <DIR>          config
+03/05/2026  10:23 PM             2,404 confvars.sh
+03/05/2026  10:23 PM                30 defs.mk
+03/05/2026  10:23 PM    <DIR>          extensions
+03/05/2026  10:23 PM    <DIR>          installer
+03/05/2026  10:23 PM    <DIR>          langpacks
+03/05/2026  10:23 PM            16,285 LICENSE
+03/05/2026  10:23 PM    <DIR>          locales
+03/05/2026  10:23 PM             2,192 Makefile.in
+03/05/2026  10:23 PM             2,642 makefiles.sh
+03/05/2026  10:23 PM    <DIR>          modules
+03/05/2026  10:23 PM               539 moz.build
+03/05/2026  10:23 PM               351 moz.configure
+03/05/2026  10:23 PM             3,443 README.md
+03/05/2026  10:23 PM    <DIR>          sidebars
+03/05/2026  10:23 PM    <DIR>          src
+03/05/2026  10:23 PM    <DIR>          themes
               12 File(s)         30,167 bytes
-              16 Dir(s)  157,734,002,688 bytes free
+              16 Dir(s)  157,733,998,592 bytes free
  Volume in drive C is Windows
  Volume Serial Number is 808A-844D
 
  Directory of C:\mozilla-build
 
-03/05/2026  10:05 PM    <DIR>          .
-03/05/2026  10:04 PM    <DIR>          bin
-03/05/2026  10:04 PM    <DIR>          kdiff3
-03/05/2026  10:05 PM    <DIR>          msys2
-03/05/2026  10:05 PM    <DIR>          python3
+03/05/2026  10:24 PM    <DIR>          .
+03/05/2026  10:24 PM    <DIR>          bin
+03/05/2026  10:24 PM    <DIR>          kdiff3
+03/05/2026  10:24 PM    <DIR>          msys2
+03/05/2026  10:25 PM    <DIR>          python3
 10/16/2025  07:57 PM               914 start-shell.bat
 10/16/2025  07:57 PM                 7 VERSION
                2 File(s)            921 bytes
-               5 Dir(s)  92,974,952,448 bytes free
+               5 Dir(s)  92,992,004,096 bytes free
 Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe 
-WARNING: vcvars64.bat not found; build may fail. 
-==== build end (exit 127) ==== 
+ERROR: Failed to resolve MSYS workdir. 
