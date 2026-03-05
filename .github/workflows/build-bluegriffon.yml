@@ -3,12 +3,12 @@ name: Build BlueGriffon (Windows)
 on:
   push:
     branches: ["*"]
-    branches-ignore: ["ci-logs"]
   pull_request:
     branches: ["*"]
 
 jobs:
   build-windows:
+    if: github.ref != 'refs/heads/ci-logs'
     runs-on: windows-2022
     steps:
       - name: Checkout BlueGriffon
