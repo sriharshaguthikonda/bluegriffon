@@ -3,6 +3,7 @@ name: Build BlueGriffon (Windows)
 on:
   push:
     branches: ["*"]
+    branches-ignore: ["ci-logs"]
   pull_request:
     branches: ["*"]
 
@@ -53,3 +54,41 @@ jobs:
         with:
           name: build-log
           path: ${{ github.workspace }}\build.log
+
+      - name: Commit build log to ci-logs branch
+        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        shell: powershell
+        run: |
+          if (-not (Test-Path build.log)) {
+            Write-Host "build.log not found; skipping log commit."
+            exit 0
+          }
+
+          $tempLog = Join-Path $env:RUNNER_TEMP "build.log"
+          Copy-Item build.log $tempLog -Force
+
+          git fetch origin ci-logs --depth=1
+          if ($LASTEXITCODE -ne 0) {
+            git checkout --orphan ci-logs
+            git clean -fdx
+          } else {
+            git checkout -B ci-logs origin/ci-logs
+          }
+
+          New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
+          Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
+
+          $sha = "${{ github.sha }}"
+          $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          Set-Content ci-logs\metadata.txt "source-sha: $sha"
+          Add-Content ci-logs\metadata.txt "run: $runUrl"
+
+          git add ci-logs/build.log ci-logs/metadata.txt
+          if (-not (git diff --cached --quiet)) {
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git commit -m "ci logs for $sha [skip ci]"
+            git push origin ci-logs
+          } else {
+            Write-Host "No log changes to commit."
+          }
