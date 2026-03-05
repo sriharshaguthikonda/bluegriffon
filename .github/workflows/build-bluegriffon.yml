@@ -19,20 +19,25 @@ jobs:
 
       - name: Build BlueGriffon executable
         shell: cmd
+        continue-on-error: true
         run: |
           set "LOG=%GITHUB_WORKSPACE%\build.log"
+          set "EXIT_FILE=%GITHUB_WORKSPACE%\build-exit.txt"
           echo ==== build start %DATE% %TIME% ==== > "%LOG%"
           echo Workspace: %GITHUB_WORKSPACE% >> "%LOG%"
           dir "%GITHUB_WORKSPACE%" >> "%LOG%" 2>&1
           dir "C:\mozilla-build" >> "%LOG%" 2>&1
           if not exist "C:\mozilla-build\start-shell.bat" (
             echo ERROR: MozillaBuild start-shell.bat not found. >> "%LOG%"
-            exit /b 2
+            echo 2 > "%EXIT_FILE%"
+            exit /b 0
           )
-          cmd /c ""C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh"" >> "%LOG%" 2>&1
+          set "BUILD_LOG=%LOG%"
+          cmd /c ""C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh""
           set "ERR=%ERRORLEVEL%"
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
-          exit /b %ERR%
+          echo %ERR% > "%EXIT_FILE%"
+          exit /b 0
 
       - name: Upload executable
         if: always()
@@ -54,6 +59,13 @@ jobs:
         with:
           name: build-log
           path: ${{ github.workspace }}\build.log
+
+      - name: Upload build exit code
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-exit
+          path: ${{ github.workspace }}\build-exit.txt
 
       - name: Commit build log to ci-logs branch
         if: always() && github.event_name == 'push' && github.ref == 'refs/heads/master'
@@ -92,3 +104,15 @@ jobs:
           } else {
             Write-Host "No log changes to commit."
           }
+
+      - name: Fail if build failed
+        if: always()
+        shell: powershell
+        run: |
+          if (-not (Test-Path build-exit.txt)) {
+            Write-Host "build-exit.txt not found; failing."
+            exit 1
+          }
+          $code = Get-Content build-exit.txt | Select-Object -First 1
+          Write-Host "Build exit code: $code"
+          if ($code -ne 0) { exit 1 }

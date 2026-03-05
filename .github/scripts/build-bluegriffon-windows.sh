@@ -1,7 +1,18 @@
 #!/usr/bin/env bash
 set -euo pipefail
+
+log_path=""
+if [ -n "${BUILD_LOG:-}" ]; then
+  log_path="$(cygpath -u "$BUILD_LOG" 2>/dev/null || true)"
+fi
+if [ -z "$log_path" ]; then
+  log_path="$(pwd)/build.log"
+fi
+
+exec >>"$log_path" 2>&1
 set -x
 
+echo "Build log: $log_path"
 echo "PWD: $(pwd)"
 
 git clone https://github.com/mozilla/gecko-dev gecko-dev
