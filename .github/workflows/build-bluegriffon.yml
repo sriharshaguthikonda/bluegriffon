@@ -19,10 +19,19 @@ jobs:
       - name: Build BlueGriffon executable
         shell: cmd
         run: |
-          call "C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh"
+          call "C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh 2>&1 | tee build.log"
 
       - name: Upload executable
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bluegriffon-exe
-          path: gecko-dev/**/dist/bin/bluegriffon.exe
+          path: |
+            gecko-dev/**/dist/bin/*griffon*.exe
+
+      - name: Upload build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-log
+          path: build.log
