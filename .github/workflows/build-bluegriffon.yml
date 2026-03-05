@@ -19,7 +19,19 @@ jobs:
       - name: Build BlueGriffon executable
         shell: cmd
         run: |
-          call "C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh" > build.log 2>&1
+          set "LOG=%GITHUB_WORKSPACE%\build.log"
+          echo ==== build start %DATE% %TIME% ==== > "%LOG%"
+          echo Workspace: %GITHUB_WORKSPACE% >> "%LOG%"
+          dir "%GITHUB_WORKSPACE%" >> "%LOG%" 2>&1
+          dir "C:\mozilla-build" >> "%LOG%" 2>&1
+          if not exist "C:\mozilla-build\start-shell.bat" (
+            echo ERROR: MozillaBuild start-shell.bat not found. >> "%LOG%"
+            exit /b 2
+          )
+          call "C:\mozilla-build\start-shell.bat" -no-interactive -here -c "bash .github/scripts/build-bluegriffon-windows.sh" >> "%LOG%" 2>&1
+          set "ERR=%ERRORLEVEL%"
+          echo ==== build end (exit %ERR%) ==== >> "%LOG%"
+          exit /b %ERR%
 
       - name: Upload executable
         if: always()
@@ -40,4 +52,4 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: build-log
-          path: build.log
+          path: ${{ github.workspace }}\build.log

@@ -2,6 +2,8 @@
 set -euo pipefail
 set -x
 
+echo "PWD: $(pwd)"
+
 git clone https://github.com/mozilla/gecko-dev gecko-dev
 git clone --local . gecko-dev/bluegriffon
 
