@@ -13,7 +13,18 @@ exec >>"$log_path" 2>&1
 set -x
 
 echo "Build log: $log_path"
-echo "PWD: $(pwd)"
+echo "PWD (start): $(pwd)"
+
+if [ -n "${BUILD_WORKDIR:-}" ]; then
+  workdir="$(cygpath -u "$BUILD_WORKDIR" 2>/dev/null || true)"
+  if [ -n "$workdir" ]; then
+    echo "Changing to BUILD_WORKDIR: $workdir"
+    cd "$workdir"
+  else
+    echo "WARNING: Failed to resolve BUILD_WORKDIR via cygpath; staying in $(pwd)"
+  fi
+fi
+echo "PWD (after): $(pwd)"
 
 git clone https://github.com/mozilla/gecko-dev gecko-dev
 git clone --local . gecko-dev/bluegriffon
