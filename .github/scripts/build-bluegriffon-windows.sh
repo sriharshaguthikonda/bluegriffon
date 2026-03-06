@@ -93,8 +93,15 @@ fi
 if [ -z "$MOZMAKE_CAND" ]; then
   for p in /c/mozilla-build/mozmake.exe \
            /c/mozilla-build/mozmake \
+           /c/mozilla-build/bin/mozmake.exe \
+           /c/mozilla-build/bin/make.exe \
            /c/mozilla-build/msys2/usr/bin/mozmake.exe \
            /c/mozilla-build/msys2/usr/bin/make.exe \
+           /c/mozilla-build/msys2/mingw64/bin/make.exe \
+           /c/mingw64/bin/make.exe \
+           /c/mingw64/bin/mozmake.exe \
+           /c/Program\ Files/Git/mingw64/bin/make.exe \
+           /c/Program\ Files/Git/usr/bin/make.exe \
            /usr/bin/make \
            /mingw64/bin/make; do
     if [ -x "$p" ]; then
