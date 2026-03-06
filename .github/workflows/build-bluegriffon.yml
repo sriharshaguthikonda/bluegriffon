@@ -28,8 +28,31 @@ jobs:
 
       - name: Install Python 2.7
         shell: powershell
+        continue-on-error: true
         run: |
+          $py2Installed = $false
+          Write-Host "Attempting python2 install via Chocolatey..."
           choco install -y python2 --no-progress
+          if ($LASTEXITCODE -eq 0) {
+            $py2Installed = $true
+          } else {
+            Write-Host "Chocolatey python2 install failed with exit code $LASTEXITCODE."
+          }
+
+          if (-not $py2Installed) {
+            $msiUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
+            $msiPath = Join-Path $env:RUNNER_TEMP "python-2.7.18.amd64.msi"
+            Write-Host "Downloading Python 2.7.18 MSI from $msiUrl"
+            Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath
+            Write-Host "Installing Python 2.7.18 MSI..."
+            Start-Process msiexec.exe -ArgumentList "/i `"$msiPath`" /qn /norestart" -Wait -NoNewWindow
+            if ($LASTEXITCODE -eq 0) {
+              $py2Installed = $true
+            } else {
+              Write-Host "MSI install returned exit code $LASTEXITCODE."
+            }
+          }
+
           $candidates = @(
             "C:\Python27\python.exe",
             "C:\Python27\python2.exe",
