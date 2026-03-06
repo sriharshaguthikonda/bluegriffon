@@ -1,2 +1,2 @@
-source-sha: f2fd587ab1bc74ed0ae1f89bb19d28b14efc985f
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22759804294
+source-sha: 5d55973cfb3aca175ddedb41e9f79004b26a47b3
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22761588695
