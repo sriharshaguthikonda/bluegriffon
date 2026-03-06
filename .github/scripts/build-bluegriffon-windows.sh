@@ -81,17 +81,38 @@ fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
 
-if command -v pkg-config >/dev/null 2>&1; then
-  PKG_CONFIG="$(command -v pkg-config)"
-  case "$PKG_CONFIG" in
-    /c/*)
-      export PATH="/c/mozilla-build/msys2/usr/bin:$PATH"
-      echo "Adjusted PATH for pkg-config: /c/mozilla-build/msys2/usr/bin"
-      ;;
-  esac
-  echo "pkg-config: $PKG_CONFIG"
-  pkg-config --version || true
+# Prefer MSYS2 tools over Strawberry Perl.
+msys_usr="/c/mozilla-build/msys2/usr/bin"
+msys_mingw="/c/mozilla-build/msys2/mingw64/bin"
+if [ -d "$msys_usr" ]; then
+  export PATH="$msys_usr:$PATH"
 fi
+if [ -d "$msys_mingw" ]; then
+  export PATH="$msys_mingw:$PATH"
+fi
+if echo "$PATH" | grep -qi "/c/Strawberry"; then
+  PATH="$(echo "$PATH" | tr ':' '\n' | grep -vi '/c/Strawberry' | paste -sd ':' -)"
+  export PATH
+  echo "Removed Strawberry Perl from PATH"
+fi
+
+PKG_CONFIG_CAND=""
+for p in /c/mozilla-build/msys2/mingw64/bin/pkg-config.exe \
+         /c/mozilla-build/msys2/usr/bin/pkg-config.exe \
+         /c/mozilla-build/msys2/usr/bin/pkg-config; do
+  if [ -x "$p" ]; then
+    PKG_CONFIG_CAND="$p"
+    break
+  fi
+done
+if [ -n "$PKG_CONFIG_CAND" ]; then
+  export PKG_CONFIG="$PKG_CONFIG_CAND"
+fi
+export PKG_CONFIG_PATH="/c/mozilla-build/msys2/mingw64/lib/pkgconfig:/c/mozilla-build/msys2/mingw64/share/pkgconfig:/c/mozilla-build/msys2/usr/lib/pkgconfig:/c/mozilla-build/msys2/usr/share/pkgconfig"
+
+echo "pkg-config env: ${PKG_CONFIG:-}"
+echo "pkg-config on PATH: $(command -v pkg-config || true)"
+pkg-config --version || true
 
 echo "cl on PATH: $(command -v cl || true)"
 echo "clang-cl on PATH: $(command -v clang-cl || true)"
