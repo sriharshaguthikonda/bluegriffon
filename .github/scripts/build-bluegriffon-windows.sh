@@ -81,19 +81,28 @@ fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
 
-# Prefer MSYS2 tools over Strawberry Perl.
+# Ensure MSVC bin is early in PATH so link/cl resolve correctly.
+if [ -n "${MSVC_BIN:-}" ]; then
+  msvc_bin_u="$(cygpath -u "$MSVC_BIN" 2>/dev/null || true)"
+  if [ -n "$msvc_bin_u" ] && [ -d "$msvc_bin_u" ]; then
+    export PATH="$msvc_bin_u:$PATH"
+    echo "MSVC_BIN (path): $msvc_bin_u"
+  else
+    echo "MSVC_BIN not found: $MSVC_BIN"
+  fi
+fi
+
+# Prefer MSYS2 tools over Strawberry Perl (without breaking MSVC link).
 msys_usr="/c/mozilla-build/msys2/usr/bin"
 msys_mingw="/c/mozilla-build/msys2/mingw64/bin"
-if [ -d "$msys_usr" ]; then
-  export PATH="$msys_usr:$PATH"
-fi
-if [ -d "$msys_mingw" ]; then
-  export PATH="$msys_mingw:$PATH"
-fi
 if echo "$PATH" | grep -qi "/c/Strawberry"; then
   PATH="$(echo "$PATH" | tr ':' '\n' | grep -vi '/c/Strawberry' | paste -sd ':' -)"
   export PATH
   echo "Removed Strawberry Perl from PATH"
+fi
+
+if command -v pacman >/dev/null 2>&1; then
+  pacman -Sy --noconfirm --needed pkgconf yasm zip || true
 fi
 
 PKG_CONFIG_CAND=""

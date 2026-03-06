@@ -124,6 +124,10 @@ jobs:
           ) else (
             echo Using vcvars: %VCVARS% >> "%LOG%"
             call "%VCVARS%" >> "%LOG%" 2>&1
+            if defined VCToolsInstallDir (
+              set "MSVC_BIN=%VCToolsInstallDir%bin\HostX64\x64"
+              echo MSVC_BIN: %MSVC_BIN% >> "%LOG%"
+            )
           )
 
           set "BUILD_LOG=%LOG%"
