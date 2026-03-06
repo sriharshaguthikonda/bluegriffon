@@ -86,12 +86,18 @@ python --version || true
 msvc_bin_u=""
 if [ -n "${MSVC_BIN:-}" ]; then
   msvc_bin_u="$(cygpath -u "$MSVC_BIN" 2>/dev/null || true)"
-  if [ -n "$msvc_bin_u" ] && [ -d "$msvc_bin_u" ]; then
-    export PATH="$msvc_bin_u:$PATH"
-    echo "MSVC_BIN (path): $msvc_bin_u"
-  else
-    echo "MSVC_BIN not found: $MSVC_BIN"
+fi
+if [ -z "$msvc_bin_u" ] || [ ! -d "$msvc_bin_u" ]; then
+  cl_path="$(command -v cl 2>/dev/null || true)"
+  if [ -n "$cl_path" ]; then
+    msvc_bin_u="$(dirname "$cl_path")"
   fi
+fi
+if [ -n "$msvc_bin_u" ] && [ -d "$msvc_bin_u" ]; then
+  export PATH="$msvc_bin_u:$PATH"
+  echo "MSVC_BIN (path): $msvc_bin_u"
+else
+  echo "MSVC_BIN not found (env or cl): ${MSVC_BIN:-}"
 fi
 
 # Prefer MSYS2 tools over Strawberry Perl (without breaking MSVC link).
@@ -143,16 +149,79 @@ EOF
   echo "link shim: $shim_dir/link -> $msvc_bin_u/link.exe"
 fi
 
-if command -v pacman >/dev/null 2>&1; then
-  pacman -Sy --noconfirm || true
-  pacman -S --noconfirm --needed \
+pkg_cache="$PWD/.build-tools/msys2-pkgs"
+pkg_root="$PWD/.build-tools/msys2-root"
+mkdir -p "$pkg_cache" "$pkg_root"
+
+extract_pkg_tar() {
+  local pkg_file="$1"
+  local out_dir="$2"
+  if tar --help 2>/dev/null | grep -qi zstd; then
+    tar --zstd -xf "$pkg_file" -C "$out_dir" || return 1
+    return 0
+  fi
+  if command -v zstd >/dev/null 2>&1; then
+    local tmp_tar="$pkg_cache/$(basename "$pkg_file" .zst)"
+    zstd -d -f -o "$tmp_tar" "$pkg_file" || return 1
+    tar -xf "$tmp_tar" -C "$out_dir" || return 1
+    return 0
+  fi
+  if [ -x /c/mozilla-build/bin/7z.exe ]; then
+    /c/mozilla-build/bin/7z.exe x -y "$pkg_file" -o"$pkg_cache" >/dev/null || return 1
+    local tmp_tar="$pkg_cache/$(basename "$pkg_file" .zst)"
+    /c/mozilla-build/bin/7z.exe x -y "$tmp_tar" -o"$out_dir" >/dev/null || return 1
+    return 0
+  fi
+  return 1
+}
+
+download_msys2_pkg() {
+  local pkg="$1"
+  local url=""
+  url="$(curl -fsSL "https://packages.msys2.org/package/$pkg" | grep -Eo 'https://mirror.msys2.org[^\" ]+\\.pkg\\.tar\\.zst' | head -n1 || true)"
+  if [ -z "$url" ]; then
+    echo "WARNING: Could not resolve MSYS2 package URL for $pkg"
+    return 1
+  fi
+  local pkg_file="$pkg_cache/$(basename "$url")"
+  if [ ! -f "$pkg_file" ]; then
+    echo "Downloading $pkg from $url"
+    curl -fsSL -o "$pkg_file" "$url" || return 1
+  fi
+  extract_pkg_tar "$pkg_file" "$pkg_root" || return 1
+  return 0
+}
+
+pacman_bin=""
+for p in /c/mozilla-build/msys2/usr/bin/pacman.exe /c/mozilla-build/msys2/usr/bin/pacman; do
+  if [ -x "$p" ]; then
+    pacman_bin="$p"
+    break
+  fi
+done
+
+if [ -n "$pacman_bin" ]; then
+  "$pacman_bin" -Sy --noconfirm || true
+  "$pacman_bin" -S --noconfirm --needed \
     pkgconf mingw-w64-x86_64-pkgconf \
     yasm mingw-w64-x86_64-yasm \
-    zip mingw-w64-x86_64-zip || true
-  pacman -Q pkgconf mingw-w64-x86_64-pkgconf yasm mingw-w64-x86_64-yasm zip mingw-w64-x86_64-zip || true
+    zip mingw-w64-x86_64-zip \
+    autoconf2.13 || true
+  "$pacman_bin" -Q pkgconf mingw-w64-x86_64-pkgconf yasm mingw-w64-x86_64-yasm zip mingw-w64-x86_64-zip autoconf2.13 || true
 else
-  echo "WARNING: pacman not found; MSYS2 packages not installed."
+  echo "WARNING: pacman not found; downloading MSYS2 packages directly."
+  download_msys2_pkg autoconf2.13 || true
+  download_msys2_pkg pkgconf || true
+  download_msys2_pkg yasm || true
 fi
+
+if [ -d "$pkg_root/usr/bin" ]; then
+  PATH="$(sanitize_path "$pkg_root/usr/bin:$PATH")"
+  export PATH
+  echo "Added msys2-root usr/bin to PATH: $pkg_root/usr/bin"
+fi
+PATH="$(sanitize_path "$shim_dir:$PATH")"
+export PATH
 
 PKG_CONFIG_CAND=""
 for p in /c/mozilla-build/msys2/mingw64/bin/pkg-config.exe \
@@ -161,6 +230,8 @@ for p in /c/mozilla-build/msys2/mingw64/bin/pkg-config.exe \
          /c/mozilla-build/msys2/usr/bin/pkgconf.exe \
          /c/mozilla-build/msys2/usr/bin/pkg-config \
          /c/mozilla-build/msys2/usr/bin/pkgconf \
+         "$pkg_root/usr/bin/pkg-config" \
+         "$pkg_root/usr/bin/pkgconf" \
          /usr/bin/pkg-config \
          /usr/bin/pkgconf; do
   if [ -x "$p" ]; then
@@ -184,6 +255,23 @@ echo "pkg-config on PATH: $(command -v pkg-config || true)"
 pkg-config --version || true
 echo "pkgconf on PATH: $(command -v pkgconf || true)"
 pkgconf --version || true
+echo "autoconf-2.13 on PATH: $(command -v autoconf-2.13 || true)"
+echo "autoconf213 on PATH: $(command -v autoconf213 || true)"
+if command -v autoconf-2.13 >/dev/null 2>&1; then
+  export AUTOCONF="$(command -v autoconf-2.13)"
+  cat >"$shim_dir/autoconf-2.13" <<EOF
+#!/usr/bin/env bash
+exec "$(command -v autoconf-2.13)" "\$@"
+EOF
+  chmod +x "$shim_dir/autoconf-2.13"
+fi
+if command -v autoconf213 >/dev/null 2>&1; then
+  cat >"$shim_dir/autoconf213" <<EOF
+#!/usr/bin/env bash
+exec "$(command -v autoconf213)" "\$@"
+EOF
+  chmod +x "$shim_dir/autoconf213"
+fi
 
 echo "cl on PATH: $(command -v cl || true)"
 echo "clang-cl on PATH: $(command -v clang-cl || true)"
