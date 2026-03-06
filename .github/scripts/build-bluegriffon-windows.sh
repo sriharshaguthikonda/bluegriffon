@@ -81,6 +81,39 @@ fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
 
+echo "make on PATH: $(command -v make || true)"
+echo "mozmake on PATH: $(command -v mozmake || true)"
+
+MOZMAKE_CAND=""
+if command -v mozmake >/dev/null 2>&1; then
+  MOZMAKE_CAND="$(command -v mozmake)"
+elif command -v make >/dev/null 2>&1; then
+  MOZMAKE_CAND="$(command -v make)"
+fi
+if [ -z "$MOZMAKE_CAND" ]; then
+  for p in /c/mozilla-build/mozmake.exe \
+           /c/mozilla-build/mozmake \
+           /c/mozilla-build/msys2/usr/bin/mozmake.exe \
+           /c/mozilla-build/msys2/usr/bin/make.exe \
+           /usr/bin/make \
+           /mingw64/bin/make; do
+    if [ -x "$p" ]; then
+      MOZMAKE_CAND="$p"
+      break
+    fi
+  done
+fi
+if [[ "$MOZMAKE_CAND" =~ ^[A-Za-z]: ]]; then
+  MOZMAKE_CAND="$(cygpath -u "$MOZMAKE_CAND" 2>/dev/null || true)"
+fi
+if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
+  export MOZBUILD_MOZMAKE="$MOZMAKE_CAND"
+  export MAKE="$MOZMAKE_CAND"
+  echo "Using make: $MOZMAKE_CAND"
+else
+  echo "WARNING: make/mozmake not found; mach may fail."
+fi
+
 git clone https://github.com/mozilla/gecko-dev gecko-dev
 git clone --local . gecko-dev/bluegriffon
 

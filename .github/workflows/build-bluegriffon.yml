@@ -90,6 +90,8 @@ jobs:
           where python >> "%LOG%" 2>&1
           where python2 >> "%LOG%" 2>&1
           where python2.7 >> "%LOG%" 2>&1
+          where make >> "%LOG%" 2>&1
+          where mozmake >> "%LOG%" 2>&1
           if not exist "C:\mozilla-build\msys2\usr\bin\bash.exe" (
             echo ERROR: MozillaBuild bash.exe not found. >> "%LOG%"
             echo 2 > "%EXIT_FILE%"
