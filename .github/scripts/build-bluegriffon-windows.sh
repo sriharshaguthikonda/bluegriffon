@@ -178,7 +178,21 @@ extract_pkg_tar() {
 download_msys2_pkg() {
   local pkg="$1"
   local url=""
-  url="$(curl -fsSL "https://packages.msys2.org/package/$pkg" | grep -Eo 'https://mirror.msys2.org[^\" ]+\\.pkg\\.tar\\.zst' | head -n1 || true)"
+  local page=""
+  page="$(curl -fsSL --compressed "https://packages.msys2.org/package/$pkg" || true)"
+  if [ -z "$page" ]; then
+    echo "WARNING: Could not fetch MSYS2 package page for $pkg"
+    return 1
+  fi
+  page="$(printf '%s' "$page" | sed 's/\\\\//g')"
+  url="$(printf '%s' "$page" | grep -Eo 'https?://mirror.msys2.org[^\" ]+\\.pkg\\.tar\\.zst' | head -n1 || true)"
+  if [ -z "$url" ]; then
+    local rel=""
+    rel="$(printf '%s' "$page" | grep -Eo 'mirror.msys2.org[^\" ]+\\.pkg\\.tar\\.zst' | head -n1 || true)"
+    if [ -n "$rel" ]; then
+      url="https://$rel"
+    fi
+  fi
   if [ -z "$url" ]; then
     echo "WARNING: Could not resolve MSYS2 package URL for $pkg"
     return 1
