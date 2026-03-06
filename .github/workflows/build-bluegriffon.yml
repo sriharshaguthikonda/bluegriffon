@@ -26,6 +26,25 @@ jobs:
           $py = (Get-Command python).Source
           "PYTHON_EXE=$py" >> $env:GITHUB_ENV
 
+      - name: Install Python 2.7
+        shell: powershell
+        run: |
+          choco install -y python2 --no-progress
+          $candidates = @(
+            "C:\Python27\python.exe",
+            "C:\Python27\python2.exe",
+            "C:\Python27\python2.7.exe"
+          )
+          $py2 = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+          if ($py2) {
+            "PYTHON2_EXE=$py2" >> $env:GITHUB_ENV
+            Write-Host "Python2 resolved: $py2"
+          } else {
+            Write-Host "Python2 not found in expected locations."
+          }
+          where.exe python2 2>$null | ForEach-Object { Write-Host "python2: $_" }
+          where.exe python2.7 2>$null | ForEach-Object { Write-Host "python2.7: $_" }
+
       - name: Install MozillaBuild
         run: choco install -y mozillabuild
 
@@ -41,10 +60,13 @@ jobs:
           dir "%GITHUB_WORKSPACE%\.github\scripts" >> "%LOG%" 2>&1
           dir "C:\mozilla-build" >> "%LOG%" 2>&1
           echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
+          echo PYTHON2_EXE: %PYTHON2_EXE% >> "%LOG%"
           echo PATH: %PATH% >> "%LOG%"
           where git >> "%LOG%" 2>&1
           where bash >> "%LOG%" 2>&1
           where python >> "%LOG%" 2>&1
+          where python2 >> "%LOG%" 2>&1
+          where python2.7 >> "%LOG%" 2>&1
           if not exist "C:\mozilla-build\msys2\usr\bin\bash.exe" (
             echo ERROR: MozillaBuild bash.exe not found. >> "%LOG%"
             echo 2 > "%EXIT_FILE%"

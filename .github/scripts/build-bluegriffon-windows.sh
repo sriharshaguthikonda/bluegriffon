@@ -33,8 +33,33 @@ echo "PWD (after): $(pwd)"
 echo "Listing .github/scripts:"
 ls -la .github/scripts || true
 
-# Ensure "python" is executable for mach.
-PYTHON_EXE_CAND="${PYTHON_EXE:-/c/mozilla-build/python3/python.exe}"
+# Ensure "python" is executable for mach (prefer Python 2.7 for this Gecko revision).
+echo "PYTHON2_EXE (env): ${PYTHON2_EXE:-}"
+echo "python2.7 on PATH: $(command -v python2.7 || true)"
+echo "python2 on PATH: $(command -v python2 || true)"
+
+PYTHON_EXE_CAND=""
+if [ -n "${PYTHON2_EXE:-}" ]; then
+  PYTHON_EXE_CAND="$PYTHON2_EXE"
+fi
+if [ -z "$PYTHON_EXE_CAND" ]; then
+  for p in /c/Python27/python.exe /c/Python27/python2.exe /c/Python27/python2.7.exe; do
+    if [ -x "$p" ]; then
+      PYTHON_EXE_CAND="$p"
+      break
+    fi
+  done
+fi
+if [ -z "$PYTHON_EXE_CAND" ]; then
+  if command -v python2.7 >/dev/null 2>&1; then
+    PYTHON_EXE_CAND="$(command -v python2.7)"
+  elif command -v python2 >/dev/null 2>&1; then
+    PYTHON_EXE_CAND="$(command -v python2)"
+  fi
+fi
+if [ -z "$PYTHON_EXE_CAND" ]; then
+  PYTHON_EXE_CAND="${PYTHON_EXE:-/c/mozilla-build/python3/python.exe}"
+fi
 if [[ "$PYTHON_EXE_CAND" =~ ^[A-Za-z]: ]]; then
   PYTHON_EXE_CAND="$(cygpath -u "$PYTHON_EXE_CAND" 2>/dev/null || true)"
 fi
@@ -49,6 +74,9 @@ EOF
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
   export PYTHON="$PYTHON_EXE_CAND"
+  echo "Using python: $PYTHON_EXE_CAND"
+else
+  echo "WARNING: Python executable not found; mach may fail."
 fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
