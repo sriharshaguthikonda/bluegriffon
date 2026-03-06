@@ -121,10 +121,13 @@ else
   echo "WARNING: make/mozmake not found; mach may fail."
 fi
 
-git clone https://github.com/mozilla/gecko-dev gecko-dev
-git clone --local . gecko-dev/bluegriffon
+# Avoid CRLF checkouts that break client.mk (force LF).
+git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
+git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
 
 cd gecko-dev
+git config core.autocrlf false
+git config core.eol lf
 git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
