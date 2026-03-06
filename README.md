@@ -70,6 +70,67 @@ The Open Source next-generation Web Editor based on the rendering engine of Fire
 
 `./mach package`
 
+## Local Windows build (check first, install only if missing)
+
+### Quick prerequisite check (PowerShell)
+```
+$checks = [ordered]@{}
+$checks['git'] = (Get-Command git -ErrorAction SilentlyContinue)?.Source
+$checks['hg'] = (Get-Command hg -ErrorAction SilentlyContinue)?.Source
+$checks['python3'] = (Get-Command python -ErrorAction SilentlyContinue)?.Source
+$checks['python2.7'] = (Test-Path 'C:\Python27\python.exe')
+$checks['vswhere'] = (Test-Path 'C:\Program Files (x86)\Microsoft Visual Studio\Installer\vswhere.exe')
+$checks['vcvars64'] = (Test-Path 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat')
+$checks['mozillabuild'] = (Test-Path 'C:\mozilla-build\start-shell.bat')
+$checks['msys2 bash'] = (Test-Path 'C:\mozilla-build\msys2\usr\bin\bash.exe')
+$checks['autoconf-2.13'] = (Get-Command autoconf-2.13 -ErrorAction SilentlyContinue)?.Source
+$checks['yasm'] = (Get-Command yasm -ErrorAction SilentlyContinue)?.Source
+$checks['pkg-config'] = (Get-Command pkg-config -ErrorAction SilentlyContinue)?.Source
+$checks['zip'] = (Get-Command zip -ErrorAction SilentlyContinue)?.Source
+$checks
+```
+
+### Install missing items (Windows)
+Use admin PowerShell if possible.
+
+**Chocolatey (preferred if admin):**
+```
+choco install -y mozillabuild python2 visualstudio2022buildtools visualstudio2022-workload-vctools
+```
+
+**Manual installs (non-admin friendly):**
+- MozillaBuild: install to `C:\mozilla-build` (keeps MSYS2, make, perl, zip).
+- Python 2.7: install to `C:\Python27` (required by this Gecko revision).
+- Visual Studio 2022 Build Tools with C++ workload (provides `vcvars64.bat`, `cl`, `link`).
+
+### Create a virtualenv with system-site-packages
+Use Python 3 (system install) and keep system packages visible:
+```
+C:\Python311\python.exe -m venv .venv --system-site-packages
+.\.venv\Scripts\activate
+python -V
+```
+
+### Local build (Windows, Git)
+1. Open MozillaBuild shell:
+   `C:\mozilla-build\start-shell.bat`
+2. From the repo root:
+   ```
+   git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
+   git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
+   cd gecko-dev
+   git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
+   patch -p1 < bluegriffon/config/gecko_dev_content.patch
+   patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+   cp bluegriffon/config/mozconfig.win .mozconfig
+   ./mach build
+   ```
+
+### Easy cleanup
+- Remove `C:\mozilla-build` if you want to reclaim space.
+- Remove `C:\Python27` if you want to remove Python 2.7.
+- Delete `.venv` in the repo.
+
 ## Want to contribute to BlueGriffon?
 
 There are two ways to contribute:

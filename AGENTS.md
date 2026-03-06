@@ -63,3 +63,43 @@ gather logs, and iterate until the Windows x64 build succeeds.
 ## Notes
 - Always build Windows x64.
 - Do not build locally unless explicitly requested.
+
+## Local build workflow (Windows)
+Use this when the user asks to build locally.
+1) Run a preflight check (PowerShell) and only install missing components:
+```
+$checks = [ordered]@{}
+$checks['git'] = (Get-Command git -ErrorAction SilentlyContinue)?.Source
+$checks['hg'] = (Get-Command hg -ErrorAction SilentlyContinue)?.Source
+$checks['python3'] = (Get-Command python -ErrorAction SilentlyContinue)?.Source
+$checks['python2.7'] = (Test-Path 'C:\Python27\python.exe')
+$checks['vcvars64'] = (Test-Path 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat')
+$checks['mozillabuild'] = (Test-Path 'C:\mozilla-build\start-shell.bat')
+$checks['autoconf-2.13'] = (Get-Command autoconf-2.13 -ErrorAction SilentlyContinue)?.Source
+$checks['yasm'] = (Get-Command yasm -ErrorAction SilentlyContinue)?.Source
+$checks['pkg-config'] = (Get-Command pkg-config -ErrorAction SilentlyContinue)?.Source
+$checks['zip'] = (Get-Command zip -ErrorAction SilentlyContinue)?.Source
+$checks
+```
+2) Install missing items (admin PowerShell preferred):
+```
+choco install -y mozillabuild python2 visualstudio2022buildtools visualstudio2022-workload-vctools
+```
+3) Create a Python venv with system site packages:
+```
+C:\Python311\python.exe -m venv .venv --system-site-packages
+.\.venv\Scripts\activate
+```
+4) Run build from MozillaBuild shell:
+```
+C:\mozilla-build\start-shell.bat
+git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
+git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
+cd gecko-dev
+git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
+patch -p1 < bluegriffon/config/gecko_dev_content.patch
+patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+cp bluegriffon/config/mozconfig.win .mozconfig
+./mach build
+```
+5) Do not uninstall automatically; provide cleanup instructions only if asked.
