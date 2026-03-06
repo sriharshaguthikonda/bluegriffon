@@ -11,7 +11,12 @@ gather logs, and iterate until the Windows x64 build succeeds.
     (Invoke-RestMethod -Headers @{ 'User-Agent'='codex' } -Uri $uri).workflow_runs |
       Select-Object -First 5 id,status,conclusion,head_branch,head_sha,html_url,created_at
     ```
-- If the latest run is `in_progress`, poll every 10-20 seconds until it becomes `completed`.
+- If the latest run is `in_progress`, poll until it becomes `completed`:
+  - Use longer waits for this repo’s build times, e.g.:
+    ```
+    Start-Sleep -Seconds 100
+    ```
+  - If the build is in the `Build BlueGriffon executable` step, assume it can take longer; increase sleep accordingly.
 - If the run is `completed` with `failure`, proceed to "Logs and failure triage".
 
 ## Get job id and step status
