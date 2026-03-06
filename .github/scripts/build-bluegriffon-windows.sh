@@ -178,23 +178,40 @@ extract_pkg_tar() {
 download_msys2_pkg() {
   local pkg="$1"
   local url=""
-  local page=""
-  page="$(curl -fsSL --compressed "https://packages.msys2.org/package/$pkg" || true)"
-  if [ -z "$page" ]; then
-    echo "WARNING: Could not fetch MSYS2 package page for $pkg"
+  local py3="/c/mozilla-build/python3/python.exe"
+  if [ ! -x "$py3" ]; then
+    py3="$(command -v python3 || true)"
+  fi
+  if [ -z "$py3" ]; then
+    echo "WARNING: python3 not found; cannot query MSYS2 API for $pkg"
     return 1
   fi
-  page="$(printf '%s' "$page" | sed 's/\\\\//g')"
-  url="$(printf '%s' "$page" | grep -Eo 'https?://mirror.msys2.org[^\" ]+\\.pkg\\.tar\\.zst' | head -n1 || true)"
+  url="$("$py3" - "$pkg" <<'PY'
+import json, sys, urllib.request
+pkg = sys.argv[1]
+with urllib.request.urlopen(f"https://packages.msys2.org/api/search?query={pkg}") as f:
+    data = json.load(f)
+exact = (data.get("results") or {}).get("exact") or {}
+if exact.get("name") != pkg:
+    print("")
+    sys.exit(0)
+repo = (exact.get("repos") or [None])[0]
+arch = (exact.get("arches") or [None])[0]
+ver = exact.get("version")
+if not (repo and arch and ver):
+    print("")
+    sys.exit(0)
+if repo == "msys":
+    base = "https://mirror.msys2.org/msys/x86_64"
+elif repo.startswith("mingw"):
+    base = "https://mirror.msys2.org/mingw/x86_64"
+else:
+    base = f"https://mirror.msys2.org/{repo}/x86_64"
+print(f"{base}/{pkg}-{ver}-{arch}.pkg.tar.zst")
+PY
+)"
   if [ -z "$url" ]; then
-    local rel=""
-    rel="$(printf '%s' "$page" | grep -Eo 'mirror.msys2.org[^\" ]+\\.pkg\\.tar\\.zst' | head -n1 || true)"
-    if [ -n "$rel" ]; then
-      url="https://$rel"
-    fi
-  fi
-  if [ -z "$url" ]; then
-    echo "WARNING: Could not resolve MSYS2 package URL for $pkg"
+    echo "WARNING: Could not resolve MSYS2 package URL for $pkg via API"
     return 1
   fi
   local pkg_file="$pkg_cache/$(basename "$url")"
