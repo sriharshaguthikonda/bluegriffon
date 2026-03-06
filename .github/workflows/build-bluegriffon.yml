@@ -11,6 +11,8 @@ jobs:
   build-windows:
     if: github.ref != 'refs/heads/ci-logs'
     runs-on: windows-2022
+    env:
+      USE_PY311: ${{ github.ref == 'refs/heads/py311' && '1' || '0' }}
     steps:
       - name: Checkout BlueGriffon
         uses: actions/checkout@v4
@@ -29,6 +31,7 @@ jobs:
       - name: Install Python 2.7
         shell: powershell
         continue-on-error: true
+        if: env.USE_PY311 != '1'
         run: |
           $py2Installed = $false
           Write-Host "Attempting python2 install via Chocolatey..."
@@ -84,6 +87,7 @@ jobs:
           dir "C:\mozilla-build" >> "%LOG%" 2>&1
           echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
           echo PYTHON2_EXE: %PYTHON2_EXE% >> "%LOG%"
+          echo USE_PY311: %USE_PY311% >> "%LOG%"
           echo PATH: %PATH% >> "%LOG%"
           where git >> "%LOG%" 2>&1
           where bash >> "%LOG%" 2>&1

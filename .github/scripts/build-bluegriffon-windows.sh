@@ -34,31 +34,37 @@ echo "Listing .github/scripts:"
 ls -la .github/scripts || true
 
 # Ensure "python" is executable for mach (prefer Python 2.7 for this Gecko revision).
+USE_PY311="${USE_PY311:-0}"
+echo "USE_PY311: $USE_PY311"
 echo "PYTHON2_EXE (env): ${PYTHON2_EXE:-}"
 echo "python2.7 on PATH: $(command -v python2.7 || true)"
 echo "python2 on PATH: $(command -v python2 || true)"
 
 PYTHON_EXE_CAND=""
-if [ -n "${PYTHON2_EXE:-}" ]; then
-  PYTHON_EXE_CAND="$PYTHON2_EXE"
-fi
-if [ -z "$PYTHON_EXE_CAND" ]; then
-  for p in /c/Python27/python.exe /c/Python27/python2.exe /c/Python27/python2.7.exe; do
-    if [ -x "$p" ]; then
-      PYTHON_EXE_CAND="$p"
-      break
-    fi
-  done
-fi
-if [ -z "$PYTHON_EXE_CAND" ]; then
-  if command -v python2.7 >/dev/null 2>&1; then
-    PYTHON_EXE_CAND="$(command -v python2.7)"
-  elif command -v python2 >/dev/null 2>&1; then
-    PYTHON_EXE_CAND="$(command -v python2)"
-  fi
-fi
-if [ -z "$PYTHON_EXE_CAND" ]; then
+if [ "$USE_PY311" = "1" ]; then
   PYTHON_EXE_CAND="${PYTHON_EXE:-/c/mozilla-build/python3/python.exe}"
+else
+  if [ -n "${PYTHON2_EXE:-}" ]; then
+    PYTHON_EXE_CAND="$PYTHON2_EXE"
+  fi
+  if [ -z "$PYTHON_EXE_CAND" ]; then
+    for p in /c/Python27/python.exe /c/Python27/python2.exe /c/Python27/python2.7.exe; do
+      if [ -x "$p" ]; then
+        PYTHON_EXE_CAND="$p"
+        break
+      fi
+    done
+  fi
+  if [ -z "$PYTHON_EXE_CAND" ]; then
+    if command -v python2.7 >/dev/null 2>&1; then
+      PYTHON_EXE_CAND="$(command -v python2.7)"
+    elif command -v python2 >/dev/null 2>&1; then
+      PYTHON_EXE_CAND="$(command -v python2)"
+    fi
+  fi
+  if [ -z "$PYTHON_EXE_CAND" ]; then
+    PYTHON_EXE_CAND="${PYTHON_EXE:-/c/mozilla-build/python3/python.exe}"
+  fi
 fi
 if [[ "$PYTHON_EXE_CAND" =~ ^[A-Za-z]: ]]; then
   PYTHON_EXE_CAND="$(cygpath -u "$PYTHON_EXE_CAND" 2>/dev/null || true)"
@@ -88,6 +94,32 @@ cd gecko-dev
 git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+
+if [ "${USE_PY311:-0}" = "1" ]; then
+  echo "Patching mach_bootstrap.py for Python 3 compatibility"
+  python - <<'PY'
+import io
+import os
+
+path = os.path.join("build", "mach_bootstrap.py")
+try:
+    with io.open(path, "r", encoding="utf-8") as f:
+        data = f.read()
+except IOError as exc:
+    print("Failed to read %s: %s" % (path, exc))
+    raise SystemExit(1)
+
+needle = "import __builtin__"
+if needle in data and "builtins as __builtin__" not in data:
+    replacement = "try:\\n    import __builtin__\\nexcept ImportError:\\n    import builtins as __builtin__"
+    data = data.replace(needle, replacement, 1)
+    with io.open(path, "w", encoding="utf-8") as f:
+        f.write(data)
+    print("Patched %s" % path)
+else:
+    print("No patch needed in %s" % path)
+PY
+fi
 
 cp bluegriffon/config/mozconfig.win .mozconfig
 ./mach build
