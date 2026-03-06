@@ -129,6 +129,8 @@ jobs:
           set "BUILD_WORKDIR=%GITHUB_WORKSPACE%"
           set "CHERE_INVOKING=1"
           set "MSYSTEM=MINGW64"
+          set "MSYS2_PATH_TYPE=inherit"
+          echo MSYS2_PATH_TYPE: %MSYS2_PATH_TYPE% >> "%LOG%"
           "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
           set "ERR=%ERRORLEVEL%"
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"

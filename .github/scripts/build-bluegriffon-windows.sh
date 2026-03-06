@@ -73,13 +73,17 @@ EOF
   chmod +x "$shim_dir/python"
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
-  export PYTHON="$PYTHON_EXE_CAND"
+export PYTHON="$PYTHON_EXE_CAND"
   echo "Using python: $PYTHON_EXE_CAND"
 else
   echo "WARNING: Python executable not found; mach may fail."
 fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
+
+echo "cl on PATH: $(command -v cl || true)"
+echo "clang-cl on PATH: $(command -v clang-cl || true)"
+echo "gcc on PATH: $(command -v gcc || true)"
 
 echo "make on PATH: $(command -v make || true)"
 echo "mozmake on PATH: $(command -v mozmake || true)"
