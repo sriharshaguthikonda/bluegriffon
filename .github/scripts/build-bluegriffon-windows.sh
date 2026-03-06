@@ -72,14 +72,26 @@ exec "$PYTHON_EXE_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/python"
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
-  export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
-export PYTHON="$PYTHON_EXE_CAND"
+export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
+  export PYTHON="$PYTHON_EXE_CAND"
   echo "Using python: $PYTHON_EXE_CAND"
 else
   echo "WARNING: Python executable not found; mach may fail."
 fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
+
+if command -v pkg-config >/dev/null 2>&1; then
+  PKG_CONFIG="$(command -v pkg-config)"
+  case "$PKG_CONFIG" in
+    /c/*)
+      export PATH="/c/mozilla-build/msys2/usr/bin:$PATH"
+      echo "Adjusted PATH for pkg-config: /c/mozilla-build/msys2/usr/bin"
+      ;;
+  esac
+  echo "pkg-config: $PKG_CONFIG"
+  pkg-config --version || true
+fi
 
 echo "cl on PATH: $(command -v cl || true)"
 echo "clang-cl on PATH: $(command -v clang-cl || true)"
@@ -124,6 +136,7 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
 else
   echo "WARNING: make/mozmake not found; mach may fail."
 fi
+echo "PATH (after make selection): $PATH"
 
 # Avoid CRLF checkouts that break client.mk (force LF).
 git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
