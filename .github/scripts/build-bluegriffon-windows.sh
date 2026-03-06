@@ -156,20 +156,29 @@ mkdir -p "$pkg_cache" "$pkg_root"
 extract_pkg_tar() {
   local pkg_file="$1"
   local out_dir="$2"
-  if tar --help 2>/dev/null | grep -qi zstd; then
-    tar --zstd -xf "$pkg_file" -C "$out_dir" || return 1
+  if [ -x /c/mozilla-build/bin/7z.exe ]; then
+    /c/mozilla-build/bin/7z.exe x -y "$pkg_file" -o"$pkg_cache" >/dev/null || return 1
+    local tmp_tar="$pkg_cache/$(basename "$pkg_file" .zst)"
+    /c/mozilla-build/bin/7z.exe x -y "$tmp_tar" -o"$out_dir" >/dev/null || return 1
+    return 0
+  fi
+  local win_tar="/c/Windows/System32/tar.exe"
+  if [ -x "$win_tar" ] && "$win_tar" --help 2>/dev/null | grep -qi zstd; then
+    "$win_tar" --zstd -xf "$pkg_file" -C "$out_dir" || return 1
     return 0
   fi
   if command -v zstd >/dev/null 2>&1; then
     local tmp_tar="$pkg_cache/$(basename "$pkg_file" .zst)"
     zstd -d -f -o "$tmp_tar" "$pkg_file" || return 1
-    tar -xf "$tmp_tar" -C "$out_dir" || return 1
+    if [ -x "$win_tar" ]; then
+      "$win_tar" -xf "$tmp_tar" -C "$out_dir" || return 1
+    else
+      tar -xf "$tmp_tar" -C "$out_dir" || return 1
+    fi
     return 0
   fi
-  if [ -x /c/mozilla-build/bin/7z.exe ]; then
-    /c/mozilla-build/bin/7z.exe x -y "$pkg_file" -o"$pkg_cache" >/dev/null || return 1
-    local tmp_tar="$pkg_cache/$(basename "$pkg_file" .zst)"
-    /c/mozilla-build/bin/7z.exe x -y "$tmp_tar" -o"$out_dir" >/dev/null || return 1
+  if tar --help 2>/dev/null | grep -qi zstd; then
+    tar --zstd -xf "$pkg_file" -C "$out_dir" || return 1
     return 0
   fi
   return 1
