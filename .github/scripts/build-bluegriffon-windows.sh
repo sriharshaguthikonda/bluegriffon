@@ -351,11 +351,6 @@ echo "cl on PATH: $(command -v cl || true)"
 echo "clang-cl on PATH: $(command -v clang-cl || true)"
 echo "gcc on PATH: $(command -v gcc || true)"
 echo "link on PATH: $(command -v link || true)"
-if [ -n "$msvc_bin_u" ] && [ -x "$msvc_bin_u/link.exe" ]; then
-  export LINK="$msvc_bin_u/link.exe"
-  export LD="$msvc_bin_u/link.exe"
-  echo "LINK forced to: $LINK"
-fi
 
 echo "make on PATH: $(command -v make || true)"
 echo "mozmake on PATH: $(command -v mozmake || true)"
