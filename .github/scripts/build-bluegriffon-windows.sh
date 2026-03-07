@@ -323,7 +323,6 @@ if [ -n "$AUTOCONF_CAND" ]; then
   if [[ "$AUTOCONF_CAND" == "$pkg_root/"* ]] && [ -d "$pkg_root/usr/share/autoconf-2.13" ]; then
     AUTOCONF_MACRODIR="$pkg_root/usr/share/autoconf-2.13"
   fi
-  export AUTOCONF="$AUTOCONF_CAND"
   cat >"$shim_dir/autoconf-2.13" <<EOF
 #!/usr/bin/env bash
 if [ -n "$AUTOCONF_MACRODIR" ]; then
@@ -340,7 +339,9 @@ fi
 exec "$AUTOCONF_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/autoconf213"
+  export AUTOCONF="$shim_dir/autoconf-2.13"
   echo "Using autoconf: $AUTOCONF_CAND"
+  echo "AUTOCONF env: $AUTOCONF"
   if [ -n "$AUTOCONF_MACRODIR" ]; then
     echo "Using AC_MACRODIR: $AUTOCONF_MACRODIR"
   fi
