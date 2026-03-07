@@ -482,6 +482,9 @@ patch -p1 < bluegriffon/config/gecko_dev_idl.patch
 patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 
 cp bluegriffon/config/mozconfig.win .mozconfig
+# Keep YASM visible to old-configure sub-configures (e.g. js/src).
+echo "mk_add_options YASM=$YASM" >> .mozconfig
+echo "Injected into .mozconfig: mk_add_options YASM=$YASM"
 objdir_line="$(awk -F= '/^mk_add_options MOZ_OBJDIR=/{print $2}' .mozconfig | tail -1 | tr -d '\"')"
 objdir="${objdir_line//@TOPSRCDIR@/$PWD}"
 if [ -z "$objdir" ]; then
