@@ -184,6 +184,27 @@ index ffccfd590ef4..fa2ed3060abc 100644
 +            done
 +        fi
 +        if test -z "$YASM" -a -z "$GNU_AS" -a "$COMPILE_ENVIRONMENT"; then
-             AC_MSG_ERROR([Building ICU requires either yasm or a GNU assembler. If you do not have either of those available for this platform you must use --without-intl-api])
+         AC_MSG_ERROR([Building ICU requires either yasm or a GNU assembler. If you do not have either of those available for this platform you must use --without-intl-api])
          fi
          dnl We build ICU as a static library.
+diff --git a/js/src/old-configure b/js/src/old-configure
+index 6ce08e9c8bf4..5f0a31508c3c 100644
+--- a/js/src/old-configure
++++ b/js/src/old-configure
+@@ -9658,7 +9658,15 @@ EOF
+ 
+ 
+     if test -z "$MOZ_SYSTEM_ICU"; then
+-        if test -z "$YASM" -a -z "$GNU_AS" -a "$COMPILE_ENVIRONMENT"; then
++        if test -z "$YASM"; then
++            for _bg_y in "$BLUEGRIFFON_YASM" "/c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe" "/c/mozilla-build/bin/yasm.exe" "/c/mozilla-build/msys2/usr/bin/yasm.exe"; do
++                if test -n "$_bg_y" -a -x "$_bg_y"; then
++                    YASM="$_bg_y"
++                    break
++                fi
++            done
++        fi
++        if test -z "$YASM" -a -z "$GNU_AS" -a "$COMPILE_ENVIRONMENT"; then
+             { echo "configure: error: Building ICU requires either yasm or a GNU assembler. If you do not have either of those available for this platform you must use --without-intl-api" 1>&2; echo "configure: error: Building ICU requires either yasm or a GNU assembler. If you do not have either of those available for this platform you must use --without-intl-api" 1>&5; exit 1; }
+         fi
+                 cat >> confdefs.pytmp <<\EOF
