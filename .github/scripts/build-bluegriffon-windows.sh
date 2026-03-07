@@ -405,8 +405,11 @@ if [ -n "$YASM_CAND" ]; then
   yasm_dir="$(dirname "$YASM_CAND")"
   PATH="$(sanitize_path "$yasm_dir:$PATH")"
   export PATH
-  export YASM="$YASM_CAND"
+  cp -f "$YASM_CAND" "$shim_dir/yasm.exe"
+  chmod +x "$shim_dir/yasm.exe" || true
+  export YASM="$shim_dir/yasm.exe"
   echo "Using yasm: $YASM_CAND"
+  echo "YASM env: $YASM"
 else
   echo "ERROR: No working yasm binary found."
   exit 13
