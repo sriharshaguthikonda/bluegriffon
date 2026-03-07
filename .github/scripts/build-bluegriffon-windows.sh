@@ -416,6 +416,11 @@ if [ -n "$YASM_CAND" ]; then
   cp -f "$yasm_real" "$shim_dir/yasm"
   chmod +x "$shim_dir/yasm" || true
   chmod +x "$shim_dir/yasm.exe" || true
+  if [ -d /c/mozilla-build/bin ]; then
+    cp -f "$yasm_real" /c/mozilla-build/bin/yasm.exe || true
+    cp -f "$yasm_real" /c/mozilla-build/bin/yasm || true
+    chmod +x /c/mozilla-build/bin/yasm /c/mozilla-build/bin/yasm.exe || true
+  fi
   export YASM="$shim_dir/yasm.exe"
   echo "Using yasm: $yasm_real"
   echo "YASM env: $YASM"
