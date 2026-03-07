@@ -388,12 +388,13 @@ EOF
 }
 
 YASM_CAND=""
-for p in /c/ProgramData/chocolatey/bin/yasm.exe \
-         /c/ProgramData/chocolatey/bin/yasm \
+for p in /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe \
          /c/mozilla-build/msys2/mingw64/bin/yasm.exe \
          /c/mozilla-build/msys2/usr/bin/yasm.exe \
          "$pkg_root/mingw64/bin/yasm.exe" \
          "$pkg_root/usr/bin/yasm.exe" \
+         /c/ProgramData/chocolatey/bin/yasm.exe \
+         /c/ProgramData/chocolatey/bin/yasm \
          "$(command -v yasm 2>/dev/null || true)"; do
   [ -n "$p" ] || continue
   if yasm_smoke_test "$p"; then
@@ -402,13 +403,21 @@ for p in /c/ProgramData/chocolatey/bin/yasm.exe \
   fi
 done
 if [ -n "$YASM_CAND" ]; then
-  yasm_dir="$(dirname "$YASM_CAND")"
+  yasm_real="$YASM_CAND"
+  if [[ "$YASM_CAND" == /c/ProgramData/chocolatey/bin/* ]]; then
+    if [ -x /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe ] && yasm_smoke_test /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe; then
+      yasm_real="/c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe"
+    fi
+  fi
+  yasm_dir="$(dirname "$yasm_real")"
   PATH="$(sanitize_path "$yasm_dir:$PATH")"
   export PATH
-  cp -f "$YASM_CAND" "$shim_dir/yasm.exe"
+  cp -f "$yasm_real" "$shim_dir/yasm.exe"
+  cp -f "$yasm_real" "$shim_dir/yasm"
+  chmod +x "$shim_dir/yasm" || true
   chmod +x "$shim_dir/yasm.exe" || true
   export YASM="$shim_dir/yasm.exe"
-  echo "Using yasm: $YASM_CAND"
+  echo "Using yasm: $yasm_real"
   echo "YASM env: $YASM"
 else
   echo "ERROR: No working yasm binary found."
