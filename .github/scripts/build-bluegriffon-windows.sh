@@ -307,6 +307,7 @@ pkgconf --version || true
 echo "autoconf-2.13 on PATH: $(command -v autoconf-2.13 || true)"
 echo "autoconf213 on PATH: $(command -v autoconf213 || true)"
 AUTOCONF_CAND=""
+AUTOCONF_MACRODIR=""
 for p in /c/mozilla-build/msys2/usr/bin/autoconf-2.13 \
          /usr/bin/autoconf-2.13 \
          /c/mozilla-build/msys2/usr/bin/autoconf213 \
@@ -319,18 +320,30 @@ for p in /c/mozilla-build/msys2/usr/bin/autoconf-2.13 \
   fi
 done
 if [ -n "$AUTOCONF_CAND" ]; then
+  if [[ "$AUTOCONF_CAND" == "$pkg_root/"* ]] && [ -d "$pkg_root/usr/share/autoconf-2.13" ]; then
+    AUTOCONF_MACRODIR="$pkg_root/usr/share/autoconf-2.13"
+  fi
   export AUTOCONF="$AUTOCONF_CAND"
   cat >"$shim_dir/autoconf-2.13" <<EOF
 #!/usr/bin/env bash
+if [ -n "$AUTOCONF_MACRODIR" ]; then
+  export AC_MACRODIR="$AUTOCONF_MACRODIR"
+fi
 exec "$AUTOCONF_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/autoconf-2.13"
   cat >"$shim_dir/autoconf213" <<EOF
 #!/usr/bin/env bash
+if [ -n "$AUTOCONF_MACRODIR" ]; then
+  export AC_MACRODIR="$AUTOCONF_MACRODIR"
+fi
 exec "$AUTOCONF_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/autoconf213"
   echo "Using autoconf: $AUTOCONF_CAND"
+  if [ -n "$AUTOCONF_MACRODIR" ]; then
+    echo "Using AC_MACRODIR: $AUTOCONF_MACRODIR"
+  fi
 fi
 
 echo "cl on PATH: $(command -v cl || true)"
