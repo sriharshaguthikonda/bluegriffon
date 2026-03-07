@@ -166,3 +166,24 @@ index 9e7e8beee93c..b0637f7162f1 100644
  
  ifeq (Linux,$(OS_ARCH))
  LOCAL_CHECKS += ; test "$$($(TOOLCHAIN_PREFIX)readelf -l $1 | awk '$1 == "LOAD" { t += 1 } END { print t }')" -le 1 && echo "Only one PT_LOAD segment" && exit 1 || exit 0
+diff --git a/build/autoconf/icu.m4 b/build/autoconf/icu.m4
+index ffccfd590ef4..fa2ed3060abc 100644
+--- a/build/autoconf/icu.m4
++++ b/build/autoconf/icu.m4
+@@ -104,7 +104,15 @@ if test -n "$USE_ICU"; then
+     AC_DEFINE(U_USING_ICU_NAMESPACE,0)
+ 
+     if test -z "$MOZ_SYSTEM_ICU"; then
+-        if test -z "$YASM" -a -z "$GNU_AS" -a "$COMPILE_ENVIRONMENT"; then
++        if test -z "$YASM"; then
++            for _bg_y in "$BLUEGRIFFON_YASM" "/c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe" "/c/mozilla-build/bin/yasm.exe" "/c/mozilla-build/msys2/usr/bin/yasm.exe"; do
++                if test -n "$_bg_y" -a -x "$_bg_y"; then
++                    YASM="$_bg_y"
++                    break
++                fi
++            done
++        fi
++        if test -z "$YASM" -a -z "$GNU_AS" -a "$COMPILE_ENVIRONMENT"; then
+             AC_MSG_ERROR([Building ICU requires either yasm or a GNU assembler. If you do not have either of those available for this platform you must use --without-intl-api])
+         fi
+         dnl We build ICU as a static library.
