@@ -1,5 +1,3 @@
-++ grep -qi '^/c/Strawberry'
-++ [[ ::/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/c/mozilla-build/msys2/usr/bin:/c/mozilla-build/msys2/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7: != *\:\/\c\/\P\r\o\g\r\a\m\ \F\i\l\e\s\/\M\i\c\r\o\s\o\f\t\/\W\e\b\ \P\l\a\t\f\o\r\m\ \I\n\s\t\a\l\l\e\r\:* ]]
 ++ out+=("$p")
 ++ seen=':/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/c/mozilla-build/msys2/usr/bin:/c/mozilla-build/msys2/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer'
 ++ for p in "${parts[@]}"
@@ -1175,6 +1173,10 @@ zip on PATH: /c/mozilla-build/bin/zip
 + cp -f /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe /d/a/bluegriffon/bluegriffon/.build-tools/yasm
 + chmod +x /d/a/bluegriffon/bluegriffon/.build-tools/yasm
 + chmod +x /d/a/bluegriffon/bluegriffon/.build-tools/yasm.exe
++ '[' -d /c/mozilla-build/bin ']'
++ cp -f /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe /c/mozilla-build/bin/yasm.exe
++ cp -f /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe /c/mozilla-build/bin/yasm
++ chmod +x /c/mozilla-build/bin/yasm /c/mozilla-build/bin/yasm.exe
 + export YASM=/d/a/bluegriffon/bluegriffon/.build-tools/yasm.exe
 + YASM=/d/a/bluegriffon/bluegriffon/.build-tools/yasm.exe
 + echo 'Using yasm: /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe'
@@ -1208,195 +1210,193 @@ Using make: /c/mingw64/bin/make
 PATH (after make selection): /c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/c/mozilla-build/msys2/usr/bin:/c/mozilla-build/msys2/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin
 + git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
 Cloning into 'gecko-dev'...
-Updating files:   1% (4588/387841)
+Updating files:   1% (4790/387841)
 Updating files:   2% (7757/387841)
-Updating files:   2% (9668/387841)
+Updating files:   2% (9930/387841)
 Updating files:   3% (11636/387841)
-Updating files:   3% (14142/387841)
+Updating files:   3% (14499/387841)
 Updating files:   4% (15514/387841)
-Updating files:   4% (18971/387841)
+Updating files:   4% (19327/387841)
 Updating files:   5% (19393/387841)
 Updating files:   6% (23271/387841)
-Updating files:   6% (24909/387841)
+Updating files:   6% (24560/387841)
 Updating files:   7% (27149/387841)
-Updating files:   7% (30119/387841)
+Updating files:   7% (30574/387841)
 Updating files:   8% (31028/387841)
 Updating files:   9% (34906/387841)
-Updating files:   9% (35875/387841)
+Updating files:   9% (36135/387841)
 Updating files:  10% (38785/387841)
-Updating files:  10% (40852/387841)
+Updating files:  10% (40676/387841)
 Updating files:  11% (42663/387841)
-Updating files:  11% (45818/387841)
+Updating files:  11% (45067/387841)
 Updating files:  12% (46541/387841)
-Updating files:  12% (50117/387841)
 Updating files:  13% (50420/387841)
+Updating files:  13% (50487/387841)
 Updating files:  14% (54298/387841)
-Updating files:  14% (55895/387841)
+Updating files:  14% (55722/387841)
 Updating files:  15% (58177/387841)
-Updating files:  15% (59922/387841)
+Updating files:  15% (59525/387841)
 Updating files:  16% (62055/387841)
-Updating files:  16% (63987/387841)
+Updating files:  16% (64542/387841)
 Updating files:  17% (65933/387841)
-Updating files:  17% (68175/387841)
+Updating files:  17% (68200/387841)
 Updating files:  18% (69812/387841)
-Updating files:  18% (72107/387841)
+Updating files:  18% (71732/387841)
 Updating files:  19% (73690/387841)
+Updating files:  19% (77208/387841)
 Updating files:  20% (77569/387841)
-Updating files:  20% (78051/387841)
 Updating files:  21% (81447/387841)
-Updating files:  21% (82817/387841)
+Updating files:  21% (83508/387841)
 Updating files:  22% (85326/387841)
-Updating files:  22% (87826/387841)
+Updating files:  22% (88306/387841)
 Updating files:  23% (89204/387841)
 Updating files:  24% (93082/387841)
-Updating files:  24% (94633/387841)
+Updating files:  24% (93379/387841)
 Updating files:  25% (96961/387841)
-Updating files:  25% (100702/387841)
+Updating files:  25% (100803/387841)
 Updating files:  26% (100839/387841)
 Updating files:  27% (104718/387841)
-Updating files:  27% (105929/387841)
+Updating files:  27% (106541/387841)
 Updating files:  28% (108596/387841)
 Updating files:  29% (112474/387841)
-Updating files:  29% (112774/387841)
+Updating files:  29% (112638/387841)
 Updating files:  30% (116353/387841)
-Updating files:  30% (118741/387841)
+Updating files:  30% (118402/387841)
 Updating files:  31% (120231/387841)
 Updating files:  32% (124110/387841)
-Updating files:  32% (125124/387841)
+Updating files:  32% (124806/387841)
 Updating files:  33% (127988/387841)
-Updating files:  33% (131603/387841)
+Updating files:  33% (131366/387841)
 Updating files:  34% (131866/387841)
 Updating files:  35% (135745/387841)
-Updating files:  35% (137964/387841)
+Updating files:  35% (137525/387841)
 Updating files:  36% (139623/387841)
-Updating files:  36% (143270/387841)
+Updating files:  36% (143021/387841)
 Updating files:  37% (143502/387841)
 Updating files:  38% (147380/387841)
-Updating files:  38% (149554/387841)
+Updating files:  38% (148863/387841)
 Updating files:  39% (151258/387841)
 Updating files:  40% (155137/387841)
-Updating files:  40% (155597/387841)
+Updating files:  40% (155469/387841)
 Updating files:  41% (159015/387841)
+Updating files:  41% (160765/387841)
 Updating files:  42% (162894/387841)
-Updating files:  42% (163245/387841)
 Updating files:  43% (166772/387841)
-Updating files:  43% (167186/387841)
-Updating files:  43% (169891/387841)
+Updating files:  43% (167231/387841)
+Updating files:  43% (168733/387841)
 Updating files:  44% (170651/387841)
-Updating files:  44% (173550/387841)
+Updating files:  44% (171564/387841)
 Updating files:  45% (174529/387841)
-Updating files:  45% (175421/387841)
-Updating files:  45% (177994/387841)
+Updating files:  45% (175422/387841)
 Updating files:  46% (178407/387841)
-Updating files:  46% (181982/387841)
+Updating files:  46% (179208/387841)
+Updating files:  46% (181359/387841)
 Updating files:  47% (182286/387841)
-Updating files:  47% (185264/387841)
+Updating files:  47% (185293/387841)
 Updating files:  48% (186164/387841)
 Updating files:  49% (190043/387841)
 Updating files:  49% (190117/387841)
 Updating files:  50% (193921/387841)
-Updating files:  50% (194572/387841)
-Updating files:  50% (196983/387841)
+Updating files:  50% (194777/387841)
+Updating files:  50% (196982/387841)
 Updating files:  51% (197799/387841)
-Updating files:  51% (199226/387841)
-Updating files:  51% (201611/387841)
+Updating files:  51% (198997/387841)
 Updating files:  52% (201678/387841)
+Updating files:  52% (202223/387841)
+Updating files:  52% (204889/387841)
 Updating files:  53% (205556/387841)
-Updating files:  53% (206161/387841)
 Updating files:  54% (209435/387841)
-Updating files:  54% (211460/387841)
+Updating files:  54% (211114/387841)
 Updating files:  55% (213313/387841)
-Updating files:  55% (217145/387841)
 Updating files:  56% (217191/387841)
+Updating files:  56% (217506/387841)
 Updating files:  57% (221070/387841)
-Updating files:  57% (221916/387841)
+Updating files:  57% (222604/387841)
 Updating files:  58% (224948/387841)
+Updating files:  58% (228086/387841)
 Updating files:  59% (228827/387841)
-Updating files:  59% (228962/387841)
-Updating files:  59% (232017/387841)
+Updating files:  59% (231929/387841)
 Updating files:  60% (232705/387841)
 Updating files:  61% (236584/387841)
-Updating files:  61% (237973/387841)
+Updating files:  61% (238723/387841)
 Updating files:  62% (240462/387841)
 Updating files:  63% (244340/387841)
-Updating files:  63% (245010/387841)
+Updating files:  63% (245538/387841)
 Updating files:  64% (248219/387841)
-Updating files:  64% (251611/387841)
+Updating files:  64% (251812/387841)
 Updating files:  65% (252097/387841)
 Updating files:  66% (255976/387841)
-Updating files:  66% (257788/387841)
+Updating files:  66% (257634/387841)
 Updating files:  67% (259854/387841)
-Updating files:  67% (263199/387841)
+Updating files:  67% (263040/387841)
 Updating files:  68% (263732/387841)
 Updating files:  69% (267611/387841)
-Updating files:  69% (270167/387841)
+Updating files:  69% (269729/387841)
 Updating files:  70% (271489/387841)
 Updating files:  71% (275368/387841)
-Updating files:  71% (276923/387841)
+Updating files:  71% (276411/387841)
 Updating files:  72% (279246/387841)
 Updating files:  73% (283124/387841)
-Updating files:  73% (283240/387841)
+Updating files:  73% (283306/387841)
 Updating files:  74% (287003/387841)
-Updating files:  74% (289298/387841)
+Updating files:  74% (289019/387841)
 Updating files:  75% (290881/387841)
+Updating files:  75% (294610/387841)
 Updating files:  76% (294760/387841)
-Updating files:  76% (295072/387841)
 Updating files:  77% (298638/387841)
-Updating files:  77% (300274/387841)
+Updating files:  77% (301014/387841)
 Updating files:  78% (302516/387841)
-Updating files:  78% (306263/387841)
 Updating files:  79% (306395/387841)
+Updating files:  79% (306652/387841)
 Updating files:  80% (310273/387841)
-Updating files:  80% (311695/387841)
+Updating files:  80% (311472/387841)
 Updating files:  81% (314152/387841)
-Updating files:  81% (316023/387841)
+Updating files:  81% (315833/387841)
 Updating files:  82% (318030/387841)
-Updating files:  82% (321076/387841)
+Updating files:  82% (319739/387841)
 Updating files:  83% (321909/387841)
-Updating files:  83% (323221/387841)
+Updating files:  83% (321929/387841)
+Updating files:  83% (324875/387841)
 Updating files:  84% (325787/387841)
-Updating files:  84% (326156/387841)
+Updating files:  84% (329077/387841)
 Updating files:  85% (329665/387841)
-Updating files:  85% (330183/387841)
 Updating files:  86% (333544/387841)
-Updating files:  86% (334309/387841)
-Updating files:  86% (337413/387841)
+Updating files:  86% (333628/387841)
+Updating files:  86% (336533/387841)
 Updating files:  87% (337422/387841)
-Updating files:  87% (339145/387841)
+Updating files:  87% (339557/387841)
 Updating files:  88% (341301/387841)
-Updating files:  88% (342883/387841)
+Updating files:  88% (343246/387841)
 Updating files:  89% (345179/387841)
-Updating files:  89% (347122/387841)
+Updating files:  89% (346327/387841)
 Updating files:  90% (349057/387841)
-Updating files:  90% (350810/387841)
+Updating files:  90% (350357/387841)
 Updating files:  91% (352936/387841)
-Updating files:  91% (355337/387841)
+Updating files:  91% (355386/387841)
 Updating files:  92% (356814/387841)
-Updating files:  92% (359030/387841)
+Updating files:  92% (358783/387841)
 Updating files:  93% (360693/387841)
-Updating files:  93% (361944/387841)
+Updating files:  93% (362248/387841)
 Updating files:  94% (364571/387841)
-Updating files:  94% (365198/387841)
+Updating files:  94% (366409/387841)
 Updating files:  95% (368449/387841)
-Updating files:  95% (369720/387841)
-Updating files:  95% (372205/387841)
+Updating files:  95% (369801/387841)
 Updating files:  96% (372328/387841)
-Updating files:  96% (374810/387841)
+Updating files:  96% (372586/387841)
+Updating files:  96% (375241/387841)
 Updating files:  97% (376206/387841)
-Updating files:  97% (378124/387841)
+Updating files:  97% (379021/387841)
 Updating files:  98% (380085/387841)
-Updating files:  98% (381580/387841)
+Updating files:  98% (381698/387841)
 Updating files:  99% (383963/387841)
-Updating files:  99% (385084/387841)
+Updating files:  99% (385485/387841)
 Updating files: 100% (387841/387841)
 Updating files: 100% (387841/387841), done.
 + git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
 Cloning into 'gecko-dev/bluegriffon'...
 warning: source repository is shallow, ignoring --local
 warning: --local is ignored
-Updating files:  31% (4727/15096)
-Updating files:  32% (4831/15096)
-Updating files:  33% (4982/15096)
+Updating files:  33% (5088/15096)
 Updating files:  34% (5133/15096)
 Updating files:  35% (5284/15096)
 Updating files:  36% (5435/15096)
@@ -1430,11 +1430,11 @@ Updating files:  63% (9511/15096)
 Updating files:  64% (9662/15096)
 Updating files:  65% (9813/15096)
 Updating files:  66% (9964/15096)
-Updating files:  66% (10114/15096)
 Updating files:  67% (10115/15096)
 Updating files:  68% (10266/15096)
 Updating files:  69% (10417/15096)
 Updating files:  70% (10568/15096)
+Updating files:  70% (10711/15096)
 Updating files:  71% (10719/15096)
 Updating files:  72% (10870/15096)
 Updating files:  73% (11021/15096)
@@ -1471,156 +1471,156 @@ Updating files: 100% (15096/15096), done.
 + git config core.eol lf
 ++ cat bluegriffon/config/gecko_dev_revision.txt
 + git reset --hard 042b84a
-Updating files:   3% (14760/422768)
+Updating files:   3% (16089/422768)
 Updating files:   4% (16911/422768)
 Updating files:   5% (21139/422768)
 Updating files:   6% (25367/422768)
+Updating files:   6% (29515/422768)
 Updating files:   7% (29594/422768)
-Updating files:   7% (31446/422768)
 Updating files:   8% (33822/422768)
 Updating files:   9% (38050/422768)
 Updating files:  10% (42277/422768)
 Updating files:  11% (46505/422768)
-Updating files:  11% (47103/422768)
+Updating files:  11% (47135/422768)
 Updating files:  12% (50733/422768)
 Updating files:  13% (54960/422768)
 Updating files:  14% (59188/422768)
-Updating files:  14% (60525/422768)
+Updating files:  14% (62808/422768)
 Updating files:  15% (63416/422768)
 Updating files:  16% (67643/422768)
 Updating files:  17% (71871/422768)
 Updating files:  18% (76099/422768)
-Updating files:  18% (77704/422768)
+Updating files:  18% (77619/422768)
 Updating files:  19% (80326/422768)
 Updating files:  20% (84554/422768)
 Updating files:  21% (88782/422768)
-Updating files:  21% (92463/422768)
+Updating files:  21% (92401/422768)
 Updating files:  22% (93009/422768)
 Updating files:  23% (97237/422768)
-Updating files:  23% (100025/422768)
+Updating files:  23% (99337/422768)
 Updating files:  24% (101465/422768)
 Updating files:  25% (105692/422768)
 Updating files:  26% (109920/422768)
-Updating files:  26% (112170/422768)
+Updating files:  26% (114010/422768)
 Updating files:  27% (114148/422768)
 Updating files:  28% (118376/422768)
 Updating files:  29% (122603/422768)
-Updating files:  29% (123391/422768)
 Updating files:  30% (126831/422768)
+Updating files:  30% (130547/422768)
 Updating files:  31% (131059/422768)
 Updating files:  32% (135286/422768)
 Updating files:  33% (139514/422768)
-Updating files:  33% (140084/422768)
 Updating files:  34% (143742/422768)
+Updating files:  34% (143989/422768)
 Updating files:  35% (147969/422768)
 Updating files:  36% (152197/422768)
-Updating files:  36% (155505/422768)
 Updating files:  37% (156425/422768)
 Updating files:  38% (160652/422768)
+Updating files:  38% (163256/422768)
 Updating files:  39% (164880/422768)
 Updating files:  40% (169108/422768)
-Updating files:  40% (171832/422768)
 Updating files:  41% (173335/422768)
 Updating files:  42% (177563/422768)
+Updating files:  42% (180904/422768)
 Updating files:  43% (181791/422768)
 Updating files:  44% (186018/422768)
 Updating files:  45% (190246/422768)
-Updating files:  45% (191418/422768)
 Updating files:  46% (194474/422768)
+Updating files:  46% (197764/422768)
 Updating files:  47% (198701/422768)
 Updating files:  48% (202929/422768)
 Updating files:  49% (207157/422768)
-Updating files:  49% (207392/422768)
 Updating files:  50% (211384/422768)
+Updating files:  50% (215493/422768)
 Updating files:  51% (215612/422768)
 Updating files:  52% (219840/422768)
 Updating files:  53% (224068/422768)
-Updating files:  53% (224738/422768)
 Updating files:  54% (228295/422768)
+Updating files:  54% (231188/422768)
 Updating files:  55% (232523/422768)
 Updating files:  56% (236751/422768)
-Updating files:  56% (239940/422768)
 Updating files:  57% (240978/422768)
 Updating files:  58% (245206/422768)
+Updating files:  58% (246647/422768)
 Updating files:  59% (249434/422768)
 Updating files:  60% (253661/422768)
-Updating files:  60% (255250/422768)
 Updating files:  61% (257889/422768)
+Updating files:  61% (261858/422768)
 Updating files:  62% (262117/422768)
 Updating files:  63% (266344/422768)
 Updating files:  64% (270572/422768)
-Updating files:  64% (271856/422768)
 Updating files:  65% (274800/422768)
+Updating files:  65% (278130/422768)
 Updating files:  66% (279027/422768)
-Updating files:  66% (283110/422768)
 Updating files:  67% (283255/422768)
-Updating files:  67% (285982/422768)
+Updating files:  67% (284510/422768)
 Updating files:  68% (287483/422768)
-Updating files:  68% (289432/422768)
+Updating files:  68% (287628/422768)
+Updating files:  68% (291473/422768)
 Updating files:  69% (291710/422768)
-Updating files:  69% (293759/422768)
+Updating files:  69% (295152/422768)
 Updating files:  70% (295938/422768)
-Updating files:  70% (296940/422768)
+Updating files:  70% (298824/422768)
 Updating files:  71% (300166/422768)
-Updating files:  71% (301148/422768)
+Updating files:  71% (302912/422768)
 Updating files:  72% (304393/422768)
-Updating files:  72% (305010/422768)
+Updating files:  72% (306144/422768)
 Updating files:  73% (308621/422768)
-Updating files:  73% (308853/422768)
+Updating files:  73% (310532/422768)
 Updating files:  74% (312849/422768)
-Updating files:  74% (312919/422768)
-Updating files:  74% (315553/422768)
+Updating files:  74% (314141/422768)
 Updating files:  75% (317076/422768)
-Updating files:  75% (319244/422768)
+Updating files:  75% (317584/422768)
+Updating files:  75% (320336/422768)
 Updating files:  76% (321304/422768)
-Updating files:  76% (322551/422768)
-Updating files:  76% (325085/422768)
+Updating files:  76% (323681/422768)
 Updating files:  77% (325532/422768)
+Updating files:  77% (328247/422768)
 Updating files:  78% (329760/422768)
-Updating files:  78% (330028/422768)
+Updating files:  78% (332721/422768)
 Updating files:  79% (333987/422768)
-Updating files:  79% (334929/422768)
+Updating files:  79% (337027/422768)
 Updating files:  80% (338215/422768)
-Updating files:  80% (339494/422768)
+Updating files:  80% (341331/422768)
 Updating files:  81% (342443/422768)
-Updating files:  81% (344296/422768)
 Updating files:  82% (346670/422768)
-Updating files:  82% (350641/422768)
+Updating files:  82% (347118/422768)
 Updating files:  83% (350898/422768)
-Updating files:  83% (354181/422768)
+Updating files:  83% (352817/422768)
 Updating files:  84% (355126/422768)
-Updating files:  84% (358159/422768)
+Updating files:  84% (356054/422768)
 Updating files:  85% (359353/422768)
+Updating files:  85% (361983/422768)
 Updating files:  86% (363581/422768)
-Updating files:  86% (363809/422768)
-Updating files:  86% (367411/422768)
+Updating files:  86% (365512/422768)
 Updating files:  87% (367809/422768)
+Updating files:  87% (369592/422768)
 Updating files:  88% (372036/422768)
-Updating files:  88% (372109/422768)
-Updating files:  88% (375775/422768)
+Updating files:  88% (373117/422768)
 Updating files:  89% (376264/422768)
-Updating files:  89% (379652/422768)
+Updating files:  89% (377218/422768)
+Updating files:  89% (379868/422768)
 Updating files:  90% (380492/422768)
-Updating files:  90% (382388/422768)
-Updating files:  90% (384506/422768)
+Updating files:  90% (382880/422768)
 Updating files:  91% (384719/422768)
-Updating files:  91% (387183/422768)
+Updating files:  91% (385331/422768)
+Updating files:  91% (388156/422768)
 Updating files:  92% (388947/422768)
-Updating files:  92% (390864/422768)
+Updating files:  92% (390985/422768)
 Updating files:  93% (393175/422768)
-Updating files:  93% (394303/422768)
+Updating files:  93% (395634/422768)
 Updating files:  94% (397402/422768)
-Updating files:  94% (399767/422768)
 Updating files:  95% (401630/422768)
-Updating files:  95% (404449/422768)
+Updating files:  95% (401770/422768)
 Updating files:  96% (405858/422768)
-Updating files:  96% (408919/422768)
+Updating files:  96% (406201/422768)
 Updating files:  97% (410085/422768)
-Updating files:  97% (413129/422768)
+Updating files:  97% (410628/422768)
 Updating files:  98% (414313/422768)
-Updating files:  98% (417242/422768)
+Updating files:  98% (414331/422768)
+Updating files:  98% (417992/422768)
 Updating files:  99% (418541/422768)
-Updating files:  99% (420746/422768)
+Updating files:  99% (421586/422768)
 Updating files: 100% (422768/422768)
 Updating files: 100% (422768/422768), done.
 HEAD is now at 042b84af6020 Bug 1313927 - Split no-root test from test_intersectionobservers.html into its own mochitest, so that we can skip that part on Android. r=jet
@@ -1759,219 +1759,219 @@ patching file toolkit/library/libxul.mk
 + set +e
 + ./mach build
 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/c/mozilla-build/msys2/usr/bin:/c/mozilla-build/msys2/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
- 0:00.88 C:\mingw64\bin\make.EXE -f client.mk MOZ_PARALLEL_BUILD=8 -s configure
- 0:01.28 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
- 0:01.97 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
- 0:02.72 Clobber not needed.
- 0:03.03 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
- 0:03.72 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
- 0:04.52 Generating D:/a/bluegriffon/bluegriffon/gecko-dev/configure
- 0:04.57 Generating D:/a/bluegriffon/bluegriffon/gecko-dev/js/src/configure
- 0:04.64 cd D:/a/bluegriffon/bluegriffon/gecko-dev/opt64
- 0:04.66 D:/a/bluegriffon/bluegriffon/gecko-dev/configure
- 0:04.74 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
- 0:05.00 Creating Python environment
- 0:07.63 New python executable in D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\python.exe
- 0:07.63 Installing setuptools, pip, wheel...done.
- 0:07.85 running build_ext
- 0:07.85 
- 0:07.85 building 'psutil._psutil_windows' extension
- 0:07.85 
- 0:07.85 error: Microsoft Visual C++ 9.0 is required. Get it from http://aka.ms/vcpython27
- 0:07.85 
- 0:07.85 
- 0:07.85 Error processing command. Ignoring because optional. (optional:setup.py:python/psutil:build_ext:--inplace)
- 0:07.85 D:\a\bluegriffon\bluegriffon\gecko-dev\python\mozbuild\mozbuild\virtualenv.py:376: UserWarning: Hacking environment to allow binary Python extensions to build. You can make this warning go away by installing Visual Studio 2008. You can download the Express Edition installer from http://go.microsoft.com/?linkid=7729279
- 0:07.85   warnings.warn('Hacking environment to allow binary Python '
- 0:07.85 Reexecuting in the virtualenv
- 0:08.19 Adding configure options from D:\a\bluegriffon\bluegriffon\gecko-dev\.mozconfig
- 0:08.19   --target=x86_64-pc-mingw32
- 0:08.19   --host=x86_64-pc-mingw32
- 0:08.19   --enable-optimize
- 0:08.19   --disable-debug
- 0:08.19   --enable-strip
- 0:08.19   --disable-tests
- 0:08.19   --disable-crashreporter
- 0:08.19   --enable-jemalloc
- 0:08.19   --disable-webrtc
- 0:08.19   --disable-dbm
- 0:08.19   --disable-updater
- 0:08.19   --disable-sandbox
- 0:08.19   --enable-chrome-format=jar
- 0:08.19   --enable-application=bluegriffon
- 0:08.19   BASH_ARGC=([0]="4")
- 0:08.19   BASH_ARGV=([0]="D:/a/bluegriffon/bluegriffon/gecko-dev/python/mozbuild/mozbuild/action/dump_env.py" [1]="D:\\a\\bluegriffon\\bluegriffon\\gecko-dev\\opt64\\_virtualenv\\Scripts\\python.exe" [2]="D:/a/bluegriffon/bluegriffon/gecko-dev/.mozconfig" [3]="D:/a/bluegriffon/bluegriffon/gecko-dev")
- 0:08.32 checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
- 0:08.45 checking for host system type... x86_64-pc-mingw32
- 0:08.59 checking for target system type... x86_64-pc-mingw32
- 0:08.62 checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
- 0:08.74 checking for host system type... x86_64-pc-mingw32
- 0:08.88 checking for target system type... x86_64-pc-mingw32
- 0:08.90 checking whether cross compiling... no
- 0:08.90 checking for the target C compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
- 0:10.06 checking whether the target C compiler can be used... yes
- 0:10.16 checking for llvm-config... not found
- 0:10.16 checking for pkg_config... D:/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/pkg-config.exe
- 0:10.18 checking for pkg-config version... 2.5.1
- 0:10.18 checking for yasm... D:/a/bluegriffon/bluegriffon/.build-tools/yasm.exe
- 0:10.20 checking yasm version... 1.2.0
- 0:10.20 checking the target C compiler version... 19.44.35223
- 0:10.87 checking the target C compiler works... yes
- 0:10.87 checking for the target C++ compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
- 0:11.27 checking whether the target C++ compiler can be used... yes
- 0:11.27 checking the target C++ compiler version... 19.44.35223
- 0:11.45 checking the target C++ compiler works... yes
- 0:11.45 checking for the host C compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
- 0:11.48 checking whether the host C compiler can be used... yes
- 0:11.48 checking the host C compiler version... 19.44.35223
- 0:11.51 checking the host C compiler works... yes
- 0:11.51 checking for the host C++ compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
- 0:11.54 checking whether the host C++ compiler can be used... yes
- 0:11.54 checking the host C++ compiler version... 19.44.35223
- 0:11.57 checking the host C++ compiler works... yes
- 0:11.62 checking for 64-bit OS... yes
- 0:11.79 checking for Windows SDK... 0x0a00 in 'C:\Program Files (x86)\Windows Kits\10\'
- 0:11.81 checking for Universal CRT SDK... 10.0.26100.0 in 'C:\Program Files (x86)\Windows Kits\10\'
- 0:11.81 checking for the Debug Interface Access SDK... not found
- 0:11.82 checking for mt... 'C:/PROGRA~2/WI3CF2~1/10/bin/100261~1.0/x64/mt.exe'
- 0:11.99 checking whether MT is really Microsoft Manifest Tool... yes
- 0:11.99 checking for link... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/link.exe'
- 0:12.01 checking for makecab... C:/Windows/system32/makecab.exe
- 0:12.13 checking for stdint.h... yes
- 0:12.29 checking for inttypes.h... yes
- 0:12.37 checking for malloc.h... yes
- 0:12.56 checking for alloca.h... no
- 0:12.59 checking for perf_event_open system call... no
- 0:12.63 checking for rustc... C:/Users/runneradmin/.cargo/bin/rustc.exe
- 0:12.67 checking for cargo... C:/Users/runneradmin/.cargo/bin/cargo.exe
- 0:19.17 checking rustc version... 1.93.1
- 0:21.75 checking cargo version... 1.93.1
- 0:45.57 checking for tar... C:/mozilla-build/msys2/usr/bin/tar.exe
- 0:45.57 checking for unzip... C:/mozilla-build/bin/unzip.exe
- 0:45.57 checking for zip... C:/mozilla-build/bin/zip.exe
- 0:45.57 checking for the Mozilla API key... no
- 0:45.57 checking for the Google API key... no
- 0:45.57 checking for the Bing API key... no
- 0:45.57 checking for the Adjust SDK key... no
- 0:45.57 checking for awk... C:/mozilla-build/msys2/usr/bin/gawk.exe
- 0:45.61 checking for perl... C:/mozilla-build/msys2/usr/bin/perl.exe
- 0:45.63 checking for minimum required perl version >= 5.006... 5.038002
- 0:45.68 checking for full perl installation... yes
- 0:45.69 checking for gmake... C:/mingw64/bin/mingw32-make.exe
- 0:45.72 checking for doxygen... not found
- 0:45.74 checking for xargs... C:/mozilla-build/msys2/usr/bin/xargs.exe
- 0:45.86 checking for makensisu... 'C:/PROGRA~2/NSIS/makensis.exe'
- 0:46.00 checking for NSIS version... 3.10
- 0:46.00 checking for 32-bit NSIS... yes
- 0:46.00 checking for autoconf... D:/a/bluegriffon/bluegriffon/.build-tools/autoconf-2.13
- 0:46.00 Refreshing D:/a/bluegriffon/bluegriffon/gecko-dev/old-configure with D:/a/bluegriffon/bluegriffon/.build-tools/autoconf-2.13
- 0:48.85 loading site script C:/mozilla-build/msys2/etc/config.site
- 0:48.86 creating cache ./config.cache
- 0:49.27 checking host system type... x86_64-pc-mingw32
- 0:49.50 checking target system type... x86_64-pc-mingw32
- 0:49.72 checking build system type... x86_64-pc-mingw32
- 0:49.74 checking for gcc... cl.exe
- 0:51.49 checking whether the C compiler (cl.exe  ) works... yes
- 0:51.49 checking whether the C compiler (cl.exe  ) is a cross-compiler... no
- 0:51.58 checking whether we are using GNU C... no
- 0:51.65 checking whether cl.exe accepts -g... no
- 0:53.66 checking for c++... cl.exe
- 0:53.82 checking whether the C++ compiler (cl.exe  ) works... yes
- 0:53.82 checking whether the C++ compiler (cl.exe  ) is a cross-compiler... no
- 0:53.88 checking whether we are using GNU C++... no
- 0:53.96 checking whether cl.exe accepts -g... no
- 0:53.98 checking for ranlib... ranlib
- 0:53.99 checking for ml64... /c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/ml64
- 0:54.04 checking for ar... ar
- 0:54.05 checking for strip... strip
- 0:54.07 checking for windres... windres
- 0:54.09 checking for otool... no
- 0:54.15 checking for midl... midl
- 0:54.71 checking for dia2.h... no
- 0:54.95 checking for overridable _RAISE... yes
- 0:55.48 checking for X... no
- 0:56.52 checking for malloc.h... yes
- 0:56.73 checking for strndup... no
- 0:56.90 checking for posix_memalign... no
- 0:57.06 checking for memalign... no
- 0:57.23 checking for malloc_usable_size... no
- 0:57.31 checking whether malloc_usable_size definition can use const argument... yes
- 0:57.41 checking for valloc in malloc.h... no
- 0:57.51 checking for valloc in unistd.h... no
- 0:57.63 checking NSPR selection... source-tree
- 0:57.65 checking if app-specific confvars.sh exists... D:/a/bluegriffon/bluegriffon/gecko-dev/bluegriffon/confvars.sh
- 0:57.68 D:/a/bluegriffon/bluegriffon/gecko-dev/bluegriffon/confvars.sh: line 42: Dev: command not found
- 0:58.09 Found D3D compiler in Windows SDK.
- 0:58.10 Found MOZ_D3DCOMPILER_VISTA_DLL_PATH: C:\Program Files (x86)\Windows Kits\10\/Redist/D3D/x64/d3dcompiler_47.dll
- 0:58.10 Found d3dcompiler DLL for Vista+: d3dcompiler_47.dll
- 0:58.20 checking for wget... wget
- 0:58.42 checking for valid C compiler optimization flags... yes
- 0:58.93 checking what kind of list files are supported by the linker... list
- 1:00.54 checking for d3d10.h... yes
- 1:01.26 checking for posix_fadvise... no
- 1:01.42 checking for posix_fallocate... no
- 1:01.62 updating cache ./config.cache
- 1:01.65 creating ./config.data
- 1:02.40 memory\jemalloc\src> configuring
- 1:02.40 memory\jemalloc\src> running C:/mozilla-build/msys2/usr/bin/sh D:/a/bluegriffon/bluegriffon/gecko-dev/memory/jemalloc/src/configure --build=x86_64-pc-mingw32 --host=x86_64-pc-mingw32 --enable-stats --with-jemalloc-prefix=je_ --disable-valgrind ac_cv_func_memalign=yes ac_cv_func_valloc=yes --with-mangling=malloc_usable_size:replace_malloc_usable_size,valloc:replace_valloc,memalign:replace_memalign,free:replace_free,realloc:replace_realloc,calloc:replace_calloc,aligned_alloc:replace_aligned_alloc,posix_memalign:replace_posix_memalign,malloc:replace_malloc --disable-tls AS=ml64.exe CC=cl.exe CXX=cl.exe CPP=cl.exe -E AR=lib RANLIB=echo not_ranlib STRIP=echo not_strip CPPFLAGS= EXTRA_CFLAGS=-TC -nologo -wd4091 -D_HAS_EXCEPTIONS=0 -W3 -Gy -Zc:inline -utf-8 -Gw -wd4244 -wd4267 -we4553 LDFLAGS=-LARGEADDRESSAWARE -NXCOMPAT -DYNAMICBASE CFLAGS= ac_cv_func_sbrk=false --enable-munmap --disable-cache-oblivious --cache-file=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/memory/jemalloc/src/config.cache
- 1:02.42 js\src> configuring
- 1:02.42 js\src> running D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\python.exe D:\a\bluegriffon\bluegriffon\gecko-dev\build\..\configure.py --enable-project=js --target=x86_64-pc-mingw32 --host=x86_64-pc-mingw32 --disable-crashreporter --enable-optimize --disable-sandbox --enable-strip --disable-updater --disable-webrtc --disable-tests --disable-debug --disable-rust-debug --without-toolchain-prefix --enable-debug-symbols --enable-jemalloc --without-linux-headers --disable-warnings-as-errors --disable-js-shell --disable-shared-js --disable-export-js --disable-instruments --disable-callgrind --enable-profiling --enable-vtune --disable-gc-trace --disable-perf --disable-more-deterministic --enable-ctypes --without-system-ffi --disable-fuzzing --with-nspr-cflags=-ID:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/include/nspr --with-nspr-libs=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/lib/nspr4.lib D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/lib/plc4.lib D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/lib/plds4.lib  --prefix=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist JS_STANDALONE= --cache-file=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/js/src/config.cache
- 1:03.53 js\src> checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
- 1:03.53 
- 1:03.53 js\src> checking for host system type... x86_64-pc-mingw32
- 1:03.53 
- 1:03.53 js\src> checking for target system type... x86_64-pc-mingw32
- 1:03.53 
- 1:03.53 js\src> checking for the Android toolchain directory... not found
- 1:03.53 
- 1:03.53 js\src> checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
- 1:03.53 
- 1:03.53 js\src> checking for host system type... x86_64-pc-mingw32
- 1:03.53 
- 1:03.53 js\src> checking for target system type... x86_64-pc-mingw32
- 1:03.53 
- 1:03.53 js\src> checking whether cross compiling... no
- 1:03.53 
- 1:03.53 js\src> checking for the target C compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
- 1:03.53 
- 1:03.53 js\src> checking whether the target C compiler can be used... yes
- 1:03.53 
- 1:03.53 js\src> checking for pkg_config... D:/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/pkg-config.exe
- 1:03.53 
- 1:03.53 js\src> checking for pkg-config version... 2.5.1
- 1:03.53 
- 1:03.53 js\src> checking for yasm... not found
- 1:03.53 
- 1:03.53 js\src> DEBUG: yasm: Trying 1
- 1:03.53 
- 1:03.53 js\src> ERROR: Cannot find yasm
- 1:03.53 
- 1:03.53 
- 1:38.51 DEBUG: <truncated - see config.log for full output>
- 1:38.51 DEBUG: #define posix_fallocate innocuous_posix_fallocate
- 1:38.51 DEBUG: #include <assert.h>
- 1:38.51 DEBUG: #undef posix_fallocate
- 1:38.51 DEBUG: /* Override any gcc2 internal prototype to avoid an error.  */
- 1:38.51 DEBUG: /* We use char because int might match the return type of a gcc2
- 1:38.51 DEBUG:     builtin and then its argument prototype would still apply.  */
- 1:38.51 DEBUG: char posix_fallocate(void);
- 1:38.51 DEBUG:
- 1:38.51 DEBUG: int main(void) {
- 1:38.51 DEBUG:
- 1:38.51 DEBUG: /* The GNU C library defines this for functions which it implements
- 1:38.51 DEBUG:     to always fail with ENOSYS.  Some functions are actually named
- 1:38.51 DEBUG:     something starting with __ and the normal name is an alias.  */
- 1:38.51 DEBUG: #if defined (__stub_posix_fallocate) || defined (__stub___posix_fallocate)
- 1:38.51 DEBUG: choke me
- 1:38.51 DEBUG: #else
- 1:38.51 DEBUG: posix_fallocate();
- 1:38.51 DEBUG: #endif
- 1:38.51 DEBUG:
- 1:38.51 DEBUG: ; return 0; }
- 1:38.51 ERROR: old-configure failed
- 1:38.54 *** Fix above errors and then restart with\
- 1:38.54                "C:/mingw64/bin/make -f client.mk build"
- 1:38.54 make.EXE: *** [client.mk:383: configure] Error 1
+ 0:00.97 C:\mingw64\bin\make.EXE -f client.mk MOZ_PARALLEL_BUILD=8 -s configure
+ 0:01.36 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
+ 0:02.09 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
+ 0:02.83 Clobber not needed.
+ 0:03.14 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
+ 0:03.92 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
+ 0:04.64 Generating D:/a/bluegriffon/bluegriffon/gecko-dev/configure
+ 0:04.69 Generating D:/a/bluegriffon/bluegriffon/gecko-dev/js/src/configure
+ 0:04.77 cd D:/a/bluegriffon/bluegriffon/gecko-dev/opt64
+ 0:04.79 D:/a/bluegriffon/bluegriffon/gecko-dev/configure
+ 0:04.92 which: no python2.7 in (/c/ProgramData/chocolatey/lib/yasm/tools:/d/a/bluegriffon/bluegriffon/.build-tools:/c/Python27:/c/Python27/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/bin:/mingw64/bin:/mingw64/bin:/usr/local/bin:/usr/bin:/usr/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/mingw64/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin)
+ 0:05.21 Creating Python environment
+ 0:07.99 New python executable in D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\python.exe
+ 0:07.99 Installing setuptools, pip, wheel...done.
+ 0:08.22 running build_ext
+ 0:08.22 
+ 0:08.22 building 'psutil._psutil_windows' extension
+ 0:08.22 
+ 0:08.22 error: Microsoft Visual C++ 9.0 is required. Get it from http://aka.ms/vcpython27
+ 0:08.22 
+ 0:08.22 
+ 0:08.22 Error processing command. Ignoring because optional. (optional:setup.py:python/psutil:build_ext:--inplace)
+ 0:08.22 D:\a\bluegriffon\bluegriffon\gecko-dev\python\mozbuild\mozbuild\virtualenv.py:376: UserWarning: Hacking environment to allow binary Python extensions to build. You can make this warning go away by installing Visual Studio 2008. You can download the Express Edition installer from http://go.microsoft.com/?linkid=7729279
+ 0:08.22   warnings.warn('Hacking environment to allow binary Python '
+ 0:08.22 Reexecuting in the virtualenv
+ 0:08.54 Adding configure options from D:\a\bluegriffon\bluegriffon\gecko-dev\.mozconfig
+ 0:08.54   --target=x86_64-pc-mingw32
+ 0:08.54   --host=x86_64-pc-mingw32
+ 0:08.54   --enable-optimize
+ 0:08.54   --disable-debug
+ 0:08.54   --enable-strip
+ 0:08.54   --disable-tests
+ 0:08.54   --disable-crashreporter
+ 0:08.54   --enable-jemalloc
+ 0:08.54   --disable-webrtc
+ 0:08.54   --disable-dbm
+ 0:08.54   --disable-updater
+ 0:08.54   --disable-sandbox
+ 0:08.54   --enable-chrome-format=jar
+ 0:08.54   --enable-application=bluegriffon
+ 0:08.54   BASH_ARGC=([0]="4")
+ 0:08.54   BASH_ARGV=([0]="D:/a/bluegriffon/bluegriffon/gecko-dev/python/mozbuild/mozbuild/action/dump_env.py" [1]="D:\\a\\bluegriffon\\bluegriffon\\gecko-dev\\opt64\\_virtualenv\\Scripts\\python.exe" [2]="D:/a/bluegriffon/bluegriffon/gecko-dev/.mozconfig" [3]="D:/a/bluegriffon/bluegriffon/gecko-dev")
+ 0:08.66 checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
+ 0:08.79 checking for host system type... x86_64-pc-mingw32
+ 0:08.93 checking for target system type... x86_64-pc-mingw32
+ 0:08.99 checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
+ 0:09.12 checking for host system type... x86_64-pc-mingw32
+ 0:09.24 checking for target system type... x86_64-pc-mingw32
+ 0:09.27 checking whether cross compiling... no
+ 0:09.27 checking for the target C compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
+ 0:10.65 checking whether the target C compiler can be used... yes
+ 0:10.76 checking for llvm-config... not found
+ 0:10.76 checking for pkg_config... D:/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/pkg-config.exe
+ 0:10.77 checking for pkg-config version... 2.5.1
+ 0:10.77 checking for yasm... D:/a/bluegriffon/bluegriffon/.build-tools/yasm.exe
+ 0:10.79 checking yasm version... 1.2.0
+ 0:10.79 checking the target C compiler version... 19.44.35223
+ 0:11.54 checking the target C compiler works... yes
+ 0:11.54 checking for the target C++ compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
+ 0:12.07 checking whether the target C++ compiler can be used... yes
+ 0:12.07 checking the target C++ compiler version... 19.44.35223
+ 0:12.27 checking the target C++ compiler works... yes
+ 0:12.27 checking for the host C compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
+ 0:12.30 checking whether the host C compiler can be used... yes
+ 0:12.30 checking the host C compiler version... 19.44.35223
+ 0:12.34 checking the host C compiler works... yes
+ 0:12.34 checking for the host C++ compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
+ 0:12.37 checking whether the host C++ compiler can be used... yes
+ 0:12.37 checking the host C++ compiler version... 19.44.35223
+ 0:12.40 checking the host C++ compiler works... yes
+ 0:12.45 checking for 64-bit OS... yes
+ 0:12.65 checking for Windows SDK... 0x0a00 in 'C:\Program Files (x86)\Windows Kits\10\'
+ 0:12.65 checking for Universal CRT SDK... 10.0.26100.0 in 'C:\Program Files (x86)\Windows Kits\10\'
+ 0:12.65 checking for the Debug Interface Access SDK... not found
+ 0:12.66 checking for mt... 'C:/PROGRA~2/WI3CF2~1/10/bin/100261~1.0/x64/mt.exe'
+ 0:12.87 checking whether MT is really Microsoft Manifest Tool... yes
+ 0:12.87 checking for link... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/link.exe'
+ 0:12.90 checking for makecab... C:/Windows/system32/makecab.exe
+ 0:13.06 checking for stdint.h... yes
+ 0:13.20 checking for inttypes.h... yes
+ 0:13.27 checking for malloc.h... yes
+ 0:13.48 checking for alloca.h... no
+ 0:13.52 checking for perf_event_open system call... no
+ 0:13.56 checking for rustc... C:/Users/runneradmin/.cargo/bin/rustc.exe
+ 0:13.59 checking for cargo... C:/Users/runneradmin/.cargo/bin/cargo.exe
+ 0:17.10 checking rustc version... 1.93.1
+ 0:18.59 checking cargo version... 1.93.1
+ 0:25.68 checking for tar... C:/mozilla-build/msys2/usr/bin/tar.exe
+ 0:25.70 checking for unzip... C:/mozilla-build/bin/unzip.exe
+ 0:25.70 checking for zip... C:/mozilla-build/bin/zip.exe
+ 0:25.70 checking for the Mozilla API key... no
+ 0:25.70 checking for the Google API key... no
+ 0:25.70 checking for the Bing API key... no
+ 0:25.70 checking for the Adjust SDK key... no
+ 0:25.70 checking for awk... C:/mozilla-build/msys2/usr/bin/gawk.exe
+ 0:25.75 checking for perl... C:/mozilla-build/msys2/usr/bin/perl.exe
+ 0:25.76 checking for minimum required perl version >= 5.006... 5.038002
+ 0:25.81 checking for full perl installation... yes
+ 0:25.83 checking for gmake... C:/mingw64/bin/mingw32-make.exe
+ 0:25.87 checking for doxygen... not found
+ 0:25.89 checking for xargs... C:/mozilla-build/msys2/usr/bin/xargs.exe
+ 0:26.03 checking for makensisu... 'C:/PROGRA~2/NSIS/makensis.exe'
+ 0:26.23 checking for NSIS version... 3.10
+ 0:26.23 checking for 32-bit NSIS... yes
+ 0:26.23 checking for autoconf... D:/a/bluegriffon/bluegriffon/.build-tools/autoconf-2.13
+ 0:26.23 Refreshing D:/a/bluegriffon/bluegriffon/gecko-dev/old-configure with D:/a/bluegriffon/bluegriffon/.build-tools/autoconf-2.13
+ 0:29.03 loading site script C:/mozilla-build/msys2/etc/config.site
+ 0:29.05 creating cache ./config.cache
+ 0:29.42 checking host system type... x86_64-pc-mingw32
+ 0:29.64 checking target system type... x86_64-pc-mingw32
+ 0:29.86 checking build system type... x86_64-pc-mingw32
+ 0:29.88 checking for gcc... cl.exe
+ 0:31.91 checking whether the C compiler (cl.exe  ) works... yes
+ 0:31.91 checking whether the C compiler (cl.exe  ) is a cross-compiler... no
+ 0:31.99 checking whether we are using GNU C... no
+ 0:32.05 checking whether cl.exe accepts -g... no
+ 0:34.07 checking for c++... cl.exe
+ 0:34.22 checking whether the C++ compiler (cl.exe  ) works... yes
+ 0:34.22 checking whether the C++ compiler (cl.exe  ) is a cross-compiler... no
+ 0:34.30 checking whether we are using GNU C++... no
+ 0:34.38 checking whether cl.exe accepts -g... no
+ 0:34.40 checking for ranlib... ranlib
+ 0:34.40 checking for ml64... /c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64/ml64
+ 0:34.44 checking for ar... ar
+ 0:34.46 checking for strip... strip
+ 0:34.47 checking for windres... windres
+ 0:34.51 checking for otool... no
+ 0:34.55 checking for midl... midl
+ 0:35.13 checking for dia2.h... no
+ 0:35.35 checking for overridable _RAISE... yes
+ 0:35.88 checking for X... no
+ 0:36.94 checking for malloc.h... yes
+ 0:37.15 checking for strndup... no
+ 0:37.31 checking for posix_memalign... no
+ 0:37.48 checking for memalign... no
+ 0:37.65 checking for malloc_usable_size... no
+ 0:37.74 checking whether malloc_usable_size definition can use const argument... yes
+ 0:37.85 checking for valloc in malloc.h... no
+ 0:37.95 checking for valloc in unistd.h... no
+ 0:38.07 checking NSPR selection... source-tree
+ 0:38.10 checking if app-specific confvars.sh exists... D:/a/bluegriffon/bluegriffon/gecko-dev/bluegriffon/confvars.sh
+ 0:38.12 D:/a/bluegriffon/bluegriffon/gecko-dev/bluegriffon/confvars.sh: line 42: Dev: command not found
+ 0:38.51 Found D3D compiler in Windows SDK.
+ 0:38.53 Found MOZ_D3DCOMPILER_VISTA_DLL_PATH: C:\Program Files (x86)\Windows Kits\10\/Redist/D3D/x64/d3dcompiler_47.dll
+ 0:38.53 Found d3dcompiler DLL for Vista+: d3dcompiler_47.dll
+ 0:38.62 checking for wget... wget
+ 0:38.85 checking for valid C compiler optimization flags... yes
+ 0:39.34 checking what kind of list files are supported by the linker... list
+ 0:40.92 checking for d3d10.h... yes
+ 0:41.62 checking for posix_fadvise... no
+ 0:41.79 checking for posix_fallocate... no
+ 0:42.00 updating cache ./config.cache
+ 0:42.01 creating ./config.data
+ 0:42.72 memory\jemalloc\src> configuring
+ 0:42.72 memory\jemalloc\src> running C:/mozilla-build/msys2/usr/bin/sh D:/a/bluegriffon/bluegriffon/gecko-dev/memory/jemalloc/src/configure --build=x86_64-pc-mingw32 --host=x86_64-pc-mingw32 --enable-stats --with-jemalloc-prefix=je_ --disable-valgrind ac_cv_func_memalign=yes ac_cv_func_valloc=yes --with-mangling=malloc_usable_size:replace_malloc_usable_size,valloc:replace_valloc,memalign:replace_memalign,free:replace_free,realloc:replace_realloc,calloc:replace_calloc,aligned_alloc:replace_aligned_alloc,posix_memalign:replace_posix_memalign,malloc:replace_malloc --disable-tls AS=ml64.exe CC=cl.exe CXX=cl.exe CPP=cl.exe -E AR=lib RANLIB=echo not_ranlib STRIP=echo not_strip CPPFLAGS= EXTRA_CFLAGS=-TC -nologo -wd4091 -D_HAS_EXCEPTIONS=0 -W3 -Gy -Zc:inline -utf-8 -Gw -wd4244 -wd4267 -we4553 LDFLAGS=-LARGEADDRESSAWARE -NXCOMPAT -DYNAMICBASE CFLAGS= ac_cv_func_sbrk=false --enable-munmap --disable-cache-oblivious --cache-file=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/memory/jemalloc/src/config.cache
+ 0:42.73 js\src> configuring
+ 0:42.73 js\src> running D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\python.exe D:\a\bluegriffon\bluegriffon\gecko-dev\build\..\configure.py --enable-project=js --target=x86_64-pc-mingw32 --host=x86_64-pc-mingw32 --disable-crashreporter --enable-optimize --disable-sandbox --enable-strip --disable-updater --disable-webrtc --disable-tests --disable-debug --disable-rust-debug --without-toolchain-prefix --enable-debug-symbols --enable-jemalloc --without-linux-headers --disable-warnings-as-errors --disable-js-shell --disable-shared-js --disable-export-js --disable-instruments --disable-callgrind --enable-profiling --enable-vtune --disable-gc-trace --disable-perf --disable-more-deterministic --enable-ctypes --without-system-ffi --disable-fuzzing --with-nspr-cflags=-ID:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/include/nspr --with-nspr-libs=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/lib/nspr4.lib D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/lib/plc4.lib D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist/lib/plds4.lib  --prefix=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/dist JS_STANDALONE= --cache-file=D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/js/src/config.cache
+ 0:43.84 js\src> checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
+ 0:43.84 
+ 0:43.84 js\src> checking for host system type... x86_64-pc-mingw32
+ 0:43.84 
+ 0:43.84 js\src> checking for target system type... x86_64-pc-mingw32
+ 0:43.84 
+ 0:43.84 js\src> checking for the Android toolchain directory... not found
+ 0:43.84 
+ 0:43.84 js\src> checking for a shell... C:/mozilla-build/msys2/usr/bin/sh.exe
+ 0:43.84 
+ 0:43.84 js\src> checking for host system type... x86_64-pc-mingw32
+ 0:43.84 
+ 0:43.84 js\src> checking for target system type... x86_64-pc-mingw32
+ 0:43.84 
+ 0:43.84 js\src> checking whether cross compiling... no
+ 0:43.84 
+ 0:43.84 js\src> checking for the target C compiler... 'C:/PROGRA~1/MICROS~2/2022/ENTERP~1/VC/Tools/MSVC/1444~1.352/bin/HostX64/x64/cl.exe'
+ 0:43.84 
+ 0:43.84 js\src> checking whether the target C compiler can be used... yes
+ 0:43.84 
+ 0:43.84 js\src> checking for pkg_config... D:/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/pkg-config.exe
+ 0:43.84 
+ 0:43.84 js\src> checking for pkg-config version... 2.5.1
+ 0:43.84 
+ 0:43.84 js\src> checking for yasm... not found
+ 0:43.84 
+ 0:43.84 js\src> DEBUG: yasm: Trying 1
+ 0:43.84 
+ 0:43.84 js\src> ERROR: Cannot find yasm
+ 0:43.84 
+ 0:43.84 
+ 1:18.13 DEBUG: <truncated - see config.log for full output>
+ 1:18.13 DEBUG: #define posix_fallocate innocuous_posix_fallocate
+ 1:18.13 DEBUG: #include <assert.h>
+ 1:18.13 DEBUG: #undef posix_fallocate
+ 1:18.13 DEBUG: /* Override any gcc2 internal prototype to avoid an error.  */
+ 1:18.13 DEBUG: /* We use char because int might match the return type of a gcc2
+ 1:18.13 DEBUG:     builtin and then its argument prototype would still apply.  */
+ 1:18.13 DEBUG: char posix_fallocate(void);
+ 1:18.13 DEBUG:
+ 1:18.13 DEBUG: int main(void) {
+ 1:18.13 DEBUG:
+ 1:18.13 DEBUG: /* The GNU C library defines this for functions which it implements
+ 1:18.13 DEBUG:     to always fail with ENOSYS.  Some functions are actually named
+ 1:18.13 DEBUG:     something starting with __ and the normal name is an alias.  */
+ 1:18.13 DEBUG: #if defined (__stub_posix_fallocate) || defined (__stub___posix_fallocate)
+ 1:18.13 DEBUG: choke me
+ 1:18.13 DEBUG: #else
+ 1:18.13 DEBUG: posix_fallocate();
+ 1:18.13 DEBUG: #endif
+ 1:18.13 DEBUG:
+ 1:18.13 DEBUG: ; return 0; }
+ 1:18.13 ERROR: old-configure failed
+ 1:18.16 *** Fix above errors and then restart with\
+ 1:18.16                "C:/mingw64/bin/make -f client.mk build"
+ 1:18.16 make.EXE: *** [client.mk:383: configure] Error 1
 + build_rc=2
 + set -e
 + '[' 2 -ne 0 ']'
@@ -1983,12 +1983,12 @@ mach build failed with exit code: 2
 ICU source dir: /d/a/bluegriffon/bluegriffon/gecko-dev/config/external/icu/data
 + ls -la /d/a/bluegriffon/bluegriffon/gecko-dev/config/external/icu/data
 total 10669
-drwxr-xr-x 1 runneradmin None        0 Mar  7 19:19 .
-drwxr-xr-x 1 runneradmin None        0 Mar  7 19:19 ..
--rw-r--r-- 1 runneradmin None      840 Mar  7 19:19 icudata.s
--rw-r--r-- 1 runneradmin None      376 Mar  7 19:19 icudata_gas.S
--rw-r--r-- 1 runneradmin None 10911568 Mar  7 19:19 icudt58l.dat
--rw-r--r-- 1 runneradmin None     1159 Mar  7 19:19 moz.build
+drwxr-xr-x 1 runneradmin None        0 Mar  7 19:44 .
+drwxr-xr-x 1 runneradmin None        0 Mar  7 19:44 ..
+-rw-r--r-- 1 runneradmin None      840 Mar  7 19:44 icudata.s
+-rw-r--r-- 1 runneradmin None      376 Mar  7 19:44 icudata_gas.S
+-rw-r--r-- 1 runneradmin None 10911568 Mar  7 19:44 icudt58l.dat
+-rw-r--r-- 1 runneradmin None     1159 Mar  7 19:44 moz.build
 + echo 'ICU obj dir: /d/a/bluegriffon/bluegriffon/gecko-dev/opt64/config/external/icu/data'
 ICU obj dir: /d/a/bluegriffon/bluegriffon/gecko-dev/opt64/config/external/icu/data
 + ls -la /d/a/bluegriffon/bluegriffon/gecko-dev/opt64/config/external/icu/data
