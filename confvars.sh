@@ -38,9 +38,9 @@
 
 MOZ_APP_VENDOR=Disruptive\ Innovations\ SARL
 
-MOZ_APP_NAME=bluegriffon
-MOZ_APP_DISPLAYNAME=BlueGriffon
-MOZ_APP_BASENAME=BlueGriffon
+MOZ_APP_NAME=bluegriffondev
+MOZ_APP_DISPLAYNAME=BlueGriffon Dev
+MOZ_APP_BASENAME=BlueGriffonDev
 
 #MOZ_ENABLE_LIBXUL=1
 MOZ_NO_XPCOM_OBSOLETE=1
@@ -61,6 +61,6 @@ MOZ_APP_VERSION=`cat $MOZ_APP_VERSION_TXT`
 MOZ_APP_CODENAME_TXT=${_topsrcdir}/$MOZ_BUILD_APP/config/codename.txt
 MOZ_APP_CODENAME=`cat $MOZ_APP_CODENAME_TXT`
 
-MOZ_APP_ID=bluegriffon@bluegriffon.com
+MOZ_APP_ID=bluegriffon-dev@bluegriffon.com
 
 MOZ_DEVTOOLS=all

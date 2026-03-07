@@ -137,10 +137,10 @@ python -V
    ```
 
 ### Output
-- `gecko-dev\opt64\dist\bin\bluegriffon.exe`
+- `gecko-dev\opt64\dist\bin\bluegriffondev.exe`
 - Verify x64:
   ```
-  dumpbin /headers gecko-dev\opt64\dist\bin\bluegriffon.exe | findstr /i machine
+  dumpbin /headers gecko-dev\opt64\dist\bin\bluegriffondev.exe | findstr /i machine
   ```
 
 ### Easy cleanup

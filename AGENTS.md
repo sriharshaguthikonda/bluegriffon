@@ -108,5 +108,5 @@ set RUSTC=C:\Users\<you>\.rustup\toolchains\1.19.0-x86_64-pc-windows-msvc\bin\ru
 set CARGO=C:\Users\<you>\.rustup\toolchains\1.19.0-x86_64-pc-windows-msvc\bin\cargo.exe
 C:\mozilla-build\msys2\usr\bin\bash.exe -lc "cd /c/Windows_software/bluegriffon/gecko-dev && ./mach build"
 ```
-6) Output: `gecko-dev\opt64\dist\bin\bluegriffon.exe` (x64).
+6) Output: `gecko-dev\opt64\dist\bin\bluegriffondev.exe` (x64).
 7) Do not uninstall automatically; provide cleanup instructions only if asked.
