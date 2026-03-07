@@ -481,10 +481,53 @@ patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
 patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 
+# js/src configure sometimes loses YASM from parent configure env on CI.
+# Inject a fallback resolver directly in old-configure scripts.
+inject_js_yasm_fallback() {
+  local file="$1"
+  [ -f "$file" ] || return 0
+  python3 - "$file" <<'PY'
+import io
+import os
+import sys
+
+path = sys.argv[1]
+with io.open(path, "r", encoding="utf-8", errors="ignore") as f:
+    data = f.read()
+
+needle = 'if test -z "$YASM" -a -z "$GNU_AS" -a "$COMPILE_ENVIRONMENT"; then'
+if "BLUEGRIFFON_YASM" in data:
+    print("YASM fallback already present in %s" % path)
+    sys.exit(0)
+if needle not in data:
+    print("WARNING: YASM check not found in %s" % path)
+    sys.exit(0)
+
+replacement = '''if test -z "$YASM"; then
+            for _bg_y in "$BLUEGRIFFON_YASM" "/c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe" "/c/mozilla-build/bin/yasm.exe" "/c/mozilla-build/msys2/usr/bin/yasm.exe"; do
+                if test -n "$_bg_y" -a -x "$_bg_y"; then
+                    YASM="$_bg_y"
+                    break
+                fi
+            done
+        fi
+        if test -z "$YASM" -a -z "$GNU_AS" -a "$COMPILE_ENVIRONMENT"; then'''
+
+data = data.replace(needle, replacement, 1)
+with io.open(path, "w", encoding="utf-8", newline="") as f:
+    f.write(data)
+print("Injected YASM fallback in %s" % path)
+PY
+}
+inject_js_yasm_fallback "$PWD/js/src/old-configure"
+inject_js_yasm_fallback "$PWD/js/src/old-configure.in"
+
 cp bluegriffon/config/mozconfig.win .mozconfig
 # Keep YASM visible to old-configure sub-configures (e.g. js/src).
 echo "mk_add_options YASM=$YASM" >> .mozconfig
 echo "Injected into .mozconfig: mk_add_options YASM=$YASM"
+export BLUEGRIFFON_YASM="$YASM"
+echo "BLUEGRIFFON_YASM: $BLUEGRIFFON_YASM"
 objdir_line="$(awk -F= '/^mk_add_options MOZ_OBJDIR=/{print $2}' .mozconfig | tail -1 | tr -d '\"')"
 objdir="${objdir_line//@TOPSRCDIR@/$PWD}"
 if [ -z "$objdir" ]; then
