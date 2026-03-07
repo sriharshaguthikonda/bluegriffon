@@ -171,7 +171,7 @@ jobs:
           path: ${{ github.workspace }}\build-exit.txt
 
       - name: Commit build log to ci-logs branch
-        if: always() && github.event_name == 'push' && github.ref == 'refs/heads/master'
+        if: always() && github.event_name == 'push'
         shell: powershell
         run: |
           if (-not (Test-Path build.log)) {
@@ -195,7 +195,9 @@ jobs:
 
           $sha = "${{ github.sha }}"
           $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          $branch = "${{ github.ref_name }}"
           Set-Content ci-logs\metadata.txt "source-sha: $sha"
+          Add-Content ci-logs\metadata.txt "branch: $branch"
           Add-Content ci-logs\metadata.txt "run: $runUrl"
 
           git add ci-logs/build.log ci-logs/metadata.txt
@@ -217,5 +219,10 @@ jobs:
             exit 1
           }
           $code = Get-Content build-exit.txt | Select-Object -First 1
-          Write-Host "Build exit code: $code"
-          if ($code -ne 0) { exit 1 }
+          Write-Host "Build exit code (raw): $code"
+          if ($code -match '^[0-9]+$') {
+            if ([int]$code -ne 0) { exit 1 }
+          } else {
+            Write-Host "Non-numeric exit code; failing."
+            exit 1
+          }
