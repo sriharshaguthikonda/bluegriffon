@@ -70,36 +70,43 @@ Use this when the user asks to build locally.
 ```
 $checks = [ordered]@{}
 $checks['git'] = (Get-Command git -ErrorAction SilentlyContinue)?.Source
-$checks['hg'] = (Get-Command hg -ErrorAction SilentlyContinue)?.Source
-$checks['python3'] = (Get-Command python -ErrorAction SilentlyContinue)?.Source
-$checks['python2.7'] = (Test-Path 'C:\Python27\python.exe')
+$checks['python3 (MozillaBuild)'] = (Test-Path 'C:\mozilla-build\python3\python.exe')
+$checks['python2.7'] = (Test-Path 'C:\Python27_18\python.exe')
+$checks['rustup'] = (Get-Command rustup -ErrorAction SilentlyContinue)?.Source
 $checks['vcvars64'] = (Test-Path 'C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat')
 $checks['mozillabuild'] = (Test-Path 'C:\mozilla-build\start-shell.bat')
-$checks['autoconf-2.13'] = (Get-Command autoconf-2.13 -ErrorAction SilentlyContinue)?.Source
-$checks['yasm'] = (Get-Command yasm -ErrorAction SilentlyContinue)?.Source
-$checks['pkg-config'] = (Get-Command pkg-config -ErrorAction SilentlyContinue)?.Source
-$checks['zip'] = (Get-Command zip -ErrorAction SilentlyContinue)?.Source
+$checks['msys2 bash'] = (Test-Path 'C:\mozilla-build\msys2\usr\bin\bash.exe')
 $checks
 ```
 2) Install missing items (admin PowerShell preferred):
 ```
-choco install -y mozillabuild python2 visualstudio2022buildtools visualstudio2022-workload-vctools
+choco install -y mozillabuild visualstudio2022buildtools visualstudio2022-workload-vctools
+rustup toolchain install 1.19.0
 ```
 3) Create a Python venv with system site packages:
 ```
-C:\Python311\python.exe -m venv .venv --system-site-packages
+C:\mozilla-build\python3\python.exe -m venv .venv --system-site-packages
 .\.venv\Scripts\activate
 ```
-4) Run build from MozillaBuild shell:
+4) Ensure MSYS2 build tools are present (from MozillaBuild shell):
 ```
-C:\mozilla-build\start-shell.bat
+pacman -S --needed autoconf2.13 yasm pkgconf make zip unzip
+```
+5) Run build (VS 2022 C++ env + Rust 1.19.0):
+```
 git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
 git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
 cd gecko-dev
 git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 cp bluegriffon/config/mozconfig.win .mozconfig
-./mach build
+call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+set RUSTUP_TOOLCHAIN=1.19.0
+set RUSTC=C:\Users\<you>\.rustup\toolchains\1.19.0-x86_64-pc-windows-msvc\bin\rustc.exe
+set CARGO=C:\Users\<you>\.rustup\toolchains\1.19.0-x86_64-pc-windows-msvc\bin\cargo.exe
+C:\mozilla-build\msys2\usr\bin\bash.exe -lc "cd /c/Windows_software/bluegriffon/gecko-dev && ./mach build"
 ```
-5) Do not uninstall automatically; provide cleanup instructions only if asked.
+6) Output: `gecko-dev\opt64\dist\bin\bluegriffon.exe` (x64).
+7) Do not uninstall automatically; provide cleanup instructions only if asked.

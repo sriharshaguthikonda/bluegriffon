@@ -381,6 +381,7 @@ git config core.eol lf
 git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 
 cp bluegriffon/config/mozconfig.win .mozconfig
 ./mach build
