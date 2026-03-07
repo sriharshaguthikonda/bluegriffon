@@ -59,6 +59,7 @@ gather logs, and iterate until the Windows x64 build succeeds.
 3) If failed, read `ci-logs/build.log` and identify the error.
 4) Implement a small, targeted fix (or add logging).
 5) Push again.
+6) Continue this loop until the workflow is `success` and the Windows x64 executable artifact upload succeeds.
 
 ## Notes
 - Always build Windows x64.

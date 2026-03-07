@@ -260,14 +260,19 @@ else
   if ! command -v autoconf-2.13 >/dev/null 2>&1 && ! command -v autoconf213 >/dev/null 2>&1; then
     download_msys2_pkg autoconf2.13 || true
   fi
-  download_msys2_pkg pkgconf || true
-  download_msys2_pkg yasm || true
+  if ! command -v pkg-config >/dev/null 2>&1 && ! command -v pkgconf >/dev/null 2>&1; then
+    download_msys2_pkg pkgconf || true
+  fi
+  if ! command -v yasm >/dev/null 2>&1; then
+    download_msys2_pkg yasm || true
+  fi
 fi
 
 if [ -d "$pkg_root/usr/bin" ]; then
-  PATH="$(sanitize_path "$pkg_root/usr/bin:$PATH")"
+  # Keep bundled MozillaBuild tools first; use extracted tools only as fallback.
+  PATH="$(sanitize_path "$PATH:$pkg_root/usr/bin")"
   export PATH
-  echo "Added msys2-root usr/bin to PATH: $pkg_root/usr/bin"
+  echo "Added msys2-root usr/bin to PATH (fallback): $pkg_root/usr/bin"
 fi
 PATH="$(sanitize_path "$shim_dir:$PATH")"
 export PATH
@@ -413,12 +418,34 @@ patch -p1 < bluegriffon/config/gecko_dev_idl.patch
 patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 
 cp bluegriffon/config/mozconfig.win .mozconfig
-./mach build
-
 objdir_line="$(awk -F= '/^mk_add_options MOZ_OBJDIR=/{print $2}' .mozconfig | tail -1 | tr -d '\"')"
 objdir="${objdir_line//@TOPSRCDIR@/$PWD}"
 if [ -z "$objdir" ]; then
   objdir="$PWD/obj"
+fi
+
+set +e
+./mach build
+build_rc=$?
+set -e
+
+if [ "$build_rc" -ne 0 ]; then
+  echo "mach build failed with exit code: $build_rc"
+  icu_src="$PWD/config/external/icu/data"
+  icu_obj="$objdir/config/external/icu/data"
+  echo "ICU source dir: $icu_src"
+  ls -la "$icu_src" || true
+  echo "ICU obj dir: $icu_obj"
+  ls -la "$icu_obj" || true
+  if [ -f "$icu_obj/backend.mk" ]; then
+    echo "==== ICU backend.mk ===="
+    sed -n '1,200p' "$icu_obj/backend.mk" || true
+  fi
+  if [ -f "$icu_obj/Makefile" ] && command -v make >/dev/null 2>&1; then
+    echo "==== make -n icudata.obj (diagnostic) ===="
+    make -C "$icu_obj" -n icudata.obj || true
+  fi
+  exit "$build_rc"
 fi
 
 dist_bin="$objdir/dist/bin"
