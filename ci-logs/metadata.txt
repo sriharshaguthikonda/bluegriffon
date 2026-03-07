@@ -1,3 +1,3 @@
-source-sha: d5b57d9e4cb17ef55b5064c8632acd46f376b235
+source-sha: c1699a8373a726e36ec5d90660e317ed8d522c82
 branch: local-build-setup
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22796967215
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22799339212
