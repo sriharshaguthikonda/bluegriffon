@@ -264,10 +264,16 @@ else
     download_msys2_pkg pkgconf || true
   fi
   if ! command -v yasm >/dev/null 2>&1; then
-    download_msys2_pkg yasm || true
+    download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg yasm || true
   fi
 fi
 
+if [ -d "$pkg_root/mingw64/bin" ]; then
+  # Prefer mingw64 tools over msys variants when both are present.
+  PATH="$(sanitize_path "$PATH:$pkg_root/mingw64/bin")"
+  export PATH
+  echo "Added msys2-root mingw64/bin to PATH (fallback): $pkg_root/mingw64/bin"
+fi
 if [ -d "$pkg_root/usr/bin" ]; then
   # Keep bundled MozillaBuild tools first; use extracted tools only as fallback.
   PATH="$(sanitize_path "$PATH:$pkg_root/usr/bin")"
@@ -365,7 +371,50 @@ if ! command -v zip >/dev/null 2>&1 && [ -x "$moz_bin/zip.exe" ]; then
   echo "Added mozilla-build zip to PATH"
   echo "zip on PATH (after): $(command -v zip || true)"
 fi
+
+yasm_smoke_test() {
+  local yasm_bin="$1"
+  local yasm_test_dir="$PWD/.build-tools/yasm-test"
+  [ -x "$yasm_bin" ] || return 1
+  mkdir -p "$yasm_test_dir"
+  cat >"$yasm_test_dir/test.asm" <<'EOF'
+global _bg_yasm_smoke
+section .text
+_bg_yasm_smoke:
+  ret
+EOF
+  "$yasm_bin" -f x64 -o "$yasm_test_dir/test.obj" "$yasm_test_dir/test.asm" >/dev/null 2>&1 || return 1
+  [ -s "$yasm_test_dir/test.obj" ]
+}
+
+YASM_CAND=""
+for p in /c/ProgramData/chocolatey/bin/yasm.exe \
+         /c/ProgramData/chocolatey/bin/yasm \
+         /c/mozilla-build/msys2/mingw64/bin/yasm.exe \
+         /c/mozilla-build/msys2/usr/bin/yasm.exe \
+         "$pkg_root/mingw64/bin/yasm.exe" \
+         "$pkg_root/usr/bin/yasm.exe" \
+         "$(command -v yasm 2>/dev/null || true)"; do
+  [ -n "$p" ] || continue
+  if yasm_smoke_test "$p"; then
+    YASM_CAND="$p"
+    break
+  fi
+done
+if [ -n "$YASM_CAND" ]; then
+  cat >"$shim_dir/yasm" <<EOF
+#!/usr/bin/env bash
+exec "$YASM_CAND" "\$@"
+EOF
+  chmod +x "$shim_dir/yasm"
+  export YASM="$shim_dir/yasm"
+  echo "Using yasm: $YASM_CAND"
+else
+  echo "ERROR: No working yasm binary found."
+  exit 13
+fi
 echo "yasm on PATH: $(command -v yasm || true)"
+yasm --version || true
 
 MOZMAKE_CAND=""
 if command -v mozmake >/dev/null 2>&1; then

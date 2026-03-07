@@ -92,6 +92,10 @@ jobs:
       - name: Install MozillaBuild
         run: choco install -y mozillabuild
 
+      - name: Install Yasm
+        continue-on-error: true
+        run: choco install -y yasm
+
       - name: Build BlueGriffon executable
         shell: cmd
         continue-on-error: true
