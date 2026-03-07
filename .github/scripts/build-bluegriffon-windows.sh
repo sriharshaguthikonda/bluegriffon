@@ -257,7 +257,9 @@ if [ -n "$pacman_bin" ]; then
   "$pacman_bin" -Q pkgconf mingw-w64-x86_64-pkgconf yasm mingw-w64-x86_64-yasm zip mingw-w64-x86_64-zip autoconf2.13 || true
 else
   echo "WARNING: pacman not found; downloading MSYS2 packages directly."
-  download_msys2_pkg autoconf2.13 || true
+  if ! command -v autoconf-2.13 >/dev/null 2>&1 && ! command -v autoconf213 >/dev/null 2>&1; then
+    download_msys2_pkg autoconf2.13 || true
+  fi
   download_msys2_pkg pkgconf || true
   download_msys2_pkg yasm || true
 fi
@@ -304,20 +306,31 @@ echo "pkgconf on PATH: $(command -v pkgconf || true)"
 pkgconf --version || true
 echo "autoconf-2.13 on PATH: $(command -v autoconf-2.13 || true)"
 echo "autoconf213 on PATH: $(command -v autoconf213 || true)"
-if command -v autoconf-2.13 >/dev/null 2>&1; then
-  export AUTOCONF="$(command -v autoconf-2.13)"
+AUTOCONF_CAND=""
+for p in /c/mozilla-build/msys2/usr/bin/autoconf-2.13 \
+         /usr/bin/autoconf-2.13 \
+         /c/mozilla-build/msys2/usr/bin/autoconf213 \
+         /usr/bin/autoconf213 \
+         "$pkg_root/usr/bin/autoconf-2.13" \
+         "$pkg_root/usr/bin/autoconf213"; do
+  if [ -x "$p" ]; then
+    AUTOCONF_CAND="$p"
+    break
+  fi
+done
+if [ -n "$AUTOCONF_CAND" ]; then
+  export AUTOCONF="$AUTOCONF_CAND"
   cat >"$shim_dir/autoconf-2.13" <<EOF
 #!/usr/bin/env bash
-exec "$(command -v autoconf-2.13)" "\$@"
+exec "$AUTOCONF_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/autoconf-2.13"
-fi
-if command -v autoconf213 >/dev/null 2>&1; then
   cat >"$shim_dir/autoconf213" <<EOF
 #!/usr/bin/env bash
-exec "$(command -v autoconf213)" "\$@"
+exec "$AUTOCONF_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/autoconf213"
+  echo "Using autoconf: $AUTOCONF_CAND"
 fi
 
 echo "cl on PATH: $(command -v cl || true)"
