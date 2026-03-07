@@ -402,12 +402,10 @@ for p in /c/ProgramData/chocolatey/bin/yasm.exe \
   fi
 done
 if [ -n "$YASM_CAND" ]; then
-  cat >"$shim_dir/yasm" <<EOF
-#!/usr/bin/env bash
-exec "$YASM_CAND" "\$@"
-EOF
-  chmod +x "$shim_dir/yasm"
-  export YASM="$shim_dir/yasm"
+  yasm_dir="$(dirname "$YASM_CAND")"
+  PATH="$(sanitize_path "$yasm_dir:$PATH")"
+  export PATH
+  export YASM="$YASM_CAND"
   echo "Using yasm: $YASM_CAND"
 else
   echo "ERROR: No working yasm binary found."

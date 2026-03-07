@@ -206,6 +206,11 @@ jobs:
 
           $tempLog = Join-Path $env:RUNNER_TEMP "build.log"
           Copy-Item build.log $tempLog -Force
+          $tempExit = Join-Path $env:RUNNER_TEMP "build-exit.txt"
+          $hasExit = Test-Path build-exit.txt
+          if ($hasExit) {
+            Copy-Item build-exit.txt $tempExit -Force
+          }
 
           git fetch origin ci-logs --depth=1
           if ($LASTEXITCODE -ne 0) {
@@ -217,6 +222,9 @@ jobs:
 
           New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
           Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
+          if ($hasExit) {
+            Copy-Item $tempExit ci-logs\build-exit.txt -Force
+          }
 
           $sha = "${{ github.sha }}"
           $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
@@ -226,6 +234,9 @@ jobs:
           Add-Content ci-logs\metadata.txt "run: $runUrl"
 
           git add ci-logs/build.log ci-logs/metadata.txt
+          if ($hasExit) {
+            git add ci-logs/build-exit.txt
+          }
           if (-not (git diff --cached --quiet)) {
             git config user.name "github-actions"
             git config user.email "github-actions@github.com"
@@ -243,7 +254,7 @@ jobs:
             Write-Host "build-exit.txt not found; failing."
             exit 1
           }
-          $code = Get-Content build-exit.txt | Select-Object -First 1
+          $code = ((Get-Content build-exit.txt | Select-Object -First 1) -as [string]).Trim()
           Write-Host "Build exit code (raw): $code"
           if ($code -match '^[0-9]+$') {
             if ([int]$code -ne 0) { exit 1 }
