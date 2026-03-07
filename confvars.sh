@@ -39,7 +39,7 @@
 MOZ_APP_VENDOR=Disruptive\ Innovations\ SARL
 
 MOZ_APP_NAME=bluegriffondev
-MOZ_APP_DISPLAYNAME=BlueGriffon Dev
+MOZ_APP_DISPLAYNAME="BlueGriffon Dev"
 MOZ_APP_BASENAME=BlueGriffonDev
 
 #MOZ_ENABLE_LIBXUL=1
