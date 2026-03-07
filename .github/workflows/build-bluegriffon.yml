@@ -53,20 +53,41 @@ jobs:
             }
           }
 
-          $candidates = @(
+          $wherePy27 = @(where.exe python2.7 2>$null)
+          $wherePy2 = @(where.exe python2 2>$null)
+          $wherePy27 | ForEach-Object { Write-Host "python2.7: $_" }
+          $wherePy2 | ForEach-Object { Write-Host "python2: $_" }
+
+          $candidates = @()
+          $candidates += $wherePy27
+          $candidates += $wherePy2
+          $candidates += @(
+            "C:\Python27_18\python.exe",
             "C:\Python27\python.exe",
             "C:\Python27\python2.exe",
             "C:\Python27\python2.7.exe"
           )
-          $py2 = $candidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+
+          $py2 = $null
+          foreach ($candidate in ($candidates | Select-Object -Unique)) {
+            if (-not (Test-Path $candidate)) { continue }
+            try {
+              & $candidate -c "import __builtin__"
+              if ($LASTEXITCODE -eq 0) {
+                $py2 = $candidate
+                break
+              }
+            } catch {
+              Write-Host "Python2 probe failed for $candidate"
+            }
+          }
+
           if ($py2) {
             "PYTHON2_EXE=$py2" >> $env:GITHUB_ENV
-            Write-Host "Python2 resolved: $py2"
+            Write-Host "Python2 resolved and verified: $py2"
           } else {
-            Write-Host "Python2 not found in expected locations."
+            Write-Host "Python2 not found or not compatible (__builtin__ probe failed)."
           }
-          where.exe python2 2>$null | ForEach-Object { Write-Host "python2: $_" }
-          where.exe python2.7 2>$null | ForEach-Object { Write-Host "python2.7: $_" }
 
       - name: Install MozillaBuild
         run: choco install -y mozillabuild

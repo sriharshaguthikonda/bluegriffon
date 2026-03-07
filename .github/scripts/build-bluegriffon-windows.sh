@@ -46,7 +46,7 @@ if [ -n "${PYTHON2_EXE:-}" ]; then
   PYTHON_EXE_CAND="$PYTHON2_EXE"
 fi
 if [ -z "$PYTHON_EXE_CAND" ]; then
-  for p in /c/Python27/python.exe /c/Python27/python2.exe /c/Python27/python2.7.exe; do
+  for p in /c/Python27_18/python.exe /c/Python27/python.exe /c/Python27/python2.exe /c/Python27/python2.7.exe; do
     if [ -x "$p" ]; then
       PYTHON_EXE_CAND="$p"
       break
@@ -60,11 +60,20 @@ if [ -z "$PYTHON_EXE_CAND" ]; then
     PYTHON_EXE_CAND="$(command -v python2)"
   fi
 fi
-if [ -z "$PYTHON_EXE_CAND" ]; then
-  PYTHON_EXE_CAND="${PYTHON_EXE:-/c/mozilla-build/python3/python.exe}"
-fi
 if [[ "$PYTHON_EXE_CAND" =~ ^[A-Za-z]: ]]; then
   PYTHON_EXE_CAND="$(cygpath -u "$PYTHON_EXE_CAND" 2>/dev/null || true)"
+fi
+if [ -z "$PYTHON_EXE_CAND" ] || [ ! -x "$PYTHON_EXE_CAND" ]; then
+  echo "ERROR: Python 2.7 executable not found. Set PYTHON2_EXE or install Python 2.7."
+  exit 11
+fi
+if ! "$PYTHON_EXE_CAND" - <<'PY'
+import __builtin__
+print("python2_ok")
+PY
+then
+  echo "ERROR: Selected python is not Python 2 compatible (__builtin__ missing): $PYTHON_EXE_CAND"
+  exit 12
 fi
 if [ -x "$PYTHON_EXE_CAND" ]; then
   cat >"$shim_dir/python" <<EOF
@@ -76,8 +85,6 @@ EOF
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
   export PYTHON="$PYTHON_EXE_CAND"
   echo "Using python: $PYTHON_EXE_CAND"
-else
-  echo "WARNING: Python executable not found; mach may fail."
 fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
