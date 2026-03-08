@@ -127,3 +127,63 @@ C:\mozilla-build\msys2\usr\bin\bash.exe -lc "cd /c/Windows_software/bluegriffon/
 ```
 6) Output: `gecko-dev\opt64\dist\bin\bluegriffondev.exe` (x64).
 7) Do not uninstall automatically; provide cleanup instructions only if asked.
+
+## Verified local build + link playbook (Windows x64)
+Use this exact flow when the goal is to produce and verify a locally linked executable.
+
+1) Work on a local-only branch (do not mix with remote CI branch):
+```
+git checkout local-build-rebuild-verify
+```
+
+2) Confirm Defender exclusions are present (reduces file-lock failures during link):
+```
+Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
+```
+Expected to include at least:
+- `C:\mozilla-build`
+- `C:\Python27_18`
+- `C:\Users\deletable\.cargo`
+- `C:\Windows_software\bluegriffon`
+- `C:\Windows_software\bluegriffon\gecko-dev`
+- `C:\Windows_software\bluegriffon\gecko-dev\opt64`
+
+3) Prepare source tree (clean Gecko + local BlueGriffon source):
+```
+git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
+git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
+cd gecko-dev
+git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
+patch -p1 < bluegriffon/config/gecko_dev_content.patch
+patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+cp bluegriffon/config/mozconfig.win .mozconfig
+```
+
+4) Required local compatibility fixes before build:
+- Keep display name without spaces to avoid `jar_maker.py` argument split errors:
+  - `MOZ_APP_DISPLAYNAME=BlueGriffonDev` in `confvars.sh`.
+- Keep retry-on-lock delete in `gecko-dev/config/expandlibs_exec.py` (`os.remove` retry loop for Windows Error 32).
+
+5) Build with VS x64 toolchain + Python 2.7 + Rust 1.19:
+```
+call "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
+set PYTHON=C:\Python27_18\python.exe
+set PATH=C:\Python27_18;C:\Python27_18\Scripts;%PATH%
+set RUSTUP_TOOLCHAIN=1.19.0-x86_64-pc-windows-msvc
+set MSYS2_PATH_TYPE=inherit
+set CHERE_INVOKING=1
+set MSVC_BIN=%VCToolsInstallDir%bin\HostX64\x64
+C:\mozilla-build\msys2\usr\bin\bash.exe -lc "cd /c/Windows_software/bluegriffon/gecko-dev && msvc_bin=$(cygpath -u \"$MSVC_BIN\") && export PATH=$msvc_bin:/c/Python27_18:/c/Python27_18/Scripts:/c/mozilla-build/msys2/mingw64/bin:/c/mozilla-build/msys2/usr/bin:$PATH && export PYTHON=/c/Python27_18/python.exe && export MOZBUILD_MOZMAKE=/c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe && export MAKE=/c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe && ./mach build 2>&1 | tee /c/Windows_software/bluegriffon/local-rebuild-verify.log"
+```
+
+6) Link success criteria (must all be true):
+- Log contains final success line: `your build finally finished successfully`.
+- Log shows executable link line: `bluegriffondev.exe`.
+- Output file exists:
+```
+Get-Item C:\Windows_software\bluegriffon\gecko-dev\opt64\dist\bin\bluegriffondev.exe
+```
+
+7) Portable run validation:
+- Run from `gecko-dev\opt64\dist\bin` (DLLs/resources colocated).
+- Prefer a launcher batch file in portable folder when testing outside build tree.
