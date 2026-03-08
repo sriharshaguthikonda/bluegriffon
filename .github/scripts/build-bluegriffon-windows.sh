@@ -13,7 +13,12 @@ if ! ( : >>"$log_path" ) 2>/dev/null; then
   log_path="$(pwd)/build-worker.log"
 fi
 
-exec >>"$log_path" 2>&1
+if command -v tee >/dev/null 2>&1; then
+  # Keep full worker output in file and stream it to parent process logs.
+  exec > >(tee -a "$log_path") 2>&1
+else
+  exec >>"$log_path" 2>&1
+fi
 set -x
 
 echo "Build log: $log_path"
