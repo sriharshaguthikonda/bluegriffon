@@ -205,11 +205,12 @@ jobs:
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
 
-      - name: Collect executable artifact
+      - name: Collect executable and portable runtime
         if: always()
         shell: powershell
         run: |
           $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
+          $portableDir = Join-Path $artifactDir "bluegriffon-portable"
           New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
           $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
           $candidates = @()
@@ -220,12 +221,31 @@ jobs:
           }
           if ($candidates.Count -gt 0) {
             $picked = $candidates[0]
+            $binDir = Split-Path -Parent $picked.FullName
             Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
+
+            New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
+            Copy-Item -Path (Join-Path $binDir '*') -Destination $portableDir -Recurse -Force
+
+            $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
+            $launcherPath = Join-Path $portableDir $launcherName
+            @"
+@echo off
+setlocal
+cd /d %~dp0
+start "" "%~dp0$($picked.Name)"
+"@ | Set-Content -Path $launcherPath -Encoding ASCII
+
+            $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
+            if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
+            Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
+
             Write-Host "Collected executable: $($picked.FullName)"
+            Write-Host "Collected portable runtime from: $binDir"
           } else {
             Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
           }
-          Get-ChildItem -Path $artifactDir -File -ErrorAction SilentlyContinue |
+          Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
             Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
 
       - name: Upload executable
@@ -234,6 +254,14 @@ jobs:
         with:
           name: bluegriffon-exe
           path: ${{ github.workspace }}\artifact\*.exe
+          if-no-files-found: warn
+
+      - name: Upload portable runtime
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-portable
+          path: ${{ github.workspace }}\artifact\bluegriffon-portable.zip
           if-no-files-found: warn
 
       - name: Show build log tail
