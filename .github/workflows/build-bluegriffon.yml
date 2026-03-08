@@ -307,6 +307,27 @@ jobs:
             Write-Host "No log changes to commit."
           }
 
+      - name: Trigger CI follow-up workflow
+        if: always() && github.event_name == 'push'
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const branch = context.ref.replace("refs/heads/", "");
+            await github.rest.actions.createWorkflowDispatch({
+              owner,
+              repo,
+              workflow_id: "ci-followup-trigger.yml",
+              ref: branch,
+              inputs: {
+                source_run_id: String(context.runId),
+                source_branch: branch,
+                source_sha: context.sha,
+              },
+            });
+            core.info(`Dispatched ci-followup-trigger.yml for run ${context.runId} on ${branch}`);
+
       - name: Fail if build failed
         if: always()
         shell: powershell

@@ -1,0 +1,156 @@
+name: CI Follow-up Trigger
+
+on:
+  workflow_run:
+    workflows: ["Build BlueGriffon (Windows)"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      source_run_id:
+        description: "Source workflow run id"
+        required: true
+      source_branch:
+        description: "Source branch"
+        required: false
+      source_sha:
+        description: "Source commit SHA"
+        required: false
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+
+jobs:
+  followup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Analyze completed build run
+        id: analyze
+        uses: actions/github-script@v8
+        env:
+          INPUT_SOURCE_RUN_ID: ${{ github.event.inputs.source_run_id }}
+          INPUT_SOURCE_BRANCH: ${{ github.event.inputs.source_branch }}
+          INPUT_SOURCE_SHA: ${{ github.event.inputs.source_sha }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const isWorkflowRun = context.eventName === "workflow_run";
+            const runId = Number(isWorkflowRun ? context.payload.workflow_run.id : process.env.INPUT_SOURCE_RUN_ID);
+            if (!runId || Number.isNaN(runId)) {
+              core.setFailed("No source run id provided.");
+              return;
+            }
+
+            let run;
+            for (let i = 0; i < 60; i++) {
+              const resp = await github.rest.actions.getWorkflowRun({ owner, repo, run_id: runId });
+              run = resp.data;
+              if (run.status === "completed") {
+                break;
+              }
+              await new Promise((resolve) => setTimeout(resolve, 10000));
+            }
+
+            if (!run || run.status !== "completed") {
+              core.setFailed(`Source run ${runId} did not complete in time.`);
+              return;
+            }
+
+            const jobs = await github.paginate(github.rest.actions.listJobsForWorkflowRun, {
+              owner,
+              repo,
+              run_id: runId,
+              per_page: 100,
+            });
+            const buildJob = jobs.find((j) => j.name === "build-windows") || jobs[0];
+            const jobUrl = buildJob ? buildJob.html_url : `${run.html_url}/jobs`;
+
+            const artifacts = await github.paginate(github.rest.actions.listWorkflowRunArtifacts, {
+              owner,
+              repo,
+              run_id: runId,
+              per_page: 100,
+            });
+            const artifactNames = artifacts.map((a) => `${a.name}(${a.size_in_bytes})`).join(", ");
+            const exeArtifact = artifacts.find((a) => a.name === "bluegriffon-exe" && !a.expired && a.size_in_bytes > 0);
+            const hasExe = !!exeArtifact;
+
+            const sourceBranch = run.head_branch || process.env.INPUT_SOURCE_BRANCH || "";
+            const sourceSha = run.head_sha || process.env.INPUT_SOURCE_SHA || "";
+            const conclusion = run.conclusion || "unknown";
+            const needsAttention = conclusion !== "success" || !hasExe;
+
+            core.setOutput("run_id", String(runId));
+            core.setOutput("run_url", run.html_url);
+            core.setOutput("job_url", jobUrl);
+            core.setOutput("conclusion", conclusion);
+            core.setOutput("branch", sourceBranch);
+            core.setOutput("sha", sourceSha);
+            core.setOutput("has_exe", hasExe ? "true" : "false");
+            core.setOutput("artifact_names", artifactNames);
+            core.setOutput("needs_attention", needsAttention ? "true" : "false");
+
+            await core.summary
+              .addHeading("Build completion follow-up")
+              .addRaw(`- Run: ${run.html_url}\n`)
+              .addRaw(`- Job: ${jobUrl}\n`)
+              .addRaw(`- Branch: ${sourceBranch}\n`)
+              .addRaw(`- SHA: ${sourceSha}\n`)
+              .addRaw(`- Conclusion: ${conclusion}\n`)
+              .addRaw(`- Artifacts: ${artifactNames || "none"}\n`)
+              .addRaw(`- bluegriffon-exe present: ${hasExe}\n`)
+              .write();
+
+      - name: Open/update watchdog issue on failure or missing exe
+        if: steps.analyze.outputs.needs_attention == 'true'
+        uses: actions/github-script@v8
+        env:
+          RUN_ID: ${{ steps.analyze.outputs.run_id }}
+          RUN_URL: ${{ steps.analyze.outputs.run_url }}
+          JOB_URL: ${{ steps.analyze.outputs.job_url }}
+          BRANCH: ${{ steps.analyze.outputs.branch }}
+          SHA: ${{ steps.analyze.outputs.sha }}
+          CONCLUSION: ${{ steps.analyze.outputs.conclusion }}
+          HAS_EXE: ${{ steps.analyze.outputs.has_exe }}
+          ARTIFACTS: ${{ steps.analyze.outputs.artifact_names }}
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const title = "BlueGriffon CI Watchdog";
+            const q = `repo:${owner}/${repo} is:issue is:open in:title "${title}"`;
+            const found = await github.rest.search.issuesAndPullRequests({ q, per_page: 5 });
+            let issueNumber = null;
+            if (found.data.items.length > 0) {
+              issueNumber = found.data.items[0].number;
+            } else {
+              const created = await github.rest.issues.create({
+                owner,
+                repo,
+                title,
+                body: "Auto-generated CI follow-up thread for build failures or missing executable artifacts.",
+              });
+              issueNumber = created.data.number;
+            }
+
+            const body = [
+              "CI follow-up trigger detected an actionable run.",
+              "",
+              `- Run: ${process.env.RUN_URL}`,
+              `- Job: ${process.env.JOB_URL}`,
+              `- Branch: ${process.env.BRANCH}`,
+              `- SHA: ${process.env.SHA}`,
+              `- Conclusion: ${process.env.CONCLUSION}`,
+              `- bluegriffon-exe present: ${process.env.HAS_EXE}`,
+              `- Artifacts: ${process.env.ARTIFACTS || "none"}`,
+            ].join("\n");
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: issueNumber,
+              body,
+            });
+
