@@ -132,7 +132,7 @@ sanitize_path() {
 
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
-for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw"; do
+for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw" "$HOME/.cargo/bin" "/c/Users/${USERNAME:-}/.cargo/bin" "/c/Users/runneradmin/.cargo/bin"; do
   if [ -n "$p" ] && [ -d "$p" ]; then
     if [ -z "$priority_path" ]; then
       priority_path="$p"
@@ -435,6 +435,47 @@ else
 fi
 echo "yasm on PATH: $(command -v yasm || true)"
 yasm --version || true
+
+RUST_TOOLCHAIN_CAND="${RUST_TOOLCHAIN:-1.19.0-x86_64-pc-windows-msvc}"
+echo "Requested Rust toolchain: $RUST_TOOLCHAIN_CAND"
+echo "rustup on PATH: $(command -v rustup || true)"
+if command -v rustup >/dev/null 2>&1; then
+  rust_selected=""
+  for tc in "$RUST_TOOLCHAIN_CAND" 1.19.0-x86_64-pc-windows-msvc 1.19.0; do
+    [ -n "$tc" ] || continue
+    rustup toolchain install "$tc" --profile minimal || true
+    if rustup run "$tc" rustc --version >/dev/null 2>&1; then
+      rust_selected="$tc"
+      break
+    fi
+  done
+  if [ -n "$rust_selected" ]; then
+    export RUSTUP_TOOLCHAIN="$rust_selected"
+    rustc_path="$(rustup which --toolchain "$rust_selected" rustc 2>/dev/null || true)"
+    cargo_path="$(rustup which --toolchain "$rust_selected" cargo 2>/dev/null || true)"
+    if [ -n "$rustc_path" ] && [ -x "$rustc_path" ]; then
+      export RUSTC="$rustc_path"
+      rust_bin_dir="$(dirname "$rustc_path")"
+      PATH="$(sanitize_path "$rust_bin_dir:$PATH")"
+      export PATH
+    fi
+    if [ -n "$cargo_path" ] && [ -x "$cargo_path" ]; then
+      export CARGO="$cargo_path"
+    fi
+    echo "Using Rust toolchain: $RUSTUP_TOOLCHAIN"
+  else
+    echo "WARNING: Could not activate Rust 1.19 toolchain. Continuing with default rustc."
+  fi
+else
+  echo "WARNING: rustup not available. Continuing with default rustc."
+fi
+echo "RUSTUP_TOOLCHAIN env: ${RUSTUP_TOOLCHAIN:-}"
+echo "RUSTC env: ${RUSTC:-}"
+echo "CARGO env: ${CARGO:-}"
+echo "rustc on PATH: $(command -v rustc || true)"
+echo "cargo on PATH: $(command -v cargo || true)"
+rustc --version || true
+cargo --version || true
 
 MOZMAKE_CAND=""
 if command -v mozmake >/dev/null 2>&1; then

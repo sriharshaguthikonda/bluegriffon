@@ -96,6 +96,43 @@ jobs:
         continue-on-error: true
         run: choco install -y yasm
 
+      - name: Ensure Rust 1.19 toolchain
+        shell: powershell
+        continue-on-error: true
+        run: |
+          $cargoBin = Join-Path $env:USERPROFILE ".cargo\bin"
+          if (Test-Path $cargoBin) {
+            $cargoBin | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          }
+
+          if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) {
+            Write-Host "rustup not found; installing rustup-init."
+            $rustupInit = Join-Path $env:RUNNER_TEMP "rustup-init.exe"
+            Invoke-WebRequest -Uri "https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe" -OutFile $rustupInit
+            & $rustupInit -y --profile minimal --default-toolchain none
+          }
+
+          if (Get-Command rustup -ErrorAction SilentlyContinue) {
+            $selected = $null
+            $candidates = @("1.19.0-x86_64-pc-windows-msvc", "1.19.0")
+            foreach ($tc in $candidates) {
+              rustup toolchain install $tc --profile minimal
+              if ($LASTEXITCODE -eq 0) {
+                $selected = $tc
+                break
+              }
+            }
+            rustup toolchain list
+            if ($selected) {
+              "RUST_TOOLCHAIN=$selected" >> $env:GITHUB_ENV
+              Write-Host "Using Rust toolchain candidate: $selected"
+            } else {
+              Write-Host "Rust 1.19 toolchain install failed; build script will retry/fallback."
+            }
+          } else {
+            Write-Host "rustup still unavailable; build script will fallback to system rust."
+          }
+
       - name: Build BlueGriffon executable
         shell: cmd
         continue-on-error: true
@@ -111,6 +148,7 @@ jobs:
           dir "C:\mozilla-build\msys2\mingw64\bin" >> "%LOG%" 2>&1
           echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
           echo PYTHON2_EXE: %PYTHON2_EXE% >> "%LOG%"
+          echo RUST_TOOLCHAIN: %RUST_TOOLCHAIN% >> "%LOG%"
           echo PATH: %PATH% >> "%LOG%"
           where git >> "%LOG%" 2>&1
           where bash >> "%LOG%" 2>&1
@@ -167,13 +205,36 @@ jobs:
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
 
+      - name: Collect executable artifact
+        if: always()
+        shell: powershell
+        run: |
+          $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
+          New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
+          $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
+          $candidates = @()
+          if (Test-Path $searchRoot) {
+            $candidates = Get-ChildItem -Path $searchRoot -Recurse -Filter "*griffon*.exe" -ErrorAction SilentlyContinue |
+              Where-Object { $_.FullName -match "\\dist\\bin\\" } |
+              Sort-Object LastWriteTime -Descending
+          }
+          if ($candidates.Count -gt 0) {
+            $picked = $candidates[0]
+            Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
+            Write-Host "Collected executable: $($picked.FullName)"
+          } else {
+            Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
+          }
+          Get-ChildItem -Path $artifactDir -File -ErrorAction SilentlyContinue |
+            Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
+
       - name: Upload executable
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bluegriffon-exe
-          path: |
-            gecko-dev/**/dist/bin/*griffon*.exe
+          path: ${{ github.workspace }}\artifact\*.exe
+          if-no-files-found: warn
 
       - name: Show build log tail
         if: always()
