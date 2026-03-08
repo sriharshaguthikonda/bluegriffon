@@ -187,3 +187,38 @@ Get-Item C:\Windows_software\bluegriffon\gecko-dev\opt64\dist\bin\bluegriffondev
 7) Portable run validation:
 - Run from `gecko-dev\opt64\dist\bin` (DLLs/resources colocated).
 - Prefer a launcher batch file in portable folder when testing outside build tree.
+
+## Branch progress snapshot (local-build-rebuild-verify)
+Status captured on 2026-03-09 for handoff to remote-CI validation.
+
+- Branch: `local-build-rebuild-verify`
+- Build status: local x64 build completes and links successfully (`mach build` success).
+- Output produced: `gecko-dev\opt64\dist\bin\bluegriffondev.exe`
+- Portable folders prepared:
+  - `portable-run\bluegriffondev.exe`
+  - `portable-run-packaged\bluegriffondev.exe`
+  - `portable-run-dev\bluegriffondev.exe`
+  - `portable-run-packaged-dev\bluegriffondev.exe`
+
+### Runtime failure observed
+- App exits immediately on launch with crash dump.
+- Windows event log (`Application Error`, id `1000`) shows:
+  - faulting module: `xul.dll`
+  - exception code: `0xc0000005`
+  - fault offset: `0x0000000002232cf2`
+- Crash dump symbolization maps offset to `vp8_six_tap_x86` (libvpx path).
+
+### Evidence links (local paths)
+- Build log: `local-rebuild-verify.log`
+- Crash dumps:
+  - `C:\Users\deletable\AppData\Local\CrashDumps\bluegriffondev.exe.10272.dmp`
+  - `C:\Users\deletable\AppData\Local\CrashDumps\bluegriffondev.exe.45804.dmp`
+- Portable test target:
+  - `C:\Windows_software\bluegriffon\portable-run-packaged-dev\bluegriffondev.exe`
+
+### What to do next (remote branch)
+1) Keep local branch focused on runtime debugging only.
+2) On remote build branch, build fresh Windows x64 artifact without local-only experiments.
+3) Download artifact and run portable launch test; confirm whether same early crash occurs.
+4) If crash reproduces remotely, treat as branch/toolchain/runtime issue (not local machine packaging).
+5) Capture remote commit SHA + run/job URL in `ci-logs/metadata.txt` and continue fix loop there.
