@@ -62,11 +62,10 @@ gather logs, and iterate until the Windows x64 build succeeds.
 6) Continue this loop until the workflow is `success` and the Windows x64 executable artifact upload succeeds.
 
 ## A/B branch protocol for stubborn blockers
-- Default fanout is exactly 2 branches per blocker:
-  - `exp/<blocker>-a`
-  - `exp/<blocker>-b`
+- Start with 2 branches per blocker (`exp/<blocker>-a`, `exp/<blocker>-b`).
+- If both fail without clear progress, expand fanout for that blocker (3+ branches is allowed).
 - Each branch must contain one distinct hypothesis (no mixed fixes).
-- Push both branches and monitor both runs to completion with long polling:
+- Push all experiment branches and monitor all runs to completion with long polling:
   - `Start-Sleep -Seconds 100` (increase while `Build BlueGriffon executable` runs).
 - Compare results and pick one winner by farthest progress:
   1) `Build BlueGriffon executable` step health/duration
