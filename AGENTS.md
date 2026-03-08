@@ -61,6 +61,23 @@ gather logs, and iterate until the Windows x64 build succeeds.
 5) Push again.
 6) Continue this loop until the workflow is `success` and the Windows x64 executable artifact upload succeeds.
 
+## A/B branch protocol for stubborn blockers
+- Default fanout is exactly 2 branches per blocker:
+  - `exp/<blocker>-a`
+  - `exp/<blocker>-b`
+- Each branch must contain one distinct hypothesis (no mixed fixes).
+- Push both branches and monitor both runs to completion with long polling:
+  - `Start-Sleep -Seconds 100` (increase while `Build BlueGriffon executable` runs).
+- Compare results and pick one winner by farthest progress:
+  1) `Build BlueGriffon executable` step health/duration
+  2) absence of previous blocker signature in `ci-logs/build.log`
+  3) lower severity/new failure if still failing
+  4) tie-breaker: smaller/safer diff
+- Promote only the winner into `local-build-setup` (fast-forward or cherry-pick).
+- Keep loser branch for reference during the cycle, then delete after promotion.
+- For every completed run, always share a clickable job URL:
+  - `https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/<RUN_ID>/job/<JOB_ID>`
+
 ## Notes
 - Always build Windows x64.
 - Do not build locally unless explicitly requested.
