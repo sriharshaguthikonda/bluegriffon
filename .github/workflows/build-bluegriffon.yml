@@ -229,12 +229,8 @@ jobs:
 
             $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
             $launcherPath = Join-Path $portableDir $launcherName
-            @"
-@echo off
-setlocal
-cd /d %~dp0
-start "" "%~dp0$($picked.Name)"
-"@ | Set-Content -Path $launcherPath -Encoding ASCII
+            $launcherContent = "@echo off`r`nsetlocal`r`ncd /d %~dp0`r`nstart """" ""%~dp0$($picked.Name)""`r`n"
+            Set-Content -Path $launcherPath -Encoding ASCII -Value $launcherContent
 
             $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
             if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
