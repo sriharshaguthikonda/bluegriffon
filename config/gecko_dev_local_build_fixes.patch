@@ -166,3 +166,15 @@ index 9e7e8beee93c..b0637f7162f1 100644
  
  ifeq (Linux,$(OS_ARCH))
  LOCAL_CHECKS += ; test "$$($(TOOLCHAIN_PREFIX)readelf -l $1 | awk '$1 == "LOAD" { t += 1 } END { print t }')" -le 1 && echo "Only one PT_LOAD segment" && exit 1 || exit 0
+diff --git a/build/moz.configure/toolchain.configure b/build/moz.configure/toolchain.configure
+--- a/build/moz.configure/toolchain.configure
++++ b/build/moz.configure/toolchain.configure
+@@ -13,7 +13,7 @@ add_old_configure_assignment('MOZ_PGO', depends('MOZ_PGO')(lambda x: bool(x)))
+ 
+ # yasm detection
+ # ==============================================================
+-yasm = check_prog('YASM', ['yasm'], allow_missing=True)
++yasm = check_prog('YASM', ['yasm', 'yasm.exe'], allow_missing=True)
+ 
+ @depends_if(yasm)
+ @checking('yasm version')
