@@ -178,9 +178,12 @@ diff --git a/build/moz.configure/toolchain.configure b/build/moz.configure/toolc
  
  @depends_if(yasm)
  @checking('yasm version')
-@@ -60,4 +60,4 @@ def have_yasm(value):
+@@ -60,7 +60,7 @@ def have_yasm(value):
  
  set_config('HAVE_YASM', have_yasm)
  # Until the YASM variable is not necessary in old-configure.
 -add_old_configure_assignment('YASM', have_yasm)
 +add_old_configure_assignment('YASM', yasm)
+ 
+ # Android NDK
+ # ==============================================================
