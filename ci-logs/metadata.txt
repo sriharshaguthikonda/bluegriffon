@@ -1,3 +1,3 @@
-source-sha: f85692c741d51ad3bc37f646817ca2848916cf9b
-branch: exp-yasm-b
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22820061657
+source-sha: 89f73fe45235b29cd7e7ad943fe67289288f8093
+branch: local-build-setup
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22820052222
