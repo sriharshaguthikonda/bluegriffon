@@ -218,6 +218,30 @@ jobs:
           $portableDir = Join-Path $artifactDir "bluegriffon-portable"
           New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
           $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
+
+          $scanFile = Join-Path $env:GITHUB_WORKSPACE "artifact-scan.txt"
+          "==== artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
+          if (Test-Path $searchRoot) {
+            $scanCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
+              Where-Object {
+                $_.Extension -in @(".exe", ".msi", ".zip", ".7z") -and
+                ($_.FullName -match "\\dist\\|\\installer\\|griffon")
+              } |
+              Sort-Object LastWriteTime -Descending
+
+            $scanCandidates |
+              Select-Object -First 500 FullName,Length,LastWriteTime |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $scanFile
+          } else {
+            "search root missing: $searchRoot" | Add-Content -Path $scanFile
+          }
+          if (Test-Path build.log) {
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== artifact scan ===="
+            Get-Content -Path $scanFile | Add-Content -Path build.log
+          }
           $candidates = @()
           if (Test-Path $searchRoot) {
             $candidates = Get-ChildItem -Path $searchRoot -Recurse -Filter "*griffon*.exe" -ErrorAction SilentlyContinue |
@@ -343,6 +367,13 @@ jobs:
         with:
           name: build-log
           path: ${{ github.workspace }}\build.log
+
+      - name: Upload artifact scan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-scan
+          path: ${{ github.workspace }}\artifact-scan.txt
 
       - name: Upload build exit code
         if: always()

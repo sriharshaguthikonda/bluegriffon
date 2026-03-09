@@ -85,13 +85,26 @@ if [ -x "$PYTHON_EXE_CAND" ]; then
 #!/usr/bin/env bash
 exec "$PYTHON_EXE_CAND" "\$@"
 EOF
+  cat >"$shim_dir/python2" <<EOF
+#!/usr/bin/env bash
+exec "$PYTHON_EXE_CAND" "\$@"
+EOF
+  cat >"$shim_dir/python2.7" <<EOF
+#!/usr/bin/env bash
+exec "$PYTHON_EXE_CAND" "\$@"
+EOF
   chmod +x "$shim_dir/python"
+  chmod +x "$shim_dir/python2" "$shim_dir/python2.7"
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
   export PYTHON="$PYTHON_EXE_CAND"
   echo "Using python: $PYTHON_EXE_CAND"
+  echo "python2 shim: $shim_dir/python2"
+  echo "python2.7 shim: $shim_dir/python2.7"
 fi
 echo "python on PATH: $(command -v python || true)"
+echo "python2 on PATH: $(command -v python2 || true)"
+echo "python2.7 on PATH: $(command -v python2.7 || true)"
 python --version || true
 
 # Ensure MSVC bin is early in PATH so link/cl resolve correctly.
