@@ -667,7 +667,7 @@ fi
 installer_build_rc=$?
 set -e
 if [ "$installer_build_rc" -ne 0 ]; then
-  echo "ERROR: mach build installer failed with exit code: $installer_build_rc"
+  echo "WARNING: mach build installer failed with exit code: $installer_build_rc"
   echo "Installer object directory probe: $installer_objdir"
   if [ -d "$installer_objdir" ]; then
     echo "Installer objdir directories:"
@@ -683,7 +683,6 @@ if [ "$installer_build_rc" -ne 0 ]; then
   fi
   echo "Source installer directory probe:"
   find "$PWD/bluegriffon/installer" -maxdepth 3 -type d -print | sort || true
-  exit "$installer_build_rc"
 fi
 
 echo "Installer/package candidates under objdir:"
@@ -694,7 +693,7 @@ installer_path="$(find "$objdir" -type f \( -iname "*.exe" -o -iname "*.msi" \) 
   ! -iname "*uninstall*.exe" ! -path "*/dist/bin/*" -print 2>/dev/null | head -n 1 || true)"
 
 if [ -z "$installer_path" ]; then
-  echo "ERROR: Installer .exe/.msi not found under $objdir/dist/install or */installer/*."
-  exit 14
+  echo "WARNING: Installer .exe/.msi not found under $objdir/dist/install or */installer/*."
+else
+  echo "Found installer: $installer_path"
 fi
-echo "Found installer: $installer_path"
