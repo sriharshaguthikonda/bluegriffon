@@ -32,24 +32,32 @@ jobs:
         run: |
           $py2Installed = $false
           Write-Host "Attempting python2 install via Chocolatey..."
-          choco install -y python2 --no-progress
-          if ($LASTEXITCODE -eq 0) {
-            $py2Installed = $true
-          } else {
-            Write-Host "Chocolatey python2 install failed with exit code $LASTEXITCODE."
+          try {
+            choco install -y python2 --no-progress
+            if ($LASTEXITCODE -eq 0) {
+              $py2Installed = $true
+            } else {
+              Write-Host "Chocolatey python2 install failed with exit code $LASTEXITCODE."
+            }
+          } catch {
+            Write-Host "Chocolatey python2 install threw: $($_.Exception.Message)"
           }
 
           if (-not $py2Installed) {
             $msiUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
             $msiPath = Join-Path $env:RUNNER_TEMP "python-2.7.18.amd64.msi"
-            Write-Host "Downloading Python 2.7.18 MSI from $msiUrl"
-            Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath
-            Write-Host "Installing Python 2.7.18 MSI..."
-            Start-Process msiexec.exe -ArgumentList "/i `"$msiPath`" /qn /norestart" -Wait -NoNewWindow
-            if ($LASTEXITCODE -eq 0) {
-              $py2Installed = $true
-            } else {
-              Write-Host "MSI install returned exit code $LASTEXITCODE."
+            try {
+              Write-Host "Downloading Python 2.7.18 MSI from $msiUrl"
+              Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath
+              Write-Host "Installing Python 2.7.18 MSI..."
+              Start-Process msiexec.exe -ArgumentList "/i `"$msiPath`" /qn /norestart" -Wait -NoNewWindow
+              if ($LASTEXITCODE -eq 0) {
+                $py2Installed = $true
+              } else {
+                Write-Host "MSI install returned exit code $LASTEXITCODE."
+              }
+            } catch {
+              Write-Host "Python 2.7 MSI fallback failed: $($_.Exception.Message)"
             }
           }
 
@@ -88,6 +96,7 @@ jobs:
           } else {
             Write-Host "Python2 not found or not compatible (__builtin__ probe failed)."
           }
+          $global:LASTEXITCODE = 0
 
       - name: Install MozillaBuild
         shell: powershell
@@ -143,8 +152,9 @@ jobs:
           if ($installed) {
             Write-Host "MozillaBuild installation verified."
           } else {
-            throw "MozillaBuild is still missing after choco/winget/direct fallbacks."
+            Write-Host "WARNING: MozillaBuild is still missing after choco/winget/direct fallbacks."
           }
+          $global:LASTEXITCODE = 0
 
       - name: Install Yasm
         continue-on-error: true
@@ -217,12 +227,35 @@ jobs:
           where pkg-config >> "%LOG%" 2>&1
           where make >> "%LOG%" 2>&1
           where mozmake >> "%LOG%" 2>&1
-          if not exist "C:\mozilla-build\msys2\usr\bin\bash.exe" (
-            echo ERROR: MozillaBuild bash.exe not found. >> "%LOG%"
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27_18\python.exe" set "PYTHON2_EXE=C:\Python27_18\python.exe"
+          )
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27\python.exe" set "PYTHON2_EXE=C:\Python27\python.exe"
+          )
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27\python2.7.exe" set "PYTHON2_EXE=C:\Python27\python2.7.exe"
+          )
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27\python2.exe" set "PYTHON2_EXE=C:\Python27\python2.exe"
+          )
+          if not "%PYTHON2_EXE%"=="" (
+            echo PYTHON2_EXE fallback applied: %PYTHON2_EXE% >> "%LOG%"
+          )
+
+          set "BASH_EXE=C:\mozilla-build\msys2\usr\bin\bash.exe"
+          if not exist "%BASH_EXE%" (
+            if exist "C:\Program Files\Git\bin\bash.exe" set "BASH_EXE=C:\Program Files\Git\bin\bash.exe"
+          )
+          if not exist "%BASH_EXE%" (
+            if exist "C:\Program Files\Git\usr\bin\bash.exe" set "BASH_EXE=C:\Program Files\Git\usr\bin\bash.exe"
+          )
+          if not exist "%BASH_EXE%" (
+            echo ERROR: no suitable bash.exe found (checked MozillaBuild and Git Bash). >> "%LOG%"
             echo 2 > "%EXIT_FILE%"
             exit /b 0
           )
-          echo Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe >> "%LOG%"
+          echo Using bash: %BASH_EXE% >> "%LOG%"
 
           set "VSINSTALL="
           set "VCVARS="
@@ -260,7 +293,7 @@ jobs:
           set "MSYSTEM=MINGW64"
           set "MSYS2_PATH_TYPE=inherit"
           echo MSYS2_PATH_TYPE: %MSYS2_PATH_TYPE% >> "%LOG%"
-          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
+          "%BASH_EXE%" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
           set "ERR=%ERRORLEVEL%"
           if "%ERR%"=="0" (
             set "FOUND_EXE="

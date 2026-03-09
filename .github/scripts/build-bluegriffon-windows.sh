@@ -222,7 +222,10 @@ download_msys2_pkg() {
     py3="$(command -v python3 || true)"
   fi
   if [ -z "$py3" ]; then
-    echo "WARNING: python3 not found; cannot query MSYS2 API for $pkg"
+    py3="$(command -v python || true)"
+  fi
+  if [ -z "$py3" ]; then
+    echo "WARNING: python3/python not found; cannot query MSYS2 API for $pkg"
     return 1
   fi
   url="$("$py3" - "$pkg" <<'PY'
