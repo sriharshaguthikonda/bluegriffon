@@ -1,51 +1,51 @@
-==== build start Mon 03/09/2026 21:40:39.08 ==== 
+==== build start Mon 03/09/2026 21:49:22.92 ==== 
 Workspace: D:\a\bluegriffon\bluegriffon 
  Volume in drive D is Temporary Storage
- Volume Serial Number is B89E-DB88
+ Volume Serial Number is 92E2-DC3D
 
  Directory of D:\a\bluegriffon\bluegriffon
 
-03/09/2026  09:40 PM    <DIR>          .
-03/09/2026  09:39 PM    <DIR>          ..
-03/09/2026  09:39 PM    <DIR>          .github
-03/09/2026  09:39 PM             6,221 AGENTS.md
-03/09/2026  09:39 PM    <DIR>          app
-03/09/2026  09:39 PM               107 app-rules.mk
-03/09/2026  09:39 PM               724 app.mozbuild
-03/09/2026  09:39 PM    <DIR>          base
-03/09/2026  09:39 PM    <DIR>          branding
-03/09/2026  09:40 PM                93 build.log
-03/09/2026  09:39 PM             1,357 build.mk
-03/09/2026  09:39 PM    <DIR>          components
-03/09/2026  09:39 PM    <DIR>          config
-03/09/2026  09:39 PM             2,417 confvars.sh
-03/09/2026  09:39 PM                30 defs.mk
-03/09/2026  09:39 PM    <DIR>          extensions
-03/09/2026  09:39 PM    <DIR>          installer
-03/09/2026  09:39 PM    <DIR>          langpacks
-03/09/2026  09:39 PM            16,285 LICENSE
-03/09/2026  09:39 PM    <DIR>          locales
-03/09/2026  09:39 PM             2,192 Makefile.in
-03/09/2026  09:39 PM             2,642 makefiles.sh
-03/09/2026  09:39 PM    <DIR>          modules
-03/09/2026  09:39 PM               539 moz.build
-03/09/2026  09:39 PM               351 moz.configure
-03/09/2026  09:39 PM             6,637 README.md
-03/09/2026  09:39 PM    <DIR>          sidebars
-03/09/2026  09:39 PM    <DIR>          src
-03/09/2026  09:39 PM    <DIR>          themes
+03/09/2026  09:49 PM    <DIR>          .
+03/09/2026  09:47 PM    <DIR>          ..
+03/09/2026  09:48 PM    <DIR>          .github
+03/09/2026  09:48 PM             6,221 AGENTS.md
+03/09/2026  09:48 PM    <DIR>          app
+03/09/2026  09:48 PM               107 app-rules.mk
+03/09/2026  09:48 PM               724 app.mozbuild
+03/09/2026  09:48 PM    <DIR>          base
+03/09/2026  09:48 PM    <DIR>          branding
+03/09/2026  09:49 PM                93 build.log
+03/09/2026  09:48 PM             1,357 build.mk
+03/09/2026  09:48 PM    <DIR>          components
+03/09/2026  09:48 PM    <DIR>          config
+03/09/2026  09:48 PM             2,417 confvars.sh
+03/09/2026  09:48 PM                30 defs.mk
+03/09/2026  09:48 PM    <DIR>          extensions
+03/09/2026  09:48 PM    <DIR>          installer
+03/09/2026  09:48 PM    <DIR>          langpacks
+03/09/2026  09:48 PM            16,285 LICENSE
+03/09/2026  09:48 PM    <DIR>          locales
+03/09/2026  09:48 PM             2,192 Makefile.in
+03/09/2026  09:48 PM             2,642 makefiles.sh
+03/09/2026  09:48 PM    <DIR>          modules
+03/09/2026  09:48 PM               539 moz.build
+03/09/2026  09:48 PM               351 moz.configure
+03/09/2026  09:48 PM             6,637 README.md
+03/09/2026  09:48 PM    <DIR>          sidebars
+03/09/2026  09:48 PM    <DIR>          src
+03/09/2026  09:48 PM    <DIR>          themes
               13 File(s)         39,595 bytes
-              16 Dir(s)  157,725,167,616 bytes free
+              16 Dir(s)  157,725,151,232 bytes free
  Volume in drive D is Temporary Storage
- Volume Serial Number is B89E-DB88
+ Volume Serial Number is 92E2-DC3D
 
  Directory of D:\a\bluegriffon\bluegriffon\.github\scripts
 
-03/09/2026  09:39 PM    <DIR>          .
-03/09/2026  09:39 PM    <DIR>          ..
-03/09/2026  09:39 PM            23,146 build-bluegriffon-windows.sh
-               1 File(s)         23,146 bytes
-               2 Dir(s)  157,725,167,616 bytes free
+03/09/2026  09:48 PM    <DIR>          .
+03/09/2026  09:48 PM    <DIR>          ..
+03/09/2026  09:48 PM            23,225 build-bluegriffon-windows.sh
+               1 File(s)         23,225 bytes
+               2 Dir(s)  157,725,151,232 bytes free
  Volume in drive C is Windows
  Volume Serial Number is 808A-844D
 
@@ -73,18 +73,18 @@ C:\Strawberry\perl\bin\pkg-config
 C:\Strawberry\perl\bin\pkg-config.bat
 C:\mingw64\bin\make.exe
 INFO: Could not find files for the given pattern(s).
-ERROR: MozillaBuild bash.exe not found. 
+PYTHON2_EXE fallback applied: C:\Python27\python.exe 
 
 ==== artifact scan ====
-==== artifact scan 2026-03-09T21:40:39.9419279+00:00 ====
+==== artifact scan 2026-03-09T21:49:23.8169177+00:00 ====
 search root missing: D:\a\bluegriffon\bluegriffon\gecko-dev
 
 ==== root recursive report summary ====
-==== root recursive report 2026-03-09T21:40:39.9575514+00:00 ====
+==== root recursive report 2026-03-09T21:49:23.8169177+00:00 ====
 
 ==== root: D:\a\bluegriffon\bluegriffon ====
 dir_count: 2613
-file_count: 15101
+file_count: 15100
 -- directories (recursive) --
 D:\a\bluegriffon\bluegriffon\.github
 D:\a\bluegriffon\bluegriffon\.github\scripts
