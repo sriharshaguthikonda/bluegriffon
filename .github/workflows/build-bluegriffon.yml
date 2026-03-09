@@ -251,7 +251,7 @@ jobs:
             if exist "C:\Program Files\Git\usr\bin\bash.exe" set "BASH_EXE=C:\Program Files\Git\usr\bin\bash.exe"
           )
           if not exist "%BASH_EXE%" (
-            echo ERROR: no suitable bash.exe found (checked MozillaBuild and Git Bash). >> "%LOG%"
+            echo ERROR: no suitable bash.exe found; checked MozillaBuild and Git Bash. >> "%LOG%"
             echo 2 > "%EXIT_FILE%"
             exit /b 0
           )
