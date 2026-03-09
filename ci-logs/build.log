@@ -1,84 +1,84 @@
-==== build start Mon 03/09/2026 17:35:58.75 ==== 
+==== build start Mon 03/09/2026 19:07:50.65 ==== 
 Workspace: D:\a\bluegriffon\bluegriffon 
  Volume in drive D is Temporary Storage
- Volume Serial Number is 06AF-2C4F
+ Volume Serial Number is EA3B-DEB7
 
  Directory of D:\a\bluegriffon\bluegriffon
 
-03/09/2026  05:35 PM    <DIR>          .
-03/09/2026  05:32 PM    <DIR>          ..
-03/09/2026  05:32 PM    <DIR>          .github
-03/09/2026  05:32 PM             6,221 AGENTS.md
-03/09/2026  05:32 PM    <DIR>          app
-03/09/2026  05:32 PM               107 app-rules.mk
-03/09/2026  05:32 PM               724 app.mozbuild
-03/09/2026  05:32 PM    <DIR>          base
-03/09/2026  05:32 PM    <DIR>          branding
-03/09/2026  05:35 PM                93 build.log
-03/09/2026  05:32 PM             1,357 build.mk
-03/09/2026  05:32 PM    <DIR>          components
-03/09/2026  05:32 PM    <DIR>          config
-03/09/2026  05:32 PM             2,417 confvars.sh
-03/09/2026  05:32 PM                30 defs.mk
-03/09/2026  05:32 PM    <DIR>          extensions
-03/09/2026  05:32 PM    <DIR>          installer
-03/09/2026  05:32 PM    <DIR>          langpacks
-03/09/2026  05:32 PM            16,285 LICENSE
-03/09/2026  05:32 PM    <DIR>          locales
-03/09/2026  05:32 PM             2,192 Makefile.in
-03/09/2026  05:32 PM             2,642 makefiles.sh
-03/09/2026  05:32 PM    <DIR>          modules
-03/09/2026  05:32 PM               539 moz.build
-03/09/2026  05:32 PM               351 moz.configure
-03/09/2026  05:32 PM             6,637 README.md
-03/09/2026  05:32 PM    <DIR>          sidebars
-03/09/2026  05:32 PM    <DIR>          src
-03/09/2026  05:32 PM    <DIR>          themes
+03/09/2026  07:07 PM    <DIR>          .
+03/09/2026  07:05 PM    <DIR>          ..
+03/09/2026  07:05 PM    <DIR>          .github
+03/09/2026  07:05 PM             6,221 AGENTS.md
+03/09/2026  07:05 PM    <DIR>          app
+03/09/2026  07:05 PM               107 app-rules.mk
+03/09/2026  07:05 PM               724 app.mozbuild
+03/09/2026  07:05 PM    <DIR>          base
+03/09/2026  07:05 PM    <DIR>          branding
+03/09/2026  07:07 PM                93 build.log
+03/09/2026  07:05 PM             1,357 build.mk
+03/09/2026  07:05 PM    <DIR>          components
+03/09/2026  07:05 PM    <DIR>          config
+03/09/2026  07:05 PM             2,417 confvars.sh
+03/09/2026  07:05 PM                30 defs.mk
+03/09/2026  07:05 PM    <DIR>          extensions
+03/09/2026  07:05 PM    <DIR>          installer
+03/09/2026  07:05 PM    <DIR>          langpacks
+03/09/2026  07:05 PM            16,285 LICENSE
+03/09/2026  07:05 PM    <DIR>          locales
+03/09/2026  07:05 PM             2,192 Makefile.in
+03/09/2026  07:05 PM             2,642 makefiles.sh
+03/09/2026  07:05 PM    <DIR>          modules
+03/09/2026  07:05 PM               539 moz.build
+03/09/2026  07:05 PM               351 moz.configure
+03/09/2026  07:05 PM             6,637 README.md
+03/09/2026  07:05 PM    <DIR>          sidebars
+03/09/2026  07:05 PM    <DIR>          src
+03/09/2026  07:05 PM    <DIR>          themes
               13 File(s)         39,595 bytes
-              16 Dir(s)  157,725,192,192 bytes free
+              16 Dir(s)  157,725,163,520 bytes free
  Volume in drive D is Temporary Storage
- Volume Serial Number is 06AF-2C4F
+ Volume Serial Number is EA3B-DEB7
 
  Directory of D:\a\bluegriffon\bluegriffon\.github\scripts
 
-03/09/2026  05:32 PM    <DIR>          .
-03/09/2026  05:32 PM    <DIR>          ..
-03/09/2026  05:32 PM            21,191 build-bluegriffon-windows.sh
-               1 File(s)         21,191 bytes
-               2 Dir(s)  157,725,192,192 bytes free
+03/09/2026  07:05 PM    <DIR>          .
+03/09/2026  07:05 PM    <DIR>          ..
+03/09/2026  07:05 PM            21,489 build-bluegriffon-windows.sh
+               1 File(s)         21,489 bytes
+               2 Dir(s)  157,725,163,520 bytes free
  Volume in drive C is Windows
  Volume Serial Number is 808A-844D
 
  Directory of C:\mozilla-build
 
-03/09/2026  05:35 PM    <DIR>          .
-03/09/2026  05:34 PM    <DIR>          bin
-03/09/2026  05:34 PM    <DIR>          kdiff3
-03/09/2026  05:35 PM    <DIR>          msys2
-03/09/2026  05:35 PM    <DIR>          python3
+03/09/2026  07:07 PM    <DIR>          .
+03/09/2026  07:06 PM    <DIR>          bin
+03/09/2026  07:06 PM    <DIR>          kdiff3
+03/09/2026  07:07 PM    <DIR>          msys2
+03/09/2026  07:07 PM    <DIR>          python3
 10/16/2025  07:57 PM               914 start-shell.bat
 10/16/2025  07:57 PM                 7 VERSION
                2 File(s)            921 bytes
-               5 Dir(s)  92,887,638,016 bytes free
+               5 Dir(s)  92,566,691,840 bytes free
  Volume in drive C is Windows
  Volume Serial Number is 808A-844D
 
  Directory of C:\mozilla-build\bin
 
-03/09/2026  05:34 PM    <DIR>          .
-03/09/2026  05:35 PM    <DIR>          ..
+03/09/2026  07:06 PM    <DIR>          .
+03/09/2026  07:07 PM    <DIR>          ..
 10/16/2025  07:55 PM         1,906,176 7z.dll
 10/16/2025  07:55 PM           575,488 7z.exe
-03/09/2026  05:34 PM    <DIR>          7zip
+03/09/2026  07:06 PM    <DIR>          7zip
 10/16/2025  07:56 PM           818,176 eledo-pty-bridge.exe
 10/16/2025  07:56 PM           251,904 gflags.dll
 10/16/2025  07:56 PM           261,120 glog.dll
-03/09/2026  05:34 PM    <DIR>          info-zip
+03/09/2026  07:06 PM    <DIR>          info-zip
 10/16/2025  07:56 PM         5,249,536 libcrypto-3.dll
 10/16/2025  07:56 PM               519 mozillabuild
 10/16/2025  07:56 PM            17,522 nsinstall.exe
 10/16/2025  07:56 PM           204,800 unzip.exe
-03/09/2026  05:34 PM    <DIR>          upx-3.95-win64
+03/09/2026  07:06 PM    <DIR>          upx-3.95-win64
 10/16/2025  07:56 PM           406,528 upx.exe
 10/16/2025  07:56 PM           428,224 vswhere.exe
 10/16/2025  07:56 PM           122,280 watchman-diag.exe
@@ -90,14 +90,14 @@ Workspace: D:\a\bluegriffon\bluegriffon
 10/16/2025  07:56 PM         2,710,016 watchmanctl.exe
 10/16/2025  07:56 PM           290,816 zip.exe
               19 File(s)     41,268,151 bytes
-               5 Dir(s)  92,887,638,016 bytes free
+               5 Dir(s)  92,566,691,840 bytes free
  Volume in drive C is Windows
  Volume Serial Number is 808A-844D
 
  Directory of C:\mozilla-build\msys2\mingw64\bin
 
-03/09/2026  05:34 PM    <DIR>          .
-03/09/2026  05:34 PM    <DIR>          ..
+03/09/2026  07:06 PM    <DIR>          .
+03/09/2026  07:06 PM    <DIR>          ..
 06/03/2025  12:08 AM           114,256 Atlassian.Bitbucket.dll
 06/03/2025  12:08 AM         1,927,760 Avalonia.Base.dll
 06/03/2025  12:08 AM         1,036,880 Avalonia.Controls.dll
@@ -187,7 +187,7 @@ Workspace: D:\a\bluegriffon\bluegriffon
 06/03/2025  12:08 AM            25,024 System.ValueTuple.dll
 06/03/2025  12:08 AM           120,814 zlib1.dll
               88 File(s)     70,596,641 bytes
-               2 Dir(s)  92,887,638,016 bytes free
+               2 Dir(s)  92,566,691,840 bytes free
 PYTHON_EXE: C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe 
 PYTHON2_EXE:  
 RUST_TOOLCHAIN: 1.19.0-x86_64-pc-windows-msvc 
@@ -215,150 +215,7 @@ Using vcvars: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxili
 ** Copyright (c) 2025 Microsoft Corporation
 **********************************************************************
 [vcvarsall.bat] Environment initialized for: 'x64'
-==== build end (exit 2) ==== 
 
 ==== artifact scan ====
-==== artifact scan 2026-03-09T18:25:28.7102262+00:00 ====
-
-FullName                                                                                                                                           Length LastWriteTime      
---------                                                                                                                                           ------ -------------      
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bluegriffondev-3.2.en-US.win64.zip                                                             57482779 3/9/2026 6:25:26 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\mozharness.zip                                                                                   631153 3/9/2026 6:25:13 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\js\xpconnect\shell\xpcshell.exe                                                                        18432 3/9/2026 6:24:10 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\xpcshell.exe                                                                                  18432 3/9/2026 6:24:10 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\ipc\app\plugin-container.exe                                                                           18432 3/9/2026 6:24:10 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\plugin-container.exe                                                                          18432 3/9/2026 6:24:10 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bluegriffondev\plugin-container.exe                                                               18432 3/9/2026 6:24:10 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\security\nss\cmd\modutil\modutil_modutil\modutil.exe                                                   96768 3/9/2026 6:23:04 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\modutil.exe                                                                                   96768 3/9/2026 6:23:04 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\security\nss\cmd\shlibsign\shlibsign_shlibsign\shlibsign.exe                                           27648 3/9/2026 6:23:01 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\shlibsign.exe                                                                                 27648 3/9/2026 6:23:01 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\security\nss\cmd\certutil\certutil_certutil\certutil.exe                                              126976 3/9/2026 6:23:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\security\nss\cmd\pk12util\pk12util_pk12util\pk12util.exe                                               51712 3/9/2026 6:23:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\certutil.exe                                                                                 126976 3/9/2026 6:23:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\pk12util.exe                                                                                  51712 3/9/2026 6:23:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\bluegriffon\app\bluegriffondev.exe                                                                    314368 3/9/2026 6:22:57 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\bluegriffondev.exe                                                                           314368 3/9/2026 6:22:57 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bluegriffondev\bluegriffondev.exe                                                                314368 3/9/2026 6:22:57 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\memory\replace\logalloc\replay\logalloc-replay.exe                                                     47616 3/9/2026 6:22:21 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\logalloc-replay.exe                                                                           47616 3/9/2026 6:22:21 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\components\telemetry\pingsender\pingsender.exe                                                 56832 3/9/2026 6:22:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\pingsender.exe                                                                                56832 3/9/2026 6:22:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dom\plugins\ipc\hangui\plugin-hang-ui.exe                                                              28160 3/9/2026 6:20:53 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bin\plugin-hang-ui.exe                                                                            28160 3/9/2026 6:20:53 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\bluegriffondev\plugin-hang-ui.exe                                                                 28160 3/9/2026 6:20:53 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\gleam-69099ec1d5592fc5\build-script-build.exe                          3293184 3/9/2026 6:20:18 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\gleam-69099ec1d5592fc5\build_script_build-69099ec1d5592fc5.exe         3293184 3/9/2026 6:20:18 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\kernel32-sys-a67851e1e774ee07\build_script_build-a67851e1e774ee07.exe   127488 3/9/2026 6:18:44 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\kernel32-sys-a67851e1e774ee07\build-script-build.exe                    127488 3/9/2026 6:18:44 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\gdi32-sys-bd32ffd3d5bd212a\build_script_build-bd32ffd3d5bd212a.exe      127488 3/9/2026 6:18:33 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\gdi32-sys-bd32ffd3d5bd212a\build-script-build.exe                       127488 3/9/2026 6:18:33 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\heapsize-912a5e6b2294d1c7\build_script_build-912a5e6b2294d1c7.exe       172544 3/9/2026 6:18:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\heapsize-912a5e6b2294d1c7\build-script-build.exe                        172544 3/9/2026 6:18:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\webrender-e7232c0e12308580\build_script_build-e7232c0e12308580.exe      151040 3/9/2026 6:18:17 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\toolkit\library\release\build\webrender-e7232c0e12308580\build-script-build.exe                       151040 3/9/2026 6:18:17 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\modules\brotli\bro.exe                                                                                701952 3/9/2026 5:51:37 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\dist\host\bin\bro.exe                                                                                 701952 3/9/2026 5:51:37 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\wheel.exe                                                                          98184 3/9/2026 5:48:44 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\pip2.7.exe                                                                         98177 3/9/2026 5:48:44 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\pip2.exe                                                                           98177 3/9/2026 5:48:44 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\pip.exe                                                                            98177 3/9/2026 5:48:44 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\easy_install-2.7.exe                                                               98205 3/9/2026 5:48:43 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\easy_install.exe                                                                   98205 3/9/2026 5:48:43 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\pip\_vendor\distlib\w64.exe                                              94208 3/9/2026 5:48:43 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\pip\_vendor\distlib\t64.exe                                              97792 3/9/2026 5:48:43 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\pip\_vendor\distlib\w32.exe                                              85504 3/9/2026 5:48:43 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\pip\_vendor\distlib\t32.exe                                              89088 3/9/2026 5:48:43 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\setuptools\gui.exe                                                       65536 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\setuptools\gui-64.exe                                                    75264 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\setuptools\gui-32.exe                                                    65536 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\setuptools\cli.exe                                                       65536 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\setuptools\cli-64.exe                                                    74752 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Lib\site-packages\setuptools\cli-32.exe                                                    65536 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\python.exe                                                                         28160 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_virtualenv\Scripts\pythonw.exe                                                                        28160 3/9/2026 5:48:42 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\modules\tests\xpcshell\zips\zen.zip                                                                   1226 3/9/2026 5:48:34 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\crashreporter\tools\win32\dump_syms_vc1800.exe                                                       51200 3/9/2026 5:48:34 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\crashreporter\tools\win32\dump_syms_vc1700.exe                                                       52736 3/9/2026 5:48:34 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\crashreporter\tools\win32\dump_syms_vc1600.exe                                                       55296 3/9/2026 5:48:34 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\crashreporter\google-breakpad\src\tools\windows\binaries\symupload.exe                              195072 3/9/2026 5:48:34 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\crashreporter\google-breakpad\src\tools\windows\binaries\dump_syms.exe                              130048 3/9/2026 5:48:34 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\components\downloads\test\unit\data\signed_win.exe                                                   61064 3/9/2026 5:48:33 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\testing\web-platform\harness\wptrunner\browsers\b2g_setup\certtest_app.zip                                    1237 3/9/2026 5:48:28 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\testing\mozbase\mozrunner\mozrunner\resources\metrotestharness.exe                                           63488 3/9/2026 5:48:28 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_tests\mozbase\mozrunner\mozrunner\resources\metrotestharness.exe                                      63488 3/9/2026 5:48:28 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\testing\mozbase\mozinstall\tests\Installer-Stubs\firefox.zip                                                  8707 3/9/2026 5:48:28 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_tests\mozbase\mozinstall\tests\Installer-Stubs\firefox.zip                                             8707 3/9/2026 5:48:28 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\servo\tests\unit\net\parsable_mime\application\zip\test.zip                                                      4 3/9/2026 5:48:28 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\servo\components\style\properties\Mako-0.9.1.zip                                                            469500 3/9/2026 5:48:27 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\security\manager\ssl\tests\unit\test_signed_apps\privileged-app-test-1.0.zip                                 23169 3/9/2026 5:48:26 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\security\manager\ssl\tests\unit\test_signed_apps\unknown_issuer_app_1.zip                                     4220 3/9/2026 5:48:26 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\security\manager\ssl\tests\unit\test_signed_apps\test-privileged-app-test-1.0.zip                            22750 3/9/2026 5:48:26 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\security\manager\ssl\tests\unit\test_signed_apps\valid_app_1.zip                                              4222 3/9/2026 5:48:26 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\security\manager\ssl\tests\unit\test_signed_apps\unsigned_app_1.zip                                           2282 3/9/2026 5:48:26 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\other-licenses\nsis\nsisui.exe                                                                                6144 3/9/2026 5:48:25 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\mozglue\linker\tests\test.zip                                                                                  574 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\mozglue\linker\tests\no_central_dir.zip                                                                        281 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\chrome\signed.zip                                                                         1957 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\mochitest\bug403331.zip                                                                    239 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\chrome\unsigned.zip                                                                        174 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\chrome\signed-tampered.zip                                                                1979 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\chrome\signed-added.zip                                                                   2141 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\chrome\signed-badca.zip                                                                   1964 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\mobile\android\tests\browser\robocop\assets\mock-package.zip                                                  5650 3/9/2026 5:48:24 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\originAttributesUpgrade_profile.zip                                                       1893 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\obsoleteOriginAttributes_profile.zip                                                      4843 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\removeAppsUpgrade_profile.zip                                                             3145 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\tempMetadataCleanup_profile.zip                                                           1569 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\storagePersistentUpgrade_profile.zip                                                      1508 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\morgueCleanup_profile.zip                                                                 1438 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\basics_profile.zip                                                                        3405 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\getUsage_profile.zip                                                                     24717 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\defaultStorageUpgrade_profile.zip                                                        12717 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\idbSubdirUpgrade2_profile.zip                                                             1028 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\quota\test\unit\idbSubdirUpgrade1_profile.zip                                                              812 3/9/2026 5:48:09 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\wasm_recompile_profile.zip                                                            5446 3/9/2026 5:48:08 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\docshell\test\bug369814.zip                                                                                   1000 3/9/2026 5:48:06 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\devtools\client\webide\test\app.zip                                                                            480 3/9/2026 5:48:06 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\build\pymake\tests\pathdir\pathtest.exe                                                                      45056 3/9/2026 5:48:05 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\mozapps\update\tests\data\partial.exe                                                                79872 3/9/2026 5:47:35 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\mozapps\update\tests\data\complete.exe                                                               79872 3/9/2026 5:47:35 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\toolkit\components\mediasniffer\test\unit\data\ff-inst.exe                                                     512 3/9/2026 5:47:33 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\testing\web-platform\tests\FileAPI\filelist-section\support\upload.zip                                         220 3/9/2026 5:47:05 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\testing\mozharness\test\helper_files\archives\archive_invalid_filename.zip                                     166 3/9/2026 5:47:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\testing\mozharness\test\helper_files\archives\archive.zip                                                      517 3/9/2026 5:47:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\testing\mozbase\mozfile\tests\files\missing_file_attributes.zip                                                442 3/9/2026 5:47:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\opt64\_tests\mozbase\mozfile\tests\files\missing_file_attributes.zip                                           442 3/9/2026 5:47:00 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\netwerk\test\unit\data\signed_win.exe                                                                        61064 3/9/2026 5:46:56 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_bug379841.zip                                                               140 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_corrupt3.zip                                                                121 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_bug333423.zip                                                              1086 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\zipwriter\test\unit\data\test.zip                                                              3824 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\uncompressed.zip                                                                 142 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_umlaute.zip                                                                 179 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_bug637286.zip                                                             12958 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_bug597702.zip                                                               253 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_corrupt.zip                                                                 142 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_bug658093.zip                                                              4096 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_corrupt2.zip                                                                  2 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_bug336691.zip                                                               789 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\modules\libjar\test\unit\data\test_bug589292.zip                                                               168 3/9/2026 5:46:55 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\metadataRestore_profile.zip                                                          34962 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\bug1056939_profile.zip                                                                8029 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\defaultStorageUpgrade_profile.zip                                                    65706 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\idbSubdirUpgrade2_profile.zip                                                         3276 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\idbSubdirUpgrade1_profile.zip                                                         3055 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\metadata2Restore_profile.zip                                                         56162 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\schema23upgrade_profile.zip                                                           3188 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\schema21upgrade_profile.zip                                                          13292 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\storagePersistentUpgrade_profile.zip                                                  3490 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\snappyUpgrade_profile.zip                                                             4360 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\obsoleteOriginAttributes_profile.zip                                                  4308 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\mutableFileUpgrade_profile.zip                                                        9051 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\schema18upgrade_profile.zip                                                          19089 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\indexedDB\test\unit\oldDirectories_profile.zip                                                            9241 3/9/2026 5:46:29 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\dom\cache\test\xpcshell\schema_15_profile.zip                                                                 3111 3/9/2026 5:46:27 PM
-D:\a\bluegriffon\bluegriffon\gecko-dev\accessible\tests\mochitest\dumbfile.zip                                                                         22 3/9/2026 5:46:22 PM
-
-
-
+==== artifact scan 2026-03-09T19:07:54.6363529+00:00 ====
+search root missing: D:\a\bluegriffon\bluegriffon\gecko-dev
