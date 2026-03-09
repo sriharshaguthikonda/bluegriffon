@@ -90,7 +90,38 @@ jobs:
           }
 
       - name: Install MozillaBuild
-        run: choco install -y mozillabuild
+        shell: powershell
+        continue-on-error: true
+        run: |
+          if (Test-Path "C:\mozilla-build\start-shell.bat") {
+            Write-Host "MozillaBuild already present at C:\mozilla-build."
+            exit 0
+          }
+
+          $installed = $false
+          for ($i = 1; $i -le 3; $i++) {
+            Write-Host "Attempt $i: install mozillabuild via Chocolatey"
+            choco install -y mozillabuild --no-progress
+            if ($LASTEXITCODE -eq 0 -and (Test-Path "C:\mozilla-build\start-shell.bat")) {
+              $installed = $true
+              break
+            }
+            Start-Sleep -Seconds (10 * $i)
+          }
+
+          if (-not $installed -and (Get-Command winget -ErrorAction SilentlyContinue)) {
+            Write-Host "Chocolatey path failed; trying winget fallback."
+            winget install --id Mozilla.MozillaBuild -e --accept-package-agreements --accept-source-agreements --silent
+            if (Test-Path "C:\mozilla-build\start-shell.bat") {
+              $installed = $true
+            }
+          }
+
+          if ($installed) {
+            Write-Host "MozillaBuild installation verified."
+          } else {
+            Write-Host "WARNING: MozillaBuild is still missing; build step will fail fast with explicit log."
+          }
 
       - name: Install Yasm
         continue-on-error: true
