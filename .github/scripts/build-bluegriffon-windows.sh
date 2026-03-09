@@ -613,12 +613,31 @@ if [ "$package_rc" -ne 0 ]; then
 fi
 
 set +e
+installer_objdir="$objdir/bluegriffon/installer"
+if [ ! -d "$installer_objdir/windows" ]; then
+  echo "Installer objdir windows directory missing before installer build: $installer_objdir/windows"
+  if [ -x "$objdir/config.status" ]; then
+    echo "Attempting to generate installer makefiles via config.status..."
+    (
+      cd "$objdir"
+      ./config.status \
+        bluegriffon/installer/windows/Makefile \
+        bluegriffon/installer/windows/nsis/Makefile || true
+    )
+  else
+    echo "WARNING: config.status not found at $objdir/config.status"
+  fi
+  if [ -d "$installer_objdir" ]; then
+    echo "Installer objdir snapshot before ./mach build installer:"
+    find "$installer_objdir" -maxdepth 3 -type d -print | sort || true
+    find "$installer_objdir" -maxdepth 3 -type f -print | sort || true
+  fi
+fi
 ./mach build installer
 installer_build_rc=$?
 set -e
 if [ "$installer_build_rc" -ne 0 ]; then
   echo "ERROR: mach build installer failed with exit code: $installer_build_rc"
-  installer_objdir="$objdir/bluegriffon/installer"
   echo "Installer object directory probe: $installer_objdir"
   if [ -d "$installer_objdir" ]; then
     echo "Installer objdir directories:"
