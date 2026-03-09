@@ -1,3 +1,3 @@
-source-sha: 486bd36e30874bcd5f3c0cc0d2e52830f35c3fa1
+source-sha: 7471e65e94f7c4b062bff03433e42a8242297a42
 branch: exp-yasm-c
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22870102331
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22870412976
