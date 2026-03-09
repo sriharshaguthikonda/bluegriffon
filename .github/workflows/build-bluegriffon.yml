@@ -198,21 +198,29 @@ jobs:
             )
           )
 
-          set "BUILD_LOG=%LOG%"
+          set "WORKER_LOG=%GITHUB_WORKSPACE%\build-worker.log"
+          if exist "%WORKER_LOG%" del /f /q "%WORKER_LOG%" >nul 2>&1
+          set "BUILD_LOG=%WORKER_LOG%"
           set "BUILD_WORKDIR=%GITHUB_WORKSPACE%"
           set "CHERE_INVOKING=1"
           set "MSYSTEM=MINGW64"
           set "MSYS2_PATH_TYPE=inherit"
           echo MSYS2_PATH_TYPE: %MSYS2_PATH_TYPE% >> "%LOG%"
-          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh" >> "%LOG%" 2>&1
+          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
           set "ERR=%ERRORLEVEL%"
-          if exist "%GITHUB_WORKSPACE%\build-worker.log" (
-            echo ==== appended build-worker.log ==== >> "%LOG%"
-            type "%GITHUB_WORKSPACE%\build-worker.log" >> "%LOG%" 2>&1
+          if "%ERR%"=="0" (
+            set "FOUND_EXE="
+            for /f "delims=" %%F in ('dir /s /b "%GITHUB_WORKSPACE%\gecko-dev\*griffon*.exe" 2^>nul ^| findstr /i /c:"\\dist\\bin\\"') do set "FOUND_EXE=1"
+            if not defined FOUND_EXE (
+              echo ERROR: Build returned 0 but no *griffon*.exe under gecko-dev\\**\\dist\\bin\\. >> "%LOG%"
+              set "ERR=98"
+            )
           )
-          if exist "%GITHUB_WORKSPACE%\gecko-dev\build-worker.log" (
-            echo ==== appended gecko-dev\build-worker.log ==== >> "%LOG%"
-            type "%GITHUB_WORKSPACE%\gecko-dev\build-worker.log" >> "%LOG%" 2>&1
+          if exist "%WORKER_LOG%" (
+            echo ==== appended build-worker.log ==== >> "%LOG%"
+            type "%WORKER_LOG%" >> "%LOG%" 2>&1
+          ) else (
+            echo WARNING: build-worker.log not found at %WORKER_LOG% >> "%LOG%"
           )
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
           echo %ERR% > "%EXIT_FILE%"
@@ -242,6 +250,32 @@ jobs:
               Format-Table -AutoSize |
               Out-String -Width 500 |
               Add-Content -Path $scanFile
+
+            Add-Content -Path $scanFile -Value ""
+            Add-Content -Path $scanFile -Value "==== key installer path probe ===="
+            $keyPaths = @(
+              (Join-Path $searchRoot "opt64\\dist\\install"),
+              (Join-Path $searchRoot "opt64\\dist\\install\\sea"),
+              (Join-Path $searchRoot "opt64\\dist"),
+              (Join-Path $searchRoot "opt64\\bluegriffon\\installer"),
+              (Join-Path $searchRoot "opt64\\bluegriffon\\installer\\windows"),
+              (Join-Path $searchRoot "opt64\\bluegriffon\\app")
+            )
+            foreach ($kp in $keyPaths) {
+              if (Test-Path $kp) {
+                $files = Get-ChildItem -Path $kp -Recurse -File -ErrorAction SilentlyContinue
+                Add-Content -Path $scanFile -Value ("FOUND: {0} (files={1})" -f $kp, $files.Count)
+                $files |
+                  Where-Object { $_.Extension -in @(".exe", ".msi", ".zip", ".7z") } |
+                  Sort-Object LastWriteTime -Descending |
+                  Select-Object -First 20 FullName,Length,LastWriteTime |
+                  Format-Table -AutoSize |
+                  Out-String -Width 500 |
+                  Add-Content -Path $scanFile
+              } else {
+                Add-Content -Path $scanFile -Value ("MISSING: {0}" -f $kp)
+              }
+            }
           } else {
             "search root missing: $searchRoot" | Add-Content -Path $scanFile
           }
