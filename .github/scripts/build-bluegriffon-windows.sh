@@ -170,6 +170,24 @@ echo "PATH (sanitized): $PATH"
 
 export MSYS2_PATH_TYPE=inherit
 
+# Old configure/subconfigure logic breaks when shell paths contain spaces
+# (e.g. "C:/Program Files/.../sh.exe"). Provide a no-space shell shim.
+SHELL_CAND=""
+for p in "$shim_dir/sh.exe" /usr/bin/sh /c/Program\ Files/Git/usr/bin/sh.exe /c/Program\ Files/Git/bin/sh.exe; do
+  if [ -x "$p" ]; then
+    SHELL_CAND="$p"
+    break
+  fi
+done
+if [ -n "$SHELL_CAND" ] && [ -x "$SHELL_CAND" ]; then
+  cp -f "$SHELL_CAND" "$shim_dir/sh.exe" || true
+  cp -f "$SHELL_CAND" "$shim_dir/sh" || true
+  chmod +x "$shim_dir/sh" "$shim_dir/sh.exe" || true
+  export CONFIG_SHELL="$shim_dir/sh.exe"
+  export SHELL="$shim_dir/sh.exe"
+  echo "Using shell shim: $CONFIG_SHELL"
+fi
+
 if [ -n "$msvc_bin_u" ] && [ -x "$msvc_bin_u/link.exe" ]; then
   cat >"$shim_dir/link" <<EOF
 #!/usr/bin/env bash
