@@ -618,6 +618,22 @@ installer_build_rc=$?
 set -e
 if [ "$installer_build_rc" -ne 0 ]; then
   echo "ERROR: mach build installer failed with exit code: $installer_build_rc"
+  installer_objdir="$objdir/bluegriffon/installer"
+  echo "Installer object directory probe: $installer_objdir"
+  if [ -d "$installer_objdir" ]; then
+    echo "Installer objdir directories:"
+    find "$installer_objdir" -maxdepth 3 -type d -print | sort || true
+    echo "Installer objdir files:"
+    find "$installer_objdir" -maxdepth 3 -type f -print | sort || true
+    if command -v make >/dev/null 2>&1; then
+      echo "Installer make vars (INSTALLER_DIR / CONFIG_DIR / MOZ_PKG_FORMAT / PKG_BASENAME):"
+      make -C "$installer_objdir" -pn 2>/dev/null | grep -E '^(INSTALLER_DIR|CONFIG_DIR|MOZ_PKG_FORMAT|PKG_BASENAME)[[:space:]]*[:?+]?=' || true
+    fi
+  else
+    echo "Installer object directory missing: $installer_objdir"
+  fi
+  echo "Source installer directory probe:"
+  find "$PWD/bluegriffon/installer" -maxdepth 3 -type d -print | sort || true
   exit "$installer_build_rc"
 fi
 
