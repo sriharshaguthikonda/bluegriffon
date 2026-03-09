@@ -3,6 +3,8 @@ bluegriffon-en-US.jar:
 % locale    bluegriffon    en-GB    %locale/en-US/bluegriffon/
 % locale    branding       en-US    %locale/en-US/branding/
 % locale    branding       en-GB    %locale/en-US/branding/
+% locale    browser        en-US    %locale/en-US/bluegriffon/
+% locale    browser        en-GB    %locale/en-US/bluegriffon/
   locale/en-US/bluegriffon/aboutDialog.dtd  (locale/en-US/bluegriffon/aboutDialog.dtd)
   locale/en-US/bluegriffon/bluegriffon.dtd  (locale/en-US/bluegriffon/bluegriffon.dtd)
   locale/en-US/bluegriffon/polyglot.dtd  (locale/en-US/bluegriffon/polyglot.dtd)
@@ -76,6 +78,7 @@ bluegriffon-en-US.jar:
   locale/en-US/bluegriffon/insertChars.dtd  (locale/en-US/bluegriffon/insertChars.dtd)
   locale/en-US/bluegriffon/convertToTable.dtd (locale/en-US/bluegriffon/convertToTable.dtd)
   locale/en-US/bluegriffon/pageProperties.dtd (locale/en-US/bluegriffon/pageProperties.dtd)
+  locale/en-US/bluegriffon/baseMenuOverlay.dtd (locale/en-US/bluegriffon/baseMenuOverlay.dtd)
   locale/en-US/bluegriffon/spellCheck.dtd (locale/en-US/bluegriffon/spellCheck.dtd)
   locale/en-US/bluegriffon/spellCheck.properties (locale/en-US/bluegriffon/spellCheck.properties)
   locale/en-US/bluegriffon/dictionary.dtd (locale/en-US/bluegriffon/dictionary.dtd)
@@ -85,4 +88,3 @@ bluegriffon-en-US.jar:
   locale/en-US/bluegriffon/svg-edit.properties (locale/en-US/bluegriffon/svg-edit.properties)
   locale/en-US/bluegriffon/panels.dtd (locale/en-US/bluegriffon/panels.dtd)
   locale/en-US/bluegriffon/rotator.dtd (locale/en-US/bluegriffon/rotator.dtd)
-
