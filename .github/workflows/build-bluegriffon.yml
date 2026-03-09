@@ -96,6 +96,10 @@ jobs:
         continue-on-error: true
         run: choco install -y yasm
 
+      - name: Install NSIS
+        continue-on-error: true
+        run: choco install -y nsis
+
       - name: Ensure Rust 1.19 toolchain
         shell: powershell
         continue-on-error: true
@@ -155,6 +159,7 @@ jobs:
           where python >> "%LOG%" 2>&1
           where python2 >> "%LOG%" 2>&1
           where python2.7 >> "%LOG%" 2>&1
+          where makensis >> "%LOG%" 2>&1
           where pkg-config >> "%LOG%" 2>&1
           where make >> "%LOG%" 2>&1
           where mozmake >> "%LOG%" 2>&1
@@ -241,6 +246,33 @@ jobs:
           } else {
             Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
           }
+
+          $installerDir = Join-Path $artifactDir "installer"
+          New-Item -ItemType Directory -Force -Path $installerDir | Out-Null
+          $installerCandidates = @()
+          if (Test-Path $searchRoot) {
+            $installerCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
+              Where-Object {
+                $_.FullName -match "\\dist\\install\\" -and
+                $_.Extension -in @(".exe", ".msi") -and
+                $_.Name -match "(installer|setup|griffon)"
+              } |
+              Sort-Object LastWriteTime -Descending
+            if ($installerCandidates.Count -eq 0) {
+              $installerCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
+                Where-Object { $_.FullName -match "\\dist\\install\\" -and $_.Extension -in @(".exe", ".msi") } |
+                Sort-Object LastWriteTime -Descending
+            }
+          }
+          if ($installerCandidates.Count -gt 0) {
+            foreach ($candidate in $installerCandidates | Select-Object -First 10) {
+              Copy-Item -Path $candidate.FullName -Destination (Join-Path $installerDir $candidate.Name) -Force
+            }
+            Write-Host "Collected installer candidates:"
+            $installerCandidates | Select-Object -First 10 FullName,Length,LastWriteTime | Format-Table -AutoSize
+          } else {
+            Write-Host "No installer candidate found under gecko-dev/**/dist/install."
+          }
           Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
             Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
 
@@ -258,6 +290,14 @@ jobs:
         with:
           name: bluegriffon-portable
           path: ${{ github.workspace }}\artifact\bluegriffon-portable.zip
+          if-no-files-found: warn
+
+      - name: Upload installer
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-installer
+          path: ${{ github.workspace }}\artifact\installer\*
           if-no-files-found: warn
 
       - name: Show build log tail

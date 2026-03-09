@@ -519,6 +519,8 @@ else
   echo "WARNING: make/mozmake not found; mach may fail."
 fi
 echo "PATH (after make selection): $PATH"
+echo "makensis on PATH: $(command -v makensis || true)"
+makensis -VERSION || true
 
 # Avoid CRLF checkouts that break client.mk (force LF).
 git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
@@ -583,3 +585,38 @@ if [ -z "$exe_path" ]; then
   exit 2
 fi
 echo "Found executable: $exe_path"
+
+set +e
+./mach package
+package_rc=$?
+set -e
+if [ "$package_rc" -ne 0 ]; then
+  echo "WARNING: mach package failed with exit code: $package_rc"
+fi
+
+installer_path="$(find "$objdir/dist/install" -type f \( -iname "*installer*.exe" -o -iname "*setup*.exe" -o -iname "*griffon*.exe" \) -print -quit 2>/dev/null || true)"
+if [ -z "$installer_path" ]; then
+  echo "Installer not found after mach package; trying mach build installer."
+  set +e
+  ./mach build installer
+  installer_rc=$?
+  set -e
+  if [ "$installer_rc" -ne 0 ]; then
+    echo "WARNING: mach build installer failed with exit code: $installer_rc"
+  fi
+  installer_path="$(find "$objdir/dist/install" -type f \( -iname "*installer*.exe" -o -iname "*setup*.exe" -o -iname "*griffon*.exe" \) -print -quit 2>/dev/null || true)"
+fi
+
+echo "Listing dist/install (if it exists): $objdir/dist/install"
+if [ -d "$objdir/dist/install" ]; then
+  ls -la "$objdir/dist/install" || true
+  find "$objdir/dist/install" -maxdepth 4 -type f \( -name "*.exe" -o -name "*.zip" \) || true
+else
+  echo "dist/install not found."
+fi
+
+if [ -z "$installer_path" ]; then
+  echo "ERROR: Installer .exe not found in $objdir/dist/install."
+  exit 14
+fi
+echo "Found installer: $installer_path"
