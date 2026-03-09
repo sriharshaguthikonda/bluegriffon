@@ -594,16 +594,24 @@ if [ "$package_rc" -ne 0 ]; then
   echo "WARNING: mach package failed with exit code: $package_rc"
 fi
 
-installer_path="$(find "$objdir" -type f \( -iname "*installer*.exe" -o -iname "*setup*.exe" \) ! -iname "*uninstall*.exe" ! -path "*/dist/bin/*" -print -quit 2>/dev/null || true)"
-if [ -z "$installer_path" ]; then
-  installer_path="$(find "$objdir" -type f -iname "*griffon*.exe" ! -iname "*uninstall*.exe" ! -path "*/dist/bin/*" -print -quit 2>/dev/null || true)"
+set +e
+./mach build installer
+installer_build_rc=$?
+set -e
+if [ "$installer_build_rc" -ne 0 ]; then
+  echo "ERROR: mach build installer failed with exit code: $installer_build_rc"
+  exit "$installer_build_rc"
 fi
 
 echo "Installer/package candidates under objdir:"
 find "$objdir" -maxdepth 6 -type f \( -name "*.exe" -o -name "*.msi" -o -name "*.zip" -o -name "*.7z" \) | grep -Ei 'installer|setup|griffon|\.zip$|\.7z$' || true
 
+installer_path="$(find "$objdir" -type f \( -iname "*.exe" -o -iname "*.msi" \) \
+  \( -path "*/dist/install/*" -o -path "*/installer/*" \) \
+  ! -iname "*uninstall*.exe" ! -path "*/dist/bin/*" -print 2>/dev/null | head -n 1 || true)"
+
 if [ -z "$installer_path" ]; then
-  echo "ERROR: Installer .exe not found under $objdir after packaging."
+  echo "ERROR: Installer .exe/.msi not found under $objdir/dist/install or */installer/*."
   exit 14
 fi
 echo "Found installer: $installer_path"

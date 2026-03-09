@@ -258,8 +258,10 @@ jobs:
             $installerCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
               Where-Object {
                 $_.Extension -in @(".exe", ".msi") -and
-                $_.Name -match "(installer|setup)" -and
-                $_.FullName -match "(\\dist\\|\\installer\\)" -and
+                (
+                  $_.FullName -match "(\\dist\\install\\|\\installer\\)" -or
+                  ($_.FullName -match "\\dist\\" -and $_.Name -match "(installer|setup)")
+                ) -and
                 $_.FullName -notmatch "\\dist\\bin\\"
               } |
               Sort-Object LastWriteTime -Descending |
