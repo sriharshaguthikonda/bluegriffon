@@ -117,10 +117,33 @@ jobs:
             }
           }
 
+          if (-not $installed) {
+            $dlUrl = "https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe"
+            $dlPath = Join-Path $env:RUNNER_TEMP "MozillaBuildSetup-Latest.exe"
+            for ($i = 1; $i -le 3; $i++) {
+              Write-Host "Attempt $i: direct MozillaBuild download/install from $dlUrl"
+              try {
+                Invoke-WebRequest -Uri $dlUrl -OutFile $dlPath
+                if (Test-Path $dlPath) {
+                  $size = (Get-Item $dlPath).Length
+                  Write-Host "Downloaded installer size: $size"
+                }
+                Start-Process -FilePath $dlPath -ArgumentList "/S" -Wait -NoNewWindow
+              } catch {
+                Write-Host "Direct installer attempt failed: $($_.Exception.Message)"
+              }
+              if (Test-Path "C:\mozilla-build\start-shell.bat") {
+                $installed = $true
+                break
+              }
+              Start-Sleep -Seconds (15 * $i)
+            }
+          }
+
           if ($installed) {
             Write-Host "MozillaBuild installation verified."
           } else {
-            Write-Host "WARNING: MozillaBuild is still missing; build step will fail fast with explicit log."
+            throw "MozillaBuild is still missing after choco/winget/direct fallbacks."
           }
 
       - name: Install Yasm
