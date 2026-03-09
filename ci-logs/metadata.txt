@@ -1,3 +1,3 @@
-source-sha: f715c6059880c087cf0867caee0a6c3b4df894b9
-branch: remote-build-portable
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22861076251
+source-sha: 21c527207dbf4a37addfe190558d63791c10a7d6
+branch: exp-yasm-c
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22866292226
