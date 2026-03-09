@@ -537,6 +537,9 @@ patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 cp bluegriffon/config/mozconfig.win .mozconfig
 # Keep YASM visible to old-configure sub-configures (e.g. js/src).
 echo "mk_add_options YASM=$YASM" >> .mozconfig
+if ! grep -q -- "--enable-installer" .mozconfig; then
+  echo "ac_add_options --enable-installer" >> .mozconfig
+fi
 echo "Injected into .mozconfig: mk_add_options YASM=$YASM"
 export BLUEGRIFFON_YASM="$YASM"
 echo "BLUEGRIFFON_YASM: $BLUEGRIFFON_YASM"
@@ -594,29 +597,16 @@ if [ "$package_rc" -ne 0 ]; then
   echo "WARNING: mach package failed with exit code: $package_rc"
 fi
 
-installer_path="$(find "$objdir/dist/install" -type f \( -iname "*installer*.exe" -o -iname "*setup*.exe" -o -iname "*griffon*.exe" \) -print -quit 2>/dev/null || true)"
+installer_path="$(find "$objdir" -type f \( -iname "*installer*.exe" -o -iname "*setup*.exe" \) ! -iname "*uninstall*.exe" ! -path "*/dist/bin/*" -print -quit 2>/dev/null || true)"
 if [ -z "$installer_path" ]; then
-  echo "Installer not found after mach package; trying mach build installer."
-  set +e
-  ./mach build installer
-  installer_rc=$?
-  set -e
-  if [ "$installer_rc" -ne 0 ]; then
-    echo "WARNING: mach build installer failed with exit code: $installer_rc"
-  fi
-  installer_path="$(find "$objdir/dist/install" -type f \( -iname "*installer*.exe" -o -iname "*setup*.exe" -o -iname "*griffon*.exe" \) -print -quit 2>/dev/null || true)"
+  installer_path="$(find "$objdir" -type f -iname "*griffon*.exe" ! -iname "*uninstall*.exe" ! -path "*/dist/bin/*" -print -quit 2>/dev/null || true)"
 fi
 
-echo "Listing dist/install (if it exists): $objdir/dist/install"
-if [ -d "$objdir/dist/install" ]; then
-  ls -la "$objdir/dist/install" || true
-  find "$objdir/dist/install" -maxdepth 4 -type f \( -name "*.exe" -o -name "*.zip" \) || true
-else
-  echo "dist/install not found."
-fi
+echo "Installer/package candidates under objdir:"
+find "$objdir" -maxdepth 6 -type f \( -name "*.exe" -o -name "*.msi" -o -name "*.zip" -o -name "*.7z" \) | grep -Ei 'installer|setup|griffon|\.zip$|\.7z$' || true
 
 if [ -z "$installer_path" ]; then
-  echo "ERROR: Installer .exe not found in $objdir/dist/install."
+  echo "ERROR: Installer .exe not found under $objdir after packaging."
   exit 14
 fi
 echo "Found installer: $installer_path"

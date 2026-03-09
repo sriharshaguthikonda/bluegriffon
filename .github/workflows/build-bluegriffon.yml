@@ -253,14 +253,19 @@ jobs:
           if (Test-Path $searchRoot) {
             $installerCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
               Where-Object {
-                $_.FullName -match "\\dist\\install\\" -and
+                $_.FullName -match "\\dist\\" -and
+                $_.FullName -notmatch "\\dist\\bin\\" -and
                 $_.Extension -in @(".exe", ".msi") -and
                 $_.Name -match "(installer|setup|griffon)"
               } |
               Sort-Object LastWriteTime -Descending
             if ($installerCandidates.Count -eq 0) {
               $installerCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
-                Where-Object { $_.FullName -match "\\dist\\install\\" -and $_.Extension -in @(".exe", ".msi") } |
+                Where-Object {
+                  $_.FullName -match "\\dist\\" -and
+                  $_.FullName -notmatch "\\dist\\bin\\" -and
+                  $_.Extension -in @(".exe", ".msi")
+                } |
                 Sort-Object LastWriteTime -Descending
             }
           }
@@ -271,7 +276,7 @@ jobs:
             Write-Host "Collected installer candidates:"
             $installerCandidates | Select-Object -First 10 FullName,Length,LastWriteTime | Format-Table -AutoSize
           } else {
-            Write-Host "No installer candidate found under gecko-dev/**/dist/install."
+            Write-Host "No installer candidate found under gecko-dev/**/dist (excluding dist/bin)."
           }
           Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
             Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
