@@ -283,6 +283,9 @@ if [ -n "$pacman_bin" ]; then
   "$pacman_bin" -Q pkgconf mingw-w64-x86_64-pkgconf yasm mingw-w64-x86_64-yasm zip mingw-w64-x86_64-zip autoconf2.13 || true
 else
   echo "WARNING: pacman not found; downloading MSYS2 packages directly."
+  if ! command -v m4 >/dev/null 2>&1; then
+    download_msys2_pkg m4 || true
+  fi
   if ! command -v autoconf-2.13 >/dev/null 2>&1 && ! command -v autoconf213 >/dev/null 2>&1; then
     download_msys2_pkg autoconf2.13 || true
   fi
