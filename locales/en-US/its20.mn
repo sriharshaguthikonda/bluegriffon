@@ -1,5 +1,6 @@
 bluegriffon-en-US.jar:
 % locale    its20    en-US    %locale/en-US/its20/
+% locale    its20    en-GB    %locale/en-US/its20/
   locale/en-US/its20/its20Overlay.dtd    (locale/en-US/its20Overlay.dtd)
   locale/en-US/its20/its20.properties    (locale/en-US/its20.properties)
   locale/en-US/its20/its20.dtd           (locale/en-US/its20.dtd)
