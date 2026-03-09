@@ -236,7 +236,46 @@ jobs:
           $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
 
           $scanFile = Join-Path $env:GITHUB_WORKSPACE "artifact-scan.txt"
+          $rootReport = Join-Path $env:GITHUB_WORKSPACE "root-recursive-report.txt"
           "==== artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
+          "==== root recursive report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
+
+          $rootsToProbe = @($env:GITHUB_WORKSPACE)
+          foreach ($root in $rootsToProbe) {
+            Add-Content -Path $rootReport -Value ""
+            Add-Content -Path $rootReport -Value ("==== root: {0} ====" -f $root)
+            if (-not (Test-Path $root)) {
+              Add-Content -Path $rootReport -Value ("MISSING: {0}" -f $root)
+              continue
+            }
+
+            $dirs = Get-ChildItem -Path $root -Directory -Recurse -ErrorAction SilentlyContinue
+            $files = Get-ChildItem -Path $root -File -Recurse -ErrorAction SilentlyContinue
+            Add-Content -Path $rootReport -Value ("dir_count: {0}" -f $dirs.Count)
+            Add-Content -Path $rootReport -Value ("file_count: {0}" -f $files.Count)
+
+            Add-Content -Path $rootReport -Value "-- directories (recursive) --"
+            ($dirs | Select-Object -ExpandProperty FullName | Sort-Object) | Add-Content -Path $rootReport
+
+            Add-Content -Path $rootReport -Value "-- extension histogram (top 60) --"
+            $files |
+              Group-Object Extension |
+              Sort-Object Count -Descending |
+              Select-Object -First 60 Name,Count |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $rootReport
+
+            Add-Content -Path $rootReport -Value "-- installer/binary candidates (full recursive) --"
+            $files |
+              Where-Object { $_.Extension -in @(".exe", ".msi", ".zip", ".7z") } |
+              Sort-Object LastWriteTime -Descending |
+              Select-Object FullName,Length,LastWriteTime |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $rootReport
+          }
+
           if (Test-Path $searchRoot) {
             $scanCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
               Where-Object {
@@ -292,6 +331,9 @@ jobs:
             Add-Content -Path build.log -Value ""
             Add-Content -Path build.log -Value "==== artifact scan ===="
             Get-Content -Path $scanFile | Add-Content -Path build.log
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== root recursive report summary ===="
+            Get-Content -Path $rootReport | Select-Object -First 220 | Add-Content -Path build.log
           }
           $candidates = @()
           if (Test-Path $searchRoot) {
@@ -435,6 +477,13 @@ jobs:
         with:
           name: build-artifact-scan
           path: ${{ github.workspace }}\artifact-scan.txt
+
+      - name: Upload root recursive report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-root-recursive-report
+          path: ${{ github.workspace }}\root-recursive-report.txt
 
       - name: Upload build exit code
         if: always()
