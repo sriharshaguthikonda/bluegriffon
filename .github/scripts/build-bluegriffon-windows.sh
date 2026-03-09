@@ -95,9 +95,14 @@ exec "$PYTHON_EXE_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/python"
   chmod +x "$shim_dir/python2" "$shim_dir/python2.7"
+  # Some make/nsis paths resolve via PATHEXT and expect .exe names on Windows.
+  cp -f "$PYTHON_EXE_CAND" "$shim_dir/python.exe" || true
+  cp -f "$PYTHON_EXE_CAND" "$shim_dir/python2.exe" || true
+  cp -f "$PYTHON_EXE_CAND" "$shim_dir/python2.7.exe" || true
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
   export PYTHON="$PYTHON_EXE_CAND"
+  export PYTHON2="$PYTHON_EXE_CAND"
   echo "Using python: $PYTHON_EXE_CAND"
   echo "python2 shim: $shim_dir/python2"
   echo "python2.7 shim: $shim_dir/python2.7"

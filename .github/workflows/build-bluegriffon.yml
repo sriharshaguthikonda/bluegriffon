@@ -204,8 +204,16 @@ jobs:
           set "MSYSTEM=MINGW64"
           set "MSYS2_PATH_TYPE=inherit"
           echo MSYS2_PATH_TYPE: %MSYS2_PATH_TYPE% >> "%LOG%"
-          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
+          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh" >> "%LOG%" 2>&1
           set "ERR=%ERRORLEVEL%"
+          if exist "%GITHUB_WORKSPACE%\build-worker.log" (
+            echo ==== appended build-worker.log ==== >> "%LOG%"
+            type "%GITHUB_WORKSPACE%\build-worker.log" >> "%LOG%" 2>&1
+          )
+          if exist "%GITHUB_WORKSPACE%\gecko-dev\build-worker.log" (
+            echo ==== appended gecko-dev\build-worker.log ==== >> "%LOG%"
+            type "%GITHUB_WORKSPACE%\gecko-dev\build-worker.log" >> "%LOG%" 2>&1
+          )
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
@@ -367,6 +375,16 @@ jobs:
         with:
           name: build-log
           path: ${{ github.workspace }}\build.log
+
+      - name: Upload worker build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-worker-log
+          path: |
+            ${{ github.workspace }}\build-worker.log
+            ${{ github.workspace }}\gecko-dev\build-worker.log
+          if-no-files-found: warn
 
       - name: Upload artifact scan
         if: always()
