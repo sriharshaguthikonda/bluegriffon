@@ -537,9 +537,6 @@ patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 cp bluegriffon/config/mozconfig.win .mozconfig
 # Keep YASM visible to old-configure sub-configures (e.g. js/src).
 echo "mk_add_options YASM=$YASM" >> .mozconfig
-if ! grep -q -- "--enable-installer" .mozconfig; then
-  echo "ac_add_options --enable-installer" >> .mozconfig
-fi
 echo "Injected into .mozconfig: mk_add_options YASM=$YASM"
 export BLUEGRIFFON_YASM="$YASM"
 echo "BLUEGRIFFON_YASM: $BLUEGRIFFON_YASM"
