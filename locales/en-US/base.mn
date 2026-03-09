@@ -1,6 +1,8 @@
 bluegriffon-en-US.jar:
 % locale    bluegriffon    en-US    %locale/en-US/bluegriffon/
+% locale    bluegriffon    en-GB    %locale/en-US/bluegriffon/
 % locale    branding       en-US    %locale/en-US/branding/
+% locale    branding       en-GB    %locale/en-US/branding/
   locale/en-US/bluegriffon/aboutDialog.dtd  (locale/en-US/bluegriffon/aboutDialog.dtd)
   locale/en-US/bluegriffon/bluegriffon.dtd  (locale/en-US/bluegriffon/bluegriffon.dtd)
   locale/en-US/bluegriffon/polyglot.dtd  (locale/en-US/bluegriffon/polyglot.dtd)

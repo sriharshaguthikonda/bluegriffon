@@ -1,5 +1,6 @@
 bluegriffon-en-US.jar:
 % locale    cssproperties    en-US    %locale/en-US/cssproperties/
+% locale    cssproperties    en-GB    %locale/en-US/cssproperties/
   locale/en-US/cssproperties/csspropertiesOverlay.dtd    (locale/en-US/csspropertiesOverlay.dtd)
   locale/en-US/cssproperties/cssproperties.dtd           (locale/en-US/cssproperties.dtd)
   locale/en-US/cssproperties/editGridTemplate.dtd        (locale/en-US/editGridTemplate.dtd)
