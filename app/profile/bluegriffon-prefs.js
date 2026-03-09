@@ -230,7 +230,9 @@ pref("print.print_edge_bottom", 0);
 pref("layout.css.flexbox.enabled", true);
 
 pref("general.useragent.locale", "en-US");
-pref("intl.locale.matchOS", true);
+// Dev app ID differs from upstream langpack targetApplication IDs.
+// Keep locale pinned to en-US so startup doesn't request unavailable locales.
+pref("intl.locale.matchOS", false);
 
 pref("app.support.baseURL", "http://bluegriffon.org/");
 
