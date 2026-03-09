@@ -289,6 +289,12 @@ else
   if ! command -v pkg-config >/dev/null 2>&1 && ! command -v pkgconf >/dev/null 2>&1; then
     download_msys2_pkg pkgconf || true
   fi
+  if ! command -v zip >/dev/null 2>&1; then
+    download_msys2_pkg mingw-w64-x86_64-zip || download_msys2_pkg zip || true
+  fi
+  if ! command -v unzip >/dev/null 2>&1; then
+    download_msys2_pkg mingw-w64-x86_64-unzip || download_msys2_pkg unzip || true
+  fi
   if ! command -v yasm >/dev/null 2>&1; then
     download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg yasm || true
   fi
