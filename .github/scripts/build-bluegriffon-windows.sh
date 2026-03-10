@@ -72,11 +72,29 @@ exec "$PYTHON_EXE_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/python"
   # Legacy Gecko scripts may still resolve python2/python2.7 names.
-  # Route them to the selected runner Python for migration branch builds.
+  # Prefer a Python 2.7 interpreter when available, otherwise fall back to Python 3.
+  PYTHON2_EXE_CAND=""
+  for p in "$shim_dir/msys2-root/usr/bin/python2.7.exe" \
+           /c/mozilla-build/python2/python.exe \
+           /c/mozilla-build/python27/python.exe \
+           "$(command -v python2.7 2>/dev/null || true)" \
+           "$(command -v python2 2>/dev/null || true)"; do
+    [ -n "$p" ] || continue
+    if [ -x "$p" ]; then
+      PYTHON2_EXE_CAND="$p"
+      break
+    fi
+  done
+  if [ -z "$PYTHON2_EXE_CAND" ]; then
+    PYTHON2_EXE_CAND="$PYTHON_EXE_CAND"
+    echo "WARNING: Python 2.7 interpreter not found; python2 shims will use Python 3."
+  else
+    echo "Using python2 shim target: $PYTHON2_EXE_CAND"
+  fi
   for legacy_py in python2 python2.7; do
     cat >"$shim_dir/$legacy_py" <<EOF
 #!/usr/bin/env bash
-exec "$PYTHON_EXE_CAND" "\$@"
+exec "$PYTHON2_EXE_CAND" "\$@"
 EOF
     chmod +x "$shim_dir/$legacy_py"
   done
