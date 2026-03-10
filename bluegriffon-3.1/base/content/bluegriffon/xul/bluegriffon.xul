@@ -119,6 +119,7 @@
 
 #include menubar.inc
 
+  <vbox id="mainToolboxTopDock">
   <toolbox class="toolbox-top" id="MainToolbox" context="main-toolbar-context-menu">
 #include maintoolbarpalette.inc
     <toolbar id="MainToolbar" class="toolbar-primary chromeclass-toolbar" align="center"
@@ -134,7 +135,9 @@
 #endif
     <toolbarset id="customMainToolbars" context="main-toolbar-context-menu"/>
   </toolbox>
+  </vbox>
 
+  <vbox id="formatMenulistsTopDock">
   <toolbox id="FormatMenulistsToolbox" mode="full">
 #include formatmenulistsbarpalette.inc
     <toolbar id="FormatMenulistsToolbar"
@@ -148,6 +151,7 @@
              defaultset="spacer,ParagraphSelectBox,IdButtonsBox,ClassButtonsBox,FontFaceSelectBox,ARIARoleSelectBox"/>
     <toolbarset id="customFormatMenulistsToolbars" context="format-toolbar-context-menu"/>
   </toolbox>
+  </vbox>
   <hbox id="horizContainer" flex="1">
   <vbox id="formatToolboxLeftDock">
   <toolbox id="FormatToolbox" mode="full">
