@@ -651,8 +651,7 @@ if [ ! -d "$installer_objdir/windows" ]; then
     (
       cd "$objdir"
       ./config.status \
-        bluegriffon/installer/windows/Makefile \
-        bluegriffon/installer/windows/nsis/Makefile || true
+        bluegriffon/installer/windows/Makefile || true
     )
   else
     echo "WARNING: config.status not found at $objdir/config.status"
