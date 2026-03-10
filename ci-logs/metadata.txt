@@ -1,3 +1,3 @@
-source-sha: e6d03f2393669309cc5431cddfe32ed442a59dc5
-branch: exp-installer-b
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22882162223
+source-sha: 605a2aaf1043c7bde375c8f8fe094eb51737bd8e
+branch: exp-installer-a
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22883724031
