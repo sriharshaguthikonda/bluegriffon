@@ -245,6 +245,11 @@ extract_pkg_tar() {
 download_msys2_pkg() {
   local pkg="$1"
   local url=""
+  local mirror_url=""
+  local downloaded=0
+  local pkg_file=""
+  local candidate=""
+  local paths_seen=":"
   local py3="/c/mozilla-build/python3/python.exe"
   if [ ! -x "$py3" ]; then
     py3="$(command -v python3 || true)"
@@ -284,10 +289,28 @@ PY
     echo "WARNING: Could not resolve MSYS2 package URL for $pkg via API"
     return 1
   fi
-  local pkg_file="$pkg_cache/$(basename "$url")"
+  if [[ "$url" == https://mirror.msys2.org/* ]]; then
+    mirror_url="https://repo.msys2.org/${url#https://mirror.msys2.org/}"
+  fi
+  pkg_file="$pkg_cache/$(basename "$url")"
   if [ ! -f "$pkg_file" ]; then
-    echo "Downloading $pkg from $url"
-    curl -fsSL -o "$pkg_file" "$url" || return 1
+    for candidate in "$url" "$mirror_url"; do
+      [ -n "$candidate" ] || continue
+      if [[ "$paths_seen" == *":$candidate:"* ]]; then
+        continue
+      fi
+      paths_seen="$paths_seen$candidate:"
+      echo "Downloading $pkg from $candidate"
+      if curl -fL --retry 6 --retry-delay 5 --retry-all-errors --connect-timeout 20 --max-time 300 -o "$pkg_file" "$candidate"; then
+        downloaded=1
+        break
+      fi
+      rm -f "$pkg_file" || true
+      echo "WARNING: Download failed for $candidate"
+    done
+    if [ "$downloaded" -ne 1 ]; then
+      return 1
+    fi
   fi
   extract_pkg_tar "$pkg_file" "$pkg_root" || return 1
   return 0
@@ -433,6 +456,31 @@ if ! command -v zip >/dev/null 2>&1 && [ -x "$moz_bin/zip.exe" ]; then
   export PATH="$moz_bin:$PATH"
   echo "Added mozilla-build zip to PATH"
   echo "zip on PATH (after): $(command -v zip || true)"
+fi
+if ! command -v zip >/dev/null 2>&1; then
+  ZIP_CAND=""
+  for p in "$pkg_root/usr/bin/zip.exe" \
+           "$pkg_root/usr/bin/zip" \
+           /c/Program\ Files/Git/usr/bin/zip.exe \
+           /c/Program\ Files/Git/mingw64/bin/zip.exe \
+           /c/ProgramData/chocolatey/bin/zip.exe \
+           /c/ProgramData/chocolatey/bin/zip; do
+    if [ -x "$p" ]; then
+      ZIP_CAND="$p"
+      break
+    fi
+  done
+  if [ -n "$ZIP_CAND" ]; then
+    cat >"$shim_dir/zip" <<EOF
+#!/usr/bin/env bash
+exec "$ZIP_CAND" "\$@"
+EOF
+    chmod +x "$shim_dir/zip"
+    cp -f "$ZIP_CAND" "$shim_dir/zip.exe" || true
+    export PATH="$shim_dir:$PATH"
+    echo "zip shim: $shim_dir/zip -> $ZIP_CAND"
+    echo "zip on PATH (after shim): $(command -v zip || true)"
+  fi
 fi
 
 yasm_smoke_test() {
