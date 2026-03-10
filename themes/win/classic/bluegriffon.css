@@ -114,6 +114,18 @@ menubar > menu:not([open="true"]) {
   -moz-box-orient: vertical;
 }
 
+#Bluegriffon[toolbarlayout="vertical"] #MainToolbar,
+#Bluegriffon[toolbarlayout="vertical"] #FormatMenulistsToolbar,
+#Bluegriffon[toolbarlayout="vertical"] #FormatToolbar {
+  -moz-box-orient: vertical;
+}
+
+#Bluegriffon[toolbarlayout="vertical"] #MainToolbox,
+#Bluegriffon[toolbarlayout="vertical"] #FormatMenulistsToolbox,
+#Bluegriffon[toolbarlayout="vertical"] #FormatToolbox {
+  width: -moz-max-content;
+}
+
 toolbar {
   -moz-appearance: none;
 }

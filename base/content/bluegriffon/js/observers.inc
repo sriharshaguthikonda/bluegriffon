@@ -337,7 +337,8 @@ var BlueGriffonPrefsObserver = {
       else if (prefName == "bluegriffon.ui.horizontal_toolbars.show"
                || prefName == "bluegriffon.ui.vertical_toolbar.show")
         SyncToolbarLayoutPref();
-      if (prefName == "bluegriffon.ui.vertical_toolbar.show")
+      if (prefName == "bluegriffon.ui.vertical_toolbar.show"
+          || prefName == "bluegriffon.ui.horizontal_toolbars.show")
         ApplyVerticalToolbarPosition();
     }
 

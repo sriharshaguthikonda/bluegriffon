@@ -2498,8 +2498,11 @@ function SyncToolbarLayoutPref()
 {
   var horizontal = _getBoolPref("bluegriffon.ui.horizontal_toolbars.show", true);
   var vertical = _getBoolPref("bluegriffon.ui.vertical_toolbar.show", true);
+  var currentLayout = NormalizeToolbarLayout(_getCharPref("bluegriffon.ui.toolbar.layout", "mixed"));
   var layout = "mixed";
-  if (!horizontal && vertical)
+  if (horizontal && vertical)
+    layout = (currentLayout == "vertical") ? "vertical" : "mixed";
+  else if (!horizontal && vertical)
     layout = "vertical";
   else if (horizontal && !vertical)
     layout = "horizontal";
@@ -2515,7 +2518,7 @@ function ApplyToolbarLayoutPref()
   var layout = NormalizeToolbarLayout(_getCharPref("bluegriffon.ui.toolbar.layout", "mixed"));
   switch (layout) {
     case "vertical":
-      _setBoolPrefIfNeeded("bluegriffon.ui.horizontal_toolbars.show", false);
+      _setBoolPrefIfNeeded("bluegriffon.ui.horizontal_toolbars.show", true);
       _setBoolPrefIfNeeded("bluegriffon.ui.vertical_toolbar.show", true);
       break;
     case "horizontal":
@@ -2531,6 +2534,7 @@ function ApplyToolbarLayoutPref()
       _setBoolPrefIfNeeded("bluegriffon.ui.vertical_toolbar.show", true);
       break;
   }
+  ApplyVerticalToolbarPosition();
 }
 
 function SetToolbarLayout(aLayout)
@@ -2539,22 +2543,75 @@ function SetToolbarLayout(aLayout)
   if (_getCharPref("bluegriffon.ui.toolbar.layout", "mixed") != layout)
     Services.prefs.setCharPref("bluegriffon.ui.toolbar.layout", layout);
   ApplyToolbarLayoutPref();
+  ApplyVerticalToolbarPosition();
 }
 
 function ApplyVerticalToolbarPosition()
 {
-  if (!gDialog || !gDialog.FormatToolbox || !gDialog.formatToolboxLeftDock || !gDialog.formatToolboxRightDock)
+  if (!gDialog || !gDialog.FormatToolbox || !gDialog.MainToolbox || !gDialog.FormatMenulistsToolbox
+      || !gDialog.mainToolboxTopDock || !gDialog.formatMenulistsTopDock
+      || !gDialog.formatToolboxLeftDock || !gDialog.formatToolboxRightDock)
     return;
 
+  var layout = NormalizeToolbarLayout(_getCharPref("bluegriffon.ui.toolbar.layout", "mixed"));
   var position = NormalizeVerticalToolbarPosition(_getCharPref("bluegriffon.ui.vertical_toolbar.position", "left"));
   var showVerticalToolbar = _getBoolPref("bluegriffon.ui.vertical_toolbar.show", true);
-  var toolbox = gDialog.FormatToolbox;
+  var showHorizontalToolbars = _getBoolPref("bluegriffon.ui.horizontal_toolbars.show", true);
+
+  var mainToolbox = gDialog.MainToolbox;
+  var menulistsToolbox = gDialog.FormatMenulistsToolbox;
+  var formatToolbox = gDialog.FormatToolbox;
+
+  var mainTopDock = gDialog.mainToolboxTopDock;
+  var menulistsTopDock = gDialog.formatMenulistsTopDock;
+
   var leftDock = gDialog.formatToolboxLeftDock;
   var rightDock = gDialog.formatToolboxRightDock;
   var targetDock = (position == "right") ? rightDock : leftDock;
 
-  if (toolbox.parentNode != targetDock)
-    targetDock.appendChild(toolbox);
+  if (layout == "vertical") {
+    if (mainToolbox.parentNode != targetDock)
+      targetDock.appendChild(mainToolbox);
+    if (menulistsToolbox.parentNode != targetDock)
+      targetDock.appendChild(menulistsToolbox);
+    if (formatToolbox.parentNode != targetDock)
+      targetDock.appendChild(formatToolbox);
+
+    mainTopDock.setAttribute("hidden", "true");
+    menulistsTopDock.setAttribute("hidden", "true");
+
+    if (!showHorizontalToolbars && !showVerticalToolbar) {
+      leftDock.setAttribute("hidden", "true");
+      rightDock.setAttribute("hidden", "true");
+    }
+    else if (position == "right") {
+      leftDock.setAttribute("hidden", "true");
+      rightDock.removeAttribute("hidden");
+    }
+    else {
+      rightDock.setAttribute("hidden", "true");
+      leftDock.removeAttribute("hidden");
+    }
+    document.documentElement.setAttribute("toolbarlayout", "vertical");
+    document.documentElement.setAttribute("verticaltoolbarposition", position);
+    return;
+  }
+
+  if (mainToolbox.parentNode != mainTopDock)
+    mainTopDock.appendChild(mainToolbox);
+  if (menulistsToolbox.parentNode != menulistsTopDock)
+    menulistsTopDock.appendChild(menulistsToolbox);
+  if (formatToolbox.parentNode != targetDock)
+    targetDock.appendChild(formatToolbox);
+
+  if (showHorizontalToolbars) {
+    mainTopDock.removeAttribute("hidden");
+    menulistsTopDock.removeAttribute("hidden");
+  }
+  else {
+    mainTopDock.setAttribute("hidden", "true");
+    menulistsTopDock.setAttribute("hidden", "true");
+  }
 
   if (!showVerticalToolbar) {
     leftDock.setAttribute("hidden", "true");
@@ -2570,6 +2627,7 @@ function ApplyVerticalToolbarPosition()
     leftDock.removeAttribute("hidden");
     document.documentElement.setAttribute("verticaltoolbarposition", "left");
   }
+  document.documentElement.setAttribute("toolbarlayout", layout);
 }
 
 function SetVerticalToolbarPosition(aPosition)
