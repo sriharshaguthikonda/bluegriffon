@@ -383,6 +383,8 @@ jobs:
             if ($robocopyExit -gt 7) {
               throw "Portable runtime copy failed with robocopy exit code $robocopyExit"
             }
+            # Robocopy returns 0-7 for success/acceptable states; clear it so the step exit code stays green.
+            $global:LASTEXITCODE = 0
 
             $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
             $launcherPath = Join-Path $portableDir $launcherName
