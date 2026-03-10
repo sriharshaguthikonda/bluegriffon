@@ -2,9 +2,9 @@ name: Build BlueGriffon (Windows)
 
 on:
   push:
-    branches: ["*"]
+    branches: ["**"]
   pull_request:
-    branches: ["*"]
+    branches: ["**"]
   workflow_dispatch:
 
 jobs:
