@@ -22,5 +22,10 @@ DIRS += [
     'app',
 ]
 
+if CONFIG['MAKENSISU']:
+    DIRS += [
+        'installer/windows',
+    ]
+
 #DIST_SUBDIR = 'editor'
 #export('DIST_SUBDIR')
