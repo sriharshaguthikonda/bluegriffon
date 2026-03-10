@@ -61,9 +61,16 @@ gather logs, and iterate until the Windows x64 build succeeds.
 5) Push again.
 6) Continue this loop until the workflow is `success` and the Windows x64 executable artifact upload succeeds.
 
+## Current remote CI goal (next)
+- Primary target is now installer generation on Windows x64 in GitHub Actions.
+- Keep executable build success as baseline; do not regress `bluegriffondev.exe` output.
+- Continue iterating until installer artifacts contain a real installer file (`.exe` or `.msi`), not only portable/package folders.
+- For this installer blocker, fan out experiment branches as needed (not limited to 2) and converge back to the best branch after each cycle.
+
 ## A/B branch protocol for stubborn blockers
 - Start with 2 branches per blocker (`exp/<blocker>-a`, `exp/<blocker>-b`).
 - If both fail without clear progress, expand fanout for that blocker (3+ branches is allowed).
+- For installer-specific blocker cycles, use as many branches as needed to test distinct hypotheses in parallel.
 - Each branch must contain one distinct hypothesis (no mixed fixes).
 - Push all experiment branches and monitor all runs to completion with long polling:
   - `Start-Sleep -Seconds 100` (increase while `Build BlueGriffon executable` runs).
