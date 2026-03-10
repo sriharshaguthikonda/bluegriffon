@@ -315,6 +315,7 @@ jobs:
         if: always()
         shell: powershell
         run: |
+          $ErrorActionPreference = "Continue"
           $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
           $portableDir = Join-Path $artifactDir "bluegriffon-portable"
           New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
@@ -323,116 +324,65 @@ jobs:
           $scanFile = Join-Path $env:GITHUB_WORKSPACE "artifact-scan.txt"
           $rootReport = Join-Path $env:GITHUB_WORKSPACE "root-recursive-report.txt"
           "==== artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
-          "==== root recursive report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
+          "==== bounded root report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
 
-          $rootsToProbe = @($env:GITHUB_WORKSPACE)
-          foreach ($root in $rootsToProbe) {
-            Add-Content -Path $rootReport -Value ""
-            Add-Content -Path $rootReport -Value ("==== root: {0} ====" -f $root)
-            if (-not (Test-Path $root)) {
-              Add-Content -Path $rootReport -Value ("MISSING: {0}" -f $root)
-              continue
-            }
-
-            $dirs = Get-ChildItem -Path $root -Directory -Recurse -ErrorAction SilentlyContinue
-            $files = Get-ChildItem -Path $root -File -Recurse -ErrorAction SilentlyContinue
-            Add-Content -Path $rootReport -Value ("dir_count: {0}" -f $dirs.Count)
-            Add-Content -Path $rootReport -Value ("file_count: {0}" -f $files.Count)
-
-            Add-Content -Path $rootReport -Value "-- directories (recursive) --"
-            ($dirs | Select-Object -ExpandProperty FullName | Sort-Object) | Add-Content -Path $rootReport
-
-            Add-Content -Path $rootReport -Value "-- extension histogram (top 60) --"
-            $files |
-              Group-Object Extension |
-              Sort-Object Count -Descending |
-              Select-Object -First 60 Name,Count |
-              Format-Table -AutoSize |
-              Out-String -Width 500 |
-              Add-Content -Path $rootReport
-
-            Add-Content -Path $rootReport -Value "-- installer/binary candidates (full recursive) --"
-            $files |
-              Where-Object { $_.Extension -in @(".exe", ".msi", ".zip", ".7z") } |
-              Sort-Object LastWriteTime -Descending |
-              Select-Object FullName,Length,LastWriteTime |
+          Add-Content -Path $rootReport -Value ("workspace: {0}" -f $env:GITHUB_WORKSPACE)
+          if (Test-Path $env:GITHUB_WORKSPACE) {
+            Add-Content -Path $rootReport -Value "-- workspace top-level entries --"
+            Get-ChildItem -Path $env:GITHUB_WORKSPACE -Force -ErrorAction SilentlyContinue |
+              Select-Object Mode,Length,LastWriteTime,FullName |
+              Sort-Object FullName |
               Format-Table -AutoSize |
               Out-String -Width 500 |
               Add-Content -Path $rootReport
           }
 
-          if (Test-Path $searchRoot) {
-            $scanCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
-              Where-Object {
-                $_.Extension -in @(".exe", ".msi", ".zip", ".7z") -and
-                ($_.FullName -match "\\dist\\|\\installer\\|griffon")
-              } |
-              Sort-Object LastWriteTime -Descending
+          $candidateRoots = @(
+            (Join-Path $searchRoot "opt64\\dist\\bin"),
+            (Join-Path $searchRoot "dist\\bin")
+          ) | Where-Object { Test-Path $_ } | Select-Object -Unique
 
-            $scanCandidates |
-              Select-Object -First 500 FullName,Length,LastWriteTime |
-              Format-Table -AutoSize |
-              Out-String -Width 500 |
-              Add-Content -Path $scanFile
-
-            Add-Content -Path $scanFile -Value ""
-            Add-Content -Path $scanFile -Value "==== key installer path probe ===="
-            $keyPaths = @(
-              (Join-Path $searchRoot "opt64\\dist\\install"),
-              (Join-Path $searchRoot "opt64\\dist\\install\\sea"),
-              (Join-Path $searchRoot "opt64\\dist"),
-              (Join-Path $searchRoot "opt64\\bluegriffon\\installer"),
-              (Join-Path $searchRoot "opt64\\bluegriffon\\installer\\windows"),
-              (Join-Path $searchRoot "opt64\\bluegriffon\\app")
-            )
-            foreach ($kp in $keyPaths) {
-              if (Test-Path $kp) {
-                $files = Get-ChildItem -Path $kp -Recurse -File -ErrorAction SilentlyContinue
-                Add-Content -Path $scanFile -Value ("FOUND: {0} (files={1})" -f $kp, $files.Count)
-                $binaryLike = $files | Where-Object { $_.Extension -in @(".exe", ".msi", ".zip", ".7z") }
-                if ($binaryLike.Count -gt 0) {
-                  $binaryLike |
-                    Sort-Object LastWriteTime -Descending |
-                    Select-Object -First 20 FullName,Length,LastWriteTime |
-                    Format-Table -AutoSize |
-                    Out-String -Width 500 |
-                    Add-Content -Path $scanFile
-                } else {
-                  $files |
-                    Sort-Object LastWriteTime -Descending |
-                    Select-Object -First 20 FullName,Length,LastWriteTime |
-                    Format-Table -AutoSize |
-                    Out-String -Width 500 |
-                    Add-Content -Path $scanFile
-                }
-              } else {
-                Add-Content -Path $scanFile -Value ("MISSING: {0}" -f $kp)
-              }
-            }
+          Add-Content -Path $scanFile -Value ""
+          Add-Content -Path $scanFile -Value "==== candidate runtime roots ===="
+          if ($candidateRoots.Count -eq 0) {
+            Add-Content -Path $scanFile -Value ("No runtime roots found under {0}" -f $searchRoot)
           } else {
-            "search root missing: $searchRoot" | Add-Content -Path $scanFile
+            foreach ($root in $candidateRoots) {
+              Add-Content -Path $scanFile -Value ("root: {0}" -f $root)
+              Get-ChildItem -Path $root -File -ErrorAction SilentlyContinue |
+                Where-Object { $_.Extension -in @(".exe", ".dll", ".xpt", ".manifest", ".ini") } |
+                Sort-Object LastWriteTime -Descending |
+                Select-Object -First 120 FullName,Length,LastWriteTime |
+                Format-Table -AutoSize |
+                Out-String -Width 500 |
+                Add-Content -Path $scanFile
+            }
           }
-          if (Test-Path build.log) {
-            Add-Content -Path build.log -Value ""
-            Add-Content -Path build.log -Value "==== artifact scan ===="
-            Get-Content -Path $scanFile | Add-Content -Path build.log
-            Add-Content -Path build.log -Value ""
-            Add-Content -Path build.log -Value "==== root recursive report summary ===="
-            Get-Content -Path $rootReport | Select-Object -First 220 | Add-Content -Path build.log
-          }
+
           $candidates = @()
-          if (Test-Path $searchRoot) {
-            $candidates = Get-ChildItem -Path $searchRoot -Recurse -Filter "*griffon*.exe" -ErrorAction SilentlyContinue |
-              Where-Object { $_.FullName -match "\\dist\\bin\\" } |
-              Sort-Object LastWriteTime -Descending
+          foreach ($root in $candidateRoots) {
+            $candidates += Get-ChildItem -Path $root -File -Filter "*griffon*.exe" -ErrorAction SilentlyContinue
           }
+          $candidates = $candidates | Sort-Object LastWriteTime -Descending
+
           if ($candidates.Count -gt 0) {
             $picked = $candidates[0]
             $binDir = Split-Path -Parent $picked.FullName
             Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
 
+            if (Test-Path $portableDir) {
+              Remove-Item -Path $portableDir -Recurse -Force -ErrorAction SilentlyContinue
+            }
             New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
-            Copy-Item -Path (Join-Path $binDir '*') -Destination $portableDir -Recurse -Force
+
+            $copyLog = Join-Path $env:GITHUB_WORKSPACE "portable-copy.log"
+            if (Test-Path $copyLog) { Remove-Item -Path $copyLog -Force -ErrorAction SilentlyContinue }
+            $null = robocopy $binDir $portableDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
+            $robocopyExit = $LASTEXITCODE
+            Add-Content -Path $scanFile -Value ("robocopy exit code: {0}" -f $robocopyExit)
+            if ($robocopyExit -gt 7) {
+              throw "Portable runtime copy failed with robocopy exit code $robocopyExit"
+            }
 
             $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
             $launcherPath = Join-Path $portableDir $launcherName
@@ -443,10 +393,28 @@ jobs:
             if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
             Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
 
+            Add-Content -Path $scanFile -Value ""
+            Add-Content -Path $scanFile -Value "==== portable package sample (first 200 files) ===="
+            Get-ChildItem -Path $portableDir -File -Recurse -ErrorAction SilentlyContinue |
+              Sort-Object FullName |
+              Select-Object -First 200 FullName,Length,LastWriteTime |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $scanFile
+
             Write-Host "Collected executable: $($picked.FullName)"
             Write-Host "Collected portable runtime from: $binDir"
           } else {
             Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
+          }
+
+          if (Test-Path build.log) {
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== artifact scan (bounded) ===="
+            Get-Content -Path $scanFile | Select-Object -First 600 | Add-Content -Path build.log
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== root report (bounded) ===="
+            Get-Content -Path $rootReport | Select-Object -First 250 | Add-Content -Path build.log
           }
 
           Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
