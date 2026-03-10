@@ -47,13 +47,12 @@ jobs:
           dir "C:\mozilla-build\bin" >> "%LOG%" 2>&1
           dir "C:\mozilla-build\msys2\mingw64\bin" >> "%LOG%" 2>&1
           echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
-          echo PYTHON2_EXE: %PYTHON2_EXE% >> "%LOG%"
+          echo PYTHON3_EXE: %PYTHON3_EXE% >> "%LOG%"
           echo PATH: %PATH% >> "%LOG%"
           where git >> "%LOG%" 2>&1
           where bash >> "%LOG%" 2>&1
           where python >> "%LOG%" 2>&1
-          where python2 >> "%LOG%" 2>&1
-          where python2.7 >> "%LOG%" 2>&1
+          where python3 >> "%LOG%" 2>&1
           where pkg-config >> "%LOG%" 2>&1
           where make >> "%LOG%" 2>&1
           where mozmake >> "%LOG%" 2>&1
