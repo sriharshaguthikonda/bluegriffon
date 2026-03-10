@@ -642,6 +642,69 @@ if [ "$package_rc" -ne 0 ]; then
   echo "WARNING: mach package failed with exit code: $package_rc"
 fi
 
+create_fallback_installer() {
+  local dist_bin_dir="$1"
+  local obj_root="$2"
+  local install_dir="$obj_root/dist/install"
+  local nsis_script="$PWD/.build-tools/fallback-installer.nsi"
+  local out_installer="$install_dir/bluegriffondev-fallback-installer.exe"
+  local src_win=""
+  local out_win=""
+
+  if [ ! -d "$dist_bin_dir" ]; then
+    echo "WARNING: dist/bin missing; cannot build fallback installer."
+    return 1
+  fi
+  if ! command -v makensis >/dev/null 2>&1; then
+    echo "WARNING: makensis not found; cannot build fallback installer."
+    return 1
+  fi
+
+  mkdir -p "$install_dir"
+  src_win="$(cygpath -w "$dist_bin_dir" 2>/dev/null || true)"
+  out_win="$(cygpath -w "$out_installer" 2>/dev/null || true)"
+  if [ -z "$src_win" ] || [ -z "$out_win" ]; then
+    echo "WARNING: failed to resolve Windows paths for fallback installer."
+    return 1
+  fi
+
+  cat >"$nsis_script" <<'NSI'
+Unicode true
+RequestExecutionLevel user
+Name "BlueGriffonDev"
+OutFile "${OUTFILE}"
+InstallDir "$LOCALAPPDATA\BlueGriffonDev"
+SetCompressor /SOLID lzma
+Page directory
+Page instfiles
+UninstPage uninstConfirm
+UninstPage instfiles
+
+Section "Install"
+  SetOutPath "$INSTDIR"
+  File /r "${SRCDIR}\*.*"
+  WriteUninstaller "$INSTDIR\uninstall-bluegriffondev.exe"
+SectionEnd
+
+Section "Uninstall"
+  RMDir /r "$INSTDIR"
+SectionEnd
+NSI
+
+  echo "Building fallback NSIS installer..."
+  if ! makensis -V2 -DOUTFILE="$out_win" -DSRCDIR="$src_win" "$nsis_script"; then
+    echo "WARNING: makensis fallback installer build failed."
+    return 1
+  fi
+  if [ ! -f "$out_installer" ]; then
+    echo "WARNING: fallback installer output missing: $out_installer"
+    return 1
+  fi
+
+  echo "$out_installer"
+  return 0
+}
+
 set +e
 installer_objdir="$objdir/bluegriffon/installer"
 if [ ! -d "$installer_objdir/windows" ]; then
@@ -651,8 +714,7 @@ if [ ! -d "$installer_objdir/windows" ]; then
     (
       cd "$objdir"
       ./config.status \
-        bluegriffon/installer/windows/Makefile \
-        bluegriffon/installer/windows/nsis/Makefile || true
+        bluegriffon/installer/windows/Makefile || true
     )
   else
     echo "WARNING: config.status not found at $objdir/config.status"
@@ -694,6 +756,11 @@ installer_path="$(find "$objdir" -type f \( -iname "*.exe" -o -iname "*.msi" \) 
 
 if [ -z "$installer_path" ]; then
   echo "WARNING: Installer .exe/.msi not found under $objdir/dist/install or */installer/*."
+  fallback_installer="$(create_fallback_installer "$dist_bin" "$objdir" || true)"
+  if [ -n "$fallback_installer" ] && [ -f "$fallback_installer" ]; then
+    installer_path="$fallback_installer"
+    echo "Found fallback installer: $installer_path"
+  fi
 else
   echo "Found installer: $installer_path"
 fi
