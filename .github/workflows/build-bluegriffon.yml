@@ -292,38 +292,67 @@ jobs:
             Copy-Item build-exit.txt $tempExit -Force
           }
 
+          $tempWorktree = Join-Path $env:RUNNER_TEMP "ci-logs-worktree"
+          if (Test-Path $tempWorktree) {
+            Remove-Item -Path $tempWorktree -Recurse -Force -ErrorAction SilentlyContinue
+          }
+
           git fetch origin ci-logs --depth=1
+          $ciLogsExists = ($LASTEXITCODE -eq 0)
+          if ($ciLogsExists) {
+            git worktree add --detach $tempWorktree origin/ci-logs
+          } else {
+            git worktree add --detach $tempWorktree HEAD
+          }
           if ($LASTEXITCODE -ne 0) {
-            git checkout --orphan ci-logs
-            git clean -fdx
-          } else {
-            git checkout -B ci-logs origin/ci-logs
+            Write-Host "WARNING: Unable to prepare ci-logs worktree; skipping ci-logs commit."
+            exit 0
           }
 
-          New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
-          Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
-          if ($hasExit) {
-            Copy-Item $tempExit ci-logs\build-exit.txt -Force
-          }
+          Push-Location $tempWorktree
+          try {
+            if ($ciLogsExists) {
+              git checkout -B ci-logs origin/ci-logs
+            } else {
+              git checkout --orphan ci-logs
+              git rm -rf . --ignore-unmatch
+            }
 
-          $sha = "${{ github.sha }}"
-          $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          $branch = "${{ github.ref_name }}"
-          Set-Content ci-logs\metadata.txt "source-sha: $sha"
-          Add-Content ci-logs\metadata.txt "branch: $branch"
-          Add-Content ci-logs\metadata.txt "run: $runUrl"
+            New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
+            Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
+            if ($hasExit) {
+              Copy-Item $tempExit ci-logs\build-exit.txt -Force
+            } elseif (Test-Path ci-logs\build-exit.txt) {
+              Remove-Item ci-logs\build-exit.txt -Force
+            }
 
-          git add ci-logs/build.log ci-logs/metadata.txt
-          if ($hasExit) {
-            git add ci-logs/build-exit.txt
+            $sha = "${{ github.sha }}"
+            $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            $branch = "${{ github.ref_name }}"
+            Set-Content ci-logs\metadata.txt "source-sha: $sha"
+            Add-Content ci-logs\metadata.txt "branch: $branch"
+            Add-Content ci-logs\metadata.txt "run: $runUrl"
+
+            git add ci-logs/build.log ci-logs/metadata.txt
+            if ($hasExit) {
+              git add ci-logs/build-exit.txt
+            }
+
+            if (-not (git diff --cached --quiet)) {
+              git config user.name "github-actions"
+              git config user.email "github-actions@github.com"
+              git commit -m "ci logs for $sha [skip ci]"
+              git push origin HEAD:ci-logs
+              if ($LASTEXITCODE -ne 0) {
+                Write-Host "WARNING: Failed to push ci-logs update; continuing."
+              }
+            } else {
+              Write-Host "No log changes to commit."
+            }
           }
-          if (-not (git diff --cached --quiet)) {
-            git config user.name "github-actions"
-            git config user.email "github-actions@github.com"
-            git commit -m "ci logs for $sha [skip ci]"
-            git push origin ci-logs
-          } else {
-            Write-Host "No log changes to commit."
+          finally {
+            Pop-Location
+            git worktree remove $tempWorktree --force | Out-Null
           }
 
       - name: Fail if build failed

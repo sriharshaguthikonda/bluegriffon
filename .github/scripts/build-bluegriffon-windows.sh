@@ -71,6 +71,15 @@ if [ -x "$PYTHON_EXE_CAND" ]; then
 exec "$PYTHON_EXE_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/python"
+  # Legacy Gecko scripts may still resolve python2/python2.7 names.
+  # Route them to the selected runner Python for migration branch builds.
+  for legacy_py in python2 python2.7; do
+    cat >"$shim_dir/$legacy_py" <<EOF
+#!/usr/bin/env bash
+exec "$PYTHON_EXE_CAND" "\$@"
+EOF
+    chmod +x "$shim_dir/$legacy_py"
+  done
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
   export PYTHON="$PYTHON_EXE_CAND"
