@@ -53,9 +53,88 @@
 %endif
 }
 
+#titlebar {
+  margin: 0;
+  border-bottom: thin solid var(--bg-dark-border);
+  background-color: var(--bg-dark-background);
+}
+
+#titlebar-content {
+  min-height: 34px;
+  padding: 0 8px;
+}
+
+#titlebar-menubar-host {
+  min-height: 30px;
+  -moz-box-align: center;
+}
+
+#titlebar-title-host {
+  padding: 0 12px;
+}
+
 #composer-main-menubar {
-    -moz-appearance: none;
-    background-color: var(--bg-dark-background) ! important;
+  -moz-appearance: none;
+  background-color: transparent ! important;
+  min-height: 30px;
+  border: none 0px;
+  padding: 0 4px;
+}
+
+#composer-main-menubar,
+#composer-main-menubar * {
+  -moz-window-dragging: no-drag;
+}
+
+#composer-main-menubar > menu {
+  color: var(--bg-main-foreground-color);
+  margin: 0 1px;
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+
+#Bluegriffon:-moz-window-inactive #composer-main-menubar > menu:not([open="true"]) {
+  color: var(--bg-main-foreground-color-inactive);
+}
+
+#composer-main-menubar > menu[_moz-menuactive="true"],
+#composer-main-menubar > menu[open="true"] {
+  background-color: var(--bg-lighter-dark-gray);
+}
+
+#titlebar-buttonbox-container,
+#titlebar-buttonbox,
+#titlebar-buttonbox > .titlebar-button {
+  -moz-window-dragging: no-drag;
+}
+
+#titlebar-buttonbox > .titlebar-button {
+  min-width: 46px;
+  min-height: 30px;
+  margin: 0;
+}
+
+#titlebar-buttonbox > .titlebar-button:hover:not(#titlebar-close) {
+  background-color: rgba(127, 127, 127, 0.2);
+}
+
+#titlebar-buttonbox > #titlebar-close:hover {
+  background-color: #c42b1c;
+}
+
+#menubar-fallback-host {
+  min-height: 32px;
+  padding: 0 8px;
+  border-bottom: thin solid var(--bg-dark-border);
+  background-color: var(--bg-dark-background);
+}
+
+#Bluegriffon[menubar-placement="titlebar"] #menubar-fallback-host {
+  display: none;
+}
+
+#Bluegriffon[menubar-placement="fallback"] #titlebar-menubar-host {
+  display: none;
 }
 
 %ifndef XP_WIN
@@ -534,7 +613,9 @@ toolbar {
   border-top: 2px solid var(--bg-dark-border);
   -moz-border-top-colors: var(--bg-dark-border) var(--bg-lighter-border);
   background-color: var(--bg-dark-background) ! important;
-  padding-top: 5px;
+  min-height: 34px;
+  padding-top: 3px;
+  padding-bottom: 3px;
 }
 
 #FormatMenulistsToolbar {
@@ -555,11 +636,30 @@ toolbarseparator {
   text-shadow: none;
 }
 
+#statusbar {
+  min-height: 30px;
+}
+
+#editorBar,
+#progressBar {
+  padding: 2px 8px;
+}
+
 
 #deckedPanelsSplitter {
   -moz-appearance: none;
+  min-width: 12px;
+  width: 12px;
   border: 0px none;
+  cursor: ew-resize;
   background-color: transparent;
+  background-image: linear-gradient(to right,
+                                    transparent 0%,
+                                    transparent 45%,
+                                    var(--bg-lighter-border) 45%,
+                                    var(--bg-lighter-border) 55%,
+                                    transparent 55%,
+                                    transparent 100%);
 }
 
 
@@ -567,8 +667,21 @@ toolbarseparator {
   background-color: transparent ! important;
 }
 
+#deckedPanelsSplitter:hover {
+  background-image: linear-gradient(to right,
+                                    transparent 0%,
+                                    transparent 42%,
+                                    #4c93d9 42%,
+                                    #4c93d9 58%,
+                                    transparent 58%,
+                                    transparent 100%);
+}
+
 #titleInTitlebar {
-  color: CaptionText;
+  margin: 0;
+  color: var(--bg-main-foreground-color);
+  font-size: 12px;
+  font-weight: 600;
   text-align: center;
 }
 
@@ -614,7 +727,27 @@ deck[anonid="editorDeck"].liveview > editor {
 }
 
 deck[anonid="editorDeck"] > splitter {
-  background-color: var(--bg-dark-background);
+  min-width: 12px;
+  width: 12px;
+  cursor: ew-resize;
+  background-color: transparent;
+  background-image: linear-gradient(to right,
+                                    transparent 0%,
+                                    transparent 45%,
+                                    var(--bg-lighter-border) 45%,
+                                    var(--bg-lighter-border) 55%,
+                                    transparent 55%,
+                                    transparent 100%);
+}
+
+deck[anonid="editorDeck"] > splitter:hover {
+  background-image: linear-gradient(to right,
+                                    transparent 0%,
+                                    transparent 42%,
+                                    #4c93d9 42%,
+                                    #4c93d9 58%,
+                                    transparent 58%,
+                                    transparent 100%);
 }
 
 deck[anonid="editorDeck"]:not(.liveview) > splitter {

@@ -229,3 +229,29 @@ tabeditor[tabmode="right"] .tabs-right {
   border-radius: 4px 4px 0px 0px;
 }
 
+#responsiveSplitter,
+.liveViewSplitter {
+  -moz-appearance: none;
+  min-width: 12px;
+  width: 12px;
+  cursor: ew-resize;
+  border: 0px none;
+  background-image: linear-gradient(to right,
+                                    transparent 0%,
+                                    transparent 45%,
+                                    var(--bg-lighter-border) 45%,
+                                    var(--bg-lighter-border) 55%,
+                                    transparent 55%,
+                                    transparent 100%);
+}
+
+#responsiveSplitter:hover,
+.liveViewSplitter:hover {
+  background-image: linear-gradient(to right,
+                                    transparent 0%,
+                                    transparent 42%,
+                                    #4c93d9 42%,
+                                    #4c93d9 58%,
+                                    transparent 58%,
+                                    transparent 100%);
+}

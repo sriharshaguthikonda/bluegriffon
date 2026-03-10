@@ -94,10 +94,11 @@
 
 #ifdef CAN_DRAW_IN_TITLEBAR
 <vbox id="titlebar">
-  <hbox id="titlebar-content" flex="1">
-    <spacer id="titlebar-spacer" flex="1"/>
-    <label id="titleInTitlebar" value="BlueGriffon" flex="1" crop="center"/>
-    <spacer id="titlebar-spacer2" flex="1"/>
+  <hbox id="titlebar-content" flex="1" align="center">
+    <hbox id="titlebar-menubar-host" align="center"/>
+    <hbox id="titlebar-title-host" flex="1" align="center" pack="center">
+      <label id="titleInTitlebar" value="BlueGriffon" crop="center"/>
+    </hbox>
     <hbox id="titlebar-buttonbox-container">
       <hbox id="titlebar-buttonbox">
         <toolbarbutton class="titlebar-button" id="titlebar-min" oncommand="window.minimize();"/>
@@ -117,7 +118,9 @@
 </vbox>
 #endif
 
+<hbox id="menubar-fallback-host" align="center">
 #include menubar.inc
+</hbox>
 
   <vbox id="mainToolboxTopDock">
   <toolbox class="toolbox-top" id="MainToolbox" context="main-toolbar-context-menu">
