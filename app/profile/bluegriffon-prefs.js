@@ -139,6 +139,10 @@ pref("bluegriffon.ui.structurebar.show", true);
 pref("bluegriffon.ui.statusbar.show", true);
 pref("bluegriffon.ui.vertical_toolbar.show", true);
 pref("bluegriffon.ui.horizontal_toolbars.show", true);
+pref("bluegriffon.ui.vertical_toolbar.position", "left");
+pref("bluegriffon.ui.titlebar.show", true);
+pref("bluegriffon.ui.statusbar.position", "bottom");
+pref("bluegriffon.ui.toolbar.layout", "mixed");
 
 // updates
 pref("bluegriffon.updates.check.enabled", true);
@@ -230,7 +234,9 @@ pref("print.print_edge_bottom", 0);
 pref("layout.css.flexbox.enabled", true);
 
 pref("general.useragent.locale", "en-US");
-pref("intl.locale.matchOS", true);
+// Dev app ID differs from upstream langpack targetApplication IDs.
+// Keep locale pinned to en-US so startup doesn't request unavailable locales.
+pref("intl.locale.matchOS", false);
 
 pref("app.support.baseURL", "http://bluegriffon.org/");
 
