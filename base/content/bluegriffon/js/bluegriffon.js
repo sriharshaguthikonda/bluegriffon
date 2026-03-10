@@ -858,6 +858,55 @@ function OnKeyPressWhileChangingTag(event)
 
 /************ VIEW MODE ********/
 
+function GetSelectedViewModeButtonId()
+{
+  var ids = ["liveViewModeButton",
+             "wysiwygModeButton",
+             "sourceModeButton",
+             "printPreviewModeButton"];
+  for (var i = 0; i < ids.length; i++) {
+    var button = gDialog[ids[i]];
+    if (button && button.getAttribute("selected") == "true")
+      return ids[i];
+  }
+  return "wysiwygModeButton";
+}
+
+function GetSelectedViewModeLabel()
+{
+  switch (GetSelectedViewModeButtonId()) {
+    case "liveViewModeButton":
+      return "Dual View";
+    case "sourceModeButton":
+      return "Source";
+    case "printPreviewModeButton":
+      return "Print Preview";
+    default:
+      return "Wysiwyg";
+  }
+}
+
+function UpdateViewModeStatus()
+{
+  if (!gDialog || !gDialog.viewModeStatus)
+    return;
+  gDialog.viewModeStatus.setAttribute("label", "Mode: " + GetSelectedViewModeLabel());
+}
+
+function CycleViewMode()
+{
+  var order = ["liveViewModeButton",
+               "wysiwygModeButton",
+               "sourceModeButton",
+               "printPreviewModeButton"];
+  var currentId = GetSelectedViewModeButtonId();
+  var index = order.indexOf(currentId);
+  if (index < 0)
+    index = 0;
+  var nextId = order[(index + 1) % order.length];
+  return ToggleViewMode(gDialog[nextId]);
+}
+
 function ToggleViewMode(aElement)
 {
   if (!aElement) // sanity case
@@ -892,8 +941,10 @@ function ToggleViewMode(aElement)
   var mode =  aElement.getAttribute("mode");
   var previousmode = EditorUtils.getCurrentViewMode();
   if (mode == previousmode) {
-    if (mode == "wysiwyg" && previousWysiwygMedium != deck.getAttribute("wysiwygmedium"))
+    if (mode == "wysiwyg" && previousWysiwygMedium != deck.getAttribute("wysiwygmedium")) {
       NotifierUtils.notify("modeSwitch");
+      UpdateViewModeStatus();
+    }
     return true;
   }
 
@@ -917,6 +968,7 @@ function ToggleViewMode(aElement)
     //sourceEditor.refresh();
     sourceEditor.focus();
     NotifierUtils.notify("modeSwitch");
+    UpdateViewModeStatus();
 
     return true;
   }
@@ -935,6 +987,7 @@ function ToggleViewMode(aElement)
     //sourceEditor.refresh();
     sourceEditor.focus();
     NotifierUtils.notify("modeSwitch");
+    UpdateViewModeStatus();
 
     return true;
   }
@@ -960,6 +1013,7 @@ function ToggleViewMode(aElement)
     editorElement.parentNode.selectedIndex = 0;
     GetWindowContent().focus();
     NotifierUtils.notify("modeSwitch");
+    UpdateViewModeStatus();
 
     return true;
   }
@@ -1164,6 +1218,7 @@ function ToggleViewMode(aElement)
   window.updateCommands("style");
   NotifierUtils.notify("afterLeavingSourceMode");
   NotifierUtils.notify("modeSwitch");
+  UpdateViewModeStatus();
   return true;
 }
 

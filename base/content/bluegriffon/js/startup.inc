@@ -38,6 +38,7 @@ function Startup()
   ApplyVerticalToolbarPosition();
   ApplyStatusbarPosition();
   ApplyTitlebarVisibility();
+  UpdateViewModeStatus();
 
   ComposerCommands.setupMainCommands();
   window.updateCommands("style");
