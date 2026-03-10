@@ -646,17 +646,17 @@ create_fallback_installer() {
   local dist_bin_dir="$1"
   local obj_root="$2"
   local install_dir="$obj_root/dist/install"
-  local nsis_script="$PWD/.build-tools/fallback-installer.nsi"
+  local nsis_script="$shim_dir/fallback-installer.nsi"
   local out_installer="$install_dir/bluegriffondev-fallback-installer.exe"
   local src_win=""
   local out_win=""
 
   if [ ! -d "$dist_bin_dir" ]; then
-    echo "WARNING: dist/bin missing; cannot build fallback installer."
+    echo "WARNING: dist/bin missing; cannot build fallback installer." >&2
     return 1
   fi
   if ! command -v makensis >/dev/null 2>&1; then
-    echo "WARNING: makensis not found; cannot build fallback installer."
+    echo "WARNING: makensis not found; cannot build fallback installer." >&2
     return 1
   fi
 
@@ -664,7 +664,7 @@ create_fallback_installer() {
   src_win="$(cygpath -w "$dist_bin_dir" 2>/dev/null || true)"
   out_win="$(cygpath -w "$out_installer" 2>/dev/null || true)"
   if [ -z "$src_win" ] || [ -z "$out_win" ]; then
-    echo "WARNING: failed to resolve Windows paths for fallback installer."
+    echo "WARNING: failed to resolve Windows paths for fallback installer." >&2
     return 1
   fi
 
@@ -691,13 +691,13 @@ Section "Uninstall"
 SectionEnd
 NSI
 
-  echo "Building fallback NSIS installer..."
+  echo "Building fallback NSIS installer..." >&2
   if ! makensis -V2 -DOUTFILE="$out_win" -DSRCDIR="$src_win" "$nsis_script"; then
-    echo "WARNING: makensis fallback installer build failed."
+    echo "WARNING: makensis fallback installer build failed." >&2
     return 1
   fi
   if [ ! -f "$out_installer" ]; then
-    echo "WARNING: fallback installer output missing: $out_installer"
+    echo "WARNING: fallback installer output missing: $out_installer" >&2
     return 1
   fi
 
