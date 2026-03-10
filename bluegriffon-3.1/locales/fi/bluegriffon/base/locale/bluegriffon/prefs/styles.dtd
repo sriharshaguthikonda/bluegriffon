@@ -1,0 +1,25 @@
+<!ENTITY bgDecidesAll.radio "Automaattinen">
+<!ENTITY bgDecidesAll.desc "BlueGriffon saa itse päättää kuinka se lisää tyylejä ja se saa nimetä puolestani ID:t ja luokat kun tarpeen">
+<!ENTITY prefixPrompt.label "Kirjoita ID:iden ja luokkien etuliite:">
+<!ENTITY iDecide.radio "Manuaalinen">
+<!ENTITY iDecide.desc "Anna minun päättää">
+<!ENTITY cssPolicy.caption "CSS-käytäntö">
+
+<!ENTITY browserSupport.caption "Selaintuki">
+<!ENTITY gecko.label "Gecko-pohjaiset selaimet (Firefox, Camino, ...)">
+<!ENTITY webkit.label "WebKit-pohjaiset selaimet (Safari, ...)">
+<!ENTITY blink.label "Blink-pohjaiset selaimet (Chrome, ...)">
+<!ENTITY presto.label "Opera">
+<!ENTITY trident.label "Internet Explorer">
+<!ENTITY servo.label "Servo">
+<!ENTITY vivliostyle.label "Vivliostyle">
+<!ENTITY weasyprint.label "Weasyprint">
+
+<!ENTITY cssColors.captions "CSS-värit">
+<!ENTITY outputCssColorNames.label "Yritä aina tulostaa CSS 3 -värinimiä">
+<!ENTITY rgbColors.label "Suosi rgb(r,g,b) -arvoja">
+<!ENTITY hexColors.label "Suosi #rrvvbb -arvoja">
+
+<!ENTITY serialization.label "Sarjaesitysmuoto">
+<!ENTITY shorthands.label "Shorthands">
+<!ENTITY longhands.label "Longhands">

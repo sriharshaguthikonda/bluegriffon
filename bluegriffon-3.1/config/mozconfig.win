@@ -1,0 +1,67 @@
+# sh
+# Build configuration script for Windows
+#
+# See http://developer.mozilla.org/en/Configuring_Build_Options for build options.
+#
+
+###############################
+# here, -j8 means I am building on a computer with
+# 8 logical cores; adapt to your configuration
+###############################
+mk_add_options MOZ_MAKE_FLAGS="-j8"
+
+###############################
+# Uncomment for 32bits OPTIMIZED build, comment out for others
+###############################
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt32
+ac_add_options --target=i386-pc-mingw32
+ac_add_options --host=i386-pc-mingw32
+ac_add_options --enable-optimize
+ac_add_options --disable-debug
+ac_add_options --enable-strip
+
+###############################
+# Uncomment for 32bits DEBUG build, comment out for others
+###############################
+#mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/debug32
+#ac_add_options --target=i386-pc-mingw32
+#ac_add_options --host=i386-pc-mingw32
+#ac_add_options --disable-optimize
+#ac_add_options --enable-debug
+
+###############################
+# Uncomment for 64bits OPTIMIZED build, comment out for others
+###############################
+#mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt64
+#ac_add_options --target=x86_64-pc-mingw32
+#ac_add_options --host=x86_64-pc-mingw32
+#ac_add_options --enable-optimize
+#ac_add_options --disable-debug
+#ac_add_options --enable-strip
+
+###############################
+# Uncomment for 64bits DEBUG build, comment out for others
+###############################
+#mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/debug64
+#ac_add_options --target=x86_64-pc-mingw32
+#ac_add_options --host=x86_64-pc-mingw32
+#ac_add_options --disable-optimize
+#ac_add_options --enable-debug
+
+###############################
+# you should not need to tweak the following lines
+###############################
+ac_add_options --disable-tests
+ac_add_options --disable-crashreporter
+ac_add_options --enable-jemalloc
+ac_add_options --disable-webrtc
+ac_add_options --disable-dbm
+ac_add_options --disable-updater
+ac_add_options --disable-sandbox
+mk_add_options MOZ_MEDIA_NAVIGATOR=1
+
+##############################
+# DO NOT MODIFY BELOW THIS LINE
+##############################
+ac_add_options --enable-chrome-format=jar
+ac_add_options  --enable-application=bluegriffon

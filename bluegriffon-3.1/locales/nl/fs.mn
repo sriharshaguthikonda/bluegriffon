@@ -1,0 +1,7 @@
+fs-nl.jar:
+% locale    fs    nl    %locale/nl/fs/
+  locale/nl/fs/fsOverlay.dtd    (locale/nl/fsOverlay.dtd)
+  locale/nl/fs/fs.dtd           (locale/nl/fs.dtd)
+  locale/nl/fs/fs.properties    (locale/nl/fs.properties)
+  locale/nl/fs/addFont.dtd      (locale/nl/addFont.dtd)
+

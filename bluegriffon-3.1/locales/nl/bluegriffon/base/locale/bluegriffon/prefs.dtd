@@ -1,0 +1,12 @@
+<!ENTITY window.title "Bluegriffon - Voorkeuren">
+
+<!ENTITY general.title "Algemeen">
+<!ENTITY newPage.title "Documenten">
+<!ENTITY update.title "Updates">
+<!ENTITY advanced.title "Geavanceerd">
+<!ENTITY styles.title "Stijlen">
+<!ENTITY osx.title "OS X">
+<!ENTITY shortcuts.title 'Sneltoetsen'>
+<!ENTITY source.title "Bron">
+<!ENTITY file.title "Bestand">
+<!ENTITY license.title "License">

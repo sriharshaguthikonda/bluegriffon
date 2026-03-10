@@ -58,7 +58,17 @@ ac_add_options --disable-webrtc
 ac_add_options --disable-dbm
 ac_add_options --disable-updater
 ac_add_options --disable-sandbox
+
+# Optional feature disables for dependency reduction
+# Uncomment these if features are not needed
+# ac_add_options --disable-accessibility
+# ac_add_options --disable-printing
+# ac_add_options --disable-necko-wifi
+# ac_add_options --disable-gamepad
 mk_add_options MOZ_MEDIA_NAVIGATOR=1
+
+# Build optimization
+mk_add_options MOZ_CCACHE=sccache
 
 ##############################
 # DO NOT MODIFY BELOW THIS LINE

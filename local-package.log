@@ -1,0 +1,57 @@
+ 0:04.05 C:/mozilla-build/msys2/mingw64/bin/mingw32-make.exe -C . -j8 -s -w package
+ 0:04.13 mingw32-make: Entering directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64'
+ 0:05.26 Build configuration changed. Regenerating backend.
+ 0:53.11 Reticulating splines...
+ 0:53.11 Finished reading 985 moz.build files in 9.47s
+ 0:53.11 Read 60 gyp files in parallel contributing 0.00s to total wall time
+ 0:53.11 Processed into 7734 build config descriptors in 13.80s
+ 0:53.11 RecursiveMake backend executed in 7.73s
+ 0:53.11   2288 total backend files; 0 created; 1 updated; 2287 unchanged; 0 deleted; 63 -> 848 Makefile
+ 0:53.11 FasterMake backend executed in 1.38s
+ 0:53.11   6 total backend files; 0 created; 0 updated; 6 unchanged; 0 deleted
+ 0:53.11 VisualStudio backend executed in 7.27s
+ 0:53.11 Generated Visual Studio solution at C:/Windows_software/bluegriffon/gecko-dev/opt64\msvc\mozilla.sln
+ 0:53.11 Total wall time: 44.42s; CPU time: 44.42s; Efficiency: 100%; Untracked: 4.77s
+ 0:54.33 mingw32-make[1]: Entering directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64/bluegriffon/installer'
+ 0:54.83 mingw32-make[2]: Entering directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64/bluegriffon/installer'
+ 0:54.91 mingw32-make[3]: Entering directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64/bluegriffon/installer'
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:44: Missing file(s): bin/dictionaries/*
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:45: Missing file(s): bin/hyphenation/*
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:68: Missing file(s): bin/xul.dll
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:74: Missing file(s): bin/plugin-container.exe
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:115: Missing file(s): bin/platform.ini
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:133: Missing file(s): bin/qipcap64.dll
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:143: Missing file(s): bin/defaults/pref/devtools.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:352: Missing file(s): bin/components/toolkitsearch.manifest
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:355: Missing file(s): bin/components/passwordmgr.manifest
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:372: Missing file(s): bin/components/bgCommandHandler.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:379: Missing file(s): bin/components/nsHelperAppDlg.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:382: Missing file(s): bin/components/extensions.manifest
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:408: Missing file(s): bin/components/nsURLFormatter.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:430: Missing file(s): bin/components/formautofill.manifest
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:513: Missing file(s): bin/components/nsUrlClassifierListManager.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:514: Missing file(s): bin/components/nsUrlClassifierLib.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:532: Missing file(s): bin/d3dcompiler_47.dll
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:541: Missing file(s): bin/distribution
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:565: Missing file(s): bin/greprefs.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:572: Missing file(s): bin/defaults/pref/channel-prefs.js
+ 0:59.55 Error: C:\Windows_software\bluegriffon\gecko-dev\bluegriffon\installer\package-manifest.in:739: Missing file(s): bin/gmp-clearkey/0.1/manifest.json
+ 0:59.55 Error: "components/interfaces.manifest" is included from "chrome.manifest", which is outside "components"
+ 0:59.55 Traceback (most recent call last):
+ 0:59.55   File "C:/Windows_software/bluegriffon/gecko-dev/toolkit/mozapps/installer/packager.py", line 326, in <module>
+ 0:59.55     main()
+ 0:59.55   File "C:/Windows_software/bluegriffon/gecko-dev/toolkit/mozapps/installer/packager.py", line 295, in main
+ 0:59.55     copier.add(mozpath.join(respath, 'removed-files'), removals)
+ 0:59.55   File "C:\Python27_18\Lib\contextlib.py", line 24, in __exit__
+ 0:59.55     self.gen.next()
+ 0:59.55   File "C:\Windows_software\bluegriffon\gecko-dev\python\mozbuild\mozpack\errors.py", line 131, in accumulate
+ 0:59.55     raise AccumulatedErrors()
+ 0:59.55 mozpack.errors.AccumulatedErrors
+ 0:59.57 mingw32-make[3]: *** [C:/Windows_software/bluegriffon/gecko-dev/toolkit/mozapps/installer/packager.mk:39: stage-package] Error 1
+ 0:59.57 mingw32-make[3]: Leaving directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64/bluegriffon/installer'
+ 0:59.58 mingw32-make[2]: *** [C:/Windows_software/bluegriffon/gecko-dev/toolkit/mozapps/installer/packager.mk:99: make-package] Error 2
+ 0:59.58 mingw32-make[2]: Leaving directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64/bluegriffon/installer'
+ 0:59.58 mingw32-make[1]: *** [C:/Windows_software/bluegriffon/gecko-dev/config/rules.mk:519: default] Error 2
+ 0:59.58 mingw32-make[1]: Leaving directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64/bluegriffon/installer'
+ 0:59.58 mingw32-make: *** [C:/Windows_software/bluegriffon/gecko-dev/bluegriffon/build.mk:9: package] Error 2
+ 0:59.58 mingw32-make: Leaving directory 'C:/Windows_software/bluegriffon/gecko-dev/opt64'

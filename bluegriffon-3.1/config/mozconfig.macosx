@@ -1,0 +1,69 @@
+# sh
+# Build configuration script for WIN32
+#
+# See http://www.mozilla.org/build/unix.html for build instructions.
+#
+##############################
+# TESTED ON OS X 10.13 with XCODE 9.0.1 (9A1004)
+##############################
+
+CC=clang
+CXX=clang++
+
+##############################
+# universal 32bits/64bits builds are not available any more for bluegriffon >= 2.4
+##############################
+
+###############################
+# Tweak according to your wishes.
+# WARNING, the directory must exist in the filestem.
+###############################
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/opt/
+
+###############################
+# here, -j8 means I am building on a computer with
+# 8 logical cores; adapt to your configuration
+###############################
+mk_add_options MOZ_MAKE_FLAGS="-j8"
+
+##############################
+# BlueGriffon is currently built against 10.10 SDK.
+# See https://github.com/phracker/MacOSX-SDKs/ if you miss a given SDK
+##############################
+ac_add_options --with-macos-sdk=/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.10.sdk
+ac_add_options --enable-macos-target=10.10
+
+###############################
+# Uncomment the following lines for an optimized build.
+# Comment them out for a debug build.
+###############################
+ac_add_options --enable-optimize
+ac_add_options --disable-debug
+ac_add_options --enable-strip
+
+###############################
+# Uncomment the following lines for an debug build.
+# Comment them out for a optimized build.
+# Last two lines needed only if you hit a link error on _res_9_init.
+###############################
+#ac_add_options --disable-optimize
+#ac_add_options --enable-debug
+#mk_add_options LDFLAGS=-lresolv
+#export LDFLAGS
+
+###############################
+# you should not need to tweak the following lines
+###############################
+ac_add_options --disable-tests
+ac_add_options --disable-crashreporter
+ac_add_options --disable-webrtc
+ac_add_options --disable-dbm
+ac_add_options --disable-updater
+ac_add_options --disable-sandbox
+
+##############################
+# DO NOT MODIFY BELOW THIS LINE
+##############################
+ac_add_options --enable-application=bluegriffon
+ac_add_options --enable-chrome-format=jar
+

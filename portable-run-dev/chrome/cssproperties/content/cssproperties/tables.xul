@@ -1,0 +1,96 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay [
+  <!ENTITY % csspropertiesDTD SYSTEM "chrome://cssproperties/locale/cssproperties.dtd">
+  %csspropertiesDTD;
+  <!ENTITY % backgrounditemDTD SYSTEM "chrome://cssproperties/locale/backgrounditem.dtd" >
+  %backgrounditemDTD;
+]>
+
+<overlay id="tablesOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript"  src="chrome://cssproperties/content/tables.js" />
+
+  <vbox id="propertiesBox">
+      <hbox align="center"
+            class="csspropertiesHeader"
+            context="sectionHeaderContext"
+            id="tablesSectionHeader"
+            onclick="ToggleSection(event, this)"
+            position="29">
+        <image />
+        <label value="&tablesSectionHeader.label;"/>
+      </hbox>
+
+      <vbox class="section" id="tablesSection" position="30">
+        <grid>
+          <columns><column/><column/></columns>
+          <rows>
+            <cssproperty property="table-layout"
+                         grammar="auto | fixed">
+              <l10n>
+                table-layout=&tableLayout.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/table-layout
+                auto=&autoTableLayout.label;
+                fixed=&fixedTableLayout.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="caption-side"
+                         grammar="top | bottom">
+              <l10n>
+                caption-side=&captionSide.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/caption-side
+                top=&topCaptionSide.label;
+                bottom=&bottomCaptionSide.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="border-collapse"
+                         grammar="collapse | separate">
+              <l10n>
+                border-collapse=&borderCollapse.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/border-collapse
+                collapse=&collapseBorderCollapse.label;
+                separate=&separateBorderCollapse.label;
+              </l10n>
+            </cssproperty>
+
+            <row align="center">
+              <label value="&borderSpacing.label;"
+                     class="text-link"
+                     href="https://developer.mozilla.org/en-US/docs/Web/CSS/border-spacing"
+                     tooltiptext="border-spacing"/>
+              <hbox align="center">
+                <menulist editable="true" id="borderSpacingHMenulist" sizetopopup="none"
+                          bgtype="csslength" units='% px pt cm in mm pc em ex rem ch'
+                          oncommand="onLengthMenulistCommand(this, '% px pt cm in mm pc em ex rem ch', '', false); ApplyBorderSpacing()"
+                          oninput="onLengthMenulistCommand(this, '% px pt cm in mm pc em ex rem ch', '', false); ApplyBorderSpacing()">
+                  <menupopup onpopupshowing="PopulateLengths(this, '% px pt cm in mm pc em ex rem ch')"/>
+                </menulist>
+              </hbox>
+              <hbox align="center">
+                <menulist editable="true" id="borderSpacingVMenulist" sizetopopup="none"
+                          bgtype="csslength" units='% px pt cm in mm pc em ex rem ch'
+                          oncommand="onLengthMenulistCommand(this, '% px pt cm in mm pc em ex rem ch', '', false); ApplyBorderSpacing()"
+                          oninput="onLengthMenulistCommand(this, '% px pt cm in mm pc em ex rem ch', '', false); ApplyBorderSpacing()">
+                  <menupopup onpopupshowing="PopulateLengths(this, '% px pt cm in mm pc em ex rem ch')"/>
+                </menulist>
+              </hbox>
+            </row>
+
+            <cssproperty property="empty-cells"
+                         grammar="show | hide">
+              <l10n>
+                empty-cells=&emptyCells.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/empty-cells
+                show=&showEmptyCells.label;
+                hide=&hideEmptyCells.label;
+              </l10n>
+            </cssproperty>
+          </rows>
+        </grid>
+      </vbox>
+  </vbox>
+</overlay>

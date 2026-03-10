@@ -222,3 +222,31 @@ Status captured on 2026-03-09 for handoff to remote-CI validation.
 3) Download artifact and run portable launch test; confirm whether same early crash occurs.
 4) If crash reproduces remotely, treat as branch/toolchain/runtime issue (not local machine packaging).
 5) Capture remote commit SHA + run/job URL in `ci-logs/metadata.txt` and continue fix loop there.
+
+## Feature development phase (post remote installer validation)
+This phase starts after validating that `Remote-build-portable-and-installer` can install side-by-side locally.
+
+- Prior phases completed:
+  - local build phase
+  - remote build phase
+  - remote installer build phase
+  - `Remote-build-portable-and-installer` validation phase
+- Baseline for new feature branches:
+  - branch from `exp-yasm-c` for mixed feature development
+  - keep changes small and isolated per branch/hypothesis
+  - continue remote Windows x64 CI validation for each branch
+
+### Feature objective: reclaim vertical UI space
+- Reduce wasted vertical real estate in the application UI.
+- Add flexibility to move/re-dock toolbars.
+- Add ability to disable/enable title bar.
+- Add ability to reposition status bar (horizontal and vertical layout options).
+- Keep behavior configurable so users can choose compact vs classic layout.
+
+### Remote CI workflow split policy
+- If a single workflow building both portable and installer artifacts is too slow, split into two workflows:
+  - portable-only workflow
+  - installer-only workflow
+- Portable workflow should not include redundant packaged outputs that are not needed for portable testing.
+- Keep artifact names explicit (`portable`, `installer`) so run outcomes are easy to triage.
+- Continue logging to `ci-logs` and sharing clickable run/job URLs for every completed run.

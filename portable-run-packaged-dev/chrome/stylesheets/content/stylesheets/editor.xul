@@ -1,0 +1,99 @@
+<?xml version="1.0"?> 
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://stylesheets/skin/editor.css" type="text/css"?>
+
+<!DOCTYPE window [
+  <!ENTITY % overlayDTD       SYSTEM "chrome://stylesheets/locale/stylesheetsOverlay.dtd" >
+  <!ENTITY % editorDTD       SYSTEM "chrome://stylesheets/locale/editor.dtd" >
+  <!ENTITY % findbarDTD      SYSTEM "chrome://bluegriffon/locale/findbar.dtd" >
+  %overlayDTD;
+  %editorDTD;
+  %findbarDTD;
+]>            
+
+<window id="cssEditoreditor"
+        xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+        title="&window.title;&stylesheetsPanel.title;"
+        onload="Startup()"
+        style="width: 75em; height: 25em"
+        persist="screenX screenY width height"
+        screenX="24" screenY="24">
+
+  <script type="application/x-javascript" src="chrome://bluegriffon/content/utils/editorUtils.js"/>
+  <script type="application/x-javascript" src="chrome://bluegriffon/content/utils/dgid.js"/>
+  <script type="application/x-javascript" src="chrome://bluegriffon/content/utils/global.js"/>
+  <script type="application/x-javascript" src="chrome://stylesheets/content/editor.js"/>
+
+	<keyset id="mainKeySet">
+	  <key id="findkb"              key="&findCmd.key;"          observes="cmd_bgfind"    modifiers="accel"/>
+	  <key id="replacekb"           key="&replaceCmd.key;"       observes="cmd_replace"   modifiers="accel"/>
+	</keyset>
+
+	<commandset id="mainCommandSet">
+	  <command id="cmd_bgfind"         label="&findCmd.label;"           accesskey="&findCmd.accesskey;"   />
+	  <command id="cmd_replace"        label="&replaceCmd.label;"        accesskey="&replaceCmd.accesskey;"/>
+	</commandset>
+
+  <iframe id="bespinIframe"
+          flex="1"/>
+
+            <hbox id="bespinToolbox2" align="center" hidden="true">
+              <spacer flex="1"/>
+              <label value="&replaceAll.button;"
+                     class="findBarButton"
+                     onclick="BespinReplaceAll()"/>
+              <label value="&replace.button;"
+                     class="findBarButton"
+                     onclick="BespinReplace()"/>
+              <label value="&replaceAndFind.button;"
+                     class="findBarButton"
+                     onclick="BespinReplaceAndFind()"/>
+              <label value="&replace.label;"/>
+              <textbox id="bespinReplaceTextbox"
+                       onkeypress="BespinKeyPressCallback(event);"
+                       size="10"
+                       type="search"/>
+            </hbox>
+            <hbox id="bespinToolbox1" align="center" hidden="true">
+              <spacer style="width: 5px"/>
+              <image id="closeFindbarButton"
+                     onclick="CloseFindBar()"/>
+              <label value="&line.label;"
+                     id="bespinLineLabel"/>
+              <textbox id="bespinLineTextbox"
+                       size="5"
+                       onkeypress="BespinKeyPressCallback(event); onBespinLineKeypress(event, this)"
+                       onblur="onBespinLineBlur(this)"/>
+              <spacer flex="1"/>
+              <label  id="bespinFindPrevious"
+                      class="findBarButton"
+                      onclick="BespinFind(false, false)"
+                      hidden="true"
+                      value="&previous.label;"/>
+              <label  id="bespinFindNext"
+                      class="findBarButton"
+                      onclick="BespinFind(true, false)"
+                      hidden="true"
+                      value="&next.label;"/>
+              <checkbox label="&caseSensitive.checkbox;"
+                        hidden="true"
+                        id="bespinFindCaseSensitive"
+                        oncommand="ToggleBespinFindCaseSensitivity()"/>
+              <label value="&find.label;"/>
+              <textbox id="bespinFindTextbox"
+                       size="10"
+                       type="search"
+                       oncommand="onBespinFindClear(event, this)"
+                       onkeypress="BespinKeyPressCallback(event); onBespinFindKeypress(event)"
+                       onblur="onBespinFindClear(event, this)"
+                       oninput="BespinFind(true, true)"/>
+            </hbox>
+
+  <hbox>
+    <spacer flex="1"/>
+    <button label="&commitChanges.label;"
+            oncommand="CommitChanges()"/>
+  </hbox>
+</window>
+

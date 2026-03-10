@@ -1,0 +1,975 @@
+/* ***** BEGIN LICENSE BLOCK *****
+ * Version: MPL 1.1/GPL 2.0/LGPL 2.1
+ *
+ * The contents of this file are subject to the Mozilla Public License Version
+ * 1.1 (the "License"); you may not use this file except in compliance with
+ * the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS" basis,
+ * WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+ * for the specific language governing rights and limitations under the
+ * License.
+ *
+ * The Original Code is BlueGriffon.
+ *
+ * The Initial Developer of the Original Code is
+ * Disruptive Innovations SARL.
+ * Portions created by the Initial Developer are Copyright (C) 2006
+ * the Initial Developer. All Rights Reserved.
+ *
+ * Contributor(s):
+ *   Daniel Glazman <daniel.glazman@disruptive-innovations.com>, Original author
+ *
+ * Alternatively, the contents of this file may be used under the terms of
+ * either the GNU General Public License Version 2 or later (the "GPL"), or
+ * the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+ * in which case the provisions of the GPL or the LGPL are applicable instead
+ * of those above. If you wish to allow use of your version of this file only
+ * under the terms of either the GPL or the LGPL, and not to allow others to
+ * use your version of this file under the terms of the MPL, indicate your
+ * decision by deleting the provisions above and replace them with the notice
+ * and other provisions required by the GPL or the LGPL. If you do not delete
+ * the provisions above, a recipient may use your version of this file under
+ * the terms of any one of the MPL, the GPL or the LGPL.
+ *
+ * ***** END LICENSE BLOCK ***** */
+
+@import url("chrome://bluegriffon/content/bindings/structurebar.css");
+@import url("chrome://bluegriffon/skin/structurebar.css");
+@import url("chrome://bluegriffon/skin/formatToolbar.css");
+@import url("chrome://bluegriffon/skin/mainToolbar.css");
+
+@import url("chrome://bluegriffon/skin/black.css");
+
+@namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul");
+@namespace svg url("http://www.w3.org/2000/svg");
+@namespace html url("http://www.w3.org/1999/xhtml");
+
+#Bluegriffon {
+  -moz-appearance: -moz-win-borderless-glass;
+  background: transparent;
+}
+
+#composer-main-menubar {
+    -moz-appearance: none;
+    background-color: var(--bg-dark-background) ! important;
+}
+
+
+#FormatToolbox, #statusbar {
+  -moz-appearance: none;
+  background: var(--bg-dark-background);
+  border: none 0px
+}
+
+#FormatToolbox toolbar {
+  -moz-box-orient: vertical;
+}
+
+toolbar {
+  -moz-appearance: none;
+}
+
+tabeditor {
+  -moz-binding: url('chrome://bluegriffon/content/bindings/tabeditor.xml#tabeditor');
+}
+
+tabeditor[visibility="hidden"]  tabs,
+tabeditor[visibility="hidden"]  tabpanels
+{
+  visibility: hidden;
+}
+
+#maincontainer {
+  margin-left: -1px;
+  border-left: thin solid var(--bg-dark-border);
+  border-top: none 0px;
+  border-bottom: thin solid var(--bg-dark-border);
+  background-color: var(--bg-dark-background) ! important;
+  padding-top: 6px;
+}
+
+sourceeditor {
+  -moz-binding: url('chrome://diavolo/content/sourceeditor.xml#sourceeditor');
+}
+
+hruler {
+  -moz-binding: url('chrome://bluegriffon/content/bindings/rulers.xml#hruler');
+}
+
+vruler {
+  -moz-binding: url('chrome://bluegriffon/content/bindings/rulers.xml#vruler');
+}
+
+.menuitem-iconic .menu-iconic-left {
+  display: -moz-box !important;
+}
+
+
+#infoButton {
+  list-style-image: url('chrome://bluegriffon/skin/icons/information.png');
+  width: 16px;
+  height: 16px;
+}
+
+#infoButton:hover {
+  list-style-image: url('chrome://bluegriffon/skin/icons/information-hover.png'); 
+}
+
+#infoButton[disabled="true"],
+#infoButton[disabled="true"]:hover {
+  list-style-image: url('chrome://bluegriffon/skin/icons/information-disabled.png'); 
+}
+
+#viewSourceButton {
+  list-style-image: url('chrome://bluegriffon/skin/icons/view-source.png');
+}
+
+#helperButtons {
+  padding: 2px;
+}
+
+#treeSourceView
+{
+  background-color: white;
+}
+
+grippy[disabled="true"] {
+  display: none;
+}
+
+/******* ZOOM *******/
+
+#menulist-zoompanel {
+  max-width: 7em;
+}
+
+#CustomizeToolbarSheet > #main-box {
+  border-top: none !important;
+  border-left: 2px solid;
+  border-right: 2px solid;
+  border-bottom: 3px solid;
+  -moz-border-right-colors: -moz-mac-menushadow ThreeDLightShadow  !important;
+  -moz-border-bottom-colors: -moz-mac-menushadow -moz-mac-menushadow ThreeDShadow  !important;
+  -moz-border-left-colors: ThreeDLightShadow ThreeDHighlight !important;
+}
+
+/********* splitters **********/
+
+#splitter1 {
+  border-right: thin solid silver;
+  border-left: thin solid silver;
+}
+
+#splitter2 {
+  border-left: thin solid silver;
+  border-right: thin solid silver;
+}
+
+
+/******** multibuttons ********/
+.multiButton {
+  color: var(--bg-main-foreground-color);
+  -moz-appearance: none;
+  height: 12pt;
+  padding: 4px 8px;
+  margin: 0px;
+  margin-top: 8px;
+  min-width: 40px;
+  font-weight: bold;;
+  border: thin solid #6d7373;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  background-color: var(--bg-dark-gray);
+}
+
+:root[cleartheme="true"] .multiButton {
+  border-top: 2px solid #ddd;
+  border-left: 2px solid #ddd;
+  border-right: 2px solid #ddd;
+  border-bottom: 2px solid #aaa;
+  -moz-border-top-colors:#aaa #fff ;
+  -moz-border-right-colors:#aaa #dedede ;
+  -moz-border-left-colors:#aaa #dedede ;
+  -moz-border-bottom-colors:#aaa #dedede ;
+  background-color: #fafafa;
+  font-weight: normal;
+}
+
+.multiButton:hover {
+  color: var(--bg-main-foreground-color);
+}
+
+.multiButton:hover:active {
+  color: var(--bg-main-foreground-color) ! important;
+}
+
+.multiButton[disabled] {
+  opacity: 0.5;
+}
+
+/* RTL */
+
+window[rtl="false"] .multiButton.center,
+window[rtl="false"] .multiButton.left {
+  border-right-width: 1px;
+}
+
+window[rtl="false"] .multiButton.left,
+window[rtl="false"] .multiButton:not(.left):not(.right):not(.center) {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+window[rtl="false"] .multiButton.right,
+window[rtl="false"] .multiButton:not(.left):not(.right):not(.center) {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+window[rtl="false"] .multiButton:not([disabled]):active,
+window[rtl="false"] .multiButton[selected="true"]:not([disabled]),
+window[rtl="false"] .multiButton[checked="true"]:not([disabled]) {
+  color: #00abff;
+}
+
+
+window[rtl="false"] .multiButton:not([label]) image {
+  margin-left: 6px;
+}
+
+/* LTR */
+
+window[rtl="true"] .multiButton.center,
+window[rtl="true"] .multiButton.left {
+  border-left-width: 1px;
+}
+
+window[rtl="true"] .multiButton.left,
+window[rtl="true"] .multiButton:not(.left):not(.right):not(.center) {
+  border-top-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+window[rtl="true"] .multiButton.right,
+window[rtl="true"] .multiButton:not(.left):not(.right):not(.center) {
+  border-top-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+}
+
+window[rtl="true"] .multiButton:not([disabled]):active,
+window[rtl="true"] .multiButton[selected="true"]:not([disabled]),
+window[rtl="true"] .multiButton[checked="true"]:not([disabled]) {
+  color: #00abff;
+}
+
+
+window[rtl="false"] .multiButton:not([label]) image {
+  margin-right: 6px;
+}
+
+toolbox {
+  overflow: hidden;
+}
+
+#bespinToolbox1, #bespinToolbox2 {
+  margin: 0px;
+  background-color: #28201C;
+  margin-left: 1px;
+  margin-right: 1px;
+  border-top: thin solid rgb(75, 73, 65);
+  color: rgb(208, 208, 208);
+}
+
+#bespinLineTextbox {
+  border-radius: 11px 11px 11px 11px;
+  -moz-appearance: none;
+  border: thin solid rgb(40, 32, 28);
+  padding-left: 5px;
+  padding-right: 5px;
+  text-align: right;
+  background-color: rgb(208, 208, 208);
+}
+
+#bespinFindTextbox,
+#bespinReplaceTextbox {
+  -moz-appearance: none;
+  border: thin solid rgb(40, 32, 28);
+  border-radius: 11px 11px 11px 11px;
+  height: 16px;
+  font-size: 11px;
+  padding: 0px 5px;
+  background-color: rgb(208, 208, 208);
+}
+
+#bespinFindTextbox html|input,
+#bespinReplaceTextbox html|input {
+  -moz-appearance: none ! important;
+  border: 0px none !important;
+  background-color: transparent ! important;
+  color: black;
+}
+
+#bespinFindTextbox .textbox-search-clear,
+#bespinReplaceTextbox .textbox-search-clear {
+  width: 10px; height: 10px;
+}
+
+#bespinFindTextbox.notfound {
+  background-color: rgb(253, 145, 155);
+  color: black;
+}
+
+.findBarButton {
+  padding: 0px 12px 0px 12px;
+  -moz-appearance: none;
+  font-size: smaller;
+  border-radius: 11px;
+  border-top: 1px solid #aaa;
+  border-left: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+  border-bottom: 1px solid #ccc;
+  -moz-border-top-colors:#aaa #bbb #ccc #ddd;
+  -moz-border-left-colors:#aaa #bbb #ccc #ddd;
+  -moz-border-bottom-colors:#aaa #bbb #ccc #ddd;
+  -moz-border-right-colors:#aaa #bbb #ccc #ddd;
+  background-color: #ddd;
+  color: black;
+}
+
+#bespinFindPrevious {
+  padding: 0px 8px 0px 12px;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  margin-right: 0px;
+}
+
+#bespinFindNext {
+  padding: 0px 12px 0px 8px;
+  border-top-left-radius: 0px;
+  border-bottom-left-radius: 0px;
+  margin-left: 0px;
+}
+
+.findBarButton:active {
+  background-color: silver;
+}
+
+#closeFindbarButton {
+  list-style-image: url("chrome://bluegriffon/skin/icons/close-findbar.png");
+}
+
+#closeFindbarButton:hover {
+  list-style-image: url("chrome://bluegriffon/skin/icons/close-findbar-hover.png");
+}
+
+#closeFindbarButton:active:hover {
+  list-style-image: url("chrome://bluegriffon/skin/icons/close-findbar-active.png");
+}
+
+/* autoInsertTable */
+*#AutoInsertTableSizeSelector label {
+  width: 2em;
+  margin: 0px ! important;
+}
+
+*#AutoInsertTableSizeSelector:not([disabled]) label:hover,
+*#AutoInsertTableSizeSelector label.selected {
+  background-color: rgb(10,36,106) ! important;
+}
+
+*#AutoInsertTableSizeSelector[disabled] label.selected {
+  background-color: silver ! important;
+}
+
+*#AutoInsertTableSizeSelector label {
+  border: 2px ridge !important;
+}
+
+*#AutoInsertTableSizeSelector[disabled] label {
+  border: silver 2px ridge !important;
+}
+
+/***** FLOATING PANELS *****/
+
+panel[floating="true"] {
+  -moz-binding: url("chrome://bluegriffon/content/bindings/floatingpanel.xml#floatingpanel");
+  -moz-appearance: none; 
+  background-color: rgba(96,96,96,0.9);
+  color: var(--bg-main-foreground-color);
+  border-radius: 5px;
+  transition: opacity 0.5s;
+}
+
+#menu_updates[loading="true"] {
+  list-style-image: url("chrome://global/skin/icons/loading_16.png");
+}
+
+tipoftheday {
+  -moz-binding: url("chrome://tipoftheday/content/tipoftheday.xml#tipoftheday");
+}
+
+/*********** menupopups *************/
+
+popup {
+  -moz-appearance: menupopup;
+  background-color: menu;
+}
+
+/*********** decked panels *************/
+
+deckedPanelsTabs  {
+  -moz-binding: url("chrome://bluegriffon/content/bindings/deckedPanelsTabs.xml#deckedPanelsTabs");
+  overflow: hidden;
+  -moz-box-orient: horizontal;
+  height: 25px;
+  padding: 0px;
+  padding-left: 4px;
+  margin: 0px;
+}
+
+#deckPanelsIframe {
+  background-color: var(--bg-dark-gray);
+}
+
+deckedPanelsTabs > label {
+  -moz-box-align: center;
+  -moz-appearance: none;
+  border-radius: 4px 4px 0px 0px;
+  color: graytext;
+  padding: 2px 10px;
+  margin: 0px;
+  margin-right: 1px;
+  min-width: 1px !important;
+  text-align: left;
+  height: 24px;
+  border: thin solid transparent;
+  border-bottom-width: 0px;
+  border-left-width: 0px;
+  border-right-width: 0px;
+  background-color: var(--bg-dark-gray);
+}
+
+deckedPanelsTabs > label[selected="true"] {
+  color: var(--bg-main-foreground-color);
+  -moz-user-focus: normal;
+  border-top: thin solid #6d7373;
+}
+
+deckedPanelsTabs > label:hover {
+  color: var(--bg-main-foreground-color);
+}
+
+/* COLOR AND BGCOLOR PICKERS */
+
+ecolorpicker {
+  -moz-binding: url("chrome://bluegriffon/content/bindings/ecolorpicker.xml#ecolorpicker");
+}
+
+/* TOOLBARS and editing area*/
+
+toolbar {
+  border-right: thin solid var(--bg-dark-border);
+  border-top: 2px solid var(--bg-dark-border);
+  -moz-border-top-colors: var(--bg-dark-border) var(--bg-lighter-border);
+  background-color: var(--bg-dark-background) ! important;
+  padding-top: 5px;
+}
+
+#FormatMenulistsToolbar {
+  border-bottom: thin solid var(--bg-dark-border);
+}
+
+toolbar:not(#FormatMenulistsToolbar):last-of-type {
+  border-bottom: thin solid var(--bg-dark-border);
+}
+
+toolbarseparator {
+  background-image: none ! important;
+  border-bottom: thin dotted #494949;
+}
+
+#status {
+  color: silver;
+  text-shadow: none;
+}
+
+
+#deckedPanelsSplitter {
+  -moz-appearance: none;
+  border: 0px none;
+  background-color: transparent;
+}
+
+
+#deckedPanelsSplitter > grippy {
+  background-color: transparent ! important;
+}
+
+#titleInTitlebar {
+  color: CaptionText;
+  text-align: center;
+}
+
+#titleInTitlebar:-moz-window-inactive {
+  color: ThreeDShadow;
+}
+
+
+/* ::::: titlebar ::::: */
+
+#Bluegriffon[sizemode="normal"] > #titlebar {
+  -moz-appearance: -moz-window-titlebar;
+}
+
+#Bluegriffon[sizemode="maximized"] > #titlebar {
+  -moz-appearance: -moz-window-titlebar-maximized;
+}
+
+@media (-moz-windows-classic) {
+  #Bluegriffon[tabsintitlebar][sizemode="normal"] > #tab-view-deck > #browser-panel > #navigator-toolbox > #toolbar-menubar {
+    margin-top: 4px;
+  }
+}
+
+/* The button box must appear on top of the navigator-toolbox in order for
+ * click and hover mouse events to work properly for the button in the restored
+ * window state. Otherwise, elements in the navigator-toolbox, like the menubar,
+ * can swallow those events. It will also place the buttons above the fog on
+ * themes with Aero Glass.
+ */
+#titlebar-buttonbox {
+  z-index: 1;
+}
+
+.titlebar-placeholder[type="caption-buttons"] {
+  margin-left: 22px; /* space needed for Aero Snap */
+}
+
+@media (-moz-os-version: windows-xp) {
+  .titlebar-placeholder[type="caption-buttons"] {
+    margin-left: 10px; /* less space needed on XP because there's no Aero Snap */
+  }
+}
+
+/* titlebar command buttons */
+
+#titlebar-min {
+  -moz-appearance: -moz-window-button-minimize;
+}
+
+#titlebar-max {
+  -moz-appearance: -moz-window-button-maximize;
+}
+
+#Bluegriffon[sizemode="maximized"] #titlebar-max {
+  -moz-appearance: -moz-window-button-restore;
+}
+
+#titlebar-close {
+  -moz-appearance: -moz-window-button-close;
+}
+
+@media not all and (-moz-windows-classic) {
+  #titlebar-min {
+    -moz-margin-end: 2px;
+  }
+}
+
+
+@media not all and (-moz-os-version: windows-xp) {
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
+
+
+@media (-moz-windows-compositor) {
+  #Bluegriffon {
+    -moz-appearance: -moz-win-glass;
+  }
+
+  @media not all and (-moz-os-version: windows-vista) {
+    @media not all and (-moz-os-version: windows-win7) {
+      @media not all and (-moz-os-version: windows-win8) {
+        @media (-moz-windows-default-theme) {
+          #Bluegriffon {
+            background-color: hsl(0, 0%, 78%);
+          }
+        }
+
+        @media not all and (-moz-windows-default-theme) {
+          #Bluegriffon {
+            background-color: transparent;
+          }
+        }
+
+        #titlebar-buttonbox,
+        .titlebar-button {
+          -moz-appearance: none !important;
+        }
+
+        .titlebar-button {
+          border: none;
+          margin: 0 !important;
+          padding: 10px 17px;
+        }
+
+        #Bluegriffon[sizemode=maximized] .titlebar-button {
+          padding-top: 8px;
+          padding-bottom: 8px;
+        }
+
+        .titlebar-button > .toolbarbutton-icon {
+          width: 12px;
+          height: 12px;
+        }
+
+        #titlebar-min {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#minimize);
+        }
+
+        #titlebar-max {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#maximize);
+        }
+
+        #Bluegriffon[sizemode="maximized"] #titlebar-max {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#restore);
+        }
+
+        #titlebar-close {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#close);
+        }
+        #titlebar-close:hover {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#close-white);
+        }
+
+        :root[cleartheme="true"] #titlebar-min {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#minimize-themes);
+        }
+        :root[cleartheme="true"] #titlebar-max {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#maximize-themes);
+        }
+        #Bluegriffon[sizemode="maximized"][cleartheme="true"]  #titlebar-max {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#restore-themes);
+        }
+        :root[cleartheme="true"]  #titlebar-close {
+          list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#close-themes);
+        }
+
+
+        /* the 12px image renders a 10px icon, and the 10px upscaled gets rounded to 12.5, which
+         * rounds up to 13px, which makes the icon one pixel too big on 1.25dppx. Fix: */
+        @media (min-resolution: 1.20dppx) and (max-resolution: 1.45dppx) {
+          .titlebar-button > .toolbarbutton-icon {
+            width: 11.5px;
+            height: 11.5px;
+          }
+        }
+
+        /* 175% dpi should result in the same device pixel sizes as 150% dpi. */
+        @media (min-resolution: 1.70dppx) and (max-resolution: 1.95dppx) {
+          .titlebar-button {
+            padding-left: 14.1px;
+            padding-right: 14.1px;
+          }
+
+          .titlebar-button > .toolbarbutton-icon {
+            width: 10.8px;
+            height: 10.8px;
+          }
+        }
+
+        /* 225% dpi should result in the same device pixel sizes as 200% dpi. */
+        @media (min-resolution: 2.20dppx) and (max-resolution: 2.45dppx) {
+          .titlebar-button {
+            padding-left: 15.3333px;
+            padding-right: 15.3333px;
+          }
+
+          .titlebar-button > .toolbarbutton-icon {
+            width: 10.8px;
+            height: 10.8px;
+          }
+        }
+
+        /* 275% dpi should result in the same device pixel sizes as 250% dpi. */
+        @media (min-resolution: 2.70dppx) and (max-resolution: 2.95dppx) {
+          /* NB: todo: this should also change padding on the buttons
+           * themselves, but without a device to test this on, it's
+           * impossible to know by how much. */
+          .titlebar-button > .toolbarbutton-icon {
+            width: 10.8px;
+            height: 10.8px;
+          }
+        }
+
+        @media (-moz-windows-default-theme) {
+          .titlebar-button:hover {
+            background-color: hsla(0, 0%, 0%, .12);
+          }
+
+          .titlebar-button:hover:active {
+            background-color: hsla(0, 0%, 0%, .22);
+          }
+
+          .titlebar-button:not(:hover) > .toolbarbutton-icon:-moz-window-inactive {
+            opacity: 0.5;
+          }
+
+          #titlebar-close:hover {
+            background-color: hsl(355, 86%, 49%);
+          }
+
+          #titlebar-close:hover:active {
+            background-color: hsl(355, 82%, 69%);
+          }
+        }
+        @media not all and (-moz-windows-default-theme) {
+          .titlebar-button {
+            background-color: -moz-field;
+          }
+          .titlebar-button:hover {
+            background-color: Highlight;
+          }
+
+          #titlebar-min {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#minimize-highcontrast);
+          }
+          #titlebar-min:hover {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#minimize-highcontrast-hover);
+          }
+
+          #titlebar-max {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#maximize-highcontrast);
+          }
+          #titlebar-max:hover {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#maximize-highcontrast-hover);
+          }
+
+          #Bluegriffon[sizemode="maximized"] #titlebar-max {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#restore-highcontrast);
+          }
+          #Bluegriffon[sizemode="maximized"] #titlebar-max:hover {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#restore-highcontrast-hover);
+          }
+
+          #titlebar-close {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#close-highcontrast);
+          }
+          #titlebar-close:hover {
+            list-style-image: url(chrome://bluegriffon/skin/caption-buttons.svg#close-highcontrast-hover);
+          }
+        }
+      }
+    }
+  }
+
+  @media (-moz-os-version: windows-vista),
+         (-moz-os-version: windows-win7),
+         (-moz-os-version: windows-win8) {
+    #Bluegriffon[sizemode="maximized"] #titlebar-buttonbox {
+      -moz-margin-end: 3px;
+    }
+
+    #Bluegriffon {
+      background-color: transparent;
+      -moz-appearance: -moz-win-borderless-glass;
+    }
+
+    /* These should be hidden w/ glass enabled. Windows draws its own buttons. */
+    .titlebar-button {
+      display: none;
+    }
+  }
+
+  @media (-moz-os-version: windows-win8) {
+    /* Artificially draw window borders that are covered by lwtheme, see bug 591930.
+     * Borders for vista/win7 are below, win10 doesn't need them. */
+    #Bluegriffon[sizemode="normal"] > #tab-view-deck > #browser-panel:-moz-lwtheme {
+      border-top: 1px solid @toolbarShadowColor@;
+    }
+  }
+
+  @media (-moz-windows-default-theme) {
+    #toolbar-menubar:not(:-moz-lwtheme),
+    #TabsToolbar:not(:-moz-lwtheme) {
+      color: black;
+    }
+
+    #composer-main-menubar > menu:not(:-moz-lwtheme) {
+      color: inherit;
+    }
+
+    /* Use a different color only on Windows 8 and higher for inactive windows.
+     * On aero, the menubar fog disappears for inactive windows, and renders gray
+     * illegible.
+     */
+    @media not all and (-moz-os-version: windows-vista) {
+      @media not all and (-moz-os-version: windows-win7) {
+        #toolbar-menubar:not(:-moz-lwtheme):-moz-window-inactive {
+          color: ThreeDShadow;
+        }
+      }
+    }
+  }
+
+  #Bluegriffon[darkwindowframe="true"] #toolbar-menubar:not(:-moz-lwtheme):not(:-moz-window-inactive),
+  #Bluegriffon[darkwindowframe="true"] #TabsToolbar:not(:-moz-lwtheme):not(:-moz-window-inactive) {
+    color: white;
+  }
+
+  #toolbar-menubar:not(:-moz-lwtheme) {
+    text-shadow: 0 0 .5em white, 0 0 .5em white, 0 1px 0 rgba(255,255,255,.4);
+  }
+
+  /* Show borders on vista through win8, but not on win10 and later: */
+  @media (-moz-os-version: windows-vista),
+         (-moz-os-version: windows-win7),
+         (-moz-os-version: windows-win8) {
+    /* Vertical toolbar border */
+    #Bluegriffon:not([customizing])[sizemode=normal] #navigator-toolbox:not(:-moz-lwtheme)::after,
+    #Bluegriffon:not([customizing])[sizemode=normal] #navigator-toolbox > toolbar:not(#toolbar-menubar):not(#TabsToolbar):not(:-moz-lwtheme),
+    #Bluegriffon:not([customizing])[sizemode=normal] #navigator-toolbox:-moz-lwtheme,
+    #Bluegriffon[customizing] #navigator-toolbox::after,
+    #Bluegriffon[customizing] #navigator-toolbox > toolbar:not(#toolbar-menubar):not(#TabsToolbar) {
+      border-left: 1px solid @toolbarShadowColor@;
+      border-right: 1px solid @toolbarShadowColor@;
+      background-clip: padding-box;
+    }
+
+    #Bluegriffon[sizemode=normal] #browser-border-start,
+    #Bluegriffon[sizemode=normal] #browser-border-end {
+      display: -moz-box;
+      background-color: @toolbarShadowColor@;
+      width: 1px;
+    }
+
+    #Bluegriffon[sizemode=normal] #browser-bottombox {
+      border: 1px solid @toolbarShadowColor@;
+      border-top-style: none;
+      background-clip: padding-box;
+    }
+
+  }
+
+  #Bluegriffon[sizemode=normal] #TabsToolbar {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
+
+  #appcontent:not(:-moz-lwtheme) {
+    background-color: -moz-dialog;
+  }
+
+  #composer-main-menubar:not(:-moz-lwtheme):not(:-moz-window-inactive) {
+    background-color: rgba(255,255,255,.5);
+    color: captiontext;
+  }
+
+  #composer-main-menubar:not(:-moz-lwtheme):-moz-window-inactive {
+    color: inactivecaptiontext;
+  }
+
+  @media (-moz-os-version: windows-vista),
+         (-moz-os-version: windows-win7) {
+    #composer-main-menubar:not(:-moz-lwtheme):not(:-moz-window-inactive) {
+      border-radius: 4px;
+    }
+
+  }
+}
+
+@media (-moz-windows-glass) {
+  #Bluegriffon[sizemode=normal] #nav-bar {
+    border-top-left-radius: 2.5px;
+    border-top-right-radius: 2.5px;
+  }
+
+  #Bluegriffon[sizemode=fullscreen]:not(:-moz-lwtheme) {
+    -moz-appearance: none;
+    background-color: #556;
+  }
+
+}
+
+/* Aero Basic */
+@media not all and (-moz-windows-compositor) {
+  @media (-moz-windows-default-theme) {
+    #Bluegriffon {
+      background-color: rgb(185,209,234);
+    }
+    #Bluegriffon:-moz-window-inactive {
+      background-color: rgb(215,228,242);
+    }
+  }
+
+  #print-preview-toolbar:not(:-moz-lwtheme) {
+    -moz-appearance: -moz-win-browsertabbar-toolbox;
+  }
+}
+
+#composer-main-menubar > menu {
+  color: var(--bg-main-foreground-color) ! important;
+  -moz-appearance: none;
+  background-color: transparent;
+}
+#composer-main-menubar > menu:-moz-window-inactive {
+  color: var(--bg-main-foreground-color-inactive) ! important;
+}
+
+}
+
+
+/* Live view */
+
+deck[anonid="editorDeck"].liveview {
+  display: -moz-box;
+  -moz-binding: none;
+  -moz-box-flex: 1;
+}
+
+deck[anonid="editorDeck"].liveview > iframe,
+deck[anonid="editorDeck"].liveview > editor {
+  -moz-box-flex: 1;
+}
+
+deck[anonid="editorDeck"] > splitter {
+  background-color: var(--bg-dark-background);
+}
+
+deck[anonid="editorDeck"]:not(.liveview) > splitter {
+  display: none;
+}
+
+/* TAB TOOLTIP */
+
+#tab-tooltip {
+  max-width: 600px;
+  min-width: 300px;
+  background-color: yellow;
+}
+
+#tab-tooltip-main-info {
+  padding: 1em;
+  border-bottom: 2px ridge silver;
+}
+
+#tab-tooltip-grid {
+  margin: 1em;
+}
+
+#tab-tooltip-title {
+  font-size: larger;
+  font-weight: bold;
+  /*padding: 6px;*/
+}
+
+#tab-tooltip-html-dialect {
+  font-weight: bold;
+  background-color: darkgrey;
+  border: 2px groove darkgrey;
+  border-radius: 4px;
+  padding: 4px;
+}

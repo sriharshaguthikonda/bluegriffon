@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width; user-scalable=false;">
+  <title>about:buildconfig</title>
+  <link rel="stylesheet" href="chrome://global/skin/about.css" type="text/css">
+  <style type="text/css">
+    th { text-align: start; }
+    h2 { margin-top: 1.5em; }
+    th, td { vertical-align: top; }
+  </style>
+</head>
+<body class="aboutPageWideContainer">
+<h1>about:buildconfig</h1>
+<h2>Build platform</h2>
+<table>
+  <tbody>
+    <tr>
+      <th>target</th>
+    </tr>
+    <tr>
+      <td>x86_64-pc-mingw32</td>
+    </tr>
+  </tbody>
+</table>
+<h2>Build tools</h2>
+<table>
+  <tbody>
+    <tr>
+      <th>Compiler</th>
+      <th>Version</th>
+      <th>Compiler flags</th>
+    </tr>
+    <tr>
+      <td>cl.exe</td>
+      <td>19.40.33813</td>
+      <td>-TC -nologo -wd4091 -D_HAS_EXCEPTIONS=0 -W3 -Gy -Zc:inline -utf-8 -Gw -wd4244 -wd4267 -we4553</td>
+    </tr>
+    <tr>
+      <td>cl.exe</td>
+      <td>19.40.33813</td>
+      <td> -TP -nologo -wd5026 -wd5027 -Zc:sizedDealloc- -wd4091 -wd4577 -D_HAS_EXCEPTIONS=0 -W3 -Gy -Zc:inline -utf-8 -Gw -wd4251 -wd4244 -wd4267 -wd4800 -wd4595 -we4553 -GR- -Zi -O1 -Oi -Oy-  </td>
+    </tr>
+  </tbody>
+</table>
+<h2>Configure options</h2>
+<p>--host=x86_64-pc-mingw32 --target=x86_64-pc-mingw32 --enable-application=bluegriffon --disable-tests 'WINDOWSSDKDIR=C:\Program Files (x86)\Windows Kits\10\' --enable-jemalloc --disable-ctypes --enable-chrome-format=jar --disable-dbm MAKE=C:/mozilla-build/msys2/mingw64/bin/mingw32-make.exe --disable-crashreporter --enable-optimize --disable-sandbox --enable-strip --disable-updater --disable-webrtc</p>
+</body>
+</html>

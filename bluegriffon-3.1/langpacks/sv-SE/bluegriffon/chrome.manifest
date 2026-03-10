@@ -1,0 +1,11 @@
+locale bluegriffon sv-SE base/locale/bluegriffon/
+locale branding sv-SE base/locale/branding/
+locale fs sv-SE extensions/fs/
+locale gfd sv-SE extensions/gfd/
+locale cssproperties sv-SE sidebars/cssproperties/
+locale domexplorer sv-SE sidebars/domexplorer/
+locale scripteditor sv-SE sidebars/scripteditor/
+locale stylesheets sv-SE sidebars/stylesheets/
+locale tipoftheday sv-SE extensions/tipoftheday/
+locale aria sv-SE sidebars/aria/
+

@@ -1,0 +1,9 @@
+# scripts
+category webextension-scripts toolkit chrome://extensions/content/ext-toolkit.js
+category webextension-scripts-content toolkit chrome://extensions/content/ext-c-toolkit.js
+category webextension-scripts-devtools toolkit chrome://extensions/content/ext-c-toolkit.js
+category webextension-scripts-addon toolkit chrome://extensions/content/ext-c-toolkit.js
+
+category webextension-schemas events chrome://extensions/content/schemas/events.json
+category webextension-schemas native_host_manifest chrome://extensions/content/schemas/native_host_manifest.json
+category webextension-schemas types chrome://extensions/content/schemas/types.json

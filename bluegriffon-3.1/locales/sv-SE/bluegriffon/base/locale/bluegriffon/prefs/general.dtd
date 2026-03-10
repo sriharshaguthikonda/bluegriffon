@@ -1,0 +1,25 @@
+
+<!ENTITY structureBar.caption "Strukturverktygsfält">
+
+
+<!ENTITY showIDs.label "Visa ID">
+<!ENTITY showClasses.label "Visa klasser">
+<!ENTITY showLanguage.label "Visa språk">
+<!ENTITY showRoles.label "Visa ARIA-roll">
+
+<!ENTITY spellCheck.caption "Stavningskontroll">
+<!ENTITY enableSpellCheck.label "Aktivera realtidskontroll av stavningen">
+<!ENTITY numberSuggestions.label "Antal förslag:">
+
+<!ENTITY tabPosition.label "Placering av flikar">
+<!ENTITY leftTabPosition.label "Vänster">
+<!ENTITY centerTabPosition.label "Centrerad">
+<!ENTITY rightTabPosition.label "Höger">
+<!ENTITY mainToolbarEnabled.label "Synliga">
+<!ENTITY mainToolbar.label "Verktygsfältet">
+<!ENTITY theme.label "Tema:">
+<!ENTITY toolbarIconSizeSmaller.label "Mindre">
+<!ENTITY toolbarIconSizeSmall.label "Liten">
+<!ENTITY toolbarIconSizeMedium.label "Medium">
+<!ENTITY toolbarIconSizeLarger.label "Större">
+<!ENTITY toolbarIconSizeLarge.label "Stor">

@@ -1,0 +1,124 @@
+ 0:16.38 C:\mozilla-build\msys2\mingw64\bin\mingw32-make.EXE -f client.mk MOZ_PARALLEL_BUILD=8 -s
+ 1:11.84 Adding client.mk options from C:/Windows_software/bluegriffon/gecko-dev/.mozconfig:
+ 1:11.84     CONFIG_GUESS=x86_64-pc-mingw32
+ 1:11.84     MOZ_MEDIA_NAVIGATOR=1
+ 1:11.84     MOZ_MAKE_FLAGS=-j8
+ 1:11.84     MOZ_OBJDIR=C:/Windows_software/bluegriffon/gecko-dev/opt64
+ 1:11.84     OBJDIR=C:/Windows_software/bluegriffon/gecko-dev/opt64
+ 1:11.84     FOUND_MOZCONFIG=C:/Windows_software/bluegriffon/gecko-dev/.mozconfig
+ 1:29.88 Elapsed: 0.00s; From dist/private: Kept 0 existing; Added/updated 0; Removed 0 files and 0 directories.
+ 1:30.48 Elapsed: 0.00s; From dist/public: Kept 0 existing; Added/updated 0; Removed 0 files and 0 directories.
+ 1:30.52 Elapsed: 0.01s; From dist/xpi-stage: Kept 3 existing; Added/updated 0; Removed 0 files and 0 directories.
+ 1:31.77 Elapsed: 1.59s; From _tests: Kept 0 existing; Added/updated 475; Removed 0 files and 0 directories.
+ 1:33.32 Elapsed: 2.33s; From dist/idl: Kept 0 existing; Added/updated 1074; Removed 0 files and 0 directories.
+ 1:35.74 Elapsed: 5.54s; From dist/bin: Kept 0 existing; Added/updated 2291; Removed 29 files and 2 directories.
+ 1:41.13 Elapsed: 10.53s; From dist/include: Kept 0 existing; Added/updated 5169; Removed 49 files and 0 directories.
+ 1:43.72 buildid.h
+ 1:47.76 source-repo.h
+ 1:57.27 application.ini
+ 2:03.21 application.ini.h
+ 2:23.08 Elapsed: 2.16s; From ../../dist/idl: Kept 0 existing; Added/updated 1074; Removed 0 files and 0 directories.
+ 3:32.94 force-cargo-library-build
+ 3:59.81     Finished release [optimized + debuginfo] target(s) in 0.8 secs
+ 4:02.10 xul_s.lib.desc
+ 4:02.24 xul.dll
+ 4:13.83 nsEditorApp.cpp
+ 4:13.90 bluegriffon.exe
+ 4:33.04 Embedding manifest from C:/Windows_software/bluegriffon/gecko-dev/bluegriffon/app/bluegriffon.exe.manifest
+ 4:38.88 not_strip bluegriffon.exe
+ 5:27.74    Creating library xul.lib and object xul.exp
+ 5:27.74 
+ 5:37.29 not_strip xul.dll
+ 5:44.22 module.res
+ 5:44.22 module.res
+ 5:44.22 module.res
+ 5:44.31 Creating Resource file: module.res
+ 5:44.56 Creating Resource file: module.res
+ 5:44.79 Creating Resource file: module.res
+ 5:45.87 Warning: RC4005 in C:\Windows_software\bluegriffon\gecko-dev\opt64\dist\include\mozilla-config.h: 'WINVER' : redefinition
+ 5:45.87 C:/Windows_software/bluegriffon/gecko-dev/opt64/dist/include\mozilla-config.h(103) : warning RC4005: 'WINVER' : redefinition
+ 5:45.87 
+ 5:45.88 Warning: RC4005 in C:\Windows_software\bluegriffon\gecko-dev\opt64\dist\include\mozilla-config.h: '_WIN32_IE' : redefinition
+ 5:45.88 C:/Windows_software/bluegriffon/gecko-dev/opt64/dist/include\mozilla-config.h(111) : warning RC4005: '_WIN32_IE' : redefinition
+ 5:45.88 
+ 5:45.88 Warning: RC4005 in C:\Windows_software\bluegriffon\gecko-dev\opt64\dist\include\mozilla-config.h: '_WIN32_WINNT' : redefinition
+ 5:45.88 C:/Windows_software/bluegriffon/gecko-dev/opt64/dist/include\mozilla-config.h(112) : warning RC4005: '_WIN32_WINNT' : redefinition
+ 5:45.88 
+ 5:50.28 dummydll.cpp
+ 5:50.46 qipcap64.dll
+ 5:56.35 MozillaRuntimeMain.cpp
+ 5:56.41 plugin-container.exe
+ 5:57.32 xpcshell.cpp
+ 5:57.79 xpcshell.exe
+ 6:02.70 not_strip qipcap64.dll
+ 6:02.96 LINK : warning LNK4199: /DELAYLOAD:nss3.dll ignored; no imports found from nss3.dll
+ 6:02.96 
+ 6:03.68 not_strip plugin-container.exe
+ 6:04.23 Embedding manifest from C:/Windows_software/bluegriffon/gecko-dev/js/xpconnect/shell/xpcshell.exe.manifest
+ 6:05.33 not_strip xpcshell.exe
+ 6:35.91 dependentlibs.list
+ 7:21.95 Exporting extension to addon-manager.xpi.
+ 7:26.94 Exporting extension to author-email.xpi.
+ 7:30.84 Exporting extension to child_process.xpi.
+ 7:35.18 Exporting extension to chrome.xpi.
+ 7:39.87 Exporting extension to content-permissions.xpi.
+ 7:45.33 Exporting extension to content-script-messages-latency.xpi.
+ 7:48.26 Exporting extension to contributors.xpi.
+ 7:53.01 Exporting extension to curly-id.xpi.
+ 7:58.56 Exporting extension to developers.xpi.
+ 8:07.06 Exporting extension to e10s-content.xpi.
+ 8:12.56 Exporting extension to e10s-l10n.xpi.
+ 8:18.02 Exporting extension to e10s-remote.xpi.
+ 8:23.48 Exporting extension to e10s-tabs.xpi.
+ 8:29.06 Exporting extension to e10s.xpi.
+ 8:33.28 Exporting extension to embedded-webextension.xpi.
+ 8:37.25 Exporting extension to l10n-properties.xpi.
+ 8:37.25 C:\Windows_software\bluegriffon\gecko-dev\addon-sdk\source\python-lib\cuddlefish\xpi.py:22: UserWarning: Duplicate name: 'locale/'
+ 8:37.25   zf.writestr(dirinfo, "")
+ 8:41.67 Exporting extension to l10n.xpi.
+ 8:45.39 Exporting extension to layout-change.xpi.
+ 8:45.39 Warning: missing module: sdk/widget
+ 8:45.39 Warning: missing module: widget
+ 8:50.42 Exporting extension to main.xpi.
+ 8:54.64 Exporting extension to name-in-numbers-plus.xpi.
+ 8:58.18 Exporting extension to name-in-numbers.xpi.
+ 9:02.01 Exporting extension to packaging.xpi.
+ 9:04.30 Exporting extension to packed.xpi.
+ 9:08.84 Exporting extension to page-mod-debugger-post.xpi.
+ 9:13.09 Exporting extension to page-mod-debugger-pre.xpi.
+ 9:17.25 Exporting extension to page-worker.xpi.
+ 9:23.98 Exporting extension to places.xpi.
+ 9:27.87 Exporting extension to predefined-id-with-at.xpi.
+ 9:31.29 Exporting extension to preferences-branch.xpi.
+ 9:36.14 Exporting extension to private-browsing-supported.xpi.
+ 9:41.00 Exporting extension to remote.xpi.
+ 9:45.81 Exporting extension to require.xpi.
+ 9:52.28 Exporting extension to self.xpi.
+ 9:56.50 Exporting extension to simple-prefs-l10n.xpi.
+10:01.26 Exporting extension to simple-prefs-regression.xpi.
+10:05.21 Exporting extension to simple-prefs.xpi.
+10:09.44 Exporting extension to standard-id.xpi.
+10:14.06 Exporting extension to tab-close-on-startup.xpi.
+10:18.55 Exporting extension to toolkit-require-reload.xpi.
+10:18.56 Warning: missing module: ./toolkit-require-reload-child
+10:22.83 Exporting extension to translators.xpi.
+10:25.66 Exporting extension to unsafe-content-script.xpi.
+10:45.97 native-addon-test.xpi
+10:55.45 native-overrides-test.xpi
+21:14.02 Build configuration changed. Regenerating backend.
+22:54.78 Reticulating splines...
+22:54.78 Finished reading 985 moz.build files in 29.04s
+22:54.79 Read 60 gyp files in parallel contributing 0.00s to total wall time
+22:54.79 Processed into 7734 build config descriptors in 11.50s
+22:54.79 RecursiveMake backend executed in 31.87s
+22:54.79   2288 total backend files; 0 created; 1 updated; 2287 unchanged; 0 deleted; 63 -> 848 Makefile
+22:54.79 FasterMake backend executed in 1.22s
+22:54.79   6 total backend files; 0 created; 1 updated; 5 unchanged; 0 deleted
+22:54.79 VisualStudio backend executed in 17.97s
+22:54.79 Generated Visual Studio solution at C:/Windows_software/bluegriffon/gecko-dev/opt64\msvc\mozilla.sln
+22:54.79 Total wall time: 97.33s; CPU time: 97.33s; Efficiency: 100%; Untracked: 5.74s
+22:57.12 Packaging quitter@mozilla.org.xpi...
+22:58.89 254 compiler warnings present.
+23:01.96 We know it took a while, but your build finally finished successfully!
+To view resource usage of the build, run |mach resource-usage|.
+To take your build for a test drive, run: |mach run|

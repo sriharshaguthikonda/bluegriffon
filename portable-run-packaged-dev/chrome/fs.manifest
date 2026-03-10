@@ -1,0 +1,3 @@
+content fs fs/content/fs/
+overlay chrome://bluegriffon/content/xul/bluegriffon.xul chrome://fs/content/fsOverlay.xul
+skin fs classic/1.0 fs/skin/classic/fs/

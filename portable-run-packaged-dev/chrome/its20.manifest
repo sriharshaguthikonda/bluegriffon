@@ -1,0 +1,3 @@
+content its20 its20/content/its20/
+overlay chrome://bluegriffon/content/xul/bluegriffon.xul chrome://its20/content/its20Overlay.xul
+skin its20 classic/1.0 its20/skin/classic/its20/

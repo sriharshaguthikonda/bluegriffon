@@ -1,0 +1,205 @@
+/*
+ * this file will contain, after route through the preprocessor, minimal styles for
+ * all UI in the CSS properties panel
+ */
+
+
+label.text-link {
+  cursor: help;
+}
+
+label.text-link {
+  color: var(--bg-main-foreground-color) ! important;
+}
+
+/* FONT-STYLE */
+
+#italicfontstyleButton {
+	font-style: italic;
+}
+
+#obliquefontstyleButton {
+	font-style: oblique;
+}
+
+/* FONT-WEIGHT */
+
+#boldfontweightButton {
+	font-weight: bold;
+}
+
+#lighterfontweightButton {
+	font-weight: lighter;
+}
+
+#bolderfontweightButton {
+	font-weight: bolder;
+}
+
+/* TEXT-ALIGN */
+
+#lefttextalignButton {
+  list-style-image: url("chrome://bluegriffon/skin/formatToolbar/align-left.png");
+}
+
+#righttextalignButton {
+  list-style-image: url("chrome://bluegriffon/skin/formatToolbar/align-right.png");
+}
+
+#centertextalignButton {
+  list-style-image: url("chrome://bluegriffon/skin/formatToolbar/align-center.png");
+}
+
+#justifytextalignButton {
+  list-style-image: url("chrome://bluegriffon/skin/formatToolbar/align-justify.png");
+}
+
+#lefttextalignButton .toolbarbutton-text,
+#righttextalignButton .toolbarbutton-text,
+#centertextalignButton .toolbarbutton-text,
+#justifytextalignButton .toolbarbutton-text {
+  display: none;
+}
+
+#lefttextalignButton:not([checked]) .toolbarbutton-icon,
+#righttextalignButton:not([checked]) .toolbarbutton-icon,
+#centertextalignButton:not([checked]) .toolbarbutton-icon,
+#justifytextalignButton:not([checked]) .toolbarbutton-icon {
+  filter: grayscale(100%) contrast(600%);
+}/* TEXT-DECORATION */
+
+#underlinetextdecorationButton {
+  text-decoration: underline;
+}
+
+#overlinetextdecorationButton {
+  text-decoration: overline;
+}
+
+#linethroughtextdecorationButton {
+  text-decoration: line-through;
+}
+
+#blinktextdecorationButton {
+  text-decoration: blink;
+}
+
+/* WRITING-MODE */
+
+#horizontaltbwritingmodeButton {
+  list-style-image: url("chrome://cssproperties/skin/general/horizontal-tb.png");
+}
+
+#verticallrwritingmodeButton {
+  list-style-image: url("chrome://cssproperties/skin/general/vertical-lr.png");
+}
+
+#verticalrlwritingmodeButton {
+  list-style-image: url("chrome://cssproperties/skin/general/vertical-rl.png");
+}
+
+#horizontaltbwritingmodeButton .toolbarbutton-text,
+#verticallrwritingmodeButton .toolbarbutton-text,
+#verticalrlwritingmodeButton .toolbarbutton-text {
+  display: none;
+}
+
+#horizontaltbwritingmodeButton:not([checked]) .toolbarbutton-icon,
+#verticallrwritingmodeButton:not([checked]) .toolbarbutton-icon,
+#verticalrlwritingmodeButton:not([checked]) .toolbarbutton-icon {
+  filter: grayscale(100%) contrast(600%);
+}
+/* FLOAT */
+
+#floatLeftButton {
+  list-style-image: url("chrome://cssproperties/skin/position/left-float.png");
+}
+
+#floatNoneButton {
+  list-style-image: url("chrome://cssproperties/skin/position/none-float.png");
+}
+
+#floatRightButton {
+  list-style-image: url("chrome://cssproperties/skin/position/right-float.png");
+}
+
+#floatLeftButton .toolbarbutton-text,
+#floatNoneButton .toolbarbutton-text,
+#floatRightButton .toolbarbutton-text {
+  display: none;
+}
+
+#floatLeftButton:not([checked]) .toolbarbutton-icon,
+#floatNoneButton:not([checked]) .toolbarbutton-icon,
+#floatRightButton:not([checked]) .toolbarbutton-icon {
+  filter: grayscale(100%) contrast(600%);
+}
+/* FLEXBOX */
+
+#startBoxAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexStart.png");
+}
+
+#centerBoxAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexCenter.png");
+}
+
+#endBoxAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexEnd.png");
+}
+
+#baselineBoxAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexBaseline.png");
+}
+
+#stretchBoxAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexStretch.png");
+}
+
+
+#startSelfAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexStart.png");
+}
+
+#centerSelfAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexCenter.png");
+}
+
+#endSelfAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexEnd.png");
+}
+
+#baselineSelfAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexBaseline.png");
+}
+
+#stretchSelfAlignButton {
+  list-style-image: url("chrome://cssproperties/skin/flexbox/alignItemsFlexStretch.png");
+}
+
+
+#startBoxAlignButton .toolbarbutton-text,
+#centerBoxAlignButton .toolbarbutton-text,
+#endBoxAlignButton .toolbarbutton-text,
+#baselineBoxAlignButton .toolbarbutton-text,
+#stretchBoxAlignButton .toolbarbutton-text,
+#startSelfAlignButton .toolbarbutton-text,
+#centerSelfAlignButton .toolbarbutton-text,
+#endSelfAlignButton .toolbarbutton-text,
+#baselineSelfAlignButton .toolbarbutton-text,
+#stretchSelfAlignButton .toolbarbutton-text {
+  display: none;
+}
+
+#startBoxAlignButton:not([checked]) .toolbarbutton-icon,
+#centerBoxAlignButton:not([checked]) .toolbarbutton-icon,
+#endBoxAlignButton:not([checked]) .toolbarbutton-icon,
+#baselineBoxAlignButton:not([checked]) .toolbarbutton-icon,
+#stretchBoxAlignButton:not([checked]) .toolbarbutton-icon,
+#startSelfAlignButton:not([checked]) .toolbarbutton-icon,
+#centerSelfAlignButton:not([checked]) .toolbarbutton-icon,
+#endSelfAlignButton:not([checked]) .toolbarbutton-icon,
+#baselineSelfAlignButton:not([checked]) .toolbarbutton-icon,
+#stretchSelfAlignButton:not([checked]) .toolbarbutton-icon {
+  filter: grayscale(100%) contrast(600%);
+}

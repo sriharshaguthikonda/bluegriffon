@@ -1,0 +1,3 @@
+content scripteditor scripteditor/content/scripteditor/
+overlay chrome://bluegriffon/content/xul/bluegriffon.xul chrome://scripteditor/content/scripteditorOverlay.xul
+skin scripteditor classic/1.0 scripteditor/skin/classic/scripteditor/

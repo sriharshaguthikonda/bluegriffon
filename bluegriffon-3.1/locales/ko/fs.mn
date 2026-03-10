@@ -1,0 +1,7 @@
+fs-ko.jar:
+% locale    fs    ko    %locale/ko/fs/
+  locale/ko/fs/fsOverlay.dtd    (locale/ko/fsOverlay.dtd)
+  locale/ko/fs/fs.dtd           (locale/ko/fs.dtd)
+  locale/ko/fs/fs.properties    (locale/ko/fs.properties)
+  locale/ko/fs/addFont.dtd      (locale/ko/addFont.dtd)
+

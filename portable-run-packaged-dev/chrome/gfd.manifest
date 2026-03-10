@@ -1,0 +1,3 @@
+content gfd gfd/content/gfd/
+overlay chrome://bluegriffon/content/xul/bluegriffon.xul chrome://gfd/content/gfdOverlay.xul
+skin gfd classic/1.0 gfd/skin/classic/gfd/

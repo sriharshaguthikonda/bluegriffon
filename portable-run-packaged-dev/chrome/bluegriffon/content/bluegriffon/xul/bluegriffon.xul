@@ -1,0 +1,1775 @@
+<?xml version="1.0"?>
+
+<!-- ***** BEGIN LICENSE BLOCK *****
+   - Version: MPL 1.1/GPL 2.0/LGPL 2.1
+   -
+   - The contents of this file are subject to the Mozilla Public License Version
+   - 1.1 (the "License"); you may not use this file except in compliance with
+   - the License. You may obtain a copy of the License at
+   - http://www.mozilla.org/MPL/
+   -
+   - Software distributed under the License is distributed on an "AS IS" basis,
+   - WITHOUT WARRANTY OF ANY KIND, either express or implied. See the License
+   - for the specific language governing rights and limitations under the
+   - License.
+   -
+   - The Original Code is BlueGriffon.
+   -
+   - The Initial Developer of the Original Code is
+   - Disruptive Innovations SARL.
+   - Portions created by the Initial Developer are Copyright (C) 2006
+   - the Initial Developer. All Rights Reserved.
+   -
+   - Contributor(s):
+   -   Daniel Glazman (daniel.glazman@disruptive-innovations.com), Original Author
+   -
+   - Alternatively, the contents of this file may be used under the terms of
+   - either the GNU General Public License Version 2 or later (the "GPL"), or
+   - the GNU Lesser General Public License Version 2.1 or later (the "LGPL"),
+   - in which case the provisions of the GPL or the LGPL are applicable instead
+   - of those above. If you wish to allow use of your version of this file only
+   - under the terms of either the GPL or the LGPL, and not to allow others to
+   - use your version of this file under the terms of the MPL, indicate your
+   - decision by deleting the provisions above and replace them with the notice
+   - and other provisions required by the LGPL or the GPL. If you do not delete
+   - the provisions above, a recipient may use your version of this file under
+   - the terms of any one of the MPL, the GPL or the LGPL.
+   -
+   - ***** END LICENSE BLOCK ***** -->
+
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://bluegriffon/skin/bluegriffon.css" type="text/css"?>
+<?xml-stylesheet href="chrome://bluegriffon/skin/bluegriffonDialogs.css" type="text/css"?>
+
+
+<!DOCTYPE window [
+  <!ENTITY % editMenuDTD     SYSTEM "chrome://global/locale/editMenuOverlay.dtd" >
+  %editMenuDTD;
+  <!ENTITY % tabEditorDTD    SYSTEM "chrome://bluegriffon/locale/tabeditor.dtd" >
+  %tabEditorDTD;
+  <!ENTITY % bluegriffonDTD  SYSTEM "chrome://bluegriffon/locale/bluegriffon.dtd" >
+  %bluegriffonDTD;
+  <!ENTITY % findbarDTD      SYSTEM "chrome://bluegriffon/locale/findbar.dtd" >
+  %findbarDTD;
+  <!ENTITY % structurebarDTD SYSTEM "chrome://bluegriffon/locale/structurebar.dtd" >
+  %structurebarDTD;
+  <!ENTITY % ariaDTD         SYSTEM "chrome://bluegriffon/locale/aria.dtd" >
+  %ariaDTD;
+  <!ENTITY % brandDTD        SYSTEM "chrome://branding/locale/brand.dtd" >
+  %brandDTD;
+  <!ENTITY % baseMenuOverlayDTD SYSTEM "chrome://browser/locale/baseMenuOverlay.dtd">
+  %baseMenuOverlayDTD;
+  <!ENTITY % pagePropertiesDTD SYSTEM "chrome://bluegriffon/locale/pageProperties.dtd" >
+  %pagePropertiesDTD;
+]>            
+
+<window
+  id         = "Bluegriffon"
+  windowtype = "bluegriffon"
+  fullscreenbutton="true"
+  title      = "&window.title;"
+  width      = "960"
+  height     = "640"
+  persist    = "screenX screenY width height"
+  onload     = "Startup()"
+  onunload   = "Shutdown()"
+  iconsize   = "medium"
+  onclose    = "return onClose()"
+        chromemargin="0,2,2,2"
+        tabsintitlebar="true"
+  xmlns      = "http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+  xmlns:html = "http://www.w3.org/1999/xhtml">
+
+  <script type="application/x-javascript" src="chrome://inspector/content/hooks.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/txns/diInnerHtmlChangedTxn.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/txns/diNodeInsertionTxn.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/txns/diNodeDeletionTxn.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/txns/diStyleAttrChangeTxn.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/txns/diCommentOrPIChangeTxn.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/txns/diRemoveAttributeNSTxn.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/txns/diSetAttributeNSTxn.js"/>
+
+  <script type="application/javascript" src="chrome://bluegriffon/content/utils/dgid.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/utils/global.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/utils/notifiers.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/commands.js"/>
+  <script type="application/javascript" src="chrome://aria/content/aria-roles.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/bluegriffon.js"/>
+  <script type="application/javascript" src="chrome://global/content/globalOverlay.js"/>
+  <script type="application/javascript" src="chrome://global/content/nsDragAndDrop.js"/>
+  <script type="application/javascript" src="chrome://global/content/nsTransferable.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/colourPickerHelper.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/zoomManager.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/recentPages.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/toolbars.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/languages.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/recentPages.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/updateManager.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/rotate.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/html5.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/tableResizer.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/beautify-html.js"/>
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/rebuildTOC.js"/>
+  <script type="application/javascript" src="resource://gre/res/codemirror/themes-list.js"/>
+
+  <script type="application/javascript" src="chrome://bluegriffon/content/js/responsive.js"/>
+
+<broadcasterset id="broadcasterset"/>
+
+<keyset id="mainKeySet">
+  <key id="savekb"              key="&filesave.key;"         observes="cmd_save"      modifiers="accel"/>
+  <key id="saveaskb"            key="&filesaveas.key;"       observes="cmd_saveAs"    modifiers="accel,shift"/>
+  <key id="key_quitApplication" key="&quit.key;"                                      modifiers="accel"/>
+  <key id="closetabkb"          key="&closeWindow.key;"      observes="cmd_closeTab"  modifiers="accel"/>
+  <key id="openpagekb"          key="&openPage.key;"         observes="cmd_open"      modifiers="accel,shift"/>
+  <key id="openfilekb"          key="&openPage.key;"         observes="cmd_openFile"  modifiers="accel"/>
+  <key id="findkb"              key="&findCmd.key;"          observes="cmd_bgfind"    modifiers="accel"/>
+  <key id="findagainkb"         key="&findAgainCmd.key;"     observes="cmd_bgfindagain" modifiers="accel"/>
+  <key id="replacekb"           key="&replaceCmd.key;"       observes="cmd_replace"   modifiers="accel"/>
+
+  <key id="strongkb"            key="&styleStrong.key;"      observes="cmd_strong"    modifiers="accel"/>
+  <key id="emkb"                key="&styleEm.key;"          observes="cmd_em"        modifiers="accel"/>
+  <key id="codekb"              key="&styleCode.key;"        observes="cmd_code"      modifiers="accel,shift"/>
+  <key id="underlinekb"         key="&styleUnderline.key;"   observes="cmd_underline" modifiers="accel"/>
+
+  <key keycode="VK_ESCAPE"      observes="cmd_structureClimb" />
+  <key id="structureclimbkb"      keycode="VK_F2"              observes="cmd_structureClimb"/>
+  <key id="structurefirstchildkb" keycode="VK_F2"              observes="cmd_structureFirstChild" modifiers="shift"/>
+  <key id="structurenextkb"       keycode="VK_F4"              observes="cmd_structureNext"/>
+  <key id="structurepreviousbkb"  keycode="VK_F4"              observes="cmd_structurePrevious" modifiers="shift"/>
+
+  <key id="toggleviewkb"          keycode="VK_F8"              observes="cmd_toggleView"/>
+
+
+  <key id="printkb"               key="&printCmd.commandkey;" observes="cmd_print" modifiers="accel"/>
+
+   <key id="key_BGundo"  key="&undoCmd.key;"  modifiers="accel" command="cmd_BGundo"/>  
+   <key id="key_BGredo"  key="&redoCmd.key;"  modifiers="accel" command="cmd_BGredo"/>  
+   <key id="key_BGcopy"  key="&copyCmd.key;"  modifiers="accel" command="cmd_BGcopy"/>  
+   <key id="key_BGcut"   key="&cutCmd.key;"   modifiers="accel" command="cmd_BGcut"/>  
+   <key id="key_BGpaste" key="&pasteCmd.key;" modifiers="accel" command="cmd_BGpaste"/>
+   <key id="key_BGselectAll" key="&selectAllCmd.key;" modifiers="accel" command="cmd_BGselectAll"/>  
+   <key id="key_BGdelete" key="&deleteCmd.key;" modifiers="accel" command="cmd_BGdelete"/>  
+</keyset>
+
+<!-- magic from chrome://global/content/editMenuOverlay.xul -->
+<keyset id="editMenuKeys"/>
+
+<!-- magic from chrome://global/content/editMenuOverlay.xul -->
+<!--commandset id="editMenuCommands"/-->
+
+<commandset id="webNavigationItems"
+            commandupdater="true"
+            events="navigation"
+            oncommandupdate="ComposerCommands.goUpdateComposerMenuItems(this)">
+  <command id="cmd_stopLoading" disabled="true" oncommand="goDoCommand('cmd_stopLoading')"/>
+  <command id="cmd_new"                         oncommand="goDoCommand('cmd_new')"/>
+  <command id="cmd_newWindow"                   oncommand="goDoCommand('cmd_newWindow')"/>
+  <command id="cmd_newWizard"                   oncommand="goDoCommand('cmd_newWizard')"/>
+
+  <command id="Tasks:Inspector"   oncommand="inspectDOMDocument();"/>
+  <command id="Tasks:InspectPage" oncommand="inspectDOMDocument(_content.document);"/>
+</commandset>
+
+<commandset id="commonEditorMenuItems"
+            commandupdater="true"
+            events="create"
+            oncommandupdate="ComposerCommands.goUpdateComposerMenuItems(this)">
+  <command id="cmd_open"         label="&openPage.label;"    oncommand="goDoCommand('cmd_open')"/>
+  <command id="cmd_openFile"     label="&openFileCmd.label;" oncommand="goDoCommand('cmd_openFile')"/>
+</commandset>
+
+<commandset id="composerMenuItems"
+            commandupdater="true"
+            events="create,style,mode_switch"
+            oncommandupdate="ComposerCommands.goUpdateComposerMenuItems(this)">
+
+  <command id="cmd_list"             oncommand="goDoCommand('cmd_list')"/>
+  <command id="cmd_table"            oncommand="goDoCommand('cmd_table')"/>
+  <command id="cmd_InsertTable"      oncommand="goDoCommand('cmd_InsertTable')"/>
+  <command id="cmd_image"            oncommand="goDoCommand('cmd_image')"/>
+  <command id="cmd_rebuildTOC"       oncommand="goDoCommand('cmd_rebuildTOC')"/>
+  <command id="cmd_anchor"           oncommand="goDoCommand('cmd_anchor')"/>
+  <command id="cmd_link"             oncommand="goDoCommand('cmd_link')"/>
+  <command id="cmd_hr"               oncommand="goDoCommand('cmd_hr')"/>
+  <command id="cmd_css"              oncommand="goDoCommand('cmd_css')"/>
+  <command id="cmd_domexplorer"      oncommand="goDoCommand('cmd_domexplorer')"/>
+  <command id="cmd_commentOrPI"      oncommand="goDoCommand('cmd_commentOrPI')"/>
+  <command id="cmd_video"            oncommand="goDoCommand('cmd_video')"/>
+  <command id="cmd_audio"            oncommand="goDoCommand('cmd_audio')"/>
+  <command id="cmd_html"             oncommand="goDoCommand('cmd_html')"/>
+  <command id="cmd_form"             oncommand="goDoCommand('cmd_form')"/>
+  <command id="cmd_toc"              oncommand="goDoCommand('cmd_toc')"/>
+
+  <command id="cmd_formInputHidden"   oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'hidden')"/>
+  <command id="cmd_formInputText"     oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'text')"/>
+  <command id="cmd_formInputSearch"   oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'search')"/>
+  <command id="cmd_formInputTel"      oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'tel')"/>
+  <command id="cmd_formInputUrl"      oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'url')"/>
+  <command id="cmd_formInputEmail"    oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'email')"/>
+  <command id="cmd_formInputPassword" oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'password')"/>
+  <command id="cmd_formInputDatetime" oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'datetime')"/>
+  <command id="cmd_formInputDate"     oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'date')"/>
+  <command id="cmd_formInputMonth"    oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'month')"/>
+  <command id="cmd_formInputWeek"     oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'week')"/>
+  <command id="cmd_formInputTime"     oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'time')"/>
+  <command id="cmd_formInputDatetimelocal" oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'datetime-local')"/>
+  <command id="cmd_formInputNumber"   oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'number')"/>
+  <command id="cmd_formInputRange"    oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'range')"/>
+  <command id="cmd_formInputColor"    oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'color')"/>
+  <command id="cmd_formInputCheckbox" oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'checkbox')"/>
+  <command id="cmd_formInputRadio"    oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'radio')"/>
+  <command id="cmd_formInputFile"     oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'file')"/>
+  <command id="cmd_formInputSubmit"   oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'submit')"/>
+  <command id="cmd_formInputImage"    oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'image')"/>
+  <command id="cmd_formInputReset"    oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'reset')"/>
+  <command id="cmd_formInputButton"   oncommand="ComposerCommands.doCommandWithValue('cmd_formInput', 'button')"/>
+
+  <command id="cmd_fieldset"          oncommand="goDoCommand('cmd_fieldset')"/>
+  <command id="cmd_label"             oncommand="goDoCommand('cmd_label')"/>
+  <command id="cmd_button"            oncommand="goDoCommand('cmd_button')"/>
+  <command id="cmd_select"            oncommand="goDoCommand('cmd_select')"/>
+  <command id="cmd_textarea"          oncommand="goDoCommand('cmd_textarea')"/>
+  <command id="cmd_keygen"            oncommand="goDoCommand('cmd_keygen')"/>
+  <command id="cmd_output"            oncommand="goDoCommand('cmd_output')"/>
+  <command id="cmd_progress"          oncommand="goDoCommand('cmd_progress')"/>
+  <command id="cmd_meter"             oncommand="goDoCommand('cmd_meter')"/>
+  <command id="cmd_datalist"          oncommand="goDoCommand('cmd_datalist')"/>
+
+  <command id="cmd_pageProperties"    oncommand="goDoCommand('cmd_pageProperties')"/>
+
+  <command id="cmd_spellCheck"        oncommand="goDoCommand('cmd_spellCheck')"/>
+
+  <command id="cmd_gotoLink"          oncommand="goDoCommand('cmd_gotoLink')"/>
+  <command id="cmd_editLink"          oncommand="goDoCommand('cmd_editLink')"/>
+
+  <command id="cmd_toggleView"        oncommand="goDoCommand('cmd_toggleView')"/>
+  <command id="cmd_cleanup"           oncommand="goDoCommand('cmd_cleanup')" label="&markupCleanerCmd.label;" accesskey="&markupcleaner.accesskey;"/>
+</commandset>
+
+<commandset id="composerStyleMenuItems"
+            commandupdater="true"
+            events="create,select,style,mode_switch"
+            oncommandupdate="ComposerCommands.goUpdateComposerMenuItems(this)">
+  <command id="cmd_bold"         state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_bold')"/>
+  <command id="cmd_italic"       state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_italic')"/>
+  <command id="cmd_underline"    state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_underline')"/>
+  <command id="cmd_strong"       state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_strong')"/>
+  <command id="cmd_em"           state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_em')"/>
+  <command id="cmd_strikethrough" state="false"    oncommand="ComposerCommands.doStyleUICommand('cmd_strikethrough');"/>
+  <command id="cmd_superscript"  state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_superscript');"/>
+  <command id="cmd_subscript"    state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_subscript');"/>
+  <command id="cmd_nobreak"      state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_nobreak');"/>
+
+  <command id="cmd_cite"         state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_cite')"/>
+  <command id="cmd_abbr"         state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_abbr')"/>
+  <command id="cmd_acronym"      state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_acronym')"/>
+  <command id="cmd_code"         state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_code')"/>
+  <command id="cmd_samp"         state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_samp')"/>
+  <command id="cmd_var"          state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_var')"/>
+  <command id="cmd_tt"           state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_tt')"/>
+
+  <command id="cmd_span"                           oncommand="goDoCommand('cmd_span')"/>
+
+  <command id="cmd_paragraphState" state=""        oncommand="ComposerCommands.doStatefulCommand('cmd_paragraphState', event.target.value)"/>
+  <command id="cmd_fontFace"     state=""          oncommand="ComposerCommands.doStatefulCommand('cmd_fontFace', event.target.value)"/>
+  <command id="cmd_class"        state=""          oncommand="ComposerCommands.doStatefulCommand('cmd_class', event.target.value)"/>
+  <command id="cmd_id"           state=""          oncommand="ComposerCommands.doStatefulCommand('cmd_id', event.target.value)"/>
+  <command id="cmd_ariaRole"     state=""          oncommand="ComposerCommands.doStatefulCommand('cmd_ariaRole', event.target.value)"/>
+  <command id="cmd_removeStyles"                   oncommand="goDoCommand('cmd_removeStyles')"/>
+  <command id="cmd_removeLinks"                    oncommand="goDoCommand('cmd_removeLinks')"/>
+
+  <command id="cmd_renderedHTMLEnabler"/>
+  <command id="cmd_renderedSourceEnabler"/>
+  <command id="cmd_renderedAllEnabler"/>
+  <command id="cmd_viewModeEnabler"/>
+  <command id="cmd_structureClimb"                 oncommand="goDoCommand('cmd_structureClimb')"/>
+  <command id="cmd_structureFirstChild"            oncommand="goDoCommand('cmd_structureFirstChild')"/>
+  <command id="cmd_structureNext"                  oncommand="goDoCommand('cmd_structureNext')"/>
+  <command id="cmd_structurePrevious"              oncommand="goDoCommand('cmd_structurePrevious')"/>
+  <command id="cmd_ul"           state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_ul')"/>
+  <command id="cmd_ol"           state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_ol')"/>
+  <command id="cmd_align"        state="left"      oncommand="ComposerCommands.doStatefulCommand('cmd_align', event.target.value)"/>
+
+  <command id="cmd_dd"           state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_dd')"/>
+  <command id="cmd_dt"           state="false"     oncommand="ComposerCommands.doStyleUICommand('cmd_dt')"/>
+
+  <command id="cmd_indent"                         oncommand="goDoCommand('cmd_indent')"/>
+  <command id="cmd_outdent"                        oncommand="goDoCommand('cmd_outdent')"/>
+  <command id="cmd_blockquote"                     oncommand="goDoNoCSSCommand('cmd_blockquote')"/>
+
+  <command id="cmd_bgFontColor"       state=""            oncommand="ComposerCommands.doStatefulCommand('cmd_bgFontColor', event.target.value)"/>
+  <command id="cmd_bgBackgroundColor" state="transparent" oncommand="ComposerCommands.doStatefulCommand('cmd_bgBackgroundColor', event.target.value)"/>
+</commandset>
+
+<commandset id="selectionBasedCommands"
+            commandupdater="true"
+            events="style,create"
+            oncommandupdate="ComposerCommands.goUpdateComposerMenuItems(this);">
+  <command id="cmd_selectionChanged"/>
+  <command id="cmd_BGundo" label="&undoCmd.label;" 
+           accesskey="&undoCmd.accesskey;"
+           oncommand="goDoCommand('cmd_BGundo')"
+           disabled="true"/>
+  <command id="cmd_BGredo" label="&redoCmd.label;"
+           accesskey="&redoCmd.accesskey;"
+           oncommand="goDoCommand('cmd_BGredo')"
+           disabled="true"/>
+  <command id="cmd_BGcut" label="&cutCmd.label;"
+           accesskey="&cutCmd.accesskey;"
+           oncommand="goDoCommand('cmd_BGcut')"
+           disabled="true"/>
+  <command id="cmd_BGcopy" label="&copyCmd.label;"
+           accesskey="&copyCmd.accesskey;"
+           oncommand="goDoCommand('cmd_BGcopy')"
+           disabled="true"/>
+  <command id="cmd_BGpaste" label="&pasteCmd.label;"
+           accesskey="&pasteCmd.accesskey;"
+           oncommand="goDoCommand('cmd_BGpaste')"
+           disabled="true"/>
+  <command id="cmd_BGdelete" label="&deleteCmd.label;"
+           accesskey="&deleteCmd.accesskey;"
+           oncommand="goDoCommand('cmd_BGdelete')"
+           disabled="true"/>
+  <command id="cmd_BGselectAll" label="&selectAllCmd.label;"
+           accesskey="&selectAllCmd.accesskey;"
+           oncommand="goDoCommand('cmd_BGselectAll')"
+           disabled="true"/>
+  <command id="cmd_copyHTMLCode"
+           oncommand="goDoCommand('cmd_copyHTMLCode')"
+           disabled="true"/>
+  <command id="cmd_BGpasteNoFormatting" label="&pasteNoFormatting.label;"
+           accesskey="&pasteNoFormatting.accesskey;"
+           oncommand="goDoCommand('cmd_BGpasteNoFormatting')"
+           disabled="true"/>
+
+</commandset>
+
+<commandset id="composerSaveMenuItems"
+            commandupdater="true"
+            events="create,style,save"
+            oncommandupdate="ComposerCommands.goUpdateComposerMenuItems(this)">
+  <command id="cmd_save"                                             oncommand="goDoCommand('cmd_save')"/>
+  <command id="cmd_saveAs"         label="&saveAsCmd.label;"         oncommand="goDoCommand('cmd_saveAs')"/>
+  <command id="cmd_closeTab"       label="&closeTabCmd.label;"       oncommand="goDoCommand('cmd_closeTab')"/>
+  <command id="cmd_closeEbook"     label="&closeEbookCmd.label;"     oncommand="goDoCommand('cmd_closeEbook')"/>
+
+  <command id="cmd_print"          label="&printCmd.label;"          oncommand="goDoCommand('cmd_print')"/>
+  <command id="cmd_printSettings"  label="&printSetupCmd.label;"     oncommand="goDoCommand('cmd_printSettings')"/>
+
+  <command id="cmd_bgfind"         label="&findCmd.label;"           accesskey="&findCmd.accesskey;"    oncommand="goDoCommand('cmd_bgfind')"/>
+  <command id="cmd_bgfindagain"    label="&findAgainCmd.label;"      accesskey="&findAgainCmd.accesskey;" oncommand="goDoCommand('cmd_bgfindagain')"/>
+  <command id="cmd_replace"        label="&replaceCmd.label;"        accesskey="&replaceCmd.accesskey;" oncommand="goDoCommand('cmd_replace')"/>
+  <command id="cmd_browse"                                           oncommand="goDoCommand('cmd_browse')"/>
+</commandset>
+
+<commandset id="composerTableMenuItems"
+            commandupdater="true"
+            events="create,style,mode_switch"
+            oncommandupdate="ComposerCommands.goUpdateComposerMenuItems(this)">
+  <!-- Table menu -->
+  <command id="cmd_SelectTable"         oncommand="goDoCommand('cmd_SelectTable')"/>
+  <command id="cmd_SelectTableCaption"  oncommand="goDoCommand('cmd_SelectTableCaption')"/>
+  <command id="cmd_SelectRow"           oncommand="goDoCommand('cmd_SelectRow')"/>
+  <command id="cmd_SelectColumn"        oncommand="goDoCommand('cmd_SelectColumn')"/>
+  <command id="cmd_SelectCell"          oncommand="goDoCommand('cmd_SelectCell')"/>
+  <command id="cmd_SelectAllCells"      oncommand="goDoCommand('cmd_SelectAllCells')"/>
+  <command id="cmd_InsertTableCaption"  oncommand="goDoCommand('cmd_InsertTableCaption')"/>
+  <command id="cmd_InsertRowAbove"      oncommand="goDoCommand('cmd_InsertRowAbove')"/>
+  <command id="cmd_InsertRowBelow"      oncommand="goDoCommand('cmd_InsertRowBelow')"/>
+  <command id="cmd_InsertColumnBefore"  oncommand="goDoCommand('cmd_InsertColumnBefore')"/>
+  <command id="cmd_InsertColumnAfter"   oncommand="goDoCommand('cmd_InsertColumnAfter')"/>
+  <command id="cmd_InsertCellBefore"    oncommand="goDoCommand('cmd_InsertCellBefore')"/>
+  <command id="cmd_InsertCellAfter"     oncommand="goDoCommand('cmd_InsertCellAfter')"/>
+  <command id="cmd_DeleteTable"         oncommand="goDoCommand('cmd_DeleteTable')"/>
+  <command id="cmd_DeleteTableCaption"  oncommand="goDoCommand('cmd_DeleteTableCaption')"/>
+  <command id="cmd_DeleteRow"           oncommand="goDoCommand('cmd_DeleteRow')"/>
+  <command id="cmd_DeleteColumn"        oncommand="goDoCommand('cmd_DeleteColumn')"/>
+  <command id="cmd_DeleteCell"          oncommand="goDoCommand('cmd_DeleteCell')"/>
+  <command id="cmd_DeleteCellContents"  oncommand="goDoCommand('cmd_DeleteCellContents')"/>
+  <command id="cmd_NormalizeTable"      oncommand="goDoCommand('cmd_NormalizeTable')"/>
+  <command id="cmd_JoinTableCells"      oncommand="goDoCommand('cmd_JoinTableCells')"/>
+  <command id="cmd_SplitTableCell"      oncommand="goDoCommand('cmd_SplitTableCell')"/>
+  <command id="cmd_ConvertToTable"      oncommand="goDoCommand('cmd_ConvertToTable')"/>
+  <command id="cmd_ConvertClipboardToTable" oncommand="goDoCommand('cmd_ConvertClipboardToTable')"/>
+  <command id="cmd_TableOrCellColor"    oncommand="goDoCommand('cmd_TableOrCellColor')"/>
+  <command id="cmd_editTable"           oncommand="goDoCommand('cmd_editTable')"/>
+</commandset>
+
+<keyset id="editorKeys">
+  <key id="key_newNavigator"   key="t" modifiers="accel"       observes="cmd_new"/>
+  <key id="key_newWindow"      key="n" modifiers="accel"       observes="cmd_newWindow"/>
+  <key id="key_newWithOptions" key="n" modifiers="accel,shift" oncommand="NewDocumentWithOptions(event);"/>
+</keyset>
+
+<stringbundleset id="languageSet">
+  <stringbundle id="bundleRegions"      src="chrome://global/locale/regionNames.properties"/>
+  <stringbundle id="bundleLanguages"    src="chrome://global/locale/languageNames.properties"/>
+  <stringbundle id="bundlePreferences"  src="chrome://bluegriffon/locale/language.properties"/>
+  <stringbundle id="bundleHTML5"        src="chrome://bluegriffon/locale/html5.properties"/>
+  <stringbundle id="bundleAccepted"     src="resource://gre/res/language.properties"/>
+  <stringbundle id="bundleOpenLocation" src="chrome://bluegriffon/locale/openLocation.properties"/>
+</stringbundleset>
+
+<stringbundleset id="otherBundles"/>
+
+<popupset id="editorPopupSet">
+
+  <menupopup id="tabContextPopup">
+    <menuitem id="closeTabTabContextMenu"         label="&closeTab.label;"       oncommand="CloseOneTab()" />
+    <menuitem id="closeOtherTabsTabContextMenu"   label="&closeOtherTabs.label;" oncommand="CloseAllTabsButOne()" />
+    <menuseparator />
+    <menuitem id="revertTabContextMenu"           label="&revert.label;" oncommand="RevertTab()" />
+  </menupopup>
+
+  <menupopup id="structureBarContextMenu"
+         onpopupshowing="UpdateStructureBarContextMenu()">
+    <menuitem label="&resetElementLanguage.label;"
+              id="resetElementLanguageMenuitem"
+              accesskey="&resetElementLanguage.accesskey;"
+              oncommand="ResetLanguage(event)" />
+    <menuitem label="&setElementLanguage.label;"
+              accesskey="&setElementLanguage.accesskey;"
+              oncommand="ShowLanguageDialog(event)" />
+    <menu label="&writingDirectionMenu.label;"
+          oncommand="SetDirection(event)">
+      <menupopup onpopupshowing="UpdateDirectionMenu()">
+        <menuitem id="noDirectionContextMenuitem"
+                  label="&defaultDirectionMenu.label;"
+                  value=""
+                  type="radio"
+                  name="direction"/>
+        <menuseparator/>
+        <menuitem id="ltrDirectionContextMenuitem"
+                  label="▶¶ (&ltrDirectionMenu.label;)"
+                  value="ltr"
+                  type="radio"
+                  name="direction"/>
+        <menuitem id="rtlDirectionContextMenuitem"
+                  label="¶◀ (&rtlDirectionMenu.label;)"
+                  value="rtl"
+                  type="radio"
+                  name="direction"/>
+      </menupopup>
+    </menu>
+    <menuseparator/>
+    <menuitem label="&deleteElement.label;"
+              id="deleteElementMenuitem"
+              accesskey="&deleteElement.accesskey;"
+              oncommand="DeleteElement(event)"/>
+    <menuitem label="&removeTag.label;"
+              id="removeTagMenuitem"
+              accesskey="&removeTag.accesskey;"
+              oncommand="ExplodeElement(event)"/>
+     <menuitem label="&changeTag.label;"
+              id="changeTagMenuitem"
+              accesskey="&changeTag.accesskey;"
+              oncommand="ChangeTag(event)"/>
+     <menuseparator/>
+     <menuitem label="&copyHTMLCodeInStructurebarContext.label;"
+               id="copyHTMLCodeOfElementMenuitem"
+               oncommand="goDoCommand('cmd_copyHTMLCode')"/>
+     <menuseparator/>
+     <menu label="&ariaRole.label;">
+        <menupopup id="ARIARoleStructureBarPopup" oncommand="ComposerCommands.doStatefulCommand('cmd_ariaRole', event.target.value)"
+                   onpopupshowing="onARIARoleChangeStructureBar('cmd_ariaRole')">
+          <menuitem label="&noARIArole.label;" type="checkbox" value=""/>
+          <menuseparator/>
+        </menupopup>
+     </menu>
+  </menupopup>
+
+  <menupopup id="editorContextMenu"
+         onpopupshowing="UpdateEditorContextMenu(event, this)">
+    <menu label="&spellCheck.label;"
+          id="spellCheckMenu">
+      <menupopup onpopupshowing="UpdateSpellCheckMenu(this)"
+                 onpopuphiding="CleanSpellCheckMenu()">
+        <menuitem label="&addToDictionary;"
+                  oncommand="AddWordToDictionary()"
+                  id="addToDictionarySpellCheckMenuitem"/>
+        <menuseparator/>
+        <menuseparator id="suggestionsSpellCheckSeparator"/>
+        <menuitem label="&ignoreWord.label;"
+                  command="IgnoreWord()"/>
+      </menupopup>
+    </menu>
+    <menu label="&dictionary.label;">
+      <menupopup id="dictionaryMenupopup"
+                 onpopupshowing="UpdateSpellCheckDictionaries(this)"
+                 onpopuphiding="CleanSpellCheckDictionaries()"/>
+    </menu>
+    <menuseparator/>
+    <menuitem id="cMenu_undo" key="key_BGundo" command="cmd_BGundo"/>
+    <menuitem id="cMenu_redo" key="key_BGredo" command="cmd_BGredo"/>
+    <menuseparator/>
+    <menuitem id="cMenu_cut" key="key_BGcut" command="cmd_BGcut"/>
+    <menuitem id="cMenu_copy" key="key_BGcopy" command="cmd_BGcopy"/>
+    <menuitem id="cMenu_paste" key="key_BGpaste" command="cmd_BGpaste"/>
+    <menuitem label="&pasteNoFormatting.label;"
+              command="cmd_BGpasteNoFormatting"/>
+    <menuitem id="cMenu_delete" key="key_BGdelete" command="cmd_BGdelete"/>
+    <menuseparator/>
+    <menuitem id="cMenu_selectAll" key="key_BGselectAll"  command="cmd_BGselectAll"/>
+    <menuseparator/>
+    <menuitem id="cMenu_removeAllStyles"
+              label="&removeAllStyles.label;"
+              accesskey="&removeAllStyles.accesskey;"
+              command="cmd_removeStyles"/>
+    <menuitem id="cMenu_removeAllLinks"
+              label="&removeAllLinks.label;"
+              accesskey="&removeAllLinks.accesskey;"
+              command="cmd_removeLinks"/>
+    <menuseparator />
+    <menuitem id="cMenu_copyHTMLCode"
+              label="&copyHTMLCodeCmd.label;"
+              command="cmd_copyHTMLCode"/>
+    <menuseparator id="separator_before_cMenu_gotoLink" />
+    <menuitem id="cMenu_insertLink"
+              label="&cMenu_insertLink.label;"
+              accesskey="&cMenu_insertLink.accesskey;"
+              command="cmd_link"/>
+    <menuitem id="cMenu_gotoLink" label="&gotoLink.label;" command="cmd_gotoLink"/>
+    <menuitem id="cMenu_editLink" label="&openLinkCmdInTab.label;" command="cmd_editLink"/>
+    <menuseparator id="separator_before_ctableInsertMenu"/>
+    <menu id="ctableInsertMenu" label="&tableInsertMenu2.label;" accesskey="&tableinsertmenu.accesskey;">
+      <menupopup>
+        <menuitem label="&tableCaption.label;"                                                command="cmd_InsertTableCaption"/>
+        <menuitem label="&tableRowAbove.label;"     accesskey="&tablerow.accesskey;"          command="cmd_InsertRowAbove"/>
+        <menuitem label="&tableRowBelow.label;"     accesskey="&tablerowbelow.accesskey;"     command="cmd_InsertRowBelow"/>
+        <menuseparator />
+        <menuitem label="&tableColumnBefore.label;" accesskey="&tablecolumn.accesskey;"       command="cmd_InsertColumnBefore"/>
+        <menuitem label="&tableColumnAfter.label;"  accesskey="&tablecolumnafter.accesskey;"  command="cmd_InsertColumnAfter"/>
+        <menuseparator />
+        <menuitem label="&tableCellBefore.label;"   accesskey="&tablecell.accesskey;"         command="cmd_InsertCellBefore"/>
+        <menuitem label="&tableCellAfter.label;"    accesskey="&tablecellafter.accesskey;"    command="cmd_InsertCellAfter"/>
+      </menupopup>
+    </menu>
+    <menu id="ctableSelectMenu" label="&tableSelectMenu2.label;" accesskey="&tableselectmenu.accesskey;">
+      <menupopup id="ctableSelectPopup">
+        <menuitem id="cmenu_SelectTable"       label="&tableTable.label;"    accesskey="&tabletable.accesskey;"    command="cmd_SelectTable"    />
+        <menuitem id="menu_SelectTableCaption" label="&tableCaption.label;"                                        command="cmd_SelectTableCaption"    />
+        <menuitem id="cmenu_SelectRow"         label="&tableRow.label;"      accesskey="&tablerow.accesskey;"      command="cmd_SelectRow"      />
+        <menuitem id="cmenu_SelectColumn"      label="&tableColumn.label;"   accesskey="&tablecolumn.accesskey;"   command="cmd_SelectColumn"   />
+        <menuitem id="cmenu_SelectCell"        label="&tableCell.label;"     accesskey="&tablecell.accesskey;"     command="cmd_SelectCell"     />
+        <menuitem id="cmenu_SelectAllCells"    label="&tableAllCells.label;" accesskey="&tableallcells.accesskey;" command="cmd_SelectAllCells" />
+      </menupopup>
+    </menu>
+    <menu id="ctableDeleteMenu" label="&tableDeleteMenu2.label;" accesskey="&tabledeletemenu.accesskey;">
+      <menupopup id="ctableDeletePopup">
+        <menuitem id="cmenu_DeleteTable"         label="&tableTable.label;"        accesskey="&tabletable.accesskey;"          command="cmd_DeleteTable"/>
+        <menuitem id="menu_DeleteTableCaption"   label="&tableCaption.label;"                                                  command="cmd_DeleteTableCaption"/>
+        <menuitem id="cmenu_DeleteRow"           label="&tableRows.label;"         accesskey="&tablerow.accesskey;"            command="cmd_DeleteRow"/>
+        <menuitem id="cmenu_DeleteColumn"        label="&tableColumns.label;"      accesskey="&tablecolumn.accesskey;"         command="cmd_DeleteColumn"/>
+        <menuitem id="cmenu_DeleteCell"          label="&tableCells.label;"        accesskey="&tablecell.accesskey;"           command="cmd_DeleteCell"/>
+        <menuitem id="cmenu_DeleteCellContents"  label="&tableCellContents.label;" accesskey="&tablecellcontents.accesskey;"   command="cmd_DeleteCellContents"/>
+      </menupopup>
+    </menu>
+    <menuseparator />
+    <!-- menu label is set in InitTableMenu -->
+    <menuitem id="cmenu_JoinTableCells"   label="&tableJoinCells.label;"   accesskey="&tablejoincells.accesskey;"   command="cmd_JoinTableCells"/>
+    <menuitem id="cmenu_SplitTableCell"   label="&tableSplitCell.label;"   accesskey="&tablesplitcell.accesskey;"   command="cmd_SplitTableCell"/>
+    <menuseparator />
+    <menuitem id="cmenu_tableProperties"  label="&tableProperties.label;"  accesskey="&tableProperties.accesskey;"  command="cmd_editTable"/>
+  </menupopup>
+
+  <tooltip id="tab-tooltip" onpopupshowing="UpdateTabTooltip(document.tooltipNode)">
+    <hbox align="center" id="tab-tooltip-main-info">
+      <label id="tab-tooltip-html-dialect"/>
+      <label id="tab-tooltip-title" flex="1" crop="end"/>
+    </hbox>
+    <grid id="tab-tooltip-grid">
+      <columns>
+        <column/>
+        <column flex="1"/>
+      </columns>
+      <rows>
+        <row align="center">
+          <label value="&pageLocation.label;"/>
+          <label id="tab-tooltip-location"/>
+        </row>
+        <row align="center">
+          <label value="&pageAuthor.label;"/>
+          <label id="tab-tooltip-author"/>
+        </row>
+        <row align="center">
+          <label value="&pageDescription.label;"/>
+          <label id="tab-tooltip-description" crop="end"/>
+        </row>
+        <row align="center">
+          <label value="&pageKeywords.label;"/>
+          <label id="tab-tooltip-keywords" crop="end"/>
+        </row>
+        <row align="center">
+          <label value="&language.label;"/>
+          <label id="tab-tooltip-language"/>
+        </row>
+        <row align="center">
+          <label value="&charset.label;"/>
+          <label id="tab-tooltip-charset"/>
+        </row>
+        <row align="center">
+          <label value="&direction.label;"/>
+          <label id="tab-tooltip-text-direction"/>
+        </row>
+      </rows>
+    </grid>
+  </tooltip>
+</popupset>
+
+
+<vbox id="titlebar">
+  <hbox id="titlebar-content" flex="1">
+    <spacer id="titlebar-spacer" flex="1"/>
+    <label id="titleInTitlebar" value="BlueGriffon" flex="1" crop="center"/>
+    <spacer id="titlebar-spacer2" flex="1"/>
+    <hbox id="titlebar-buttonbox-container">
+      <hbox id="titlebar-buttonbox">
+        <toolbarbutton class="titlebar-button" id="titlebar-min" oncommand="window.minimize();"/>
+        <toolbarbutton class="titlebar-button" id="titlebar-max" oncommand="onTitlebarMaxClick();"/>
+        <toolbarbutton class="titlebar-button" id="titlebar-close" oncommand="if (doSaveTabsBeforeQuit()) window.close()"/>
+      </hbox>
+    </hbox>
+  </hbox>
+</vbox>
+
+  <menubar id="composer-main-menubar" class="chromeclass-menubar"
+           fullscreentoolbar="true">
+
+    <menu id="fileMenu" label="&fileMenu.label;" accesskey="&fileMenu.accesskey;">
+      <menupopup id="fileMenu_popup">
+        <menuitem id="openPageMenuitem" accesskey="&openPage.accesskey;" key="openpagekb" command="cmd_open"/>
+        <menuitem id="openFileMenuitem"                                  key="openfilekb" command="cmd_openFile"/>
+
+        <menu id="menu_RecentFiles" accesskey="&filerecentmenu.accesskey;" label="&fileRecentMenu.label;"
+              onpopupshowing="RecentPagesHandler.buildRecentPagesMenu();">
+          <menupopup id="menupopup_RecentFiles"
+                      oncommand="OpenFile(event.target.getAttribute('value'), true);"/>
+            <!-- menuitems appended at runtime -->
+        </menu>
+        <menuseparator/>
+        <menuitem id="saveMenuitem"   key="savekb" command="cmd_save" label="&saveCmd.label;"/>
+        <menuitem id="saveAsMenuitem" key="saveaskb" command="cmd_saveAs"/>
+
+        <menuseparator/>
+        <menuitem label="&newMenu.label;" accesskey="&newMenu.accesskey;" key="key_newNavigator"
+                  command="cmd_new"/>
+        <menuitem label="&newOtherCmd.label;"     oncommand="NewDocumentWithOptions(event);"/>
+
+        <menuitem label="&newWindow.label;" key="key_newWindow"
+                  command="cmd_newWindow" />
+
+        <menuseparator/>
+        <menuitem label="&newWizardMenu.label;"
+                  id="newWizardMenu"
+                  command="cmd_newWizard"/>
+
+        <menuseparator/>
+        <menuitem id="browseMenuitem"
+                  label="&browseToolbarCmd.label;" command="cmd_browse"/>
+
+        <menuseparator/>
+        <menuitem id="printSettingsMenuitem" command="cmd_printSettings"/>
+        <menuitem id="printMenuitem"         command="cmd_print" key="printkb"/>
+
+        <menuseparator/>
+        <menuitem id="closeTabMenuitem" key="closetabkb" command="cmd_closeTab"/>
+
+        <menuseparator id="menu_FileQuitSeparator"/>
+        <menuitem id="menu_FileQuitItem"
+                  label="&quit.label;"
+                  accesskey="&quit.accesskey;"
+                  key="key_quitApplication"
+                  oncommand="goQuitApplication()"/>
+      </menupopup>
+    </menu>
+
+    <menu id="editMenu"   label="&editMenu.label;"   accesskey="&editMenu.accesskey;">
+      <menupopup id="editMenuPopup">
+        <!-- magic from chrome://global/content/editMenuOverlay.xul -->
+        <menuitem id="menu_BGundo" command="cmd_BGundo" key="key_BGundo"/>
+        <menuitem id="menu_BGredo" command="cmd_BGredo" key="key_BGredo"/>
+        <menuseparator/>
+        <menuitem id="menu_BGcut"   command="cmd_BGcut"  key="key_BGcut"/>
+        <menuitem id="menu_BGcopy"  command="cmd_BGcopy" key="key_BGcopy"/>
+        <menuitem id="menu_BGpaste" command="cmd_BGpaste" key="key_BGpaste"/>
+        <menuitem id="menu_BGpasteNoFormatting_cm" command="cmd_BGpasteNoFormatting"/>
+        <menuitem id="menu_BGdelete"  command="cmd_BGdelete"/>
+        <menuseparator/>
+        <menu label="&select.label;">
+          <menupopup>
+            <menuitem label="&parentElement.label;"
+                      key="structureclimbkb"
+                      command="cmd_structureClimb"/>
+            <menuitem label="&firstChild.label;"
+                      key="structurefirstchildkb"
+                      command="cmd_structureFirstChild"/>
+            <menuseparator/>
+            <menuitem label="&nextSibling.label;"
+                      key="structurenextkb"
+                      command="cmd_structureNext"/>
+            <menuitem label="&previousSibling.label;"
+                      key="structurepreviousbkb"
+                      command="cmd_structurePrevious"/>
+          </menupopup>
+        </menu>
+        <menuitem id="menu_BGselectAll" command="cmd_BGselectAll" key="key_BGselectAll"/>
+        <menuseparator/>
+        <menuitem id="menu_copyHTMLCode"
+                  label="&copyHTMLCodeCmd.label;"
+                  accesskey="&copyHTMLCodeCmd.accesskey;"
+                  command="cmd_copyHTMLCode"/>
+        <menuseparator/>
+        <menuitem id="menu_gotoLink"
+                  label="&gotoLink.label;"
+                  accesskey="&gotoLink.accesskey;"
+                  command="cmd_gotoLink"/>
+        <menuitem id="menu_editLink"
+                  label="&openLinkCmdInTab.label;"
+                  command="cmd_editLink"/>
+        <menuseparator/>
+        <menuitem label="&spellCheck.label;"
+                  accesskey="&spellCheck.accesskey;"
+                  command="cmd_spellCheck"/>
+        <menuseparator/>
+        <menuitem id="bgmenu_find" command="cmd_bgfind"
+                  key="findkb"/>
+        <menuitem id="bgmenu_findAgain" command="cmd_bgfindagain"
+                  key="findagainkb"/>
+        <menuitem id="bgmenu_replace" command="cmd_replace"
+                  key="replacekb"/>
+      </menupopup>
+    </menu>
+
+    <menu id="viewMenu"   label="&viewMenu.label;"   accesskey="&viewMenu.accesskey;">
+      <menupopup id="viewMenuPopup"
+                 onpopupshowing="UpdateViewMenu()">
+        <menuitem label="&allTagsMode.label;"
+                  type="checkbox"
+                  id="allTagsModeMenuitem"
+                  observes="cmd_renderedHTMLEnabler"
+                  oncommand="ToggleAllTagsMode()"/>
+        <menuseparator/>
+        <menu label="&viewToolbars.label;">
+          <menupopup id="viewToolbarsPopup" onpopupshowing="onViewToolbarsPopupShowing()">
+            <menuitem label="&formatToolbar.name;"
+                      id="viewFormatToolbarMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleToolbar('horizontal_toolbars')"/>
+            <menuitem label="&formatToolbar2.name;"
+                      id="viewFormatToolbar2Menuitem"
+                      type="checkbox"
+                      oncommand="ToggleToolbar('vertical_toolbar')"/>
+            <menuseparator/>
+            <menuitem label="&structureBar.caption;"
+                      id="viewStructurebarMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleToolbar('structurebar')"/>
+            <menuseparator/>
+            <menuitem label="&viewStatusbar.label;"
+                      id="viewStatusbarMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleToolbar('statusbar')"/>
+          </menupopup>
+        </menu>
+        <menu label="&source.label;" observes="cmd_renderedSourceEnabler">
+          <menupopup>
+            <menu label="&theme.label;">
+              <menupopup id="themesMenupopup"
+                         onpopupshowing="FillAceThemesMenupopup()"
+                         oncommand="UseAceTheme(event)"/>
+            </menu>
+          </menupopup>
+        </menu>
+        <menuseparator/>
+        <menuitem label="&toggleViewMenu.label;"
+                  id="toggleViewMenuitem"
+                  accesskey="&toggleViewMenu.accesskey;"
+                  key="toggleviewkb"
+                  command="cmd_toggleView"/>
+      </menupopup>
+    </menu>
+
+    <menu id="insertMenu" label="&insertMenu.label;" accesskey="&insertMenu.accesskey;">
+      <menupopup id="insertMenuPopup">
+        <menuitem label="&imageToolbarCmd.label;"
+                  command="cmd_image"
+                  accesskey="&imageToolbarCmd.key;"/>
+        <menuitem label="&linkToolbarCmd.label;"
+                  command="cmd_link"
+                  accesskey="&linkToolbarCmd.key;"/>
+        <menuitem label="&anchorToolbarCmd.label;"
+                  command="cmd_anchor"
+                  accesskey="&anchorToolbarCmd.key;"/>
+        <menuitem label="&hrToolbarCmd.label;"
+                  command="cmd_hr"
+                  accesskey="&hrToolbarCmd.key;"/>
+        <menuitem id="videoMenuitem"
+                  label="&videoToolbarCmd.label;" command="cmd_video"/>
+        <menuitem id="audioMenuitem"
+                  label="&audioToolbarCmd.label;" command="cmd_audio"/>
+
+        <menu label="&formToolbarCmd.label;" id="formMenu">
+            <menupopup>
+              <menuitem label="&formToolbarCmd.label;"
+                        accesskey="&formToolbarCmd.key;"
+                        command="cmd_form"/>
+              <menuseparator/>
+              <menu label="&formInputs.label;">
+                <menupopup>
+                    <menuitem label="&hiddenInputForm.label;"
+                              command="cmd_formInputHidden"/>
+                    <menuitem label="&textInputForm.label;"
+                              command="cmd_formInputText"/>
+                    <menuitem label="&searchInputForm.label;"
+                              command="cmd_formInputSearch"/>
+                    <menuitem label="&telInputForm.label;"
+                              command="cmd_formInputTel"/>
+                    <menuitem label="&urlInputForm.label;"
+                              command="cmd_formInputUrl"/>
+                    <menuitem label="&emailInputForm.label;"
+                              command="cmd_formInputEmail"/>
+                    <menuitem label="&passwordInputForm.label;"
+                              command="cmd_formInputPassword"/>
+                    <menuitem label="&datetimeInputForm.label;"
+                              command="cmd_formInputDatetime"/>
+                    <menuitem label="&dateInputForm.label;"
+                              command="cmd_formInputDate"/>
+                    <menuitem label="&monthInputForm.label;"
+                              command="cmd_formInputMonth"/>
+                    <menuitem label="&weekInputForm.label;"
+                              command="cmd_formInputWeek"/>
+                    <menuitem label="&timeInputForm.label;"
+                              command="cmd_formInputTime"/>
+                    <menuitem label="&datetimelocalInputForm.label;"
+                              command="cmd_formInputDatetimelocal"/>
+                    <menuitem label="&numberInputForm.label;"
+                              command="cmd_formInputNumber"/>
+                    <menuitem label="&rangeInputForm.label;"
+                              command="cmd_formInputRange"/>
+                    <menuitem label="&colorInputForm.label;"
+                              command="cmd_formInputColor"/>
+                    <menuitem label="&checkboxInputForm.label;"
+                              command="cmd_formInputCheckbox"/>
+                    <menuitem label="&radioInputForm.label;"
+                              command="cmd_formInputRadio"/>
+                    <menuitem label="&fileInputForm.label;"
+                              command="cmd_formInputFile"/>
+                    <menuitem label="&submitInputForm.label;"
+                              command="cmd_formInputSubmit"/>
+                    <menuitem label="&imageInputForm.label;"
+                              command="cmd_formInputImage"/>
+                    <menuitem label="&resetInputForm.label;"
+                              command="cmd_formInputReset"/>
+                    <menuitem label="&buttonInputForm.label;"
+                              command="cmd_formInputButton"/>
+                 </menupopup>
+              </menu>
+              <menuitem label="&fieldsetToolbarCmd.label;"
+                        accesskey="&fieldsetToolbarCmd.key;"
+                        command="cmd_fieldset"/>
+              <menuitem label="&labelToolbarCmd.label;"
+                        accesskey="&labelToolbarCmd.key;"
+                        command="cmd_label"/>
+              <menuitem label="&buttonToolbarCmd.label;"
+                        accesskey="&buttonToolbarCmd.key;"
+                        command="cmd_button"/>
+              <menuitem label="&selectToolbarCmd.label;"
+                        accesskey="&selectToolbarCmd.key;"
+                        command="cmd_select"/>
+              <menuitem label="&textareaToolbarCmd.label;"
+                        accesskey="&textareaToolbarCmd.key;"
+                        command="cmd_textarea"/>
+              <menuitem label="&keygenToolbarCmd.label;"
+                        accesskey="&keygenToolbarCmd.key;"
+                        command="cmd_keygen"/>
+              <menuitem label="&outputToolbarCmd.label;"
+                        accesskey="&outputToolbarCmd.key;"
+                        command="cmd_output"/>
+              <menuitem label="&progressToolbarCmd.label;"
+                        accesskey="&progressToolbarCmd.key;"
+                        command="cmd_progress"/>
+              <menuitem label="&meterToolbarCmd.label;"
+                        accesskey="&meterToolbarCmd.key;"
+                        command="cmd_meter"/>
+              <menuitem label="&datalistToolbarCmd.label;"
+                        accesskey="&datalistToolbarCmd.key;"
+                        command="cmd_datalist"/>
+           </menupopup>
+        </menu>
+        <menuseparator/>
+          <menuitem label="&tableOfContents.label;"
+                    observes="cmd_renderedHTMLEnabler"
+                    oncommand="CreateOrUpdateTableOfContents()"/>
+        <menuseparator/>
+        <menu label="&html5Element.label;">
+          <menupopup id="html5InsertionMenupopup"
+                     onpopupshowing="HTML5Helper.initInsertMenu(this)"/>
+        </menu>
+        <menuseparator/>
+        <menuitem label="&htmlToolbarCmd.label;"
+                  command="cmd_html"
+                  accesskey="&htmlToolbarCmd.key;"/>
+        <menuitem label="&commentOrPHPOrPI.label;"
+                  command="cmd_commentOrPI"/>
+        <menuseparator/>
+        <menu label="&webfonts.label;">
+          <menupopup id="webfontsMenupopup"/>
+        </menu>
+        <menuseparator/>
+        <menuitem label="&specialChars.label;"
+                  oncommand="OpenCharInsertionDialog()"/>
+      </menupopup>
+    </menu>
+
+    <menu id="formatMenu" label="&formatMenu.label;" accesskey="&formatMenu.accesskey;">
+      <menupopup id="formatMenuPopup" onpopupshowing="initFontStyleMenu(this)">
+        <menuitem label="&spanCmd.label;"
+                  command="cmd_span"
+                  accesskey="&spanCmd.accesskey;"/>
+        <menuseparator/>
+        <menuitem label="&styleBoldCmd.label;"        accesskey="&stylebold.accesskey;"         observes="cmd_bold"          type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleItalicCmd.label;"      accesskey="&styleitalic.accesskey;"       observes="cmd_italic"        type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleUnderlineCmd.label;"   accesskey="&styleunderline.accesskey;"    observes="cmd_underline"     type="checkbox" key="underlinekb">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleStrikeThruCmd.label;"  accesskey="&stylestrikethru.accesskey;"   observes="cmd_strikethrough" type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleSuperscriptCmd.label;" accesskey="&stylesuperscript.accesskey;"  observes="cmd_superscript"   type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleSubscriptCmd.label;"   accesskey="&stylesubscript.accesskey;"    observes="cmd_subscript"     type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&fontFixedWidth.label;"      accesskey="&fontfixedwidth.accesskey;"    observes="cmd_tt"            type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleNonbreakingCmd.label;" accesskey="&stylenonbreaking.accesskey;"  observes="cmd_nobreak"       type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuseparator/>
+        <menuitem label="&styleEm.label;"             accesskey="&styleEm.accesskey;"           observes="cmd_em"            type="checkbox" key="emkb">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleStrong.label;"         accesskey="&styleStrong.accesskey;"       observes="cmd_strong"        type="checkbox" key="strongkb">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleCite.label;"           accesskey="&styleCite.accesskey;"         observes="cmd_cite"          type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleAbbr.label;"           accesskey="&styleAbbr.accesskey;"         observes="cmd_abbr"          type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleAcronym.label;"        accesskey="&styleAcronym.accesskey;"      observes="cmd_acronym"       type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleCode.label;"           accesskey="&styleCode.accesskey;"         observes="cmd_code"          type="checkbox" key="codekb">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleSamp.label;"           accesskey="&styleSamp.accesskey;"         observes="cmd_samp"          type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem label="&styleVar.label;"            accesskey="&styleVar.accesskey;"          observes="cmd_var"           type="checkbox">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuseparator/>
+        <menuitem id="menu_removeAllStyles"  label="&removeAllStyles.label;"  accesskey="&removeAllStyles.accesskey;"  observes="cmd_removeStyles">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuitem id="menu_removeAllLinks"   label="&removeAllLinks.label;"   accesskey="&removeAllLinks.accesskey;"   observes="cmd_removeLinks">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuseparator />
+        <menuitem label="&listProperties.label;" observes="cmd_list">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+        <menuseparator/>
+        <menuitem label="&pageProperties.label;" observes="cmd_pageProperties">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
+        </menuitem>
+      </menupopup>
+    </menu>
+
+    <menu id="tableMenu" label="&tableMenu.label;" accesskey="&tableMenu.accesskey;">
+      <menupopup id="tableMenuPopup">
+        <menu id="tableInsertMenu" label="&tableInsertMenu.label;" accesskey="&tableinsertmenu.accesskey;">
+          <menupopup>
+            <menuitem label="&tableTable.label;"        accesskey="&tabletable.accesskey;"        command="cmd_InsertTable"/>
+            <menuseparator />
+            <menuitem label="&tableCaption.label;"                                                command="cmd_InsertTableCaption"/>
+            <menuseparator />
+            <menuitem label="&tableRowAbove.label;"     accesskey="&tablerow.accesskey;"          command="cmd_InsertRowAbove"/>
+            <menuitem label="&tableRowBelow.label;"     accesskey="&tablerowbelow.accesskey;"     command="cmd_InsertRowBelow"/>
+            <menuseparator />
+            <menuitem label="&tableColumnBefore.label;" accesskey="&tablecolumn.accesskey;"       command="cmd_InsertColumnBefore"/>
+            <menuitem label="&tableColumnAfter.label;"  accesskey="&tablecolumnafter.accesskey;"  command="cmd_InsertColumnAfter"/>
+            <menuseparator />
+            <menuitem label="&tableCellBefore.label;"   accesskey="&tablecell.accesskey;"         command="cmd_InsertCellBefore"/>
+            <menuitem label="&tableCellAfter.label;"    accesskey="&tablecellafter.accesskey;"    command="cmd_InsertCellAfter"/>
+          </menupopup>
+        </menu>
+        <menu id="tableSelectMenu" label="&tableSelectMenu.label;" accesskey="&tableselectmenu.accesskey;">
+          <menupopup id="tableSelectPopup">
+            <menuitem id="menu_SelectTable"        label="&tableTable.label;"    accesskey="&tabletable.accesskey;"    command="cmd_SelectTable"    />
+            <menuitem id="menu_SelectTableCaption" label="&tableCaption.label;"                                        command="cmd_SelectTableCaption"    />
+            <menuitem id="menu_SelectRow"          label="&tableRow.label;"      accesskey="&tablerow.accesskey;"      command="cmd_SelectRow"      />
+            <menuitem id="menu_SelectColumn"       label="&tableColumn.label;"   accesskey="&tablecolumn.accesskey;"   command="cmd_SelectColumn"   />
+            <menuitem id="menu_SelectCell"         label="&tableCell.label;"     accesskey="&tablecell.accesskey;"     command="cmd_SelectCell"     />
+            <menuitem id="menu_SelectAllCells"     label="&tableAllCells.label;" accesskey="&tableallcells.accesskey;" command="cmd_SelectAllCells" />
+          </menupopup>
+        </menu>
+        <menu id="tableDeleteMenu" label="&tableDeleteMenu.label;" accesskey="&tabledeletemenu.accesskey;">
+          <menupopup id="tableDeletePopup">
+            <menuitem id="menu_DeleteTable"         label="&tableTable.label;"        accesskey="&tabletable.accesskey;"          command="cmd_DeleteTable"/>
+            <menuitem id="menu_DeleteTableCaption"  label="&tableCaption.label;"                                                  command="cmd_DeleteTableCaption"/>
+            <menuitem id="menu_DeleteRow"           label="&tableRows.label;"         accesskey="&tablerow.accesskey;"            command="cmd_DeleteRow"/>
+            <menuitem id="menu_DeleteColumn"        label="&tableColumns.label;"      accesskey="&tablecolumn.accesskey;"         command="cmd_DeleteColumn"/>
+            <menuitem id="menu_DeleteCell"          label="&tableCells.label;"        accesskey="&tablecell.accesskey;"           command="cmd_DeleteCell"/>
+            <menuitem id="menu_DeleteCellContents"  label="&tableCellContents.label;" accesskey="&tablecellcontents.accesskey;"   command="cmd_DeleteCellContents"/>
+          </menupopup>
+        </menu>
+        <menuseparator />
+        <!-- menu label is set in InitTableMenu -->
+        <menuitem id="menu_JoinTableCells"   label="&tableJoinCells.label;"   accesskey="&tablejoincells.accesskey;"   command="cmd_JoinTableCells"/>
+        <menuitem id="menu_SplitTableCell"   label="&tableSplitCell.label;"   accesskey="&tablesplitcell.accesskey;"   command="cmd_SplitTableCell"/>
+        <menuitem id="menu_ConvertToTable"   label="&convertToTable.label;"   accesskey="&converttotable.accesskey;"   command="cmd_ConvertToTable"/>
+        <menuitem id="menu_ConvertClipboardToTable"   label="&convertClipboardToTable.label;" command="cmd_ConvertClipboardToTable"/>
+        <menuseparator />
+        <menuitem id="menu_tableProperties"  label="&tableProperties.label;"  accesskey="&tableProperties.accesskey;"  command="cmd_editTable"/>
+
+      </menupopup>
+    </menu>
+
+    <menu id="panelsMenu" label="&panelsMenu.label;" accesskey="&panelsMenu.accesskey;"
+          oncommand="start_panel(event.originalTarget)">
+      <menupopup id="panelsMenuPopup"/>
+    </menu>
+
+    <menu id="toolsMenu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
+      <menupopup id="toolsPopup">
+        <menuitem id="menu_cleanup" command="cmd_cleanup"/>
+        <menuseparator/>
+        <menuitem label="&addonsMenu.label;"  oncommand="OpenExtensionsManager()"/>
+        <!--menuseparator/-->
+        <!--menuitem label="&consoleMenu.label;"  oncommand="OpenConsole()"/-->
+        <menuseparator id="menu_PrefsSeparator"/>
+        <menuitem id="menu_preferences"
+                  label="&preferences.label;"
+                  oncommand="OpenPreferences()"/>
+        <!--menuitem id="menu_inspector" label="DOMI" oncommand="inspectDOMDocument();"/-->
+
+      </menupopup>
+    </menu>
+
+
+    <menu id="helpMenu" label="&helpMenu.label;" accesskey="&helpMenu.accesskey;">
+      <menupopup id="helpMenuPopup">
+        <menuitem label="&aboutComposer.label;"
+                  id="aboutName"
+                  oncommand="AboutComposer()"/>
+        <menuitem label="&homePage.label;"
+                  oncommand="loadExternalURL('http://bluegriffon.org')"/>
+        <menuseparator/>
+        <menuitem label="&cmd.showReleaseNotes.label;"
+                  oncommand="ShowReleaseNotes(true)"/>
+        <menuseparator/>
+        <menuitem label="BlueGriffon @ Twitter"
+                  oncommand="loadExternalURL('http://twitter.com/BlueGriffonApp')"/>
+        <menuseparator/>
+        <menuitem label="&forumsHelpMenu.label;"
+                  oncommand="loadExternalURL('&forums.url;')"/>
+        <menuitem label="&qa.label;"
+                  oncommand="loadExternalURL('http://bugzilla.bluegriffon.org')"/>
+        <menuseparator/>
+        <menuitem label="&buyUsersManual.label;"
+                  oncommand="loadExternalURL('http://bluegriffon.com/#manual')"/>
+        <menuitem label="&buyLicense.label;"
+                  oncommand="loadExternalURL('http://bluegriffon.com/#buy')"/>
+      </menupopup>
+    </menu>
+
+  </menubar>
+
+  <toolbox class="toolbox-top" id="MainToolbox" context="main-toolbar-context-menu">
+  <toolbarpalette id="ComposerToolbarPalette">
+
+      <toolbarbutton id="newButton"  class="toolbarbutton-1"
+                     label="&newMenu.label;"
+                     type="menu-button"
+                     iconsize="smaller"
+                     oncommand="NewDocument(event);"
+                     tooltiptext="&newToolbarCmd.tooltip;">
+        <menupopup>
+          <menuitem label="&newOtherCmd.label;"     oncommand="NewDocumentWithOptions(event);"
+                    key="key_newWithOptions" />
+        </menupopup>
+      </toolbarbutton>
+
+      <toolbarbutton id="openButton"  class="toolbarbutton-1"
+                     label="&openMenu.label;"
+                     type="menu-button"
+                     oncommand="OpenLocation(event, 'tab');"
+                     tooltiptext="&openMenu.tooltip;">
+        <menupopup>
+          <menuitem label="&openTab.label;"          oncommand="OpenLocation(event, 'tab');" default="true"/>
+          <menuitem label="&openWindow.label;"       oncommand="OpenLocation(event, 'window');"/>
+        </menupopup>
+      </toolbarbutton>
+
+      <toolbarbutton id="saveButton" class="toolbarbutton-1" command="cmd_save"
+                     label="&saveCmd.label;"
+                     tooltiptext="&saveToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="stopButton"
+                     label="&stopButton.label;"
+                     class="toolbarbutton-1"
+                     iconsize="smaller"
+                     tooltiptext="&stopButton.tooltip;"
+                     command="cmd_stopLoading"/>
+
+      <toolbarbutton id="refreshButton"
+                     label="&tableOfContents.label;"
+                     class="toolbarbutton-1"
+                     iconsize="smaller"
+                     tooltiptext="&tableOfContents.tooltip;"
+                     command="cmd_rebuildTOC"/>
+
+      <toolbarbutton id="tableButton" class="toolbarbutton-1"
+                     label="&tableToolbarCmd.label;" command="cmd_table"
+                     tooltiptext="&tableToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="imageButton" class="toolbarbutton-1"
+                     label="&imageToolbarCmd.label;" command="cmd_image"
+                     tooltiptext="&imageToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="anchorButton" class="toolbarbutton-1"
+                     label="&anchorToolbarCmd.label;" command="cmd_anchor"
+                     tooltiptext="&anchorToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="linkButton" class="toolbarbutton-1"
+                     label="&linkToolbarCmd.label;" command="cmd_link"
+                     tooltiptext="&linkToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="videoButton" class="toolbarbutton-1"
+                     label="&videoToolbarCmd.label;" command="cmd_video"
+                     tooltiptext="&videoToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="audioButton" class="toolbarbutton-1"
+                     label="&audioToolbarCmd.label;" command="cmd_audio"
+                     tooltiptext="&audioToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="browseButton" class="toolbarbutton-1"
+                     label="&browseToolbarCmd.label;" command="cmd_browse"
+                     tooltiptext="&browseToolbarCmd.tooltip;"/>
+
+      <toolbarbutton id="formButton" class="toolbarbutton-1"
+                     label="&formToolbarCmd.label;"
+                     command="cmd_form"
+                     tooltiptext="&formToolbarCmd.tooltip;"
+                     type="menu-button">
+        <menupopup>
+          <menuitem label="&formToolbarCmd.label;"
+                    accesskey="&formToolbarCmd.key;"
+                    command="cmd_form"
+                    default="true"/>
+          <menuseparator/>
+          <menu label="&formInputs.label;">
+            <menupopup>
+                <menuitem label="&hiddenInputForm.label;"
+                          command="cmd_formInputHidden"/>
+                <menuitem label="&textInputForm.label;"
+                          command="cmd_formInputText"/>
+                <menuitem label="&searchInputForm.label;"
+                          command="cmd_formInputSearch"/>
+                <menuitem label="&telInputForm.label;"
+                          command="cmd_formInputTel"/>
+                <menuitem label="&urlInputForm.label;"
+                          command="cmd_formInputUrl"/>
+                <menuitem label="&emailInputForm.label;"
+                          command="cmd_formInputEmail"/>
+                <menuitem label="&passwordInputForm.label;"
+                          command="cmd_formInputPassword"/>
+                <menuitem label="&datetimeInputForm.label;"
+                          command="cmd_formInputDatetime"/>
+                <menuitem label="&dateInputForm.label;"
+                          command="cmd_formInputDate"/>
+                <menuitem label="&monthInputForm.label;"
+                          command="cmd_formInputMonth"/>
+                <menuitem label="&weekInputForm.label;"
+                          command="cmd_formInputWeek"/>
+                <menuitem label="&timeInputForm.label;"
+                          command="cmd_formInputTime"/>
+                <menuitem label="&datetimelocalInputForm.label;"
+                          command="cmd_formInputDatetimelocal"/>
+                <menuitem label="&numberInputForm.label;"
+                          command="cmd_formInputNumber"/>
+                <menuitem label="&rangeInputForm.label;"
+                          command="cmd_formInputRange"/>
+                <menuitem label="&colorInputForm.label;"
+                          command="cmd_formInputColor"/>
+                <menuitem label="&checkboxInputForm.label;"
+                          command="cmd_formInputCheckbox"/>
+                <menuitem label="&radioInputForm.label;"
+                          command="cmd_formInputRadio"/>
+                <menuitem label="&fileInputForm.label;"
+                          command="cmd_formInputFile"/>
+                <menuitem label="&submitInputForm.label;"
+                          command="cmd_formInputSubmit"/>
+                <menuitem label="&imageInputForm.label;"
+                          command="cmd_formInputImage"/>
+                <menuitem label="&resetInputForm.label;"
+                          command="cmd_formInputReset"/>
+                <menuitem label="&buttonInputForm.label;"
+                          command="cmd_formInputButton"/>
+             </menupopup>
+          </menu>
+          <menuitem label="&fieldsetToolbarCmd.label;"
+                    accesskey="&fieldsetToolbarCmd.key;"
+                    command="cmd_fieldset"/>
+          <menuitem label="&labelToolbarCmd.label;"
+                    accesskey="&labelToolbarCmd.key;"
+                    command="cmd_label"/>
+          <menuitem label="&buttonToolbarCmd.label;"
+                    accesskey="&buttonToolbarCmd.key;"
+                    command="cmd_button"/>
+          <menuitem label="&selectToolbarCmd.label;"
+                    accesskey="&selectToolbarCmd.key;"
+                    command="cmd_select"/>
+          <menuitem label="&textareaToolbarCmd.label;"
+                    accesskey="&textareaToolbarCmd.key;"
+                    command="cmd_textarea"/>
+          <menuitem label="&keygenToolbarCmd.label;"
+                    accesskey="&keygenToolbarCmd.key;"
+                    command="cmd_keygen"/>
+          <menuitem label="&outputToolbarCmd.label;"
+                    accesskey="&outputToolbarCmd.key;"
+                    command="cmd_output"/>
+          <menuitem label="&progressToolbarCmd.label;"
+                    accesskey="&progressToolbarCmd.key;"
+                    command="cmd_progress"/>
+          <menuitem label="&meterToolbarCmd.label;"
+                    accesskey="&meterToolbarCmd.key;"
+                    command="cmd_meter"/>
+          <menuitem label="&datalistToolbarCmd.label;"
+                    accesskey="&datalistToolbarCmd.key;"
+                    command="cmd_datalist"/>
+       </menupopup>
+      </toolbarbutton>
+
+      <toolbaritem id="throbber-box"  align="center" pack="center">
+        <image id="composer-throbber" tooltiptext="&throbber.tooltip;" onclick="AboutComposer()"/>
+      </toolbaritem> 
+
+    </toolbarpalette>
+    <toolbar id="MainToolbar" class="toolbar-primary chromeclass-toolbar" align="center"
+             toolbarname="Main"
+             fullscreentoolbar="true"
+             persist="iconsize,mode,hidden"
+             iconsize="small"
+             mode="icons"
+             defaultset="newButton,spacer,openButton,spacer,saveButton,stopButton,spacer,tableButton,tableLayoutButton,imageButton,thumbnailButton,anchorButton,linkButton,domexplorerButton,cssButton,csseditorButton,svgEditMainToolbarButton,videoButton,audioButton,formButton,refreshButton,mathmlButton,its20Button,spacer,browseButton,spacer,putterButton,mvButton,cssEditorButton"/>
+    <toolbarset id="customMainToolbars" context="main-toolbar-context-menu"/>
+  </toolbox>
+
+  <toolbox id="FormatMenulistsToolbox" mode="full">
+  <toolbarpalette id="FormatMenulistsToolbarPalette">
+      <toolbaritem id="ParagraphSelectBox">
+        <menulist class="toolbar-focustarget" id="ParagraphSelect" command="cmd_renderedHTMLEnabler"
+                  tooltiptext="&ParagraphSelect.tooltip;" crop="right">
+          <observes element="cmd_paragraphState" attribute="state" onbroadcast="onParagraphFormatChange(this.parentNode, 'cmd_paragraphState')"/>
+          <menupopup id="ParagraphPopup" oncommand="ComposerCommands.doStatefulCommand('cmd_paragraphState', event.target.value)">
+            <!-- TODO : add an onpopupshowing handler to hide the body text
+                        choice in strict mode -->
+            <menuitem label="&bodyTextCmd.label;"            value="" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&paragraphParagraphCmd.label;"  value="p" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&heading1Cmd.label;"            value="h1" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&heading2Cmd.label;"            value="h2" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&heading3Cmd.label;"            value="h3" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&heading4Cmd.label;"            value="h4" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&heading5Cmd.label;"            value="h5" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&heading6Cmd.label;"            value="h6" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&paragraphAddressCmd.label;"    value="address" class="menuitem-non-iconic-accel"/>
+            <menuitem label="&paragraphPreformatCmd.label;"  value="pre" class="menuitem-non-iconic-accel"/>
+            <menuseparator />
+            <menuitem label="&genericContainerCmd.label;"    value="div" class="menuitem-non-iconic-accel"/>
+          </menupopup>
+        </menulist>
+      </toolbaritem>
+
+    <toolbaritem id="ARIARoleSelectBox">
+      <menulist class="toolbar-focustarget"
+                id="ARIARoleSelect"
+                command="cmd_renderedHTMLEnabler"
+                tooltiptext="&ARIARoleSelect.tooltip;" crop="right">
+        <observes element="cmd_ariaRole" attribute="state" onbroadcast="onARIARoleChange(this.parentNode, 'cmd_ariaRole')"/>
+        <menupopup id="ARIARolePopup" oncommand="ComposerCommands.doStatefulCommand('cmd_ariaRole', event.target.value)">
+          <menuitem label="&noARIArole.label;" value="" class="menuitem-non-iconic-accel"/>
+          <menuseparator/>
+        </menupopup>
+                   
+      </menulist>
+    </toolbaritem>
+
+    <toolbaritem id="FontFaceSelectBox">
+      <menulist class="toolbar-focustarget" command="cmd_renderedHTMLEnabler"
+                id="FontFaceSelect" tooltiptext="&FontFaceSelect.tooltip;" crop="right">
+        <observes element="cmd_fontFace" attribute="state" onbroadcast="onFontFaceChange(this.parentNode, 'cmd_fontFace')"/>
+        <menupopup id="FontFacePopup" oncommand="ComposerCommands.doStatefulCommand('cmd_fontFace', event.target.value)"
+                   onpopupshowing="initFontFaceMenu(this);">
+          <menuitem label="&fontVarWidth.label;"      value="" class="menuitem-non-iconic-accel"/>
+          <menuitem label="&fontFixedWidth.label;"    value="tt" class="menuitem-non-iconic-accel"/>
+          <menuseparator/>
+          <menuitem label="&fontHelveticaFont.label;" value="Helvetica, Arial, sans-serif" class="menuitem-non-iconic-accel"/>
+          <menuitem label="&fontTimes.label;"         value="Times New Roman, Times, serif" class="menuitem-non-iconic-accel"/>
+          <menuitem label="&fontCourier.label;"       value="Courier New, Courier, monospace" class="menuitem-non-iconic-accel"/>
+          <menuseparator/>
+        </menupopup>
+      </menulist>
+    </toolbaritem>
+
+    <toolbaritem id="ClassButtonsBox">
+      <menulist class="toolbar-focustarget"
+                id="ClassSelect"
+                style="min-width: 10em"
+                sizetopopup="none"
+                editable="true"
+                placeholder="&noClass.label;"
+                onkeypress="OnKeyPressInClassMenulist(event)"
+                onblur="OnBlurFromClassMenulist(event)"
+                command="cmd_renderedHTMLEnabler"
+                tooltiptext="&applyClassToSelectionCmd.tooltip;">
+        <observes element="cmd_class" attribute="state" onbroadcast="onClassChange(this.parentNode, 'cmd_class')"/>
+        <menupopup id="ClassPopup"
+                   oncommand="ComposerCommands.doStatefulCommand('cmd_class', event.target.value)"
+                   onpopupshowing="initClassMenu(this, true);"/>
+      </menulist>
+    </toolbaritem>
+
+    <toolbaritem id="IdButtonsBox">
+      <menulist class="toolbar-focustarget"
+                id="IdSelect"
+                style="min-width: 10em"
+                sizetopopup="none"
+                editable="true"
+                placeholder="&noId.label;"
+                onkeypress="OnKeyPressInIdMenulist(event)"
+                onblur="OnBlurFromIdMenulist(event)"
+                command="cmd_renderedHTMLEnabler"
+                tooltiptext="&applyIdToSelectionCmd.tooltip;">
+        <observes element="cmd_id" attribute="state" onbroadcast="onIdChange(this.parentNode, 'cmd_id')"/>
+        <menupopup id="IdPopup"
+                   oncommand="ComposerCommands.doStatefulCommand('cmd_id', event.target.value)"
+                   onpopupshowing="initIdMenu(this);"/>
+      </menulist>
+    </toolbaritem>
+  </toolbarpalette>
+    <toolbar id="FormatMenulistsToolbar"
+             toolbarname="Menulists"
+             fullscreentoolbar="true"
+             persist="iconsize,mode"
+             iconsize="small"
+             mode="full"
+             context="format-menulists-toolbar-context-menu"
+             customizable="true"
+             defaultset="spacer,ParagraphSelectBox,IdButtonsBox,ClassButtonsBox,FontFaceSelectBox,ARIARoleSelectBox"/>
+    <toolbarset id="customFormatMenulistsToolbars" context="format-toolbar-context-menu"/>
+  </toolbox>
+  <hbox id="horizContainer" flex="1">
+  <toolbox id="FormatToolbox" mode="full">
+  <toolbarpalette id="FormatToolbarPalette">
+
+      <toolbarbutton id="boldButton" type="checkbox" autoCheck="false" command="cmd_bold" label="&boldToolbarCmd.label;"
+                       observes="cmd_renderedHTMLEnabler"
+                     tooltiptext="&boldToolbarCmd.tooltip;">
+        <observes element="cmd_bold" type="checkbox" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_bold')"/>
+      </toolbarbutton>
+
+      <toolbarbutton id="italicButton" type="checkbox" autoCheck="false" command="cmd_italic" label="&italicToolbarCmd.label;"
+                       observes="cmd_renderedHTMLEnabler"
+                     tooltiptext="&italicToolbarCmd.tooltip;">
+        <observes element="cmd_italic" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_italic')"/>
+      </toolbarbutton>
+
+      <toolbarbutton id="underlineButton" type="checkbox" autoCheck="false" command="cmd_underline" label="&underlineToolbarCmd.label;"
+                       observes="cmd_renderedHTMLEnabler"
+                     tooltiptext="&underlineToolbarCmd.tooltip;">
+        <observes element="cmd_underline" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_underline')"/>
+      </toolbarbutton>
+    
+      <toolbarbutton id="strongButton" type="checkbox" autoCheck="false" command="cmd_strong" label="&strongToolbarCmd.label;"
+                       observes="cmd_renderedHTMLEnabler"
+                     tooltiptext="&strongToolbarCmd.tooltip;">
+        <observes element="cmd_strong" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_strong')"/>
+      </toolbarbutton>
+    
+      <toolbarbutton id="emButton" type="checkbox" autoCheck="false" command="cmd_em" label="&emToolbarCmd.label;"
+                       observes="cmd_renderedHTMLEnabler"
+                     tooltiptext="&emToolbarCmd.tooltip;">
+        <observes element="cmd_em" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_em')"/>
+      </toolbarbutton>
+
+      <toolbarbutton id="codeButton" type="checkbox" autoCheck="false" command="cmd_code" label="&codeToolbarCmd.label;"
+                       observes="cmd_renderedHTMLEnabler"
+                     tooltiptext="&codeToolbarCmd.tooltip;">
+        <observes element="cmd_code" type="checkbox" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_code')"/>
+      </toolbarbutton>
+
+      <toolbarbutton id="rotateButton" command="cmd_renderedHTMLEnabler" label="Rotate" tooltiptext="Rotate"
+                     type="checkbox" oncommand="CSSRotationsHandler.toggle(this)"/>
+
+    <toolbaritem id="ColorsBox">
+      <stack>
+        <ecolorpicker id="BackgroundColorColorpicker" left="11" top="11"
+                      colorObjectId="BackgroundColor"
+                      tooltiptext="&bgColor.label;"
+                      windowTitle="Background color"
+                      oncommand="ApplyDirectBackgroundColorChange(this.color)"
+                      showTransparency="true">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled" onbroadcast="onColorDisableChange(this.parentNode, 'cmd_renderedHTMLEnabler')"/>
+          <observes element="cmd_bgBackgroundColor"   attribute="state"    onbroadcast="onColorChange(this.parentNode, 'cmd_bgBackgroundColor')"/>
+        </ecolorpicker>
+        <ecolorpicker id="TextColorColorpicker" left="1" top="1"
+                      color="transparent"
+                      tooltiptext="&color.label;"
+                      colorObjectId="TextColor"
+                      windowTitle="Text color"
+                      oncommand="ApplyDirectTextColorChange(this.color)"
+                      showTransparency="true">
+          <observes element="cmd_renderedHTMLEnabler" attribute="disabled" onbroadcast="onColorDisableChange(this.parentNode, 'cmd_renderedHTMLEnabler')"/>
+          <observes element="cmd_bgFontColor"         attribute="state"    onbroadcast="onColorChange(this.parentNode, 'cmd_bgFontColor')"/>
+        </ecolorpicker>
+      </stack>
+    </toolbaritem>
+
+    <toolbarbutton id="ulButton" type="radio" group="lists" autoCheck="false" command="cmd_ul"
+                       observes="cmd_renderedHTMLEnabler"
+                   tooltiptext="&unorderedList.tooltip;" label="&unorderedList.label;">
+        <observes element="cmd_ul" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_ul')"/>
+    </toolbarbutton>
+
+    <toolbarbutton id="olButton" type="radio" group="lists" autoCheck="false" command="cmd_ol"
+                       observes="cmd_renderedHTMLEnabler"
+                   tooltiptext="&orderedList.tooltip;" label="&orderedList.label;">
+        <observes element="cmd_ol" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_ol')"/>
+    </toolbarbutton>
+
+    <toolbarbutton id="align-left-button" type="radio" group="align" autoCheck="false"
+                   observes="cmd_renderedHTMLEnabler"
+                   oncommand="ComposerCommands.doStatefulCommand('cmd_align', 'left')"
+                   tooltiptext="&alignLeft.tooltip;" label="&alignLeft.label;" >
+      <observes element="cmd_align" attribute="state" 
+                onbroadcast="ComposerCommands.onStateButtonUpdate(this.parentNode, 'cmd_align', 'left')" />
+    </toolbarbutton>
+
+    <toolbarbutton id="align-center-button" type="radio" group="align" autoCheck="false"
+                   observes="cmd_renderedHTMLEnabler"
+                   oncommand="ComposerCommands.doStatefulCommand('cmd_align', 'center')"
+                   tooltiptext="&alignCenter.tooltip;" label="&alignCenter.label;" >
+      <observes element="cmd_align" attribute="state" 
+                onbroadcast="ComposerCommands.onStateButtonUpdate(this.parentNode, 'cmd_align', 'center')"/>
+    </toolbarbutton>
+
+    <toolbarbutton id="align-right-button" type="radio" group="align" autoCheck="false"
+                   observes="cmd_renderedHTMLEnabler"
+                   oncommand="ComposerCommands.doStatefulCommand('cmd_align', 'right')"
+                   tooltiptext="&alignRight.tooltip;" label="&alignRight.label;" >
+      <observes element="cmd_align" attribute="state"
+                onbroadcast="ComposerCommands.onStateButtonUpdate(this.parentNode, 'cmd_align', 'right')"/>
+    </toolbarbutton>
+
+    <toolbarbutton id="align-justify-button" type="radio" group="align" autoCheck="false"
+                   observes="cmd_renderedHTMLEnabler"
+                   oncommand="ComposerCommands.doStatefulCommand('cmd_align', 'justify')"
+                   tooltiptext="&alignJustify.tooltip;" label="&alignJustify.label;" >
+      <observes element="cmd_align" attribute="state"
+                onbroadcast="ComposerCommands.onStateButtonUpdate(this.parentNode, 'cmd_align', 'justify')"/>
+    </toolbarbutton>
+
+    <toolbarbutton id="indentButton" command="cmd_indent" label="&indentToolbarCmd.label;"
+                   observes="cmd_renderedHTMLEnabler"
+                   tooltiptext="&indentToolbarCmd.tooltip;"/>
+
+    <toolbarbutton id="outdentButton" command="cmd_outdent" label="&outdentToolbarCmd.label;"
+                   observes="cmd_renderedHTMLEnabler"
+                   tooltiptext="&outdentToolbarCmd.tooltip;"/>
+
+    <toolbarbutton id="blockquoteButton" command="cmd_blockquote" label="&blockquoteToolbarCmd.label;"
+                   observes="cmd_renderedHTMLEnabler"
+                   tooltiptext="&blockquoteToolbarCmd.tooltip;"/>
+
+    <toolbarbutton id="ddButton" type="radio" group="lists" autoCheck="false" command="cmd_dd"
+                   observes="cmd_renderedHTMLEnabler"
+                   tooltiptext="&definitionDescription.tooltip;" label="&definitionDescription.label;">
+        <observes element="cmd_dd" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_dd')"/>
+    </toolbarbutton>
+
+    <toolbarbutton id="dtButton" type="radio" group="lists" autoCheck="false" command="cmd_dt"
+                   observes="cmd_renderedHTMLEnabler"
+                   tooltiptext="&definitionTitle.tooltip;" label="&definitionTitle.label;">
+        <observes element="cmd_dt" attribute="state" onbroadcast="onButtonUpdate(this.parentNode, 'cmd_dt')"/>
+    </toolbarbutton>
+
+    <toolbarbutton id="EncapsulateSelect"
+                   type="menu"
+                   tooltiptext="&encapsulate.tooltip;"
+                   observes="cmd_renderedHTMLEnabler"
+                   tag="span"
+                   oncommand="Encapsulate(event, this)">
+      <menupopup id="EncapsulateSelectMenupopup"
+                 onpopupshowing="initEncapsulateMenu(this);" />
+    </toolbarbutton>
+
+  </toolbarpalette>
+    <toolbar id="FormatToolbar"
+             toolbarname="&formatToolbar.name;"
+             fullscreentoolbar="true"
+             persist="iconsize,mode"
+             iconsize="small"
+             mode="full"
+	     sizemode="normal"
+	     fullscreenbutton="true"
+             defaultset="EncapsulateSelect,separator,emButton,strongButton,codeButton,separator,ColorsBox,separator,boldButton,italicButton,underlineButton,separator,ulButton,olButton,dtButton,ddButton,separator,align-left-button,align-center-button,align-right-button,align-justify-button,separator,indentButton,outdentButton,separator,blockquoteButton,separator,dirLtrButton,dirRtlButton"/>
+  </toolbox>
+
+    <vbox flex="1" id="maincontainer">
+      <vbox flex="1">
+        <box flex="1" id="tabeditorContainer" >
+          <vbox id="ebm" persist="width" hidden="true"/>
+          <splitter id="ebm_splitter" hidden="true" collapse="before">
+            <grippy/>
+          </splitter>
+          <vbox id="responsiveContainer" flex="1">
+            <tabeditor flex="1" id="tabeditor" visibility="hidden" persist="tabmode">
+                <hbox id="modeTabbox" previousMode="wysiwyg">
+                  <spacer flex="1"/>
+                  <label class="multiButton"
+                           id="liveViewModeButton"
+                           value="&dualview.label;"
+                           onclick="ToggleViewMode(this)"
+                           mode="liveview"
+                           observes="cmd_viewModeEnabler"/>
+                  <spacer style="width: 2em"/>
+                  <label class="multiButton left"
+                           selected="true"
+                           id="wysiwygModeButton"
+                           value="&wysiwygMode.label;"
+                           onclick="ToggleViewMode(this)"
+                           mode="wysiwyg"
+                           observes="cmd_viewModeEnabler"/>
+                  <label class="multiButton center"
+                           id="sourceModeButton"
+                           value="&sourceMode.label;"
+                           onclick="ToggleViewMode(this)"
+                           mode="source"
+                           observes="cmd_viewModeEnabler"/>
+                  <label class="multiButton right"
+                           id="printPreviewModeButton"
+                           value="&printMode.label;"
+                           onclick="ToggleViewMode(this)"
+                           mode="wysiwyg"
+                           observes="cmd_viewModeEnabler"/>
+                  <spacer flex="1"/>
+                  <hbox id="zoomPanel">
+                    <spinbuttons onup="BGZoomManager.enlarge(this.nextSibling)"
+                                 ondown="BGZoomManager.reduce(this.nextSibling)"/>
+                    <menulist id="menulist-zoompanel"
+                              observes="cmd_renderedAllEnabler"
+                              editable="true"
+                              tooltiptext="&setZoomFactor.label;"
+                              value="100%"
+                              sizetopopup="none"
+                              onkeyup="BGZoomManager.onKeyUp(event, this)"
+                              oncommand="BGZoomManager.applyZoomValue(this)">
+                      <menupopup id="menupopup-zoompanel"
+                                 onpopupshowing="BGZoomManager.fillZoomValues(this)">
+                        <menuitem label="dummy"/>
+                      </menupopup>
+                    </menulist>
+          
+                  </hbox>
+                </hbox>
+            </tabeditor>
+          </vbox>
+          <splitter id="deckedPanelsSplitter"
+                    collapse="after">
+            <grippy/>
+          </splitter>
+          <vbox id="deckedPanels"
+                persist="width">
+            <deckedPanelsTabs id="deckedPanelsTabs"/>
+            <iframe id="deckPanelsIframe"
+                    type="chrome"
+                    flex="1"/>
+          </vbox>
+        </box>
+            <hbox id="bespinToolbox2" align="center" hidden="true">
+              <spacer flex="1"/>
+              <label value="&replaceAll.button;"
+                     class="findBarButton"
+                     onclick="BespinReplaceAll()"/>
+              <label value="&replace.button;"
+                     class="findBarButton"
+                     onclick="BespinReplace()"/>
+              <label value="&replaceAndFind.button;"
+                     class="findBarButton"
+                     onclick="BespinReplaceAndFind()"/>
+              <label value="&replace.label;"/>
+              <textbox id="bespinReplaceTextbox"
+                       onkeypress="BespinKeyPressCallback(event);"
+                       size="10"
+                       type="search"/>
+            </hbox>
+            <hbox id="bespinToolbox1" align="center" hidden="true">
+              <spacer style="width: 5px"/>
+              <image id="closeFindbarButton"
+                     onclick="CloseFindBar()"/>
+              <label value="&line.label;"
+                     id="bespinLineLabel"/>
+              <textbox id="bespinLineTextbox"
+                       size="5"
+                       onkeypress="BespinKeyPressCallback(event); onBespinLineKeypress(event, this)"
+                       onblur="onBespinLineBlur(this)"/>
+              <spacer flex="1"/>
+              <label  id="bespinFindPrevious"
+                      class="findBarButton"
+                      onclick="BespinFind(false, false)"
+                      hidden="true"
+                      value="&previous.label;"/>
+              <label  id="bespinFindNext"
+                      class="findBarButton"
+                      onclick="BespinFind(true, false)"
+                      hidden="true"
+                      value="&next.label;"/>
+              <checkbox label="&caseSensitive.checkbox;"
+                        hidden="true"
+                        id="bespinFindCaseSensitive"
+                        oncommand="ToggleBespinFindCaseSensitivity()"/>
+              <label value="&find.label;"/>
+              <textbox id="bespinFindTextbox"
+                       size="10"
+                       type="search"
+                       oncommand="onBespinFindClear(event, this)"
+                       onkeypress="BespinKeyPressCallback(event); onBespinFindKeypress(event)"
+                       onblur="onBespinFindClear(event, this)"
+                       oninput="BespinFind(true, true)"/>
+            </hbox>
+        <iframe id="parserIframe" src="about:blank" hidden="true" type="content"/>
+      </vbox>
+      <structurebar id="structurebar" orient="horizontal">
+        <spacer id="structbarflexer" flex="1"/>
+      </structurebar>
+    </vbox>
+</hbox>
+
+  <panelset id="panels"/>
+
+  <panel id="AutoInsertTableSheetPopup">
+    <spacer style="height: 1em"/>
+    <hbox>
+      <spacer style="width: 1em"/>
+      <grid id="AutoInsertTableSizeSelector">
+        <columns><column flex="1"/><column/><column flex="1"/></columns>
+        <rows id="AutoInsertTableSizeSelectorRows">
+          <row>
+            <spacer/>
+            <hbox>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r1c1" class="selected"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r1c2" class="selected"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r1c3"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r1c4"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r1c5"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r1c6"/>
+            </hbox>
+            <spacer/>
+          </row>
+          <row>
+            <spacer/>
+            <hbox>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r2c1" class="selected"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r2c2" class="selected"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r2c3"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r2c4"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r2c5"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r2c6"/>
+            </hbox>
+            <spacer/>
+          </row>
+          <row>
+            <spacer/>
+            <hbox>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r3c1"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r3c2"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r3c3"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r3c4"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r3c5"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r3c6"/>
+            </hbox>
+            <spacer/>
+          </row>
+          <row>
+            <spacer/>
+            <hbox>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r4c1"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r4c2"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r4c3"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r4c4"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r4c5"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r4c6"/>
+            </hbox>
+            <spacer/>
+          </row>
+          <row>
+            <spacer/>
+            <hbox>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r5c1"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r5c2"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r5c3"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r5c4"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r5c5"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r5c6"/>
+            </hbox>
+            <spacer/>
+          </row>
+          <row>
+            <spacer/>
+            <hbox>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r6c1"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r6c2"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r6c3"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r6c4"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r6c5"/>
+              <label onmouseover="AutoInsertTable.selectArea(this)" onclick="AutoInsertTable.selectSize(this)" value=" " id="AutoInsertTable_r6c6"/>
+            </hbox>
+            <spacer/>
+          </row>
+        </rows>
+      </grid>
+      <spacer style="width: 1em" onmouseover="AutoInsertTable.increaseSize(true, false)"/>
+    </hbox>
+    <hbox align="center" onmouseover="AutoInsertTable.increaseSize(false, true)"
+          style="opacity: 1;">
+      <spacer class="spacer" flex="1"/>
+      <label id="AutoInsertTableSizeLabel" value="2 x 2"/>
+      <spacer class="spacer" flex="1"/>
+    </hbox>
+  </panel>
+
+  <statusbar id="statusbar" style="-moz-appearance: none">
+    <deck flex="1" id="statusbarDeck">
+      <hbox id="editorBar" align="center">
+        <spacer flex="1"/>
+      </hbox>
+      <hbox id="progressBar" align="center">
+        <statusbarpanel id="status" label="" crop="end" flex="1"/>
+        <spacer flex="1"/>
+        <progressmeter id="progress" mode="determined" value="0%" style="display: none"/>
+        <statusbarpanel id="security" label="" style="display: none"/>
+      </hbox>
+    </deck>
+  </statusbar>
+</window>

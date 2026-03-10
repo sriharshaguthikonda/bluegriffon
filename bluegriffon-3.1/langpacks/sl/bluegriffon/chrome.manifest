@@ -1,0 +1,11 @@
+locale bluegriffon sl base/locale/bluegriffon/
+locale branding sl base/locale/branding/
+locale fs sl extensions/fs/
+locale gfd sl extensions/gfd/
+locale cssproperties sl sidebars/cssproperties/
+locale domexplorer sl sidebars/domexplorer/
+locale scripteditor sl sidebars/scripteditor/
+locale stylesheets sl sidebars/stylesheets/
+locale tipoftheday sl extensions/tipoftheday/
+locale aria sl sidebars/aria/
+

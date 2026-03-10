@@ -1,0 +1,36 @@
+content extensions toolkit/content/extensions/
+content gfxsanity toolkit/content/gfxsanity/
+content global toolkit/content/global/ contentaccessible=yes
+content global-platform toolkit/content/global-platform/ platform
+content mozapps toolkit/content/mozapps/
+content passwordmgr toolkit/content/passwordmgr/
+content pluginproblem toolkit/pluginproblem/ contentaccessible=yes
+content requestautocomplete toolkit/content/requestautocomplete/
+content satchel toolkit/content/satchel/
+content xbl-marquee toolkit/content/xbl-marquee/ contentaccessible=yes
+override chrome://global/skin/arrow/arrow-lft-hov.gif chrome://global/skin/arrow/arrow-lft.gif
+override chrome://global/skin/arrow/arrow-rit-hov.gif chrome://global/skin/arrow/arrow-rit.gif
+override chrome://global/skin/icons/close-inverted.png chrome://global/skin/icons/close-inverted-win7.png osversion<=6.1
+override chrome://global/skin/icons/close-inverted@2x.png chrome://global/skin/icons/close-inverted-win7@2x.png osversion<=6.1
+override chrome://global/skin/icons/close.png chrome://global/skin/icons/close-win7.png osversion<=6.1
+override chrome://global/skin/icons/close@2x.png chrome://global/skin/icons/close-win7@2x.png osversion<=6.1
+override chrome://global/skin/tree/twisty.svg#clsd chrome://global/skin/tree/twisty-preWin10.svg#clsd osversion<=6.3
+override chrome://global/skin/tree/twisty.svg#clsd-hover chrome://global/skin/tree/twisty-preWin10.svg#clsd-hover osversion<=6.3
+override chrome://global/skin/tree/twisty.svg#clsd-hover-rtl chrome://global/skin/tree/twisty-preWin10.svg#clsd-hover-rtl osversion<=6.3
+override chrome://global/skin/tree/twisty.svg#clsd-rtl chrome://global/skin/tree/twisty-preWin10.svg#clsd-rtl osversion<=6.3
+override chrome://global/skin/tree/twisty.svg#open chrome://global/skin/tree/twisty-preWin10.svg#open osversion<=6.3
+override chrome://global/skin/tree/twisty.svg#open-hover chrome://global/skin/tree/twisty-preWin10.svg#open-hover osversion<=6.3
+override chrome://global/skin/tree/twisty.svg#open-hover-rtl chrome://global/skin/tree/twisty-preWin10.svg#open-hover-rtl osversion<=6.3
+override chrome://global/skin/tree/twisty.svg#open-rtl chrome://global/skin/tree/twisty-preWin10.svg#open-rtl osversion<=6.3
+override chrome://mozapps/skin/extensions/category-dictionaries.png chrome://mozapps/skin/extensions/dictionaryGeneric.png
+override chrome://mozapps/skin/extensions/category-experiments.png chrome://mozapps/skin/extensions/experimentGeneric.png
+override chrome://mozapps/skin/extensions/category-extensions.svg chrome://mozapps/skin/extensions/extensionGeneric.svg
+override chrome://mozapps/skin/extensions/category-languages.png chrome://mozapps/skin/extensions/localeGeneric.png
+override chrome://mozapps/skin/extensions/category-themes.png chrome://mozapps/skin/extensions/themeGeneric.png
+override chrome://mozapps/skin/plugins/notifyPluginCrashed.png chrome://mozapps/skin/plugins/pluginGeneric-16.png
+override chrome://mozapps/skin/plugins/notifyPluginGeneric.png chrome://mozapps/skin/plugins/pluginGeneric-16.png
+override chrome://mozapps/skin/xpinstall/xpinstallItemGeneric.png chrome://mozapps/skin/extensions/extensionGeneric.png
+resource gre-resources toolkit/res/
+skin global classic/1.0 toolkit/skin/classic/global/
+skin help classic/1.0 toolkit/skin/classic/help/
+skin mozapps classic/1.0 toolkit/skin/classic/mozapps/

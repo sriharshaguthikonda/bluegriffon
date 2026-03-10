@@ -1,0 +1,2 @@
+content markdown markdown/content/markdown/
+overlay chrome://bluegriffon/content/xul/bluegriffon.xul chrome://markdown/content/markdownOverlay.xul

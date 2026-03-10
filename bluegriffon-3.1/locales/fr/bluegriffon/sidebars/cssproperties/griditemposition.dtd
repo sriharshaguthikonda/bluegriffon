@@ -1,0 +1,7 @@
+<!ENTITY autoGridItemPosition.label "Automatique">
+<!ENTITY customGridItemPosition.label "Personnalisé">
+
+<!ENTITY gridLineName.tooltiptext "Nom de ligne">
+<!ENTITY gridLineIndex.tooltiptext "Index de ligne">
+<!ENTITY spanning.tooltiptext "Contribue à une extension">
+<!ENTITY span.label "Span">

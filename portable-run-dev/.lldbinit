@@ -1,0 +1,1 @@
+script topsrcdir = "C:/Windows_software/bluegriffon/gecko-dev"; lldb.debugger.HandleCommand("command source -s true '%s'" % os.path.join(topsrcdir, ".lldbinit"))

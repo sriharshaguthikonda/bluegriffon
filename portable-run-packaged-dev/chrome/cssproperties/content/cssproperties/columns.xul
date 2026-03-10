@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay [
+  <!ENTITY % csspropertiesDTD SYSTEM "chrome://cssproperties/locale/cssproperties.dtd">
+  %csspropertiesDTD;
+  <!ENTITY % backgrounditemDTD SYSTEM "chrome://cssproperties/locale/backgrounditem.dtd" >
+  %backgrounditemDTD;
+]>
+
+<overlay id="columnsOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript"  src="chrome://cssproperties/content/columns.js" />
+
+  <vbox id="propertiesBox">
+      <hbox align="center"
+            class="csspropertiesHeader"
+            context="sectionHeaderContext"
+            id="columnSectionHeader"
+            onclick="ToggleSection(event, this)"
+            position="27">
+        <image />
+        <label value="&columnsSectionHeader.label;"/>
+      </hbox>
+
+      <grid class="section" id="columnSection" position="28">
+        <columns><column/><column/></columns>
+        <rows>
+          <row align="center">
+            <label value="&columnCount.label;"
+                     class="text-link"
+                     href="https://developer.mozilla.org/en-US/docs/Web/CSS/column-count"
+                     tooltiptext="column-count"/>
+            <hbox align="center">
+              <textbox type="number"
+                       min="1"
+                       onchange="ColumnCountChanged()"
+                       oninput="ColumnCountChanged()"
+                       size="2"
+                       id="columnCount"/>
+              <toolbarbutton id="oneColumnButton"
+                             tooltiptext="&oneColumn.label;"
+                             oncommand="SetColumnCount(1)"/>
+              <toolbarbutton id="twoColumnsButton"
+                             tooltiptext="&twoColumns.label;"
+                             oncommand="SetColumnCount(2)"/>
+              <toolbarbutton id="threeColumnsButton"
+                             tooltiptext="&threeColumns.label;"
+                             oncommand="SetColumnCount(3)"/>
+            </hbox>
+          </row>
+
+          <cssproperty property="-moz-column-width"
+                       grammar="ulength('') | auto">
+            <l10n>
+              -moz-column-width=&columnWidth.label;
+              url=https://developer.mozilla.org/en-US/docs/Web/CSS/column-width
+              auto=&automaticColumnWidth.label;
+            </l10n>
+          </cssproperty>
+
+          <cssproperty property="-moz-column-gap"
+                       grammar="ulength('') | normal">
+            <l10n>
+              -moz-column-gap=&columnGap.label;
+              url=https://developer.mozilla.org/en-US/docs/Web/CSS/column-gap
+              normal=&normalColumnGap.label;
+            </l10n>
+          </cssproperty>
+
+            <cssproperty property="-moz-column-rule-color"
+                         grammar="color(true)"
+                         style="margin-bottom: 5px; -moz-box-align: center">
+              <l10n>
+                -moz-column-rule-color=&columnRuleColor.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-color
+              </l10n>
+            </cssproperty>
+
+          <row align="center" animatable="false">
+            <label value="&columnRuleStyle.label;"
+                     class="text-link"
+                     href="https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-style"
+                     tooltiptext="column-rule-style"/>
+            <hbox align="center">
+              <menulist id="columnRuleStyleMenulist" property="-moz-column-rule-style"
+                        oncommand="ApplyPropertyFromMenulist(this)">
+                <menupopup>
+                  <menuitem label="&noneColumnRuleStyle.label;" value="none"/>
+                  <menuitem label="&hiddenColumnRuleStyle.label;" value="hidden"/>
+                  <menuseparator/>
+                  <menuitem label="&solidColumnRuleStyle.label;" value="solid"/>
+                  <menuitem label="&doubleColumnRuleStyle.label;" value="double"/>
+                  <menuitem label="&dottedColumnRuleStyle.label;" value="dotted"/>
+                  <menuitem label="&dashedColumnRuleStyle.label;" value="dashed"/>
+                  <menuitem label="&grooveColumnRuleStyle.label;" value="groove"/>
+                  <menuitem label="&ridgeColumnRuleStyle.label;" value="ridge"/>
+                  <menuitem label="&insetColumnRuleStyle.label;" value="inset"/>
+                  <menuitem label="&outsetColumnRuleStyle.label;" value="outset"/>
+                </menupopup>
+              </menulist>
+            </hbox>
+          </row>
+
+          <cssproperty property="-moz-column-rule-width"
+                       grammar="ulength('') | thin | medium | thick | _ | none">
+            <l10n>
+              -moz-column-rule-width=&columnRuleWidth.label;
+              url=https://developer.mozilla.org/en-US/docs/Web/CSS/column-rule-width
+              thin=&thinColumnRuleWidth.label;
+              medium=&mediumColumnRuleWidth.label;
+              thick=&thickColumnRuleWidth.label;
+              none=&noneColumnRuleWidth.label;
+            </l10n>
+          </cssproperty>
+        </rows>
+      </grid>
+  </vbox>
+</overlay>

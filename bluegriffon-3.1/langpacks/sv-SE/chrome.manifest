@@ -1,0 +1,3 @@
+manifest browser/chrome.manifest application=bluegriffon@bluegriffon.com
+manifest chrome/sv-SE.manifest
+manifest bluegriffon/chrome.manifest application=bluegriffon@bluegriffon.com

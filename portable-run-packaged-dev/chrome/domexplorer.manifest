@@ -1,0 +1,3 @@
+content domexplorer domexplorer/content/domexplorer/
+overlay chrome://bluegriffon/content/xul/bluegriffon.xul chrome://domexplorer/content/domexplorerOverlay.xul
+skin domexplorer classic/1.0 domexplorer/skin/classic/domexplorer/

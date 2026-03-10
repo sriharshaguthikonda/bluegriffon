@@ -1,0 +1,119 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE bindings [
+  <!ENTITY % colorstopItemDTD SYSTEM "chrome://cssproperties/locale/colorstopitem.dtd" >
+  %colorstopItemDTD;
+]>
+
+<bindings id="colorstopItemBindings"
+   xmlns="http://www.mozilla.org/xbl"
+   xmlns:html="http://www.w3.org/1999/xhtml"
+   xmlns:xul="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"
+   xmlns:xbl="http://www.mozilla.org/xbl">
+
+  <binding id="colorstopitem"
+           extends="chrome://global/content/bindings/richlistbox.xml#richlistitem">
+
+    <resources>
+      <stylesheet src="chrome://cssproperties/skin/colorstopitem.css"/>
+    </resources>
+
+    <content>
+#ifndef XP_MACOSX
+      <xul:ecolorpicker anonid="previewBox"
+                        color="black"
+                        colorObjectId="ColorStopColor"
+                        showTransparency="true"
+                        oncommand="RepaintGradient()"/>
+#else
+      <html:input anonid="previewBox"
+                  type="color"
+                  showTransparency="true"
+                  oninput="RepaintGradient()"/>
+#endif
+      <xul:hbox align="center" oncommand="RepaintGradient()" oninput="RepaintGradient()">
+        <xul:label value="&length.label;"/>
+        <xul:menulist editable="true" anonid="offset" sizetopopup="none"
+                      bgtype="csslength" units='% px pt cm in mm pc em ex rem ch'
+                      oncommand="onLengthMenulistCommand(this, '% px pt cm in mm pc em ex rem ch', '', false)"
+                      oninput="onLengthMenulistCommand(this, '% px pt cm in mm pc em ex rem ch', '', false)">
+          <xul:menupopup onpopupshowing="PopulateLengths(this, '% px pt cm in mm pc em ex rem ch')"/>
+        </xul:menulist>
+      </xul:hbox>
+    </content>
+
+    <implementation>
+      <constructor>
+        <![CDATA[
+          this.reset();
+        ]]>
+      </constructor>
+
+      <property name="color">
+        <getter>
+        <![CDATA[
+#ifndef XP_MACOSX
+          return this.getChild("previewBox").color;
+#else
+          return this.getChild("previewBox").value;
+#endif
+        ]]>
+        </getter>
+        <setter>
+        <![CDATA[
+#ifndef XP_MACOSX
+          this.getChild("previewBox").color = val;
+#else
+          this.getChild("previewBox").value = val;
+#endif
+        ]]>
+        </setter>
+      </property>
+
+      <property name="offset">
+        <setter>
+        <![CDATA[
+          this.getChild("offset").value = val;
+        ]]>
+        </setter>
+        <getter>
+        <![CDATA[
+          return this.getChild("offset").value;
+        ]]>
+        </getter>
+      </property>
+
+      <method name="reset">
+        <body><![CDATA[
+          this.getChild("previewBox").color = "";
+          this.getChild("offset").value = "";
+        ]]></body>
+      </method>
+
+      <method name="getChild">
+        <parameter name="aChildName"/>
+        <body><![CDATA[
+          return document.getAnonymousElementByAttribute(this, "anonid", aChildName);
+        ]]></body>
+      </method>
+
+      <method name="openEditor">
+        <body>
+          <![CDATA[
+            var cph = ColorPickerHelper;
+            cph.openColorPicker(window, "BackgroundColor", "Pick a color for a gradient color stop", true);
+            if (!cph.isCancelled("BackgroundColor"))
+            {
+              var color = cph.getCurrentColor("BackgroundColor");
+              this.getChild("previewBox").style.backgroundColor = color;
+              RepaintGradient();
+            }
+          ]]>
+        </body>
+      </method>
+
+    </implementation>
+
+  </binding>
+
+</bindings>

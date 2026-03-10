@@ -1,0 +1,8 @@
+content bluegriffon bluegriffon/content/bluegriffon/
+overlay chrome://mozapps/content/extensions/extensions.xul chrome://bluegriffon/content/xul/extensionsOverlay.xul
+override chrome://global/skin/scrollbars.css chrome://bluegriffon/skin/scrollbars.css
+resource app ../modules
+skin bluegriffon classic/1.0 bluegriffon/skin/classic/bluegriffon/
+style chrome://global/content/customizeToolbar.xul chrome://bluegriffon/skin/bluegriffon.css
+style chrome://global/content/customizeToolbar.xul chrome://bluegriffon/skin/editorFormat.css
+style chrome://global/content/customizeToolbar.xul chrome://global/skin/

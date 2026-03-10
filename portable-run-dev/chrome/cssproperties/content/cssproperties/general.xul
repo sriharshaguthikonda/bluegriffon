@@ -1,0 +1,234 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE overlay [
+  <!ENTITY % csspropertiesDTD SYSTEM "chrome://cssproperties/locale/cssproperties.dtd">
+  %csspropertiesDTD;
+  <!ENTITY % backgrounditemDTD SYSTEM "chrome://cssproperties/locale/backgrounditem.dtd" >
+  %backgrounditemDTD;
+]>
+
+<overlay id="generalOverlay"
+         xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">
+
+  <script type="application/x-javascript"  src="chrome://cssproperties/content/general.js" />
+
+  <vbox id="propertiesBox">
+        <hbox align="center"
+              class="csspropertiesHeader"
+              context="sectionHeaderContext"
+              id="generalSectionHeader"
+              onclick="ToggleSection(event, this)"
+              position="1">
+        <image />
+        <label value="&generalSectionHeader.label;"/>
+      </hbox>
+
+      <vbox class="section"
+            id="generalSection"
+            position="2">
+
+        <grid>
+          <columns><column/><column/></columns>
+          <rows>
+
+            <row align="top" animatable="false">
+              <label value="&fontFamily.label;"
+                     class="text-link"
+                     href="https://developer.mozilla.org/en-US/docs/Web/CSS/font-family"
+                     tooltiptext="font-family"/>
+              <vbox>
+                <listbox id="fontFamilyListbox"  class="listboxBg"
+                         onselect="OnFontFamilySelect(this)"
+                         rows="6"/>
+        
+                <hbox class="listboxBg">
+                  <toolbarbutton id="addFontButton" class="listboxBgPlusButton" type="menu"
+                                 oncommand="AddFont(event)">
+                    <menupopup id="addFontMenupopup">
+                      <checkbox id="viewFontsCheckbox" label="&viewFonts.label;"/>
+                      <menuseparator/>
+                      <menuitem label="Arial, Helvetica, sans-serif" global="true"
+                                style="font-family: Arial, Helvetica, sans-serif" />
+                      <menuitem label="Times New Roman, Times, serif" global="true"
+                                style="font-family: Times New Roman, Times, serif"/>
+                      <menuitem label="Courier New, Courier, monospace" global="true"
+                                style="font-family: Courier New, Courier, monospace"/>
+                      <menuseparator id="beforeWebfontsMenuseparator"/>
+                      <menuseparator id="afterWebfontsMenuseparator" hidden="true"/>
+                    </menupopup>
+                  </toolbarbutton>
+                  <toolbarbutton id="removeFontButton" class="listboxBgMinusButton"
+                                 disabled="true"
+                                 oncommand="DeleteFont()"/>
+                  
+                </hbox>
+              </vbox>
+            </row>
+
+            <cssproperty property="font-size"
+                         grammar="ulength('') | smaller | larger | _ | xx-small | x-small | small | medium | large | x-large | xx-large">
+              <l10n>
+                font-size=&fontSize.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/font-size
+                smaller=&fontSizeSmaller.label;
+                larger=&fontSizeLarger.label;
+                xx-small=&fontSizeXxsmall.label;
+                x-small=&fontSizeXsmall.label;
+                small=&fontSizeSmall.label;
+                medium=&fontSizeMedium.label;
+                large=&fontSizeLarge.label;
+                x-large=&fontSizeXlarge.label;
+                xx-large=&fontSizeXxlarge.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="line-height"
+                         grammar="ulength('') | normal ]">
+              <l10n>
+                line-height=&lineHeight.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
+                normal=&lineHeightNormal.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="font-weight"
+                         grammar="normal | bold | _ | lighter | bolder">
+              <l10n>
+                font-weight=&fontWeight.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/font-weight
+                normal=&fontWeightNormal.label;
+                bold=&fontWeightBold.label;
+                lighter=&fontWeightLighter.label;
+                bolder=&fontWeightBolder.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="font-style"
+                         grammar="normal | italic | oblique">
+              <l10n>
+                font-style=&fontStyle.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/font-style
+                normal=&fontStyleNormal.label;
+                italic=&fontStyleItalic.label;
+                oblique=&fontStyleOblique.label;
+              </l10n>
+            </cssproperty> 
+
+            <cssproperty property="text-decoration"
+                         grammar="none | [ underline || overline || line-through || blink ]">
+              <l10n>
+                text-decoration=&textDecoration.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/text-decoration
+                none=&textDecorationNone.label;
+                underline=&textDecorationUnderline.label;
+                overline=&textDecorationOverline.label;
+                line-through=&textDecorationLinethrough.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="text-transform"
+                         grammar="none | lowercase | uppercase | capitalize">
+              <l10n>
+                text-transform=&textTransform.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/text-transform
+                none=&textTransformNone.label;
+                lowercase=&textTransformLowercase.label;
+                uppercase=&textTransformUppercase.label;
+                capitalize=&textTransformCapitalize.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="font-variant"
+                         grammar="normal | small-caps">
+              <l10n>
+                font-variant=&fontVariant.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/font-variant
+                normal=&fontVariantNormal.label;
+                small-caps=&fontVariantSmallCaps.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="text-align"
+                         grammar="left | center | right | _ | justify | __ | start | end">
+              <l10n>
+                text-align=&textAlign.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/vertical-align
+                start=&textAlignStart.label;
+                end=&textAlignEnd.label;
+              </l10n>
+            </cssproperty> 
+
+            <cssproperty property="vertical-align"
+                         grammar="length('') | baseline | sub | super | top | text-top | middle | bottom | text-bottom">
+              <l10n>
+                vertical-align=&verticalAlign.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/line-height
+                baseline=&baselineVerticalAlign.label;
+                sub=&subVerticalAlign.label;
+                super=&superVerticalAlign.label;
+                top=&topVerticalAlign.label;
+                text-top=&textTopVerticalAlign.label;
+                middle=&middleVerticalAlign.label;
+                bottom=&bottomVerticalAlign.label;
+                text-bottom=&textBottomVerticalAlign.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="direction"
+                         grammar="ltr | rtl">
+              <l10n>
+                direction=&direction.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/direction
+                ltr=&ltrDirection.label;
+                rtl=&rtlDirection.label;
+              </l10n>
+            </cssproperty> 
+
+            <cssproperty property="letter-spacing"
+                         grammar="length('') | normal">
+              <l10n>
+                letter-spacing=&letterSpacing.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/letter-spacing
+                normal=&normalLetterSpacing.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="word-spacing"
+                         grammar="length('') | normal">
+              <l10n>
+                word-spacing=&wordSpacing.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/word-spacing
+                normal=&normalWordSpacing.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="word-wrap"
+                         grammar="normal | break-word">
+              <l10n>
+                word-wrap=&wordWrap.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/word-wrap
+                normal=&normalWordWrap.label;
+                break-word=&breakWordWordWrap.label;
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="text-indent"
+                         grammar="length('')">
+              <l10n>
+                text-indent=&textIndent.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/text-indent
+              </l10n>
+            </cssproperty>
+
+            <cssproperty property="writing-mode"
+                         grammar="horizontal-tb| vertical-lr | vertical-rl">
+              <l10n>
+                writing-mode=&writingMode.label;
+                url=https://developer.mozilla.org/en-US/docs/Web/CSS/writing-mode
+              </l10n>
+            </cssproperty>
+          </rows>
+        </grid>
+      </vbox>
+  </vbox>
+</overlay>

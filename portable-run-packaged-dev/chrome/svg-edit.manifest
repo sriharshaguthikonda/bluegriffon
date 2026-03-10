@@ -1,0 +1,2 @@
+content svg-edit svg-edit/content/
+overlay chrome://bluegriffon/content/xul/bluegriffon.xul chrome://svg-edit/content/svg-edit-overlay.xul

@@ -1,0 +1,24 @@
+
+<!ENTITY structureBar.caption     "Pasek struktury">
+<!ENTITY showIDs.label            "Wyświetlaj ID">
+<!ENTITY showClasses.label        "Wyświetlaj klasy">
+<!ENTITY showLanguage.label       "Wyświetlaj język">
+<!ENTITY showRoles.label          "Wyświetlaj role ARIA">
+
+
+<!ENTITY spellCheck.caption       "Sprawdzanie pisowni">
+<!ENTITY enableSpellCheck.label   "Sprawdzaj pisownię w trakcie pisania">
+<!ENTITY numberSuggestions.label  "Liczba sugestii:">
+
+<!ENTITY tabPosition.label        "Położenie kart">
+<!ENTITY leftTabPosition.label    "Po lewej">
+<!ENTITY centerTabPosition.label  "Na środku">
+<!ENTITY rightTabPosition.label   "Po prawej">
+<!ENTITY mainToolbarEnabled.label "Widoczna">
+<!ENTITY mainToolbar.label "Główny pasek narzędzi">
+<!ENTITY theme.label                  "Motyw:">
+<!ENTITY toolbarIconSizeSmaller.label "Mniejszy">
+<!ENTITY toolbarIconSizeSmall.label   "Mały">
+<!ENTITY toolbarIconSizeMedium.label  "Średni">
+<!ENTITY toolbarIconSizeLarger.label  "Większy">
+<!ENTITY toolbarIconSizeLarge.label   "Duży">

@@ -1,0 +1,5 @@
+bluegriffon-nl.jar:
+% locale    domexplorer    nl    %locale/nl/domexplorer/
+  locale/nl/domexplorer/domexplorerOverlay.dtd (locale/nl/domexplorerOverlay.dtd)
+  locale/nl/domexplorer/domexplorer.dtd        (locale/nl/domexplorer.dtd)
+

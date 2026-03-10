@@ -1,0 +1,59 @@
+DEPTH					 = ../..
+topsrcdir			 = @top_srcdir@
+srcdir					= @srcdir@
+VPATH					 = @srcdir@
+
+
+include $(DEPTH)/config/autoconf.mk
+
+APP_VERSION = $(shell cat $(srcdir)/../config/version.txt)
+CODE_NAME = $(shell cat $(srcdir)/../config/codename.txt)
+
+DEFINES += \
+	-DAPP_NAME=$(MOZ_APP_DISPLAYNAME) \
+	-DAPP_VERSION=$(APP_VERSION) \
+	-DCODE_NAME=$(CODE_NAME) \
+	$(NULL)
+
+ifneq (,$(filter mac cocoa, $(MOZ_WIDGET_TOOLKIT)))
+DEFINES += -DTOOLBAR_CUSTOMIZATION_SHEET
+endif
+
+_AVAILABLE_LOCALES=en-US
+
+_EXTENSIONS_=\
+	sidebars/scripteditor \
+	sidebars/stylesheets \
+	sidebars/cssproperties \
+	sidebars/its20 \
+	sidebars/domexplorer \
+	sidebars/aria \
+	extensions/fs \
+	extensions/gfd \
+	extensions/markdown \
+	extensions/op1 \
+	$(NULL)
+
+libs:: $(_AVAILABLE_LOCALES)
+	cp $(topsrcdir)/bluegriffon/base/jar.mn.in $(topsrcdir)/bluegriffon/base/jar.mn
+	for locale in $(_AVAILABLE_LOCALES);\
+	do \
+		rm -fr $(topsrcdir)/bluegriffon/base/locale/$$locale; \
+		mkdir -p $(topsrcdir)/bluegriffon/base/locale/$$locale; \
+		cat $(topsrcdir)/bluegriffon/locales/$$locale/`basename base`.mn >> $(topsrcdir)/bluegriffon/base/jar.mn; \
+		cp -Rf $(topsrcdir)/bluegriffon/locales/$$locale/bluegriffon/base/locale/* $(topsrcdir)/bluegriffon/base/locale/$$locale; \
+	done
+	for ext in $(_EXTENSIONS_);\
+	do \
+		cp $(topsrcdir)/bluegriffon/$$ext/jar.mn.in $(topsrcdir)/bluegriffon/$$ext/jar.mn; \
+		for locale in $(_AVAILABLE_LOCALES);\
+		do \
+			rm -fr $(topsrcdir)/bluegriffon/$$ext/locale/$$locale; \
+			mkdir -p $(topsrcdir)/bluegriffon/$$ext/locale/$$locale; \
+			cat $(topsrcdir)/bluegriffon/locales/$$locale/`basename $$ext`.mn >> $(topsrcdir)/bluegriffon/$$ext/jar.mn; \
+			cp -Rf $(topsrcdir)/bluegriffon/locales/$$locale/bluegriffon/$$ext/* $(topsrcdir)/bluegriffon/$$ext/locale/$$locale; \
+		done \
+	done
+
+include $(topsrcdir)/config/rules.mk
+

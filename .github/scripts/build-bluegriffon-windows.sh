@@ -33,46 +33,36 @@ echo "PWD (after): $(pwd)"
 echo "Listing .github/scripts:"
 ls -la .github/scripts || true
 
-# Ensure "python" is executable for mach (prefer Python 2.7 for this Gecko revision).
+# Ensure "python" is executable for mach (prefer Python 3.9+ for this Gecko revision).
 shim_dir="$PWD/.build-tools"
 py_dir=""
 mkdir -p "$shim_dir"
-echo "PYTHON2_EXE (env): ${PYTHON2_EXE:-}"
-echo "python2.7 on PATH: $(command -v python2.7 || true)"
-echo "python2 on PATH: $(command -v python2 || true)"
+echo "PYTHON3_EXE (env): ${PYTHON3_EXE:-}"
+echo "python3 on PATH: $(command -v python3 || true)"
 
 PYTHON_EXE_CAND=""
-if [ -n "${PYTHON2_EXE:-}" ]; then
-  PYTHON_EXE_CAND="$PYTHON2_EXE"
+if [ -n "${PYTHON3_EXE:-}" ]; then
+  PYTHON_EXE_CAND="$PYTHON3_EXE"
 fi
 if [ -z "$PYTHON_EXE_CAND" ]; then
-  for p in /c/Python27_18/python.exe /c/Python27/python.exe /c/Python27/python2.exe /c/Python27/python2.7.exe; do
-    if [ -x "$p" ]; then
-      PYTHON_EXE_CAND="$p"
-      break
-    fi
-  done
-fi
-if [ -z "$PYTHON_EXE_CAND" ]; then
-  if command -v python2.7 >/dev/null 2>&1; then
-    PYTHON_EXE_CAND="$(command -v python2.7)"
-  elif command -v python2 >/dev/null 2>&1; then
-    PYTHON_EXE_CAND="$(command -v python2)"
+  if command -v python3 >/dev/null 2>&1; then
+    PYTHON_EXE_CAND="$(command -v python3)"
   fi
 fi
-if [[ "$PYTHON_EXE_CAND" =~ ^[A-Za-z]: ]]; then
-  PYTHON_EXE_CAND="$(cygpath -u "$PYTHON_EXE_CAND" 2>/dev/null || true)"
-fi
-if [ -z "$PYTHON_EXE_CAND" ] || [ ! -x "$PYTHON_EXE_CAND" ]; then
-  echo "ERROR: Python 2.7 executable not found. Set PYTHON2_EXE or install Python 2.7."
+if [ -z "$PYTHON_EXE_CAND" ]; then
+  echo "ERROR: Python 3 executable not found. Set PYTHON3_EXE or install Python 3.9+."
   exit 11
 fi
+# Verify Python 3 compatibility
 if ! "$PYTHON_EXE_CAND" - <<'PY'
-import __builtin__
-print("python2_ok")
+import sys
+if sys.version_info[0] < 3:
+  print("ERROR: Python 3+ required, found: " + sys.version)
+  exit(1)
+print("python3_ok")
 PY
 then
-  echo "ERROR: Selected python is not Python 2 compatible (__builtin__ missing): $PYTHON_EXE_CAND"
+  echo "ERROR: Selected python is not Python 3 compatible: $PYTHON_EXE_CAND"
   exit 12
 fi
 if [ -x "$PYTHON_EXE_CAND" ]; then

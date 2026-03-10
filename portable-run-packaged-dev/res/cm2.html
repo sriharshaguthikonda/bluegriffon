@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8"/>
+  <link rel="stylesheet" href="codemirror/lib/codemirror.css"/>
+
+  <link rel="stylesheet" href="codemirror/theme/3024-day.css"/>
+  <link rel="stylesheet" href="codemirror/theme/3024-night.css"/>
+  <link rel="stylesheet" href="codemirror/theme/ambiance-mobile.css"/>
+  <link rel="stylesheet" href="codemirror/theme/ambiance.css"/>
+  <link rel="stylesheet" href="codemirror/theme/base16-dark.css"/>
+  <link rel="stylesheet" href="codemirror/theme/base16-light.css"/>
+  <link rel="stylesheet" href="codemirror/theme/blackboard.css"/>
+  <link rel="stylesheet" href="codemirror/theme/cobalt.css"/>
+  <link rel="stylesheet" href="codemirror/theme/colorforth.css"/>
+  <link rel="stylesheet" href="codemirror/theme/eclipse.css"/>
+  <link rel="stylesheet" href="codemirror/theme/elegant.css"/>
+  <link rel="stylesheet" href="codemirror/theme/erlang-dark.css"/>
+  <link rel="stylesheet" href="codemirror/theme/lesser-dark.css"/>
+  <link rel="stylesheet" href="codemirror/theme/mbo.css"/>
+  <link rel="stylesheet" href="codemirror/theme/mdn-like.css"/>
+  <link rel="stylesheet" href="codemirror/theme/midnight.css"/>
+  <link rel="stylesheet" href="codemirror/theme/monokai.css"/>
+  <link rel="stylesheet" href="codemirror/theme/neat.css"/>
+  <link rel="stylesheet" href="codemirror/theme/neo.css"/>
+  <link rel="stylesheet" href="codemirror/theme/night.css"/>
+  <link rel="stylesheet" href="codemirror/theme/paraiso-dark.css"/>
+  <link rel="stylesheet" href="codemirror/theme/paraiso-light.css"/>
+  <link rel="stylesheet" href="codemirror/theme/pastel-on-dark.css"/>
+  <link rel="stylesheet" href="codemirror/theme/rubyblue.css"/>
+  <link rel="stylesheet" href="codemirror/theme/solarized.css"/>
+  <link rel="stylesheet" href="codemirror/theme/the-matrix.css"/>
+  <link rel="stylesheet" href="codemirror/theme/tomorrow-night-bright.css"/>
+  <link rel="stylesheet" href="codemirror/theme/tomorrow-night-eighties.css"/>
+  <link rel="stylesheet" href="codemirror/theme/twilight.css"/>
+  <link rel="stylesheet" href="codemirror/theme/vibrant-ink.css"/>
+  <link rel="stylesheet" href="codemirror/theme/xq-dark.css"/>
+  <link rel="stylesheet" href="codemirror/theme/xq-light.css"/>
+  <link rel="stylesheet" href="codemirror/theme/zenburn.css"/>
+
+  <link rel="stylesheet" href="codemirror/addon/hint/show-hint.css"/>
+  <link rel="stylesheet" href="codemirror/addon/fold/foldgutter.css" />
+
+  <script src="codemirror/lib/codemirror.js"></script>
+  <script src="codemirror/addon/selection/active-line.js"></script>
+  <script src="codemirror/addon/edit/closetag.js"></script>
+  <script src="codemirror/addon/fold/foldcode.js"></script>
+  <script src="codemirror/addon/fold/foldgutter.js"></script>
+  <script src="codemirror/addon/fold/brace-fold.js"></script>
+  <script src="codemirror/addon/fold/xml-fold.js"></script>
+  <script src="codemirror/addon/fold/indent-fold.js"></script>
+  <script src="codemirror/addon/fold/markdown-fold.js"></script>
+  <script src="codemirror/addon/fold/comment-fold.js"></script>
+  <script src="codemirror/addon/fold/xml-fold.js"></script>
+  <script src="codemirror/addon/edit/matchtags.js"></script>
+  <script src="codemirror/addon/hint/show-hint.js"></script>
+  <script src="codemirror/addon/hint/xml-hint.js"></script>
+  <script src="codemirror/addon/hint/html-hint.js"></script>
+  <script src="codemirror/addon/search/searchcursor.js"></script>
+  <script src="codemirror/mode/xml/xml.js"></script>
+  <script src="codemirror/mode/javascript/javascript.js"></script>
+  <script src="codemirror/mode/css/css.js"></script>
+  <script src="codemirror/mode/htmlmixed/htmlmixed.js"></script>
+  <style type="text/css" media="screen">
+    .CodeMirror {
+        height: 100%;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #fefefe;
+     }
+     .CodeMirror-scroll {height: 100% ! important}
+     .CodeMirror-gutter {cursor: pointer;}
+     .CodeMirror-gutter-elt { text-align: center; }
+   </style>
+ </head>
+<body>
+
+<textarea id="code" name="code"></textarea>
+<script>
+  var gEditor = null;
+  var gChangeCallback = null;
+  var gActivityCallback = null;
+  var gLiveViewCallback = null;
+  var gChangeTimer = null;
+  var gLiveViewTimer = null;
+  var gTheme  = "light";
+
+  var gModificationCount = 0;
+
+  window.onload = function(){
+
+     function changeFunc() {
+       gModificationCount++;
+       if (gChangeTimer) {
+         clearTimeout(gChangeTimer);
+         gChangeTimer = null;
+       }
+       if (gLiveViewTimer) {
+         clearTimeout(gLiveViewTimer);
+         gLiveViewTimer = null;
+       }
+       if (gChangeCallback)
+         gChangeCallback();
+         // gChangeTimer = setTimeout(gChangeCallback, 100, gEditor.getValue());
+       if (gLiveViewCallback)
+         gLiveViewTimer = setTimeout(gLiveViewCallback, 1000, true);
+       if (gActivityCallback)
+         gActivityCallback();
+     }
+
+     gEditor = CodeMirror.fromTextArea(document.getElementById("code"), {
+        mode: "htmlmixed",
+        extraKeys: {
+          "'<'": completeAfter,
+          "'/'": completeIfAfterLt,
+          "' '": completeIfInTag,
+          "'='": completeIfInTag,
+          "Shift-Space": "autocomplete"},
+        hintOptions: {schemaInfo: CodeMirror.htmlSchema},
+        lineNumbers: true,
+        lineWrapping: false,
+        value: "",
+        styleActiveLine: true,
+        matchTags: {bothTags: true},
+
+        tabSize: 2,
+        fixedGutter: true,
+        extraGutterSize: 4,
+        indentUnit: 2,
+        indentWithTabs: false,
+        matchBrackets: true,
+
+        autoCloseTags: true,
+
+        foldGutter: true,
+        gutters: ["CodeMirror-linenumbers", "CodeMirror-foldgutter"]
+      });
+
+      gEditor.on("cursorActivity", function() { changeFunc(); });
+
+      gEditor.on("gutterClick", function(cm, n, gutter, ev) {
+        if (ev.shiftKey) {
+          var anchor = gEditor.getCursor("anchor");
+          var head = gEditor.getCursor("head");
+          if (head.line > anchor.line
+              || (head.line == anchor.line && head.ch >= anchor.ch)) {
+            // the primary selection is in the normal direction
+            if (n < anchor.line)
+              gEditor.setSelections([{anchor: anchor, head: {line:n, ch:0}}]);
+            else
+              gEditor.setSelections([{anchor: anchor, head: {line:n, ch:null}}]);
+          }
+          else {
+            // the selection is in the reverse direction
+            if (n < anchor.line)
+              gEditor.setSelections([{anchor: anchor, head: {line:n, ch:0}}]);
+            else
+              gEditor.setSelections([{anchor: anchor, head: {line:n, ch:null}}]);              
+          }
+          gEditor.setSelections(sel, 0);
+        }
+        else
+          gEditor.setSelection({line:n, ch:0}, {line:n, ch:null});
+      });
+
+      useTheme(gTheme);
+  };
+
+  function completeAfter(cm, pred) {
+    var cur = cm.getCursor();
+    if (!pred || pred()) setTimeout(function() {
+      if (!cm.state.completionActive)
+        cm.showHint({completeSingle: false});
+    }, 100);
+    return CodeMirror.Pass;
+  }
+
+  function completeIfAfterLt(cm) {
+    return completeAfter(cm, function() {
+      var cur = cm.getCursor();
+      return cm.getRange(CodeMirror.Pos(cur.line, cur.ch - 1), cur) == "<";
+    });
+  }
+
+  function completeIfInTag(cm) {
+    return completeAfter(cm, function() {
+      var tok = cm.getTokenAt(cm.getCursor());
+      if (tok.type == "string" && (!/['"]/.test(tok.string.charAt(tok.string.length - 1)) || tok.string.length == 1)) return false;
+      var inner = CodeMirror.innerMode(cm.getMode(), tok.state).state;
+      return inner.tagName;
+    });
+  }
+
+  function getEditableElement() {
+    return document.querySelector(".CodeMirror");
+  }
+
+  function useTheme(aTheme) {
+    gTheme = aTheme;
+    gEditor.setOption("theme", aTheme);
+  }
+
+  function getCurrentTheme()
+  {
+    return gTheme;
+  }
+
+  var gInstalled = false;
+  function installCodeMirror(aKeyPressCallback, aChangeCallback, aActivityCallback, aLiveViewCallback, aTheme, aZoomFactor) {
+    if (gInstalled) return;
+    gInstalled = true;
+
+    getEditableElement().addEventListener("keypress", aKeyPressCallback, true);
+    gChangeCallback = aChangeCallback;
+    gActivityCallback = aActivityCallback;
+    gLiveViewCallback = aLiveViewCallback;
+    useTheme(aTheme);
+    getEditableElement().style.fontSize = aZoomFactor;
+  }
+
+  function markSelection()
+  {
+    const kBGBGBG = "--BG--";
+  
+    gEditor.setSelection( { line: 0, ch: 0 }, { line: 0, ch: 0 } );
+  
+    var searchCursor = gEditor.getSearchCursor(kBGBGBG, { line: 0, ch: 0 }, true);
+    searchCursor.findNext();
+    var startRow    = searchCursor.from().line;
+    var startColumn = searchCursor.from().ch;
+    searchCursor.replace("");
+  
+    searchCursor = gEditor.getSearchCursor(kBGBGBG, { line: 0, ch: 0 }, true);
+    searchCursor.findNext();
+    var endRow      = searchCursor.from().line;
+    var endColumn   = searchCursor.from().ch;
+    searchCursor.replace("");
+  
+    gEditor.clearHistory();
+    gEditor.setSelection( { line: startRow, ch: startColumn }, { line: endRow, ch: endColumn } );
+    gEditor.scrollIntoView({ line: endRow, ch: endColumn }, 100);
+  }
+
+  function findNeedle(aForward, aInitial, aNeedle, aIsCaseSensitive)
+  {
+    var found = false;
+    if (aInitial || !gEditor.lastNeedle) {
+      var selection = gEditor.getCursor(true);
+      gEditor.lastNeedle = gEditor.getSearchCursor(aNeedle, { line: selection.line, ch: selection.ch }, aIsCaseSensitive);
+      found = gEditor.lastNeedle.findNext();
+    }
+    else {
+      if (aForward) {
+        found = gEditor.lastNeedle.findNext();
+      }
+      else {
+        found = gEditor.lastNeedle.findPrevious();
+      }
+    }
+
+    if (!found) { // maybe we hit the document's limits
+      if (aForward) {
+        gEditor.lastNeedle = gEditor.getSearchCursor(aNeedle, { line: 0, ch: 0 }, aIsCaseSensitive);
+        found = gEditor.lastNeedle.findNext();
+      }
+      else {
+        var line = gEditor.lineCount() - 1;
+        var lineProse = gEditor.getLine(line);
+        gEditor.lastNeedle = gEditor.getSearchCursor(aNeedle, { line: line, ch: lineProse.length -1 }, aIsCaseSensitive);
+        found = gEditor.lastNeedle.findPrevious();
+      }
+
+      if (found)
+        gEditor.setSelection(gEditor.lastNeedle.from(), gEditor.lastNeedle.to());
+    }
+    else
+      gEditor.setSelection(gEditor.lastNeedle.from(), gEditor.lastNeedle.to());
+
+    return found;
+  }
+
+  function ResetModificationCount()
+  {
+    gModificationCount = 0;
+  }
+
+  function GetModificationCount()
+  {
+    return gModificationCount;
+  }
+</script>
+</body>
+</html>

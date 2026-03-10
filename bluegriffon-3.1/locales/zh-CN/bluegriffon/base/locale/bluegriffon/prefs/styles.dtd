@@ -1,0 +1,25 @@
+<!ENTITY bgDecidesAll.radio "自动">
+<!ENTITY bgDecidesAll.desc "让 BlueGriffon 自行决定如何添加样式并在需要时允许它为我挑选 ID 与类">
+<!ENTITY prefixPrompt.label "输入 ID 与类的前缀:">
+<!ENTITY iDecide.radio "手动">
+<!ENTITY iDecide.desc "由我决定">
+<!ENTITY cssPolicy.caption "CSS 策略">
+
+<!ENTITY browserSupport.caption "浏览器支持">
+<!ENTITY gecko.label "基于 Gecko 的浏览器 (Firefox、Camino 等)">
+<!ENTITY webkit.label "基于 WebKit 的浏览器 (Safari 等)">
+<!ENTITY blink.label "基于 Blink 的浏览器 (Chrome 等)">
+<!ENTITY presto.label "Opera">
+<!ENTITY trident.label "Internet Explorer">
+<!ENTITY servo.label "Servo">
+<!ENTITY vivliostyle.label "Vivliostyle">
+<!ENTITY weasyprint.label "Weasyprint">
+
+<!ENTITY cssColors.captions "CSS 颜色">
+<!ENTITY outputCssColorNames.label "总是尝试输出 CSS 3 颜色名称">
+<!ENTITY rgbColors.label "颜色值采用 rgb(r,v,b) 格式">
+<!ENTITY hexColors.label "颜色值采用 #rrvvbb 格式">
+
+<!ENTITY serialization.label "序列化">
+<!ENTITY shorthands.label "Shorthands">
+<!ENTITY longhands.label "Longhands">

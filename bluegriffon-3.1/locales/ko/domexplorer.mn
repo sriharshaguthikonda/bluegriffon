@@ -1,0 +1,5 @@
+bluegriffon-ko.jar:
+% locale    domexplorer    ko    %locale/ko/domexplorer/
+  locale/ko/domexplorer/domexplorerOverlay.dtd (locale/ko/domexplorerOverlay.dtd)
+  locale/ko/domexplorer/domexplorer.dtd        (locale/ko/domexplorer.dtd)
+
