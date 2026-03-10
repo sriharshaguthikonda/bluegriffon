@@ -2434,6 +2434,11 @@ function NormalizeToolbarLayout(aLayout)
   }
 }
 
+function NormalizeVerticalToolbarPosition(aPosition)
+{
+  return (aPosition == "right") ? "right" : "left";
+}
+
 function SyncToolbarLayoutPref()
 {
   var horizontal = _getBoolPref("bluegriffon.ui.horizontal_toolbars.show", true);
@@ -2479,6 +2484,45 @@ function SetToolbarLayout(aLayout)
   if (_getCharPref("bluegriffon.ui.toolbar.layout", "mixed") != layout)
     Services.prefs.setCharPref("bluegriffon.ui.toolbar.layout", layout);
   ApplyToolbarLayoutPref();
+}
+
+function ApplyVerticalToolbarPosition()
+{
+  if (!gDialog || !gDialog.FormatToolbox || !gDialog.formatToolboxLeftDock || !gDialog.formatToolboxRightDock)
+    return;
+
+  var position = NormalizeVerticalToolbarPosition(_getCharPref("bluegriffon.ui.vertical_toolbar.position", "left"));
+  var showVerticalToolbar = _getBoolPref("bluegriffon.ui.vertical_toolbar.show", true);
+  var toolbox = gDialog.FormatToolbox;
+  var leftDock = gDialog.formatToolboxLeftDock;
+  var rightDock = gDialog.formatToolboxRightDock;
+  var targetDock = (position == "right") ? rightDock : leftDock;
+
+  if (toolbox.parentNode != targetDock)
+    targetDock.appendChild(toolbox);
+
+  if (!showVerticalToolbar) {
+    leftDock.setAttribute("hidden", "true");
+    rightDock.setAttribute("hidden", "true");
+  }
+  else if (position == "right") {
+    leftDock.setAttribute("hidden", "true");
+    rightDock.removeAttribute("hidden");
+    document.documentElement.setAttribute("verticaltoolbarposition", "right");
+  }
+  else {
+    rightDock.setAttribute("hidden", "true");
+    leftDock.removeAttribute("hidden");
+    document.documentElement.setAttribute("verticaltoolbarposition", "left");
+  }
+}
+
+function SetVerticalToolbarPosition(aPosition)
+{
+  var position = NormalizeVerticalToolbarPosition(aPosition);
+  if (_getCharPref("bluegriffon.ui.vertical_toolbar.position", "left") != position)
+    Services.prefs.setCharPref("bluegriffon.ui.vertical_toolbar.position", position);
+  ApplyVerticalToolbarPosition();
 }
 
 function ApplyStatusbarPosition()
@@ -2544,6 +2588,7 @@ function onViewToolbarsPopupShowing()
   var titlebar = _getBoolPref("bluegriffon.ui.titlebar.show", true);
   var statusbarPosition = NormalizeStatusbarPosition(_getCharPref("bluegriffon.ui.statusbar.position", "bottom"));
   var toolbarLayout = NormalizeToolbarLayout(_getCharPref("bluegriffon.ui.toolbar.layout", "mixed"));
+  var verticalToolbarPosition = NormalizeVerticalToolbarPosition(_getCharPref("bluegriffon.ui.vertical_toolbar.position", "left"));
 
   gDialog.viewStructurebarMenuitem.setAttribute("checked", structurebar);
   gDialog.viewStatusbarMenuitem.setAttribute("checked", statusbar);
@@ -2556,6 +2601,8 @@ function onViewToolbarsPopupShowing()
   gDialog.viewToolbarLayoutVerticalMenuitem.setAttribute("checked", toolbarLayout == "vertical");
   gDialog.viewToolbarLayoutHorizontalMenuitem.setAttribute("checked", toolbarLayout == "horizontal");
   gDialog.viewToolbarLayoutNoneMenuitem.setAttribute("checked", toolbarLayout == "none");
+  gDialog.viewVerticalToolbarLeftMenuitem.setAttribute("checked", verticalToolbarPosition == "left");
+  gDialog.viewVerticalToolbarRightMenuitem.setAttribute("checked", verticalToolbarPosition == "right");
 }
 
 function ToggleToolbar(aPrefInfix)
@@ -2566,6 +2613,8 @@ function ToggleToolbar(aPrefInfix)
 
   if (aPrefInfix == "horizontal_toolbars" || aPrefInfix == "vertical_toolbar")
     SyncToolbarLayoutPref();
+  if (aPrefInfix == "vertical_toolbar")
+    ApplyVerticalToolbarPosition();
   else if (aPrefInfix == "statusbar")
     ApplyStatusbarPosition();
   else if (aPrefInfix == "titlebar")

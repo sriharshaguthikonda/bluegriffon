@@ -81,6 +81,19 @@ menubar > menu:not([open="true"]) {
   background: var(--bg-dark-background);
 }
 
+#formatToolboxLeftDock,
+#formatToolboxRightDock {
+  background: var(--bg-dark-background);
+}
+
+#formatToolboxLeftDock {
+  border-right: thin solid var(--bg-dark-border);
+}
+
+#formatToolboxRightDock {
+  border-left: thin solid var(--bg-dark-border);
+}
+
 #Bluegriffon[statusbarposition="right"] #statusbar[status-orient="vertical"] #editorBar,
 #Bluegriffon[statusbarposition="right"] #statusbar[status-orient="vertical"] #progressBar {
   -moz-box-orient: vertical;

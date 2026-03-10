@@ -283,6 +283,10 @@ var BlueGriffonPrefsObserver = {
         ApplyToolbarLayoutPref();
         return;
       }
+      if (prefName == "bluegriffon.ui.vertical_toolbar.position") {
+        ApplyVerticalToolbarPosition();
+        return;
+      }
 
       var xulElements = [];
       /*Services.prompt.alert(null, "foo",
@@ -333,6 +337,8 @@ var BlueGriffonPrefsObserver = {
       else if (prefName == "bluegriffon.ui.horizontal_toolbars.show"
                || prefName == "bluegriffon.ui.vertical_toolbar.show")
         SyncToolbarLayoutPref();
+      if (prefName == "bluegriffon.ui.vertical_toolbar.show")
+        ApplyVerticalToolbarPosition();
     }
 
     else if (prefName == "bluegriffon.display.anchors") {

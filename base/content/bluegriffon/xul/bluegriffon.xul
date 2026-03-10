@@ -149,6 +149,7 @@
     <toolbarset id="customFormatMenulistsToolbars" context="format-toolbar-context-menu"/>
   </toolbox>
   <hbox id="horizContainer" flex="1">
+  <vbox id="formatToolboxLeftDock">
   <toolbox id="FormatToolbox" mode="full">
 #include formatbarpalette.inc
     <toolbar id="FormatToolbar"
@@ -161,6 +162,7 @@
 	     fullscreenbutton="true"
              defaultset="EncapsulateSelect,separator,emButton,strongButton,codeButton,separator,ColorsBox,separator,boldButton,italicButton,underlineButton,separator,ulButton,olButton,dtButton,ddButton,separator,align-left-button,align-center-button,align-right-button,align-justify-button,separator,indentButton,outdentButton,separator,blockquoteButton,separator,dirLtrButton,dirRtlButton"/>
   </toolbox>
+  </vbox>
 
     <vbox flex="1" id="maincontainer">
       <vbox flex="1">
@@ -240,6 +242,7 @@
         <spacer id="structbarflexer" flex="1"/>
       </structurebar>
     </vbox>
+    <vbox id="formatToolboxRightDock" hidden="true"/>
     <vbox id="statusbarSideDock" hidden="true"/>
 </hbox>
 #ifdef TOOLBAR_CUSTOMIZATION_SHEET

@@ -35,6 +35,7 @@ function Startup()
 
   GetUIElements();
   ApplyToolbarLayoutPref();
+  ApplyVerticalToolbarPosition();
   ApplyStatusbarPosition();
   ApplyTitlebarVisibility();
 

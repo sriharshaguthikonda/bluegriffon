@@ -150,6 +150,20 @@
                           oncommand="SetToolbarLayout('none')"/>
               </menupopup>
             </menu>
+            <menu label="Vertical Toolbar Side">
+              <menupopup>
+                <menuitem label="Left"
+                          id="viewVerticalToolbarLeftMenuitem"
+                          type="radio"
+                          name="vertical-toolbar-side-group"
+                          oncommand="SetVerticalToolbarPosition('left')"/>
+                <menuitem label="Right"
+                          id="viewVerticalToolbarRightMenuitem"
+                          type="radio"
+                          name="vertical-toolbar-side-group"
+                          oncommand="SetVerticalToolbarPosition('right')"/>
+              </menupopup>
+            </menu>
             <menuseparator/>
             <menuitem label="&structureBar.caption;"
                       id="viewStructurebarMenuitem"
