@@ -150,17 +150,41 @@
                           oncommand="SetToolbarLayout('none')"/>
               </menupopup>
             </menu>
-            <menu label="Vertical Toolbar Side">
+            <menu label="Primary Toolbar Position">
               <menupopup>
-                <menuitem label="Left"
-                          id="viewVerticalToolbarLeftMenuitem"
+                <menuitem label="Top"
+                          id="viewPrimaryToolbarTopMenuitem"
                           type="radio"
-                          name="vertical-toolbar-side-group"
+                          name="primary-toolbar-position-group"
+                          oncommand="SetHorizontalToolbarsPosition('top')"/>
+                <menuitem label="Left"
+                          id="viewPrimaryToolbarLeftMenuitem"
+                          type="radio"
+                          name="primary-toolbar-position-group"
+                          oncommand="SetHorizontalToolbarsPosition('left')"/>
+                <menuitem label="Right"
+                          id="viewPrimaryToolbarRightMenuitem"
+                          type="radio"
+                          name="primary-toolbar-position-group"
+                          oncommand="SetHorizontalToolbarsPosition('right')"/>
+              </menupopup>
+            </menu>
+            <menu label="Secondary Toolbar Position">
+              <menupopup>
+                <menuitem label="Top"
+                          id="viewSecondaryToolbarTopMenuitem"
+                          type="radio"
+                          name="secondary-toolbar-position-group"
+                          oncommand="SetVerticalToolbarPosition('top')"/>
+                <menuitem label="Left"
+                          id="viewSecondaryToolbarLeftMenuitem"
+                          type="radio"
+                          name="secondary-toolbar-position-group"
                           oncommand="SetVerticalToolbarPosition('left')"/>
                 <menuitem label="Right"
-                          id="viewVerticalToolbarRightMenuitem"
+                          id="viewSecondaryToolbarRightMenuitem"
                           type="radio"
-                          name="vertical-toolbar-side-group"
+                          name="secondary-toolbar-position-group"
                           oncommand="SetVerticalToolbarPosition('right')"/>
               </menupopup>
             </menu>

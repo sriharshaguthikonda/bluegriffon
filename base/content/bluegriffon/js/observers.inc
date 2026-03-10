@@ -273,7 +273,9 @@ var BlueGriffonPrefsObserver = {
         ApplyToolbarLayoutPref();
         return;
       }
-      if (prefName == "bluegriffon.ui.vertical_toolbar.position") {
+      if (prefName == "bluegriffon.ui.horizontal_toolbars.position"
+          || prefName == "bluegriffon.ui.vertical_toolbar.position") {
+        SyncToolbarLayoutPref();
         ApplyVerticalToolbarPosition();
         return;
       }

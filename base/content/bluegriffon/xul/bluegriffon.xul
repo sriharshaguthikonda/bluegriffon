@@ -155,6 +155,7 @@
     <toolbarset id="customFormatMenulistsToolbars" context="format-toolbar-context-menu"/>
   </toolbox>
   </vbox>
+  <vbox id="formatToolboxTopDock" hidden="true"/>
   <hbox id="horizContainer" flex="1">
   <vbox id="formatToolboxLeftDock">
   <toolbox id="FormatToolbox" mode="full">

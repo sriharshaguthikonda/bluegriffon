@@ -190,18 +190,24 @@ menubar > menu:not([open="true"]) {
 }
 
 #FormatToolbox toolbar {
+  -moz-box-orient: horizontal;
+}
+
+#Bluegriffon[primarytoolbarposition="left"] #MainToolbar,
+#Bluegriffon[primarytoolbarposition="right"] #MainToolbar,
+#Bluegriffon[primarytoolbarposition="left"] #FormatMenulistsToolbar,
+#Bluegriffon[primarytoolbarposition="right"] #FormatMenulistsToolbar,
+#Bluegriffon[secondarytoolbarposition="left"] #FormatToolbar,
+#Bluegriffon[secondarytoolbarposition="right"] #FormatToolbar {
   -moz-box-orient: vertical;
 }
 
-#Bluegriffon[toolbarlayout="vertical"] #MainToolbar,
-#Bluegriffon[toolbarlayout="vertical"] #FormatMenulistsToolbar,
-#Bluegriffon[toolbarlayout="vertical"] #FormatToolbar {
-  -moz-box-orient: vertical;
-}
-
-#Bluegriffon[toolbarlayout="vertical"] #MainToolbox,
-#Bluegriffon[toolbarlayout="vertical"] #FormatMenulistsToolbox,
-#Bluegriffon[toolbarlayout="vertical"] #FormatToolbox {
+#Bluegriffon[primarytoolbarposition="left"] #MainToolbox,
+#Bluegriffon[primarytoolbarposition="right"] #MainToolbox,
+#Bluegriffon[primarytoolbarposition="left"] #FormatMenulistsToolbox,
+#Bluegriffon[primarytoolbarposition="right"] #FormatMenulistsToolbox,
+#Bluegriffon[secondarytoolbarposition="left"] #FormatToolbox,
+#Bluegriffon[secondarytoolbarposition="right"] #FormatToolbox {
   width: -moz-max-content;
 }
 

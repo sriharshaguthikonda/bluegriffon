@@ -139,6 +139,7 @@ pref("bluegriffon.ui.structurebar.show", true);
 pref("bluegriffon.ui.statusbar.show", true);
 pref("bluegriffon.ui.vertical_toolbar.show", true);
 pref("bluegriffon.ui.horizontal_toolbars.show", true);
+pref("bluegriffon.ui.horizontal_toolbars.position", "top");
 pref("bluegriffon.ui.vertical_toolbar.position", "left");
 pref("bluegriffon.ui.titlebar.show", true);
 pref("bluegriffon.ui.statusbar.position", "bottom");
