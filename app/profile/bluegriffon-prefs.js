@@ -21,7 +21,7 @@ pref("toolkit.telemetry.enabled", false);
 pref("toolkit.telemetry.archive.enabled", false);
 
 /* main theme */
-pref("bluegriffon.wysiwyg.theme", "black");
+pref("bluegriffon.wysiwyg.theme", "system");
 
 /* debugging prefs */
 pref("browser.dom.window.dump.enabled", false);

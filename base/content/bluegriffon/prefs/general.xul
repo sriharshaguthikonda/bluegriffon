@@ -28,8 +28,9 @@
       <radiogroup id="wysiwygThemeRadiogroup"
                   orient="horizontal"
                   preference="pref-wysiwygTheme">
-        <radio label="Black" value="black"/>
+        <radio label="Dark" value="black"/>
         <radio label="Light" value="light"/>
+        <radio label="System" value="system"/>
       </radiogroup>
     </groupbox>
 

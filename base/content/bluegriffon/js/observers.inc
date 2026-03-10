@@ -213,17 +213,7 @@ var BlueGriffonPrefsObserver = {
     }
 
     else if (prefName == "bluegriffon.wysiwyg.theme") {
-      var value = Services.prefs.getCharPref("bluegriffon.wysiwyg.theme");
-      var root = document.documentElement;
-      if (value == "black" &&
-          root.getAttribute("forcecleartheme") != "true")
-        root.removeAttribute("cleartheme");
-      else
-        root.setAttribute("cleartheme", "true");
-      if (root.id)
-        document.persist(root.id, "cleartheme");
-
-      ApplyWysiwygThemeChange(document, value);
+      ApplyWysiwygThemeFromPrefs(document);
     }
 
     else if (prefName == "bluegriffon.source.theme") {
