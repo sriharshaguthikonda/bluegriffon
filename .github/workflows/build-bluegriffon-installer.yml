@@ -1,10 +1,12 @@
-name: Build BlueGriffon Portable (Windows)
+name: Build BlueGriffon Installer (Windows)
 
 on:
   push:
-    branches: ["*"]
-  pull_request:
-    branches: ["*"]
+    branches:
+      - "Remote-build-portable-and-installer"
+      - "exp-installer-*"
+      - "installer-*"
+      - "*installer*"
   workflow_dispatch:
 
 jobs:
@@ -160,6 +162,10 @@ jobs:
         continue-on-error: true
         run: choco install -y yasm
 
+      - name: Install NSIS
+        continue-on-error: true
+        run: choco install -y nsis
+
       - name: Ensure Rust 1.19 toolchain
         shell: powershell
         continue-on-error: true
@@ -285,7 +291,7 @@ jobs:
           if exist "%WORKER_LOG%" del /f /q "%WORKER_LOG%" >nul 2>&1
           set "BUILD_LOG=%WORKER_LOG%"
           set "BUILD_WORKDIR=%GITHUB_WORKSPACE%"
-          set "BLUEGRIFFON_BUILD_TARGET=portable"
+          set "BLUEGRIFFON_BUILD_TARGET=installer"
           set "CHERE_INVOKING=1"
           set "MSYSTEM=MINGW64"
           set "MSYS2_PATH_TYPE=inherit"
@@ -311,12 +317,11 @@ jobs:
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
 
-      - name: Collect executable and portable runtime
+      - name: Collect executable and installer artifacts
         if: always()
         shell: powershell
         run: |
           $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
-          $portableDir = Join-Path $artifactDir "bluegriffon-portable"
           New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
           $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
 
@@ -428,27 +433,39 @@ jobs:
           }
           if ($candidates.Count -gt 0) {
             $picked = $candidates[0]
-            $binDir = Split-Path -Parent $picked.FullName
             Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
-
-            New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
-            Copy-Item -Path (Join-Path $binDir '*') -Destination $portableDir -Recurse -Force
-
-            $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
-            $launcherPath = Join-Path $portableDir $launcherName
-            $launcherContent = "@echo off`r`nsetlocal`r`ncd /d %~dp0`r`nstart """" ""%~dp0$($picked.Name)""`r`n"
-            Set-Content -Path $launcherPath -Encoding ASCII -Value $launcherContent
-
-            $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
-            if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
-            Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
-
             Write-Host "Collected executable: $($picked.FullName)"
-            Write-Host "Collected portable runtime from: $binDir"
           } else {
             Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
           }
 
+          $installerDir = Join-Path $artifactDir "installer"
+          New-Item -ItemType Directory -Force -Path $installerDir | Out-Null
+
+          $installerCandidates = @()
+          if (Test-Path $searchRoot) {
+            $installerCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
+              Where-Object {
+                $_.Extension -in @(".exe", ".msi") -and
+                (
+                  $_.FullName -match "(\\dist\\install\\|\\installer\\)" -or
+                  ($_.FullName -match "\\dist\\" -and $_.Name -match "(installer|setup)")
+                ) -and
+                $_.FullName -notmatch "\\dist\\bin\\"
+              } |
+              Sort-Object LastWriteTime -Descending |
+              Select-Object -Unique
+          }
+
+          if ($installerCandidates.Count -gt 0) {
+            foreach ($candidate in $installerCandidates | Select-Object -First 10) {
+              Copy-Item -Path $candidate.FullName -Destination (Join-Path $installerDir $candidate.Name) -Force
+            }
+            Write-Host "Collected installer candidates:"
+            $installerCandidates | Select-Object -First 10 FullName,Length,LastWriteTime | Format-Table -AutoSize
+          } else {
+            Write-Host "No installer candidates found."
+          }
           Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
             Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
 
@@ -456,16 +473,16 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bluegriffon-exe
+          name: bluegriffon-exe-installer
           path: ${{ github.workspace }}\artifact\*.exe
           if-no-files-found: warn
 
-      - name: Upload portable runtime
+      - name: Upload installer
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bluegriffon-portable
-          path: ${{ github.workspace }}\artifact\bluegriffon-portable.zip
+          name: bluegriffon-installer
+          path: ${{ github.workspace }}\artifact\installer\*
           if-no-files-found: warn
 
       - name: Show build log tail

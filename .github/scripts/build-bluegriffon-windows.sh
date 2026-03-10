@@ -24,6 +24,16 @@ set -x
 echo "Build log: $log_path"
 echo "PWD (start): $(pwd)"
 echo "uname: $(uname -a || true)"
+build_target="${BLUEGRIFFON_BUILD_TARGET:-all}"
+case "$build_target" in
+  portable|installer|all)
+    ;;
+  *)
+    echo "WARNING: Unknown BLUEGRIFFON_BUILD_TARGET='$build_target'; using 'all'."
+    build_target="all"
+    ;;
+esac
+echo "BLUEGRIFFON_BUILD_TARGET: $build_target"
 
 if [ -n "${BUILD_WORKDIR:-}" ]; then
   workdir="$(cygpath -u "$BUILD_WORKDIR" 2>/dev/null || true)"
@@ -633,6 +643,11 @@ if [ -z "$exe_path" ]; then
   exit 2
 fi
 echo "Found executable: $exe_path"
+
+if [ "$build_target" = "portable" ]; then
+  echo "Portable target selected; skipping mach package and installer steps."
+  exit 0
+fi
 
 set +e
 ./mach package

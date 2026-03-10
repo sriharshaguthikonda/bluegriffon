@@ -126,11 +126,54 @@
                       type="checkbox"
                       oncommand="ToggleToolbar('vertical_toolbar')"/>
             <menuseparator/>
+            <menu label="Toolbar Layout">
+              <menupopup>
+                <menuitem label="Mixed (Top + Side)"
+                          id="viewToolbarLayoutMixedMenuitem"
+                          type="radio"
+                          name="toolbar-layout-group"
+                          oncommand="SetToolbarLayout('mixed')"/>
+                <menuitem label="Vertical Only (Compact)"
+                          id="viewToolbarLayoutVerticalMenuitem"
+                          type="radio"
+                          name="toolbar-layout-group"
+                          oncommand="SetToolbarLayout('vertical')"/>
+                <menuitem label="Horizontal Only"
+                          id="viewToolbarLayoutHorizontalMenuitem"
+                          type="radio"
+                          name="toolbar-layout-group"
+                          oncommand="SetToolbarLayout('horizontal')"/>
+                <menuitem label="Hide All Toolbars"
+                          id="viewToolbarLayoutNoneMenuitem"
+                          type="radio"
+                          name="toolbar-layout-group"
+                          oncommand="SetToolbarLayout('none')"/>
+              </menupopup>
+            </menu>
+            <menuseparator/>
             <menuitem label="&structureBar.caption;"
                       id="viewStructurebarMenuitem"
                       type="checkbox"
                       oncommand="ToggleToolbar('structurebar')"/>
             <menuseparator/>
+            <menuitem label="Custom Titlebar"
+                      id="viewTitlebarMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleToolbar('titlebar')"/>
+            <menu label="Status Bar Position">
+              <menupopup>
+                <menuitem label="Bottom (Horizontal)"
+                          id="viewStatusbarBottomMenuitem"
+                          type="radio"
+                          name="statusbar-position-group"
+                          oncommand="SetStatusbarPosition('bottom')"/>
+                <menuitem label="Right (Vertical)"
+                          id="viewStatusbarRightMenuitem"
+                          type="radio"
+                          name="statusbar-position-group"
+                          oncommand="SetStatusbarPosition('right')"/>
+              </menupopup>
+            </menu>
             <menuitem label="&viewStatusbar.label;"
                       id="viewStatusbarMenuitem"
                       type="checkbox"

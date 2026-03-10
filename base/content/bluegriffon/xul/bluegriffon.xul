@@ -240,6 +240,7 @@
         <spacer id="structbarflexer" flex="1"/>
       </structurebar>
     </vbox>
+    <vbox id="statusbarSideDock" hidden="true"/>
 </hbox>
 #ifdef TOOLBAR_CUSTOMIZATION_SHEET
   <panel id="customizeToolbarSheetPopup" noautohide="true">
@@ -253,17 +254,19 @@
 
 #include autoInsertTable.inc
 
-  <statusbar id="statusbar" style="-moz-appearance: none">
-    <deck flex="1" id="statusbarDeck">
-      <hbox id="editorBar" align="center">
-        <spacer flex="1"/>
-      </hbox>
-      <hbox id="progressBar" align="center">
-        <statusbarpanel id="status" label="" crop="end" flex="1"/>
-        <spacer flex="1"/>
-        <progressmeter id="progress" mode="determined" value="0%" style="display: none"/>
-        <statusbarpanel id="security" label="" style="display: none"/>
-      </hbox>
-    </deck>
-  </statusbar>
+  <vbox id="statusbarBottomDock">
+    <statusbar id="statusbar" style="-moz-appearance: none">
+      <deck flex="1" id="statusbarDeck">
+        <hbox id="editorBar" align="center">
+          <spacer flex="1"/>
+        </hbox>
+        <hbox id="progressBar" align="center">
+          <statusbarpanel id="status" label="" crop="end" flex="1"/>
+          <spacer flex="1"/>
+          <progressmeter id="progress" mode="determined" value="0%" style="display: none"/>
+          <statusbarpanel id="security" label="" style="display: none"/>
+        </hbox>
+      </deck>
+    </statusbar>
+  </vbox>
 </window>

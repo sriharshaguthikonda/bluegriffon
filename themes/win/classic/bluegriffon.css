@@ -70,6 +70,33 @@ menubar > menu:not([open="true"]) {
   border: none 0px
 }
 
+#statusbarBottomDock {
+  border-top: thin solid var(--bg-dark-border);
+}
+
+#statusbarSideDock {
+  min-width: 170px;
+  max-width: 320px;
+  border-left: thin solid var(--bg-dark-border);
+  background: var(--bg-dark-background);
+}
+
+#Bluegriffon[statusbarposition="right"] #statusbar[status-orient="vertical"] #editorBar,
+#Bluegriffon[statusbarposition="right"] #statusbar[status-orient="vertical"] #progressBar {
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  padding: 4px;
+}
+
+#Bluegriffon[statusbarposition="right"] #statusbar[status-orient="vertical"] #status {
+  min-height: 1.8em;
+  min-width: 12em;
+}
+
+#Bluegriffon[statusbarposition="right"] #statusbar[status-orient="vertical"] #progress {
+  width: 100%;
+}
+
 #FormatToolbox toolbar {
   -moz-box-orient: vertical;
 }
