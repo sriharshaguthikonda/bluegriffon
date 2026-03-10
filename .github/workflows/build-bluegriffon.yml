@@ -103,13 +103,131 @@ jobs:
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
 
+      - name: Collect executable and portable runtime
+        if: always()
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Continue"
+          $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
+          $portableDir = Join-Path $artifactDir "bluegriffon-portable"
+          New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
+          $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
+
+          $scanFile = Join-Path $env:GITHUB_WORKSPACE "artifact-scan.txt"
+          $rootReport = Join-Path $env:GITHUB_WORKSPACE "root-recursive-report.txt"
+          "==== artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
+          "==== bounded root report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
+
+          Add-Content -Path $rootReport -Value ("workspace: {0}" -f $env:GITHUB_WORKSPACE)
+          if (Test-Path $env:GITHUB_WORKSPACE) {
+            Add-Content -Path $rootReport -Value "-- workspace top-level entries --"
+            Get-ChildItem -Path $env:GITHUB_WORKSPACE -Force -ErrorAction SilentlyContinue |
+              Select-Object Mode,Length,LastWriteTime,FullName |
+              Sort-Object FullName |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $rootReport
+          }
+
+          $candidateRoots = @(
+            (Join-Path $searchRoot "opt64\\dist\\bin"),
+            (Join-Path $searchRoot "dist\\bin")
+          ) | Where-Object { Test-Path $_ } | Select-Object -Unique
+
+          Add-Content -Path $scanFile -Value ""
+          Add-Content -Path $scanFile -Value "==== candidate runtime roots ===="
+          if ($candidateRoots.Count -eq 0) {
+            Add-Content -Path $scanFile -Value ("No runtime roots found under {0}" -f $searchRoot)
+          } else {
+            foreach ($root in $candidateRoots) {
+              Add-Content -Path $scanFile -Value ("root: {0}" -f $root)
+              Get-ChildItem -Path $root -File -ErrorAction SilentlyContinue |
+                Where-Object { $_.Extension -in @(".exe", ".dll", ".xpt", ".manifest", ".ini") } |
+                Sort-Object LastWriteTime -Descending |
+                Select-Object -First 120 FullName,Length,LastWriteTime |
+                Format-Table -AutoSize |
+                Out-String -Width 500 |
+                Add-Content -Path $scanFile
+            }
+          }
+
+          $candidates = @()
+          foreach ($root in $candidateRoots) {
+            $candidates += Get-ChildItem -Path $root -File -Filter "*griffon*.exe" -ErrorAction SilentlyContinue
+          }
+          $candidates = $candidates | Sort-Object LastWriteTime -Descending
+
+          if ($candidates.Count -gt 0) {
+            $picked = $candidates[0]
+            $binDir = Split-Path -Parent $picked.FullName
+            Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
+
+            if (Test-Path $portableDir) {
+              Remove-Item -Path $portableDir -Recurse -Force -ErrorAction SilentlyContinue
+            }
+            New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
+
+            $copyLog = Join-Path $env:GITHUB_WORKSPACE "portable-copy.log"
+            if (Test-Path $copyLog) { Remove-Item -Path $copyLog -Force -ErrorAction SilentlyContinue }
+            $null = robocopy $binDir $portableDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
+            $robocopyExit = $LASTEXITCODE
+            Add-Content -Path $scanFile -Value ("robocopy exit code: {0}" -f $robocopyExit)
+            if ($robocopyExit -gt 7) {
+              throw "Portable runtime copy failed with robocopy exit code $robocopyExit"
+            }
+            # Robocopy returns 0-7 for success/acceptable states; clear it so the step exit code stays green.
+            $global:LASTEXITCODE = 0
+
+            $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
+            $launcherPath = Join-Path $portableDir $launcherName
+            $launcherContent = "@echo off`r`nsetlocal`r`ncd /d %~dp0`r`nstart """" ""%~dp0$($picked.Name)""`r`n"
+            Set-Content -Path $launcherPath -Encoding ASCII -Value $launcherContent
+
+            $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
+            if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
+            Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
+
+            Add-Content -Path $scanFile -Value ""
+            Add-Content -Path $scanFile -Value "==== portable package sample (first 200 files) ===="
+            Get-ChildItem -Path $portableDir -File -Recurse -ErrorAction SilentlyContinue |
+              Sort-Object FullName |
+              Select-Object -First 200 FullName,Length,LastWriteTime |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $scanFile
+
+            Write-Host "Collected executable: $($picked.FullName)"
+            Write-Host "Collected portable runtime from: $binDir"
+          } else {
+            Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
+          }
+
+          if (Test-Path build.log) {
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== artifact scan (bounded) ===="
+            Get-Content -Path $scanFile | Select-Object -First 600 | Add-Content -Path build.log
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== root report (bounded) ===="
+            Get-Content -Path $rootReport | Select-Object -First 250 | Add-Content -Path build.log
+          }
+
+          Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
+            Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
       - name: Upload executable
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bluegriffon-exe
-          path: |
-            gecko-dev/**/dist/bin/*griffon*.exe
+          path: ${{ github.workspace }}\artifact\*.exe
+          if-no-files-found: warn
+
+      - name: Upload portable runtime
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-portable
+          path: ${{ github.workspace }}\artifact\bluegriffon-portable.zip
+          if-no-files-found: warn
 
       - name: Show build log tail
         if: always()
@@ -123,6 +241,32 @@ jobs:
         with:
           name: build-log
           path: ${{ github.workspace }}\build.log
+
+      - name: Upload worker build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-worker-log
+          path: |
+            ${{ github.workspace }}\build-worker.log
+            ${{ github.workspace }}\gecko-dev\build-worker.log
+          if-no-files-found: warn
+
+      - name: Upload artifact scan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-scan
+          path: ${{ github.workspace }}\artifact-scan.txt
+          if-no-files-found: warn
+
+      - name: Upload root recursive report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-root-recursive-report
+          path: ${{ github.workspace }}\root-recursive-report.txt
+          if-no-files-found: warn
 
       - name: Upload build exit code
         if: always()
