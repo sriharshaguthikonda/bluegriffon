@@ -366,6 +366,9 @@ var gLastWindowState = -1;
 
 function onSizeModeChange()
 {
+  if ("ApplyMenubarPlacement" in window)
+    ApplyMenubarPlacement();
+
   var badger = Components.classes["@disruptive-innovations.com/osintegration/badger;1"]
                          .createInstance(Components.interfaces.diIOSIntegration);
   var wm = Services.wm;

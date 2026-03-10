@@ -2678,18 +2678,45 @@ function SetStatusbarPosition(aPosition)
   ApplyStatusbarPosition();
 }
 
+function ApplyMenubarPlacement()
+{
+  if (!gDialog || !gDialog["composer-main-menubar"] || !gDialog["menubar-fallback-host"])
+    return;
+
+  var menubar = gDialog["composer-main-menubar"];
+  var fallbackHost = gDialog["menubar-fallback-host"];
+  var showTitlebar = _getBoolPref("bluegriffon.ui.titlebar.show", true);
+
+#ifdef CAN_DRAW_IN_TITLEBAR
+  var titlebarHost = gDialog["titlebar-menubar-host"];
+  if (showTitlebar && titlebarHost && !window.fullScreen) {
+    if (menubar.parentNode != titlebarHost)
+      titlebarHost.appendChild(menubar);
+    fallbackHost.setAttribute("hidden", "true");
+    document.documentElement.setAttribute("menubar-placement", "titlebar");
+    return;
+  }
+#endif
+
+  if (menubar.parentNode != fallbackHost)
+    fallbackHost.appendChild(menubar);
+  fallbackHost.removeAttribute("hidden");
+  document.documentElement.setAttribute("menubar-placement", "fallback");
+}
+
 function ApplyTitlebarVisibility()
 {
 #ifdef CAN_DRAW_IN_TITLEBAR
-  if (!gDialog || !gDialog.titlebar)
-    return;
-  var showTitlebar = _getBoolPref("bluegriffon.ui.titlebar.show", true);
-  if (showTitlebar)
-    gDialog.titlebar.removeAttribute("hidden");
-  else
-    gDialog.titlebar.setAttribute("hidden", "true");
-  document.persist(gDialog.titlebar.id, "hidden");
+  if (gDialog && gDialog.titlebar) {
+    var showTitlebar = _getBoolPref("bluegriffon.ui.titlebar.show", true);
+    if (showTitlebar)
+      gDialog.titlebar.removeAttribute("hidden");
+    else
+      gDialog.titlebar.setAttribute("hidden", "true");
+    document.persist(gDialog.titlebar.id, "hidden");
+  }
 #endif
+  ApplyMenubarPlacement();
 }
 
 function onViewToolbarsPopupShowing()

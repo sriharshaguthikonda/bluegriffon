@@ -90,7 +90,9 @@ window:root, dialog:root {
 }
 
 #titleInTitlebar {
-    font-size: larger;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
     color: var(--bg-main-foreground-color);
 }
 
@@ -166,7 +168,7 @@ window:root, dialog:root {
 %endif
 
 #titlebar {
-  margin: 4px 8px;
+  margin: 0;
 }
 
 %include black/menulist.css
