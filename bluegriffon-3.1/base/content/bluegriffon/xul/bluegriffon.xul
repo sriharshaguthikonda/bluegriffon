@@ -173,15 +173,13 @@
           </splitter>
           <vbox id="responsiveContainer" flex="1">
             <tabeditor flex="1" id="tabeditor" visibility="hidden" persist="tabmode">
-                <hbox id="modeTabbox" previousMode="wysiwyg">
-                  <spacer flex="1"/>
+                <hbox id="modeTabbox" previousMode="wysiwyg" hidden="true" collapsed="true">
                   <label class="multiButton"
                            id="liveViewModeButton"
                            value="&dualview.label;"
                            onclick="ToggleViewMode(this)"
                            mode="liveview"
                            observes="cmd_viewModeEnabler"/>
-                  <spacer style="width: 2em"/>
                   <label class="multiButton left"
                            selected="true"
                            id="wysiwygModeButton"
@@ -201,25 +199,6 @@
                            onclick="ToggleViewMode(this)"
                            mode="wysiwyg"
                            observes="cmd_viewModeEnabler"/>
-                  <spacer flex="1"/>
-                  <hbox id="zoomPanel">
-                    <spinbuttons onup="BGZoomManager.enlarge(this.nextSibling)"
-                                 ondown="BGZoomManager.reduce(this.nextSibling)"/>
-                    <menulist id="menulist-zoompanel"
-                              observes="cmd_renderedAllEnabler"
-                              editable="true"
-                              tooltiptext="&setZoomFactor.label;"
-                              value="100%"
-                              sizetopopup="none"
-                              onkeyup="BGZoomManager.onKeyUp(event, this)"
-                              oncommand="BGZoomManager.applyZoomValue(this)">
-                      <menupopup id="menupopup-zoompanel"
-                                 onpopupshowing="BGZoomManager.fillZoomValues(this)">
-                        <menuitem label="dummy"/>
-                      </menupopup>
-                    </menulist>
-          
-                  </hbox>
                 </hbox>
             </tabeditor>
           </vbox>
@@ -261,7 +240,25 @@
     <statusbar id="statusbar" style="-moz-appearance: none">
       <deck flex="1" id="statusbarDeck">
         <hbox id="editorBar" align="center">
+          <statusbarpanel id="viewModeStatus" label="Mode: Wysiwyg" crop="end"/>
           <spacer flex="1"/>
+          <hbox id="zoomPanel">
+            <spinbuttons onup="BGZoomManager.enlarge(this.nextSibling)"
+                         ondown="BGZoomManager.reduce(this.nextSibling)"/>
+            <menulist id="menulist-zoompanel"
+                      observes="cmd_renderedAllEnabler"
+                      editable="true"
+                      tooltiptext="&setZoomFactor.label;"
+                      value="100%"
+                      sizetopopup="none"
+                      onkeyup="BGZoomManager.onKeyUp(event, this)"
+                      oncommand="BGZoomManager.applyZoomValue(this)">
+              <menupopup id="menupopup-zoompanel"
+                         onpopupshowing="BGZoomManager.fillZoomValues(this)">
+                <menuitem label="dummy"/>
+              </menupopup>
+            </menulist>
+          </hbox>
         </hbox>
         <hbox id="progressBar" align="center">
           <statusbarpanel id="status" label="" crop="end" flex="1"/>

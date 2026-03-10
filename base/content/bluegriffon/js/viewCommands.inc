@@ -67,10 +67,6 @@ var cmdToggleView =
 
   doCommand: function(aCommand)
   {
-    var nextMode = EditorUtils.isWysiwygMode()
-                   ? 'source'
-                   : 'wysiwyg';
-    ToggleViewMode(gDialog[nextMode + 'ModeButton']);
+    CycleViewMode();
   }
 };
-
