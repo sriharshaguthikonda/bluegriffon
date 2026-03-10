@@ -56,28 +56,96 @@ document.documentElement
                         .getService(Components.interfaces.nsIXULChromeRegistry)
                         .isLocaleRTL("global"));
 
-if (Services.prefs.getCharPref("bluegriffon.wysiwyg.theme") == "black" &&
-    window.document.documentElement.getAttribute("forcecleartheme") != "true")
-  window.document.documentElement.removeAttribute("cleartheme");
-else
-  window.document.documentElement.setAttribute("cleartheme", "true");
+function GetWysiwygThemePrefValue()
+{
+  try {
+    return Services.prefs.getCharPref("bluegriffon.wysiwyg.theme");
+  } catch (e) {}
+  return "black";
+}
+
+function SystemThemeIsDark()
+{
+  try {
+    if (window && typeof window.matchMedia == "function")
+      return window.matchMedia("(prefers-color-scheme: dark)").matches;
+  } catch (e) {}
+  try {
+    return Services.prefs.getIntPref("ui.systemUsesDarkTheme") == 1;
+  } catch (e) {}
+  return false;
+}
+
+function ResolveWysiwygTheme(aValue)
+{
+  if (aValue == "dark")
+    return "black";
+  if (aValue == "system")
+    return SystemThemeIsDark() ? "black" : "light";
+  return aValue;
+}
+
+function ApplyWysiwygThemeToRoot(aRoot, aValue)
+{
+  if (!aRoot)
+    return;
+  if (aValue == "black" &&
+      aRoot.getAttribute("forcecleartheme") != "true")
+    aRoot.removeAttribute("cleartheme");
+  else
+    aRoot.setAttribute("cleartheme", "true");
+}
 
 function ApplyWysiwygThemeChange(aDocument, aValue)
 {
+  var resolvedValue = ResolveWysiwygTheme(aValue);
   var iframes = aDocument.querySelectorAll("iframe");
   for (var i = 0; i < iframes.length; i++) {
     var root = iframes[i].contentDocument.documentElement;
-    if (aValue == "black" &&
-        root.getAttribute("forcecleartheme") != "true")
-      root.removeAttribute("cleartheme");
-    else
-      root.setAttribute("cleartheme", "true");
+    ApplyWysiwygThemeToRoot(root, resolvedValue);
     if (root.id)
       iframes[i].contentDocument.persist(root.id, "cleartheme");
 
-    ApplyWysiwygThemeChange(iframes[i].contentDocument, aValue)
+    ApplyWysiwygThemeChange(iframes[i].contentDocument, resolvedValue)
   }
 }
+
+function ApplyWysiwygThemeFromPrefs(aDocument)
+{
+  var resolvedValue = ResolveWysiwygTheme(GetWysiwygThemePrefValue());
+  var root = aDocument.documentElement;
+  ApplyWysiwygThemeToRoot(root, resolvedValue);
+  if (root && root.id)
+    aDocument.persist(root.id, "cleartheme");
+  ApplyWysiwygThemeChange(aDocument, resolvedValue);
+}
+
+function ApplySystemThemeIfNeeded()
+{
+  if (GetWysiwygThemePrefValue() != "system")
+    return;
+  ApplyWysiwygThemeFromPrefs(window.document);
+}
+
+function InstallSystemThemeWatcher()
+{
+  try {
+    if (window && typeof window.matchMedia == "function") {
+      var mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      var onChange = function () {
+        ApplySystemThemeIfNeeded();
+      };
+      if (mediaQuery.addEventListener)
+        mediaQuery.addEventListener("change", onChange);
+      else if (mediaQuery.addListener)
+        mediaQuery.addListener(onChange);
+    }
+  } catch (e) {}
+  window.addEventListener("focus", ApplySystemThemeIfNeeded, false);
+}
+
+ApplyWysiwygThemeFromPrefs(window.document);
+InstallSystemThemeWatcher();
 
 function GetWindowContent()
 {
