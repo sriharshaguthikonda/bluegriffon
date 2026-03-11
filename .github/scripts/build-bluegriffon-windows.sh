@@ -346,18 +346,30 @@ else
       fi
     fi
   fi
-  if [ ! -x "$pkg_root/mingw64/bin/mingw32-make.exe" ] && [ ! -x "$pkg_root/mingw64/bin/mingw32-make" ]; then
+  pkg_make_found=0
+  for p in \
+    "$pkg_root/mingw64/bin/mingw32-make.exe" "$pkg_root/mingw64/bin/mingw32-make" \
+    "$pkg_root/ucrt64/bin/mingw32-make.exe" "$pkg_root/ucrt64/bin/mingw32-make" \
+    "$pkg_root/clang64/bin/mingw32-make.exe" "$pkg_root/clang64/bin/mingw32-make" \
+    "$pkg_root/mingw32/bin/mingw32-make.exe" "$pkg_root/mingw32/bin/mingw32-make"; do
+    if [ -x "$p" ]; then
+      pkg_make_found=1
+      break
+    fi
+  done
+  if [ "$pkg_make_found" -ne 1 ]; then
     download_msys2_pkg mingw-w64-x86_64-make || download_msys2_pkg mingw-w64-make || download_msys2_pkg make || true
   fi
 fi
 
-if [ -d "$pkg_root/mingw64/bin" ]; then
-  # Prefer mingw64 tools over msys variants when both are present.
-  PATH="$(sanitize_path "$PATH:$pkg_root/mingw64/bin")"
+for tool_dir in "$pkg_root/mingw64/bin" "$pkg_root/ucrt64/bin" "$pkg_root/clang64/bin" "$pkg_root/mingw32/bin"; do
+  [ -d "$tool_dir" ] || continue
+  # Prefer downloaded mingw-family tools over msys variants when both are present.
+  PATH="$(sanitize_path "$PATH:$tool_dir")"
   export PATH
-  echo "Added msys2-root mingw64/bin to PATH (fallback): $pkg_root/mingw64/bin"
-  ls -la "$pkg_root/mingw64/bin" | grep -Ei '(^|[ /])((mingw32-)?g?make|mozmake)(\.exe)?$' || true
-fi
+  echo "Added msys2-root tool bin to PATH (fallback): $tool_dir"
+  ls -la "$tool_dir" | grep -Ei '(^|[ /])((mingw32-)?g?make|mozmake)(\.exe)?$' || true
+done
 if [ -d "$pkg_root/usr/bin" ]; then
   # Keep bundled MozillaBuild tools first; use extracted tools only as fallback.
   PATH="$(sanitize_path "$PATH:$pkg_root/usr/bin")"
@@ -619,6 +631,24 @@ for p in /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
          "$pkg_root/mingw64/bin/gmake" \
          "$pkg_root/mingw64/bin/make.exe" \
          "$pkg_root/mingw64/bin/make" \
+         "$pkg_root/ucrt64/bin/mingw32-make.exe" \
+         "$pkg_root/ucrt64/bin/mingw32-make" \
+         "$pkg_root/ucrt64/bin/gmake.exe" \
+         "$pkg_root/ucrt64/bin/gmake" \
+         "$pkg_root/ucrt64/bin/make.exe" \
+         "$pkg_root/ucrt64/bin/make" \
+         "$pkg_root/clang64/bin/mingw32-make.exe" \
+         "$pkg_root/clang64/bin/mingw32-make" \
+         "$pkg_root/clang64/bin/gmake.exe" \
+         "$pkg_root/clang64/bin/gmake" \
+         "$pkg_root/clang64/bin/make.exe" \
+         "$pkg_root/clang64/bin/make" \
+         "$pkg_root/mingw32/bin/mingw32-make.exe" \
+         "$pkg_root/mingw32/bin/mingw32-make" \
+         "$pkg_root/mingw32/bin/gmake.exe" \
+         "$pkg_root/mingw32/bin/gmake" \
+         "$pkg_root/mingw32/bin/make.exe" \
+         "$pkg_root/mingw32/bin/make" \
          /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/mozmake; do
   if make_smoke_test "$p"; then
