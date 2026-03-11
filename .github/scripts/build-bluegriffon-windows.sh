@@ -335,10 +335,10 @@ else
     download_msys2_pkg pkgconf || true
   fi
   if ! command -v yasm >/dev/null 2>&1; then
-    download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg yasm || true
+    download_msys2_pkg mingw-w64-yasm || download_msys2_pkg yasm || true
   fi
-  if ! command -v mingw32-make >/dev/null 2>&1 && ! command -v gmake >/dev/null 2>&1 && ! command -v make >/dev/null 2>&1; then
-    download_msys2_pkg mingw-w64-x86_64-make || download_msys2_pkg make || true
+  if ! command -v mingw32-make >/dev/null 2>&1 && ! command -v gmake >/dev/null 2>&1 && ! command -v mozmake >/dev/null 2>&1; then
+    download_msys2_pkg mingw-w64-make || download_msys2_pkg make || true
   fi
 fi
 
@@ -572,7 +572,7 @@ make_smoke_test() {
 MOZMAKE_CAND=""
 is_untrusted_make_candidate() {
   case "$1" in
-    /c/mingw64/bin/*|/mingw64/bin/*|"$pkg_root/usr/bin/make"|"$pkg_root/usr/bin/make.exe"|"$pkg_root/usr/bin/mingw32-make"|"$pkg_root/usr/bin/mingw32-make.exe")
+    /c/mingw64/bin/*|/mingw64/bin/*)
       return 0
       ;;
   esac
