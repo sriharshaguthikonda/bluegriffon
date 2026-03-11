@@ -647,6 +647,13 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
   export MOZBUILD_MOZMAKE="$MOZMAKE_CAND"
   export MAKE="$MOZMAKE_CAND"
   export GNUMAKE="$MOZMAKE_CAND"
+  # Mach on Windows may only probe command names (mozmake/make/gmake) from PATH.
+  # Mirror the selected trusted binary to those names in our shim directory.
+  for make_name in mozmake make gmake mingw32-make; do
+    cp -f "$MOZMAKE_CAND" "$shim_dir/$make_name.exe" || true
+    cp -f "$MOZMAKE_CAND" "$shim_dir/$make_name" || true
+    chmod +x "$shim_dir/$make_name" "$shim_dir/$make_name.exe" || true
+  done
   echo "Using make: $MOZMAKE_CAND"
 else
   echo "ERROR: Trusted make/mozmake not found. Refusing ambient runner make."
