@@ -74,7 +74,13 @@ EOF
   # Legacy Gecko scripts may still resolve python2/python2.7 names.
   # Prefer a Python 2.7 interpreter when available, otherwise fall back to Python 3.
   PYTHON2_EXE_CAND=""
-  for p in "$shim_dir/msys2-root/usr/bin/python2.7.exe" \
+  PYTHON2_ENV_CAND="${PYTHON2_EXE:-}"
+  if [[ "$PYTHON2_ENV_CAND" =~ ^[A-Za-z]:\\ ]]; then
+    PYTHON2_ENV_CAND="$(cygpath -u "$PYTHON2_ENV_CAND" 2>/dev/null || true)"
+  fi
+  echo "PYTHON2_EXE (env): ${PYTHON2_EXE:-}"
+  for p in "$PYTHON2_ENV_CAND" \
+           "$shim_dir/msys2-root/usr/bin/python2.7.exe" \
            /c/mozilla-build/python2/python.exe \
            /c/mozilla-build/python27/python.exe \
            "$(command -v python2.7 2>/dev/null || true)" \
