@@ -644,9 +644,14 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
   make_dir="$(dirname "$MOZMAKE_CAND")"
   PATH="$(sanitize_path "$make_dir:$PATH")"
   export PATH
-  export MOZBUILD_MOZMAKE="$MOZMAKE_CAND"
-  export MAKE="$MOZMAKE_CAND"
-  export GNUMAKE="$MOZMAKE_CAND"
+  MOZMAKE_FOR_MACH="$MOZMAKE_CAND"
+  if [[ "$MOZMAKE_FOR_MACH" == /* ]]; then
+    MOZMAKE_FOR_MACH="$(cygpath -m "$MOZMAKE_FOR_MACH" 2>/dev/null || echo "$MOZMAKE_FOR_MACH")"
+  fi
+  export MOZBUILD_MOZMAKE="$MOZMAKE_FOR_MACH"
+  export MAKE="$MOZMAKE_FOR_MACH"
+  export GNUMAKE="$MOZMAKE_FOR_MACH"
+  export MOZ_MAKE="$MOZMAKE_FOR_MACH"
   # Mach on Windows may only probe command names (mozmake/make/gmake) from PATH.
   # Mirror the selected trusted binary to those names in our shim directory.
   for make_name in mozmake make gmake mingw32-make; do
@@ -691,7 +696,16 @@ if [ -z "$objdir" ]; then
 fi
 
 set +e
-./mach build
+mach_python_exec="${MACH_PYTHON_EXE_CAND:-${PYTHON:-python}}"
+if [[ "$mach_python_exec" == /* ]]; then
+  mach_python_exec="$(cygpath -m "$mach_python_exec" 2>/dev/null || echo "$mach_python_exec")"
+fi
+mach_script_path="$(cygpath -m "$PWD/mach" 2>/dev/null || echo "$PWD/mach")"
+mach_path_win="$(cygpath -wp "$PATH" 2>/dev/null || echo "$PATH")"
+echo "mach python: $mach_python_exec"
+echo "mach script: $mach_script_path"
+echo "PATH (for mach/win): $mach_path_win"
+PATH="$mach_path_win" "$mach_python_exec" "$mach_script_path" build
 build_rc=$?
 set -e
 
