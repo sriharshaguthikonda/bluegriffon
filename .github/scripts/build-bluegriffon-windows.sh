@@ -644,10 +644,14 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
   make_dir="$(dirname "$MOZMAKE_CAND")"
   PATH="$(sanitize_path "$make_dir:$PATH")"
   export PATH
-  export MOZBUILD_MOZMAKE="$MOZMAKE_CAND"
-  export MAKE="$MOZMAKE_CAND"
-  export GNUMAKE="$MOZMAKE_CAND"
-  export MOZ_MAKE="$MOZMAKE_CAND"
+  MOZMAKE_FOR_MACH="$MOZMAKE_CAND"
+  if [[ "$MOZMAKE_FOR_MACH" == /* ]]; then
+    MOZMAKE_FOR_MACH="$(cygpath -m "$MOZMAKE_FOR_MACH" 2>/dev/null || echo "$MOZMAKE_FOR_MACH")"
+  fi
+  export MOZBUILD_MOZMAKE="$MOZMAKE_FOR_MACH"
+  export MAKE="$MOZMAKE_FOR_MACH"
+  export GNUMAKE="$MOZMAKE_FOR_MACH"
+  export MOZ_MAKE="$MOZMAKE_FOR_MACH"
   # Mach on Windows may only probe command names (mozmake/make/gmake) from PATH.
   # Mirror the selected trusted binary to those names in our shim directory.
   for make_name in mozmake make gmake mingw32-make; do
