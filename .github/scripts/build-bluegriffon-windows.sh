@@ -139,6 +139,25 @@ else
   echo "MSVC_BIN not found (env or cl): ${MSVC_BIN:-}"
 fi
 
+mt_bin_u=""
+for p in /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/*/x64/mt.exe \
+         /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/x64/mt.exe \
+         /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/*/x86/mt.exe \
+         /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/x86/mt.exe; do
+  if [ -x "$p" ]; then
+    mt_bin_u="$p"
+    break
+  fi
+done
+mt_dir_u=""
+if [ -n "$mt_bin_u" ]; then
+  mt_dir_u="$(dirname "$mt_bin_u")"
+  export MT="$mt_bin_u"
+  echo "MT_BIN (path): $mt_bin_u"
+else
+  echo "WARNING: mt.exe not found in Windows SDK default locations."
+fi
+
 # Prefer MSYS2 tools over Strawberry Perl (without breaking MSVC link).
 msys_usr="/c/mozilla-build/msys2/usr/bin"
 msys_mingw="/c/mozilla-build/msys2/mingw64/bin"
@@ -198,7 +217,7 @@ build_path_from_dirs() {
 
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
-for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32"; do
+for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$mt_dir_u" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32"; do
   if [ -n "$p" ] && [ -d "$p" ]; then
     if [ -z "$priority_path" ]; then
       priority_path="$p"
@@ -752,6 +771,7 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
     "$py_dir" \
     "$py_dir/Scripts" \
     "$msvc_bin_u" \
+    "$mt_dir_u" \
     "$moz_bin" \
     "$msys_usr" \
     "$msys_mingw" \
