@@ -178,6 +178,21 @@ strip_ambient_mingw_path() {
   IFS=':'; echo "${out[*]}"
 }
 
+build_path_from_dirs() {
+  local out=""
+  local p=""
+  for p in "$@"; do
+    [ -n "$p" ] || continue
+    [ -d "$p" ] || continue
+    if [ -z "$out" ]; then
+      out="$p"
+    else
+      out="$out:$p"
+    fi
+  done
+  sanitize_path "$out"
+}
+
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
 for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw"; do
@@ -194,6 +209,8 @@ export PATH
 echo "PATH (sanitized): $PATH"
 
 export MSYS2_PATH_TYPE=inherit
+export MSYS2_FORK_RETRY="${MSYS2_FORK_RETRY:-20}"
+echo "MSYS2_FORK_RETRY: $MSYS2_FORK_RETRY"
 
 if [ -n "$msvc_bin_u" ] && [ -x "$msvc_bin_u/link.exe" ]; then
   cat >"$shim_dir/link" <<EOF
@@ -606,25 +623,21 @@ PATH="$(strip_ambient_mingw_path "$(sanitize_path "$PATH")")"
 export PATH
 echo "PATH (without ambient mingw64): $PATH"
 
-# Prefer MozillaBuild make binaries to avoid msys DLL mismatches from runner images.
-for p in /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
-         /c/mozilla-build/msys2/usr/bin/mingw32-make \
-         /c/mozilla-build/msys2/usr/bin/gmake.exe \
-         /c/mozilla-build/msys2/usr/bin/gmake \
-         /c/mozilla-build/msys2/usr/bin/make.exe \
-         /c/mozilla-build/msys2/usr/bin/make \
-         /c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe \
-         /c/mozilla-build/msys2/mingw64/bin/mingw32-make \
-         /c/mozilla-build/msys2/mingw64/bin/gmake.exe \
-         /c/mozilla-build/msys2/mingw64/bin/gmake \
-         /c/mozilla-build/msys2/mingw64/bin/make.exe \
-         /c/mozilla-build/msys2/mingw64/bin/make \
+# Prefer non-MSYS make binaries first; keep MSYS make only as final fallback.
+for p in /c/mozilla-build/mozmake.exe \
+         /c/mozilla-build/mozmake \
          /c/mozilla-build/bin/mingw32-make.exe \
          /c/mozilla-build/bin/mingw32-make \
          /c/mozilla-build/bin/gmake.exe \
          /c/mozilla-build/bin/gmake \
          /c/mozilla-build/bin/make.exe \
          /c/mozilla-build/bin/make \
+         /c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/mingw64/bin/mingw32-make \
+         /c/mozilla-build/msys2/mingw64/bin/gmake.exe \
+         /c/mozilla-build/msys2/mingw64/bin/gmake \
+         /c/mozilla-build/msys2/mingw64/bin/make.exe \
+         /c/mozilla-build/msys2/mingw64/bin/make \
          "$pkg_root/mingw64/bin/mingw32-make.exe" \
          "$pkg_root/mingw64/bin/mingw32-make" \
          "$pkg_root/mingw64/bin/gmake.exe" \
@@ -649,8 +662,12 @@ for p in /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
          "$pkg_root/mingw32/bin/gmake" \
          "$pkg_root/mingw32/bin/make.exe" \
          "$pkg_root/mingw32/bin/make" \
-         /c/mozilla-build/mozmake.exe \
-         /c/mozilla-build/mozmake; do
+         /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/usr/bin/mingw32-make \
+         /c/mozilla-build/msys2/usr/bin/gmake.exe \
+         /c/mozilla-build/msys2/usr/bin/gmake \
+         /c/mozilla-build/msys2/usr/bin/make.exe \
+         /c/mozilla-build/msys2/usr/bin/make; do
   if make_smoke_test "$p"; then
     MOZMAKE_CAND="$p"
     break
@@ -683,7 +700,26 @@ if [[ "$MOZMAKE_CAND" =~ ^[A-Za-z]: ]]; then
 fi
 if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
   make_dir="$(dirname "$MOZMAKE_CAND")"
-  PATH="$(sanitize_path "$make_dir:$PATH")"
+  git_bin="$(command -v git 2>/dev/null || true)"
+  git_dir=""
+  if [ -n "$git_bin" ]; then
+    git_dir="$(dirname "$git_bin")"
+  fi
+  PATH="$(build_path_from_dirs \
+    "$make_dir" \
+    "$shim_dir" \
+    "$py_dir" \
+    "$py_dir/Scripts" \
+    "$msvc_bin_u" \
+    "$moz_bin" \
+    "$msys_usr" \
+    "$msys_mingw" \
+    "$git_dir" \
+    "$pkg_root/mingw64/bin" \
+    "$pkg_root/ucrt64/bin" \
+    "$pkg_root/clang64/bin" \
+    "$pkg_root/mingw32/bin" \
+    "$pkg_root/usr/bin")"
   export PATH
   MOZMAKE_FOR_MACH="$MOZMAKE_CAND"
   if [[ "$MOZMAKE_FOR_MACH" == /* ]]; then
