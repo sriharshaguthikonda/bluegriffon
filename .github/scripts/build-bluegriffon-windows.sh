@@ -338,7 +338,7 @@ else
   if ! command -v yasm >/dev/null 2>&1; then
     download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg mingw-w64-yasm || download_msys2_pkg yasm || true
   fi
-  if ! command -v mingw32-make >/dev/null 2>&1 && ! command -v gmake >/dev/null 2>&1 && ! command -v mozmake >/dev/null 2>&1; then
+  if ! command -v mingw32-make >/dev/null 2>&1; then
     download_msys2_pkg mingw-w64-x86_64-make || download_msys2_pkg mingw-w64-make || download_msys2_pkg make || true
   fi
 fi
@@ -439,6 +439,7 @@ echo "gcc on PATH: $(command -v gcc || true)"
 echo "link on PATH: $(command -v link || true)"
 
 echo "make on PATH: $(command -v make || true)"
+echo "mingw32-make on PATH: $(command -v mingw32-make || true)"
 echo "mozmake on PATH: $(command -v mozmake || true)"
 echo "zip on PATH: $(command -v zip || true)"
 if ! command -v zip >/dev/null 2>&1 && [ -x "$moz_bin/zip.exe" ]; then
