@@ -142,6 +142,9 @@ fi
 # Prefer MSYS2 tools over Strawberry Perl (without breaking MSVC link).
 msys_usr="/c/mozilla-build/msys2/usr/bin"
 msys_mingw="/c/mozilla-build/msys2/mingw64/bin"
+msys_ucrt="/c/mozilla-build/msys2/ucrt64/bin"
+msys_clang="/c/mozilla-build/msys2/clang64/bin"
+msys_mingw32="/c/mozilla-build/msys2/mingw32/bin"
 moz_bin="/c/mozilla-build/bin"
 
 sanitize_path() {
@@ -169,7 +172,7 @@ strip_ambient_mingw_path() {
   for p in "${parts[@]}"; do
     [ -n "$p" ] || continue
     case "$p" in
-      /c/mingw64/bin|/mingw64/bin|/c/mozilla-build/msys2/usr/bin|/c/mozilla-build/msys2/mingw64/bin)
+      /c/mingw64/bin|/mingw64/bin|/c/mozilla-build/msys2/usr/bin|/c/mozilla-build/msys2/mingw64/bin|/c/mozilla-build/msys2/ucrt64/bin|/c/mozilla-build/msys2/clang64/bin|/c/mozilla-build/msys2/mingw32/bin)
         continue
         ;;
     esac
@@ -195,7 +198,7 @@ build_path_from_dirs() {
 
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
-for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw"; do
+for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32"; do
   if [ -n "$p" ] && [ -d "$p" ]; then
     if [ -z "$priority_path" ]; then
       priority_path="$p"
@@ -337,13 +340,15 @@ done
 
 if [ -n "$pacman_bin" ]; then
   "$pacman_bin" -Sy --noconfirm || true
-  "$pacman_bin" -S --noconfirm --needed \
-    mingw-w64-x86_64-make \
-    pkgconf mingw-w64-x86_64-pkgconf \
-    yasm mingw-w64-x86_64-yasm \
-    zip mingw-w64-x86_64-zip \
-    autoconf2.13 || true
-  "$pacman_bin" -Q mingw-w64-x86_64-make pkgconf mingw-w64-x86_64-pkgconf yasm mingw-w64-x86_64-yasm zip mingw-w64-x86_64-zip autoconf2.13 || true
+  for pkg in \
+    mingw-w64-x86_64-make mingw-w64-ucrt-x86_64-make mingw-w64-clang-x86_64-make mingw-w64-i686-make \
+    pkgconf mingw-w64-x86_64-pkgconf mingw-w64-ucrt-x86_64-pkgconf mingw-w64-clang-x86_64-pkgconf \
+    yasm mingw-w64-x86_64-yasm mingw-w64-ucrt-x86_64-yasm mingw-w64-clang-x86_64-yasm \
+    zip mingw-w64-x86_64-zip mingw-w64-ucrt-x86_64-zip mingw-w64-clang-x86_64-zip \
+    autoconf2.13; do
+    "$pacman_bin" -S --noconfirm --needed "$pkg" || true
+  done
+  "$pacman_bin" -Q | grep -E '(^| )(mingw-w64-.*-(make|pkgconf|yasm|zip)|pkgconf|yasm|zip|autoconf2.13)( |$)' || true
 else
   echo "WARNING: pacman not found; downloading MSYS2 packages directly."
   if ! command -v autoconf-2.13 >/dev/null 2>&1 && ! command -v autoconf213 >/dev/null 2>&1; then
@@ -375,7 +380,12 @@ else
     fi
   done
   if [ "$pkg_make_found" -ne 1 ]; then
-    download_msys2_pkg mingw-w64-x86_64-make || download_msys2_pkg mingw-w64-make || download_msys2_pkg make || true
+    download_msys2_pkg mingw-w64-x86_64-make || \
+      download_msys2_pkg mingw-w64-ucrt-x86_64-make || \
+      download_msys2_pkg mingw-w64-clang-x86_64-make || \
+      download_msys2_pkg mingw-w64-i686-make || \
+      download_msys2_pkg mingw-w64-make || \
+      download_msys2_pkg make || true
   fi
 fi
 
@@ -387,12 +397,6 @@ for tool_dir in "$pkg_root/mingw64/bin" "$pkg_root/ucrt64/bin" "$pkg_root/clang6
   echo "Added msys2-root tool bin to PATH (fallback): $tool_dir"
   ls -la "$tool_dir" | grep -Ei '(^|[ /])((mingw32-)?g?make|mozmake)(\.exe)?$' || true
 done
-if [ -d "$pkg_root/usr/bin" ]; then
-  # Keep bundled MozillaBuild tools first; use extracted tools only as fallback.
-  PATH="$(sanitize_path "$PATH:$pkg_root/usr/bin")"
-  export PATH
-  echo "Added msys2-root usr/bin to PATH (fallback): $pkg_root/usr/bin"
-fi
 PATH="$(sanitize_path "$shim_dir:$PATH")"
 export PATH
 
@@ -638,6 +642,24 @@ for p in /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/msys2/mingw64/bin/gmake \
          /c/mozilla-build/msys2/mingw64/bin/make.exe \
          /c/mozilla-build/msys2/mingw64/bin/make \
+         /c/mozilla-build/msys2/ucrt64/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/ucrt64/bin/mingw32-make \
+         /c/mozilla-build/msys2/ucrt64/bin/gmake.exe \
+         /c/mozilla-build/msys2/ucrt64/bin/gmake \
+         /c/mozilla-build/msys2/ucrt64/bin/make.exe \
+         /c/mozilla-build/msys2/ucrt64/bin/make \
+         /c/mozilla-build/msys2/clang64/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/clang64/bin/mingw32-make \
+         /c/mozilla-build/msys2/clang64/bin/gmake.exe \
+         /c/mozilla-build/msys2/clang64/bin/gmake \
+         /c/mozilla-build/msys2/clang64/bin/make.exe \
+         /c/mozilla-build/msys2/clang64/bin/make \
+         /c/mozilla-build/msys2/mingw32/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/mingw32/bin/mingw32-make \
+         /c/mozilla-build/msys2/mingw32/bin/gmake.exe \
+         /c/mozilla-build/msys2/mingw32/bin/gmake \
+         /c/mozilla-build/msys2/mingw32/bin/make.exe \
+         /c/mozilla-build/msys2/mingw32/bin/make \
          "$pkg_root/mingw64/bin/mingw32-make.exe" \
          "$pkg_root/mingw64/bin/mingw32-make" \
          "$pkg_root/mingw64/bin/gmake.exe" \
@@ -714,12 +736,14 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
     "$moz_bin" \
     "$msys_usr" \
     "$msys_mingw" \
+    "$msys_ucrt" \
+    "$msys_clang" \
+    "$msys_mingw32" \
     "$git_dir" \
     "$pkg_root/mingw64/bin" \
     "$pkg_root/ucrt64/bin" \
     "$pkg_root/clang64/bin" \
-    "$pkg_root/mingw32/bin" \
-    "$pkg_root/usr/bin")"
+    "$pkg_root/mingw32/bin")"
   export PATH
   MOZMAKE_FOR_MACH="$MOZMAKE_CAND"
   if [[ "$MOZMAKE_FOR_MACH" == /* ]]; then
