@@ -66,13 +66,8 @@ then
   exit 12
 fi
 if [ -x "$PYTHON_EXE_CAND" ]; then
-  cat >"$shim_dir/python" <<EOF
-#!/usr/bin/env bash
-exec "$PYTHON_EXE_CAND" "\$@"
-EOF
-  chmod +x "$shim_dir/python"
   # Legacy Gecko scripts may still resolve python2/python2.7 names.
-  # Prefer a Python 2.7 interpreter when available, otherwise fall back to Python 3.
+  # Prefer a verified Python 2.7 interpreter and use it for mach.
   PYTHON2_EXE_CAND=""
   PYTHON2_ENV_CAND="${PYTHON2_EXE:-}"
   if [[ "$PYTHON2_ENV_CAND" =~ ^[A-Za-z]:\\ ]]; then
@@ -87,16 +82,30 @@ EOF
            "$(command -v python2 2>/dev/null || true)"; do
     [ -n "$p" ] || continue
     if [ -x "$p" ]; then
-      PYTHON2_EXE_CAND="$p"
-      break
+      if "$p" - <<'PY' >/dev/null 2>&1
+import __builtin__
+PY
+      then
+        PYTHON2_EXE_CAND="$p"
+        break
+      fi
     fi
   done
+
+  MACH_PYTHON_EXE_CAND="$PYTHON_EXE_CAND"
   if [ -z "$PYTHON2_EXE_CAND" ]; then
     PYTHON2_EXE_CAND="$PYTHON_EXE_CAND"
-    echo "WARNING: Python 2.7 interpreter not found; python2 shims will use Python 3."
+    echo "WARNING: Python 2.7 interpreter not found/usable; shims will use Python 3."
   else
     echo "Using python2 shim target: $PYTHON2_EXE_CAND"
+    MACH_PYTHON_EXE_CAND="$PYTHON2_EXE_CAND"
   fi
+
+  cat >"$shim_dir/python" <<EOF
+#!/usr/bin/env bash
+exec "$MACH_PYTHON_EXE_CAND" "\$@"
+EOF
+  chmod +x "$shim_dir/python"
   for legacy_py in python2 python2.7; do
     cat >"$shim_dir/$legacy_py" <<EOF
 #!/usr/bin/env bash
@@ -106,8 +115,8 @@ EOF
   done
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
-  export PYTHON="$PYTHON_EXE_CAND"
-  echo "Using python: $PYTHON_EXE_CAND"
+  export PYTHON="$MACH_PYTHON_EXE_CAND"
+  echo "Using mach python: $MACH_PYTHON_EXE_CAND"
 fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
