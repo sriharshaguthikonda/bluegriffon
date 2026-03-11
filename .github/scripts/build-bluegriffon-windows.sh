@@ -158,6 +158,14 @@ else
   echo "WARNING: mt.exe not found in Windows SDK default locations."
 fi
 
+win_system32="/c/Windows/System32"
+if [ -x "$win_system32/makecab.exe" ]; then
+  export MAKECAB="$win_system32/makecab.exe"
+  echo "MAKECAB (path): $MAKECAB"
+else
+  echo "WARNING: makecab.exe not found at $win_system32/makecab.exe"
+fi
+
 # Prefer MSYS2 tools over Strawberry Perl (without breaking MSVC link).
 msys_usr="/c/mozilla-build/msys2/usr/bin"
 msys_mingw="/c/mozilla-build/msys2/mingw64/bin"
@@ -217,7 +225,7 @@ build_path_from_dirs() {
 
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
-for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$mt_dir_u" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32"; do
+for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$mt_dir_u" "$win_system32" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32"; do
   if [ -n "$p" ] && [ -d "$p" ]; then
     if [ -z "$priority_path" ]; then
       priority_path="$p"
@@ -772,6 +780,7 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
     "$py_dir/Scripts" \
     "$msvc_bin_u" \
     "$mt_dir_u" \
+    "$win_system32" \
     "$moz_bin" \
     "$msys_usr" \
     "$msys_mingw" \
