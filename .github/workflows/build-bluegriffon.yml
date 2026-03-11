@@ -309,6 +309,13 @@ jobs:
         shell: powershell
         run: |
           if (Test-Path build.log) { Get-Content build.log -Tail 200 }
+          if (Test-Path build-worker.log) {
+            Write-Host "==== build-worker.log tail ===="
+            Get-Content build-worker.log -Tail 200
+          } elseif (Test-Path gecko-dev\build-worker.log) {
+            Write-Host "==== gecko-dev\\build-worker.log tail ===="
+            Get-Content gecko-dev\build-worker.log -Tail 200
+          }
 
       - name: Upload build log
         if: always()
@@ -361,6 +368,15 @@ jobs:
 
           $tempLog = Join-Path $env:RUNNER_TEMP "build.log"
           Copy-Item build.log $tempLog -Force
+          $tempWorker = Join-Path $env:RUNNER_TEMP "build-worker.log"
+          $hasWorker = $false
+          if (Test-Path build-worker.log) {
+            Copy-Item build-worker.log $tempWorker -Force
+            $hasWorker = $true
+          } elseif (Test-Path gecko-dev\build-worker.log) {
+            Copy-Item gecko-dev\build-worker.log $tempWorker -Force
+            $hasWorker = $true
+          }
           $tempExit = Join-Path $env:RUNNER_TEMP "build-exit.txt"
           $hasExit = Test-Path build-exit.txt
           if ($hasExit) {
@@ -395,6 +411,11 @@ jobs:
 
             New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
             Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
+            if ($hasWorker) {
+              Add-Content -Path ci-logs\build.log -Value ""
+              Add-Content -Path ci-logs\build.log -Value "==== worker build log tail ===="
+              Get-Content $tempWorker -Tail 5000 | Add-Content -Path ci-logs\build.log
+            }
             if ($hasExit) {
               Copy-Item $tempExit ci-logs\build-exit.txt -Force
             } elseif (Test-Path ci-logs\build-exit.txt) {
