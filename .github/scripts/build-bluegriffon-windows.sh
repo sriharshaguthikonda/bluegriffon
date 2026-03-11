@@ -338,6 +338,14 @@ else
   if ! command -v yasm >/dev/null 2>&1; then
     download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg mingw-w64-yasm || download_msys2_pkg yasm || true
   fi
+  if [ ! -x /c/mozilla-build/msys2/usr/bin/make.exe ] && [ ! -x /c/mozilla-build/msys2/usr/bin/make ]; then
+    if download_msys2_pkg make; then
+      make_pkg="$(ls -t "$pkg_cache"/make-*.pkg.tar.zst 2>/dev/null | head -1 || true)"
+      if [ -n "$make_pkg" ] && [ -d /c/mozilla-build/msys2 ]; then
+        extract_pkg_tar "$make_pkg" /c/mozilla-build/msys2 || true
+      fi
+    fi
+  fi
   if [ ! -x "$pkg_root/mingw64/bin/mingw32-make.exe" ] && [ ! -x "$pkg_root/mingw64/bin/mingw32-make" ]; then
     download_msys2_pkg mingw-w64-x86_64-make || download_msys2_pkg mingw-w64-make || download_msys2_pkg make || true
   fi
