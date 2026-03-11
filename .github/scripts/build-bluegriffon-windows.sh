@@ -506,9 +506,14 @@ if [ -n "$YASM_CAND" ]; then
     cp -f "$yasm_real" /c/mozilla-build/msys2/usr/bin/yasm || true
     chmod +x /c/mozilla-build/msys2/usr/bin/yasm /c/mozilla-build/msys2/usr/bin/yasm.exe || true
   fi
-  export YASM="$shim_dir/yasm.exe"
+  export YASM="$yasm_real"
+  YASM_FOR_MOZCONFIG="$YASM"
+  if [[ "$YASM_FOR_MOZCONFIG" == /* ]]; then
+    YASM_FOR_MOZCONFIG="$(cygpath -m "$YASM_FOR_MOZCONFIG" 2>/dev/null || echo "$YASM_FOR_MOZCONFIG")"
+  fi
   echo "Using yasm: $yasm_real"
   echo "YASM env: $YASM"
+  echo "YASM mozconfig: $YASM_FOR_MOZCONFIG"
 else
   echo "ERROR: No working yasm binary found."
   exit 13
@@ -568,9 +573,11 @@ patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 
 cp bluegriffon/config/mozconfig.win .mozconfig
 # Keep YASM visible to old-configure sub-configures (e.g. js/src).
-echo "mk_add_options YASM=$YASM" >> .mozconfig
-echo "Injected into .mozconfig: mk_add_options YASM=$YASM"
-export BLUEGRIFFON_YASM="$YASM"
+echo "mk_add_options YASM=$YASM_FOR_MOZCONFIG" >> .mozconfig
+echo "ac_add_options --with-yasm=$YASM_FOR_MOZCONFIG" >> .mozconfig
+echo "Injected into .mozconfig: mk_add_options YASM=$YASM_FOR_MOZCONFIG"
+echo "Injected into .mozconfig: ac_add_options --with-yasm=$YASM_FOR_MOZCONFIG"
+export BLUEGRIFFON_YASM="$YASM_FOR_MOZCONFIG"
 echo "BLUEGRIFFON_YASM: $BLUEGRIFFON_YASM"
 objdir_line="$(awk -F= '/^mk_add_options MOZ_OBJDIR=/{print $2}' .mozconfig | tail -1 | tr -d '\"')"
 objdir="${objdir_line//@TOPSRCDIR@/$PWD}"
