@@ -556,9 +556,13 @@ is_untrusted_make_candidate() {
 
 # Prefer MozillaBuild make binaries to avoid msys DLL mismatches from runner images.
 for p in /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/usr/bin/mingw32-make \
          /c/mozilla-build/msys2/usr/bin/make.exe \
+         /c/mozilla-build/msys2/usr/bin/make \
          /c/mozilla-build/bin/mingw32-make.exe \
+         /c/mozilla-build/bin/mingw32-make \
          /c/mozilla-build/bin/make.exe \
+         /c/mozilla-build/bin/make \
          /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/mozmake; do
   if [ -x "$p" ]; then
