@@ -338,7 +338,7 @@ else
   if ! command -v yasm >/dev/null 2>&1; then
     download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg mingw-w64-yasm || download_msys2_pkg yasm || true
   fi
-  if ! command -v mingw32-make >/dev/null 2>&1; then
+  if [ ! -x "$pkg_root/mingw64/bin/mingw32-make.exe" ] && [ ! -x "$pkg_root/mingw64/bin/mingw32-make" ]; then
     download_msys2_pkg mingw-w64-x86_64-make || download_msys2_pkg mingw-w64-make || download_msys2_pkg make || true
   fi
 fi
@@ -348,6 +348,7 @@ if [ -d "$pkg_root/mingw64/bin" ]; then
   PATH="$(sanitize_path "$PATH:$pkg_root/mingw64/bin")"
   export PATH
   echo "Added msys2-root mingw64/bin to PATH (fallback): $pkg_root/mingw64/bin"
+  ls -la "$pkg_root/mingw64/bin" | grep -Ei '(^|[ /])((mingw32-)?g?make|mozmake)(\.exe)?$' || true
 fi
 if [ -d "$pkg_root/usr/bin" ]; then
   # Keep bundled MozillaBuild tools first; use extracted tools only as fallback.
