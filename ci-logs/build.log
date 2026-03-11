@@ -1,35 +1,3 @@
-++ '[' -n /usr/bin ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
-++ '[' -n /bin ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
-++ '[' -n '/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages' ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
-++ '[' -n '/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow' ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
-++ '[' -n '/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer' ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
-++ '[' -n '/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn' ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
-++ '[' -n '/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64' ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
-++ '[' -n '/c/Program Files (x86)/HTML Help Workshop' ']'
-++ case "$p" in
-++ out+=("$p")
-++ for p in "${parts[@]}"
 ++ '[' -n '/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools' ']'
 ++ case "$p" in
 ++ out+=("$p")
@@ -1312,189 +1280,207 @@ Using make: /d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/make
 PATH (after make selection): /d/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin:/d/a/bluegriffon/bluegriffon/.build-tools:/c/hostedtoolcache/windows/Python/3.11.9/x64:/c/hostedtoolcache/windows/Python/3.11.9/x64/Scripts:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/HostX64/x64:/c/mozilla-build/bin:/usr/local/bin:/usr/bin:/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/VCPackages:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TestWindow:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/TeamFoundation/Team Explorer:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/bin/Roslyn:/c/Program Files (x86)/Microsoft SDKs/Windows/v10.0A/bin/NETFX 4.8 Tools/x64:/c/Program Files (x86)/HTML Help Workshop:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/FSharp/Tools:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Team Tools/DiagnosticsHub/Collector:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/Extensions/Microsoft/CodeCoverage.Console:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/Llvm/x64/bin:/c/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64:/c/Program Files (x86)/Windows Kits/10/bin/x64:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/MSBuild/Current/Bin/amd64:/c/Windows/Microsoft.NET/Framework64/v4.0.30319:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/Tools:/c/Users/runneradmin/AppData/Roaming/Python/Python311/Scripts:/c/Program Files/MongoDB/Server/7.0/bin:/c/aliyun-cli:/c/vcpkg:/c/Program Files (x86)/NSIS:/c/tools/zstd:/c/Program Files/Mercurial:/c/hostedtoolcache/windows/stack/3.9.3/x64:/c/cabal/bin:/c/ghcup/bin:/c/Program Files/dotnet:/c/Program Files/MySQL/MySQL Server 8.0/bin:/c/Program Files/R/R-4.5.2/bin/x64:/c/SeleniumWebDrivers/GeckoDriver:/c/SeleniumWebDrivers/EdgeDriver:/c/SeleniumWebDrivers/ChromeDriver:/c/Program Files (x86)/sbt/bin:/c/Program Files (x86)/GitHub CLI:/c/Program Files/Git/bin:/c/Program Files (x86)/pipx_bin:/c/npm/prefix:/c/hostedtoolcache/windows/go/1.24.13/x64/bin:/c/hostedtoolcache/windows/Python/3.12.10/x64/Scripts:/c/hostedtoolcache/windows/Python/3.12.10/x64:/c/hostedtoolcache/windows/Ruby/3.3.10/x64/bin:/c/Program Files/OpenSSL/bin:/c/tools/kotlinc/bin:/c/hostedtoolcache/windows/Java_Temurin-Hotspot_jdk/8.0.482-8/x64/bin:/c/Program Files/ImageMagick-7.1.2-Q16-HDRI:/c/Program Files/Microsoft SDKs/Azure/CLI2/wbin:/c/ProgramData/kind:/c/ProgramData/Chocolatey/bin:/c/Windows/system32:/c/Windows:/c/Windows/System32/Wbem:/c/Windows/System32/WindowsPowerShell/v1.0:/c/Windows/System32/OpenSSH:/c/Program Files/PowerShell/7:/c/Program Files/Microsoft/Web Platform Installer:/c/Program Files/TortoiseSVN/bin:/c/Program Files/Microsoft SQL Server/Client SDK/ODBC/170/Tools/Binn:/c/Program Files/Microsoft SQL Server/150/Tools/Binn:/c/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit:/c/Program Files (x86)/WiX Toolset v3.14/bin:/c/Program Files/Microsoft SQL Server/130/DTS/Binn:/c/Program Files/Microsoft SQL Server/140/DTS/Binn:/c/Program Files/Microsoft SQL Server/150/DTS/Binn:/c/Program Files/Microsoft SQL Server/160/DTS/Binn:/c/Program Files/Microsoft SQL Server/170/DTS/Binn:/c/ProgramData/chocolatey/lib/pulumi/tools/Pulumi/bin:/c/Program Files/CMake/bin:/c/ProgramData/chocolatey/lib/maven/apache-maven-3.9.12/bin:/c/Program Files/Microsoft Service Fabric/bin/Fabric/Fabric.Code:/c/Program Files/Microsoft SDKs/Service Fabric/Tools/ServiceFabricLocalClusterManager:/c/Program Files/nodejs:/c/Program Files/Git/cmd:/c/Program Files/Git/mingw64/bin:/c/Program Files/Git/usr/bin:/c/Program Files/GitHub CLI:/c/tools/php:/c/Program Files/Amazon/AWSCLIV2:/c/Program Files/Amazon/SessionManagerPlugin/bin:/c/Program Files/Amazon/AWSSAMCLI/bin:/c/Program Files/Microsoft SQL Server/130/Tools/Binn:/c/Program Files/mongosh:/c/Program Files/LLVM/bin:/c/Program Files (x86)/LLVM/bin:/c/Users/runneradmin/.dotnet/tools:/c/Users/runneradmin/.cargo/bin:/c/Users/runneradmin/AppData/Local/Microsoft/WindowsApps:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/bin:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/CommonExtensions/Microsoft/CMake/Ninja:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/Common7/IDE/VC/Linux/bin/ConnectionManagerExe:/c/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/vcpkg:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl
 + git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
 Cloning into 'gecko-dev'...
-Updating files:   1% (5082/387841)
+Updating files:   1% (4216/387841)
 Updating files:   2% (7757/387841)
-Updating files:   2% (10564/387841)
+Updating files:   2% (8496/387841)
 Updating files:   3% (11636/387841)
-Updating files:   3% (15352/387841)
+Updating files:   3% (12330/387841)
 Updating files:   4% (15514/387841)
+Updating files:   4% (16723/387841)
 Updating files:   5% (19393/387841)
-Updating files:   5% (20443/387841)
+Updating files:   5% (20536/387841)
 Updating files:   6% (23271/387841)
-Updating files:   6% (26548/387841)
+Updating files:   6% (25316/387841)
 Updating files:   7% (27149/387841)
+Updating files:   7% (29767/387841)
 Updating files:   8% (31028/387841)
-Updating files:   8% (33087/387841)
 Updating files:   9% (34906/387841)
+Updating files:   9% (34975/387841)
 Updating files:  10% (38785/387841)
-Updating files:  10% (38824/387841)
+Updating files:  10% (39339/387841)
 Updating files:  11% (42663/387841)
-Updating files:  11% (42923/387841)
+Updating files:  11% (42939/387841)
 Updating files:  12% (46541/387841)
-Updating files:  12% (49740/387841)
+Updating files:  12% (46883/387841)
 Updating files:  13% (50420/387841)
-Updating files:  13% (54042/387841)
+Updating files:  13% (50423/387841)
 Updating files:  14% (54298/387841)
+Updating files:  14% (55398/387841)
 Updating files:  15% (58177/387841)
-Updating files:  15% (58366/387841)
+Updating files:  15% (58734/387841)
 Updating files:  16% (62055/387841)
-Updating files:  16% (63469/387841)
+Updating files:  16% (62310/387841)
 Updating files:  17% (65933/387841)
-Updating files:  17% (67885/387841)
+Updating files:  17% (66552/387841)
 Updating files:  18% (69812/387841)
-Updating files:  18% (71498/387841)
+Updating files:  18% (70007/387841)
 Updating files:  19% (73690/387841)
-Updating files:  19% (76848/387841)
+Updating files:  19% (73911/387841)
 Updating files:  20% (77569/387841)
+Updating files:  20% (79205/387841)
 Updating files:  21% (81447/387841)
-Updating files:  21% (83830/387841)
+Updating files:  21% (83499/387841)
 Updating files:  22% (85326/387841)
-Updating files:  22% (88737/387841)
+Updating files:  22% (87390/387841)
 Updating files:  23% (89204/387841)
+Updating files:  23% (92302/387841)
 Updating files:  24% (93082/387841)
-Updating files:  24% (95239/387841)
 Updating files:  25% (96961/387841)
+Updating files:  25% (98322/387841)
 Updating files:  26% (100839/387841)
-Updating files:  26% (102227/387841)
+Updating files:  26% (103294/387841)
 Updating files:  27% (104718/387841)
+Updating files:  27% (107945/387841)
 Updating files:  28% (108596/387841)
-Updating files:  28% (109049/387841)
 Updating files:  29% (112474/387841)
-Updating files:  29% (115077/387841)
+Updating files:  29% (113100/387841)
 Updating files:  30% (116353/387841)
+Updating files:  30% (118533/387841)
 Updating files:  31% (120231/387841)
-Updating files:  31% (120914/387841)
+Updating files:  31% (123820/387841)
 Updating files:  32% (124110/387841)
-Updating files:  32% (127840/387841)
 Updating files:  33% (127988/387841)
+Updating files:  33% (128945/387841)
 Updating files:  34% (131866/387841)
-Updating files:  34% (134742/387841)
+Updating files:  34% (133983/387841)
 Updating files:  35% (135745/387841)
+Updating files:  35% (139129/387841)
 Updating files:  36% (139623/387841)
-Updating files:  36% (141010/387841)
 Updating files:  37% (143502/387841)
-Updating files:  37% (145708/387841)
+Updating files:  37% (143542/387841)
 Updating files:  38% (147380/387841)
+Updating files:  38% (148644/387841)
 Updating files:  39% (151258/387841)
-Updating files:  39% (154499/387841)
+Updating files:  39% (154924/387841)
 Updating files:  40% (155137/387841)
+Updating files:  40% (158837/387841)
 Updating files:  41% (159015/387841)
-Updating files:  41% (160695/387841)
+Updating files:  41% (162412/387841)
 Updating files:  42% (162894/387841)
-Updating files:  42% (165213/387841)
 Updating files:  43% (166772/387841)
-Updating files:  43% (169859/387841)
+Updating files:  43% (167517/387841)
+Updating files:  43% (168483/387841)
 Updating files:  44% (170651/387841)
-Updating files:  44% (172792/387841)
+Updating files:  44% (170659/387841)
+Updating files:  44% (173846/387841)
 Updating files:  45% (174529/387841)
-Updating files:  45% (175065/387841)
+Updating files:  45% (177093/387841)
 Updating files:  46% (178407/387841)
-Updating files:  46% (179191/387841)
-Updating files:  46% (182109/387841)
+Updating files:  46% (180751/387841)
 Updating files:  47% (182286/387841)
-Updating files:  47% (184639/387841)
+Updating files:  47% (184141/387841)
 Updating files:  48% (186164/387841)
-Updating files:  48% (189613/387841)
+Updating files:  48% (187818/387841)
 Updating files:  49% (190043/387841)
+Updating files:  49% (191945/387841)
 Updating files:  50% (193921/387841)
-Updating files:  50% (195026/387841)
-Updating files:  50% (196982/387841)
+Updating files:  50% (195091/387841)
+Updating files:  50% (196989/387841)
 Updating files:  51% (197799/387841)
-Updating files:  51% (198984/387841)
+Updating files:  51% (199696/387841)
 Updating files:  52% (201678/387841)
-Updating files:  52% (202220/387841)
+Updating files:  52% (202154/387841)
+Updating files:  52% (204851/387841)
 Updating files:  53% (205556/387841)
-Updating files:  53% (206171/387841)
 Updating files:  54% (209435/387841)
-Updating files:  54% (212359/387841)
+Updating files:  54% (210316/387841)
 Updating files:  55% (213313/387841)
+Updating files:  55% (215523/387841)
 Updating files:  56% (217191/387841)
-Updating files:  56% (217642/387841)
+Updating files:  56% (220709/387841)
 Updating files:  57% (221070/387841)
 Updating files:  58% (224948/387841)
-Updating files:  58% (225555/387841)
+Updating files:  58% (225988/387841)
 Updating files:  59% (228827/387841)
-Updating files:  59% (230043/387841)
+Updating files:  59% (230388/387841)
 Updating files:  60% (232705/387841)
-Updating files:  60% (234650/387841)
+Updating files:  60% (234077/387841)
 Updating files:  61% (236584/387841)
+Updating files:  61% (239523/387841)
 Updating files:  62% (240462/387841)
-Updating files:  62% (242260/387841)
 Updating files:  63% (244340/387841)
+Updating files:  63% (244439/387841)
 Updating files:  64% (248219/387841)
-Updating files:  64% (249798/387841)
+Updating files:  64% (250282/387841)
 Updating files:  65% (252097/387841)
+Updating files:  65% (255691/387841)
 Updating files:  66% (255976/387841)
-Updating files:  66% (256077/387841)
 Updating files:  67% (259854/387841)
-Updating files:  67% (262498/387841)
+Updating files:  67% (260711/387841)
 Updating files:  68% (263732/387841)
+Updating files:  68% (265628/387841)
 Updating files:  69% (267611/387841)
-Updating files:  69% (268892/387841)
+Updating files:  69% (270816/387841)
 Updating files:  70% (271489/387841)
 Updating files:  71% (275368/387841)
-Updating files:  71% (275927/387841)
+Updating files:  71% (276069/387841)
 Updating files:  72% (279246/387841)
-Updating files:  72% (282579/387841)
+Updating files:  72% (281385/387841)
 Updating files:  73% (283124/387841)
+Updating files:  73% (286579/387841)
 Updating files:  74% (287003/387841)
-Updating files:  74% (289710/387841)
 Updating files:  75% (290881/387841)
+Updating files:  75% (291550/387841)
 Updating files:  76% (294760/387841)
-Updating files:  76% (295426/387841)
+Updating files:  76% (296410/387841)
 Updating files:  77% (298638/387841)
-Updating files:  77% (301644/387841)
+Updating files:  77% (301395/387841)
 Updating files:  78% (302516/387841)
+Updating files:  78% (304564/387841)
 Updating files:  79% (306395/387841)
-Updating files:  79% (308010/387841)
+Updating files:  79% (307636/387841)
 Updating files:  80% (310273/387841)
-Updating files:  80% (313629/387841)
+Updating files:  80% (311672/387841)
 Updating files:  81% (314152/387841)
+Updating files:  81% (315579/387841)
 Updating files:  82% (318030/387841)
-Updating files:  82% (318713/387841)
+Updating files:  82% (319021/387841)
+Updating files:  82% (321733/387841)
 Updating files:  83% (321909/387841)
-Updating files:  83% (322458/387841)
-Updating files:  83% (325093/387841)
+Updating files:  83% (324816/387841)
 Updating files:  84% (325787/387841)
-Updating files:  84% (326971/387841)
+Updating files:  84% (327483/387841)
 Updating files:  85% (329665/387841)
-Updating files:  85% (332224/387841)
+Updating files:  85% (331979/387841)
 Updating files:  86% (333544/387841)
-Updating files:  86% (335180/387841)
+Updating files:  86% (335345/387841)
 Updating files:  87% (337422/387841)
-Updating files:  87% (338263/387841)
+Updating files:  87% (337704/387841)
+Updating files:  87% (340622/387841)
 Updating files:  88% (341301/387841)
-Updating files:  88% (342324/387841)
+Updating files:  88% (343623/387841)
 Updating files:  89% (345179/387841)
-Updating files:  89% (345390/387841)
-Updating files:  89% (348890/387841)
+Updating files:  89% (347387/387841)
 Updating files:  90% (349057/387841)
+Updating files:  90% (351792/387841)
 Updating files:  91% (352936/387841)
-Updating files:  91% (353376/387841)
+Updating files:  91% (355446/387841)
 Updating files:  92% (356814/387841)
-Updating files:  92% (358070/387841)
+Updating files:  92% (358458/387841)
 Updating files:  93% (360693/387841)
-Updating files:  93% (361148/387841)
+Updating files:  93% (361656/387841)
+Updating files:  93% (364540/387841)
 Updating files:  94% (364571/387841)
-Updating files:  94% (365301/387841)
+Updating files:  94% (368030/387841)
 Updating files:  95% (368449/387841)
-Updating files:  95% (369196/387841)
-Updating files:  95% (372122/387841)
+Updating files:  95% (371637/387841)
 Updating files:  96% (372328/387841)
-Updating files:  96% (374692/387841)
+Updating files:  96% (373260/387841)
+Updating files:  96% (376155/387841)
 Updating files:  97% (376206/387841)
-Updating files:  97% (377952/387841)
+Updating files:  97% (379420/387841)
 Updating files:  98% (380085/387841)
-Updating files:  98% (381963/387841)
+Updating files:  98% (381809/387841)
 Updating files:  99% (383963/387841)
-Updating files:  99% (385505/387841)
+Updating files:  99% (385573/387841)
 Updating files: 100% (387841/387841)
 Updating files: 100% (387841/387841), done.
 + git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
 Cloning into 'gecko-dev/bluegriffon'...
 warning: source repository is shallow, ignoring --local
 warning: --local is ignored
-Updating files:   8% (3659/41407)
+Updating files:   7% (3235/41407)
+Updating files:   8% (3313/41407)
 Updating files:   9% (3727/41407)
 Updating files:  10% (4141/41407)
 Updating files:  11% (4555/41407)
@@ -1505,16 +1491,17 @@ Updating files:  15% (6212/41407)
 Updating files:  16% (6626/41407)
 Updating files:  17% (7040/41407)
 Updating files:  18% (7454/41407)
+Updating files:  18% (7491/41407)
 Updating files:  19% (7868/41407)
 Updating files:  20% (8282/41407)
 Updating files:  21% (8696/41407)
 Updating files:  22% (9110/41407)
 Updating files:  23% (9524/41407)
 Updating files:  24% (9938/41407)
-Updating files:  24% (10068/41407)
 Updating files:  25% (10352/41407)
 Updating files:  26% (10766/41407)
 Updating files:  27% (11180/41407)
+Updating files:  27% (11543/41407)
 Updating files:  28% (11594/41407)
 Updating files:  29% (12009/41407)
 Updating files:  30% (12423/41407)
@@ -1526,8 +1513,8 @@ Updating files:  35% (14493/41407)
 Updating files:  36% (14907/41407)
 Updating files:  37% (15321/41407)
 Updating files:  38% (15735/41407)
-Updating files:  38% (16127/41407)
 Updating files:  39% (16149/41407)
+Updating files:  39% (16452/41407)
 Updating files:  40% (16563/41407)
 Updating files:  41% (16977/41407)
 Updating files:  42% (17391/41407)
@@ -1538,10 +1525,10 @@ Updating files:  46% (19048/41407)
 Updating files:  47% (19462/41407)
 Updating files:  48% (19876/41407)
 Updating files:  49% (20290/41407)
+Updating files:  49% (20569/41407)
 Updating files:  50% (20704/41407)
 Updating files:  51% (21118/41407)
 Updating files:  52% (21532/41407)
-Updating files:  52% (21611/41407)
 Updating files:  53% (21946/41407)
 Updating files:  54% (22360/41407)
 Updating files:  55% (22774/41407)
@@ -1551,12 +1538,12 @@ Updating files:  58% (24017/41407)
 Updating files:  59% (24431/41407)
 Updating files:  60% (24845/41407)
 Updating files:  61% (25259/41407)
+Updating files:  61% (25616/41407)
 Updating files:  62% (25673/41407)
 Updating files:  63% (26087/41407)
 Updating files:  64% (26501/41407)
 Updating files:  65% (26915/41407)
 Updating files:  66% (27329/41407)
-Updating files:  66% (27344/41407)
 Updating files:  67% (27743/41407)
 Updating files:  68% (28157/41407)
 Updating files:  69% (28571/41407)
@@ -1565,6 +1552,7 @@ Updating files:  71% (29399/41407)
 Updating files:  72% (29814/41407)
 Updating files:  73% (30228/41407)
 Updating files:  74% (30642/41407)
+Updating files:  74% (31025/41407)
 Updating files:  75% (31056/41407)
 Updating files:  76% (31470/41407)
 Updating files:  77% (31884/41407)
@@ -1572,19 +1560,19 @@ Updating files:  78% (32298/41407)
 Updating files:  79% (32712/41407)
 Updating files:  80% (33126/41407)
 Updating files:  81% (33540/41407)
-Updating files:  81% (33908/41407)
 Updating files:  82% (33954/41407)
 Updating files:  83% (34368/41407)
 Updating files:  84% (34782/41407)
+Updating files:  84% (35187/41407)
 Updating files:  85% (35196/41407)
 Updating files:  86% (35611/41407)
 Updating files:  87% (36025/41407)
 Updating files:  88% (36439/41407)
 Updating files:  89% (36853/41407)
-Updating files:  89% (36962/41407)
 Updating files:  90% (37267/41407)
 Updating files:  91% (37681/41407)
 Updating files:  92% (38095/41407)
+Updating files:  92% (38139/41407)
 Updating files:  93% (38509/41407)
 Updating files:  94% (38923/41407)
 Updating files:  95% (39337/41407)
@@ -1599,149 +1587,162 @@ Updating files: 100% (41407/41407), done.
 + git config core.eol lf
 ++ cat bluegriffon/config/gecko_dev_revision.txt
 + git reset --hard 042b84a
-Updating files:   4% (20759/422768)
+Updating files:   3% (14188/422768)
+Updating files:   4% (16911/422768)
 Updating files:   5% (21139/422768)
 Updating files:   6% (25367/422768)
 Updating files:   7% (29594/422768)
+Updating files:   7% (29856/422768)
 Updating files:   8% (33822/422768)
 Updating files:   9% (38050/422768)
-Updating files:   9% (38109/422768)
 Updating files:  10% (42277/422768)
+Updating files:  10% (43383/422768)
 Updating files:  11% (46505/422768)
 Updating files:  12% (50733/422768)
 Updating files:  13% (54960/422768)
-Updating files:  13% (55503/422768)
 Updating files:  14% (59188/422768)
+Updating files:  14% (60223/422768)
 Updating files:  15% (63416/422768)
 Updating files:  16% (67643/422768)
 Updating files:  17% (71871/422768)
 Updating files:  18% (76099/422768)
-Updating files:  18% (77695/422768)
+Updating files:  18% (77009/422768)
 Updating files:  19% (80326/422768)
 Updating files:  20% (84554/422768)
 Updating files:  21% (88782/422768)
+Updating files:  21% (91676/422768)
 Updating files:  22% (93009/422768)
-Updating files:  22% (93754/422768)
 Updating files:  23% (97237/422768)
+Updating files:  23% (98216/422768)
 Updating files:  24% (101465/422768)
 Updating files:  25% (105692/422768)
-Updating files:  25% (105849/422768)
 Updating files:  26% (109920/422768)
+Updating files:  26% (111724/422768)
 Updating files:  27% (114148/422768)
 Updating files:  28% (118376/422768)
 Updating files:  29% (122603/422768)
-Updating files:  29% (123997/422768)
 Updating files:  30% (126831/422768)
+Updating files:  30% (127179/422768)
 Updating files:  31% (131059/422768)
 Updating files:  32% (135286/422768)
 Updating files:  33% (139514/422768)
-Updating files:  33% (142804/422768)
+Updating files:  33% (141781/422768)
 Updating files:  34% (143742/422768)
 Updating files:  35% (147969/422768)
 Updating files:  36% (152197/422768)
 Updating files:  37% (156425/422768)
+Updating files:  37% (159505/422768)
 Updating files:  38% (160652/422768)
 Updating files:  39% (164880/422768)
-Updating files:  39% (166968/422768)
 Updating files:  40% (169108/422768)
 Updating files:  41% (173335/422768)
+Updating files:  41% (177263/422768)
 Updating files:  42% (177563/422768)
 Updating files:  43% (181791/422768)
 Updating files:  44% (186018/422768)
-Updating files:  44% (188605/422768)
 Updating files:  45% (190246/422768)
 Updating files:  46% (194474/422768)
+Updating files:  46% (195051/422768)
 Updating files:  47% (198701/422768)
 Updating files:  48% (202929/422768)
 Updating files:  49% (207157/422768)
-Updating files:  49% (208474/422768)
 Updating files:  50% (211384/422768)
+Updating files:  50% (211625/422768)
 Updating files:  51% (215612/422768)
 Updating files:  52% (219840/422768)
 Updating files:  53% (224068/422768)
+Updating files:  53% (227247/422768)
 Updating files:  54% (228295/422768)
-Updating files:  54% (231255/422768)
 Updating files:  55% (232523/422768)
 Updating files:  56% (236751/422768)
 Updating files:  57% (240978/422768)
+Updating files:  57% (241301/422768)
 Updating files:  58% (245206/422768)
 Updating files:  59% (249434/422768)
-Updating files:  59% (250343/422768)
 Updating files:  60% (253661/422768)
+Updating files:  60% (256554/422768)
 Updating files:  61% (257889/422768)
 Updating files:  62% (262117/422768)
 Updating files:  63% (266344/422768)
-Updating files:  63% (269186/422768)
 Updating files:  64% (270572/422768)
+Updating files:  64% (273171/422768)
 Updating files:  65% (274800/422768)
 Updating files:  66% (279027/422768)
+Updating files:  66% (283099/422768)
 Updating files:  67% (283255/422768)
-Updating files:  67% (283513/422768)
-Updating files:  67% (286903/422768)
+Updating files:  67% (285682/422768)
 Updating files:  68% (287483/422768)
-Updating files:  68% (290335/422768)
+Updating files:  68% (289003/422768)
 Updating files:  69% (291710/422768)
-Updating files:  69% (294146/422768)
+Updating files:  69% (292087/422768)
+Updating files:  69% (295430/422768)
 Updating files:  70% (295938/422768)
-Updating files:  70% (298696/422768)
+Updating files:  70% (299312/422768)
 Updating files:  71% (300166/422768)
-Updating files:  71% (302908/422768)
+Updating files:  71% (302578/422768)
 Updating files:  72% (304393/422768)
-Updating files:  72% (306118/422768)
+Updating files:  72% (305308/422768)
+Updating files:  72% (308570/422768)
 Updating files:  73% (308621/422768)
-Updating files:  73% (311120/422768)
+Updating files:  73% (312473/422768)
 Updating files:  74% (312849/422768)
-Updating files:  74% (314272/422768)
+Updating files:  74% (315439/422768)
 Updating files:  75% (317076/422768)
-Updating files:  75% (317957/422768)
-Updating files:  75% (321104/422768)
+Updating files:  75% (317793/422768)
+Updating files:  75% (320814/422768)
 Updating files:  76% (321304/422768)
-Updating files:  76% (324918/422768)
+Updating files:  76% (323560/422768)
 Updating files:  77% (325532/422768)
-Updating files:  77% (328607/422768)
+Updating files:  77% (326482/422768)
 Updating files:  78% (329760/422768)
-Updating files:  78% (333883/422768)
+Updating files:  78% (331163/422768)
 Updating files:  79% (333987/422768)
+Updating files:  79% (336102/422768)
 Updating files:  80% (338215/422768)
-Updating files:  80% (340322/422768)
+Updating files:  80% (338387/422768)
 Updating files:  81% (342443/422768)
-Updating files:  81% (346021/422768)
+Updating files:  81% (342668/422768)
 Updating files:  82% (346670/422768)
+Updating files:  82% (347115/422768)
 Updating files:  83% (350898/422768)
-Updating files:  83% (351335/422768)
-Updating files:  83% (354768/422768)
+Updating files:  83% (351586/422768)
+Updating files:  83% (354850/422768)
 Updating files:  84% (355126/422768)
 Updating files:  85% (359353/422768)
-Updating files:  85% (361195/422768)
+Updating files:  85% (359687/422768)
 Updating files:  86% (363581/422768)
-Updating files:  86% (365336/422768)
+Updating files:  86% (364012/422768)
+Updating files:  86% (367112/422768)
 Updating files:  87% (367809/422768)
-Updating files:  87% (369823/422768)
+Updating files:  87% (370930/422768)
 Updating files:  88% (372036/422768)
-Updating files:  88% (374476/422768)
+Updating files:  88% (373433/422768)
 Updating files:  89% (376264/422768)
-Updating files:  89% (378006/422768)
+Updating files:  89% (377350/422768)
+Updating files:  89% (379593/422768)
 Updating files:  90% (380492/422768)
-Updating files:  90% (380860/422768)
-Updating files:  90% (384057/422768)
+Updating files:  90% (381815/422768)
+Updating files:  90% (384697/422768)
 Updating files:  91% (384719/422768)
-Updating files:  91% (386632/422768)
+Updating files:  91% (387420/422768)
 Updating files:  92% (388947/422768)
-Updating files:  92% (389422/422768)
-Updating files:  92% (392349/422768)
+Updating files:  92% (389937/422768)
 Updating files:  93% (393175/422768)
+Updating files:  93% (393312/422768)
 Updating files:  94% (397402/422768)
-Updating files:  94% (399086/422768)
+Updating files:  94% (397808/422768)
 Updating files:  95% (401630/422768)
-Updating files:  95% (403475/422768)
+Updating files:  95% (401811/422768)
 Updating files:  96% (405858/422768)
-Updating files:  96% (408685/422768)
+Updating files:  96% (406057/422768)
+Updating files:  96% (409580/422768)
 Updating files:  97% (410085/422768)
-Updating files:  97% (413514/422768)
+Updating files:  97% (413654/422768)
 Updating files:  98% (414313/422768)
-Updating files:  98% (417147/422768)
+Updating files:  98% (416834/422768)
 Updating files:  99% (418541/422768)
-Updating files:  99% (420702/422768)
+Updating files:  99% (419796/422768)
+Updating files:  99% (422442/422768)
 Updating files: 100% (422768/422768)
 Updating files: 100% (422768/422768), done.
 HEAD is now at 042b84af6020 Bug 1313927 - Split no-root test from test_intersectionobservers.html into its own mochitest, so that we can skip that part on Android. r=jet
@@ -1888,13 +1889,12 @@ BLUEGRIFFON_YASM: D:/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/y
 + '[' -z /d/a/bluegriffon/bluegriffon/gecko-dev/opt64 ']'
 + set +e
 + ./mach build
- 0:00.83 D:/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/make.exe -f client.mk MOZ_PARALLEL_BUILD=8 -s configure
- 0:00.86       0 [main] make 3596 child_info_fork::abort: \??\C:\mozilla-build\msys2\usr\bin\msys-iconv-2.dll: Loaded to different address: parent(0xD70000) != child(0x630000)
- 0:00.88       1 [main] make 3597 child_info_fork::abort: \??\C:\mozilla-build\msys2\usr\bin\msys-iconv-2.dll: Loaded to different address: parent(0xD70000) != child(0x630000)
- 0:00.89       0 [main] make 3598 child_info_fork::abort: \??\C:\mozilla-build\msys2\usr\bin\msys-iconv-2.dll: Loaded to different address: parent(0xD70000) != child(0xD40000)
- 0:03.27       0 [main] make 3599 child_info_fork::abort: \??\C:\mozilla-build\msys2\usr\bin\msys-iconv-2.dll: Loaded to different address: parent(0xD70000) != child(0x630000)
- 0:03.27 client.mk:204: /.mozconfig.mk: No such file or directory
- 0:03.27 make: *** [client.mk:350: /CLOBBER] Error 127
+ 0:00.80 D:/a/bluegriffon/bluegriffon/.build-tools/msys2-root/usr/bin/make.exe -f client.mk MOZ_PARALLEL_BUILD=8 -s configure
+ 0:00.88       0 [main] make 2026 child_info_fork::abort: \??\C:\mozilla-build\msys2\usr\bin\msys-iconv-2.dll: Loaded to different address: parent(0x630000) != child(0xD70000)
+ 0:01.56       1 [main] make 2041 child_info_fork::abort: \??\C:\mozilla-build\msys2\usr\bin\msys-iconv-2.dll: Loaded to different address: parent(0x630000) != child(0xE00000)
+ 0:01.59       0 [main] make 2043 child_info_fork::abort: \??\C:\mozilla-build\msys2\usr\bin\msys-iconv-2.dll: Loaded to different address: parent(0x630000) != child(0xDE0000)
+ 0:01.59 client.mk:204: D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/.mozconfig.mk: No such file or directory
+ 0:01.59 make: *** [/d/a/bluegriffon/bluegriffon/gecko-dev/config/makefiles/autotargets.mk:60: D:/a/bluegriffon/bluegriffon/gecko-dev/opt64/.mkdir.done] Error 127
 + build_rc=2
 + set -e
 + '[' 2 -ne 0 ']'
@@ -1906,12 +1906,12 @@ mach build failed with exit code: 2
 ICU source dir: /d/a/bluegriffon/bluegriffon/gecko-dev/config/external/icu/data
 + ls -la /d/a/bluegriffon/bluegriffon/gecko-dev/config/external/icu/data
 total 10669
-drwxr-xr-x 1 runneradmin None        0 Mar 11 18:49 .
-drwxr-xr-x 1 runneradmin None        0 Mar 11 18:49 ..
--rw-r--r-- 1 runneradmin None      840 Mar 11 18:49 icudata.s
--rw-r--r-- 1 runneradmin None      376 Mar 11 18:49 icudata_gas.S
--rw-r--r-- 1 runneradmin None 10911568 Mar 11 18:49 icudt58l.dat
--rw-r--r-- 1 runneradmin None     1159 Mar 11 18:49 moz.build
+drwxr-xr-x 1 runneradmin None        0 Mar 11 19:25 .
+drwxr-xr-x 1 runneradmin None        0 Mar 11 19:24 ..
+-rw-r--r-- 1 runneradmin None      840 Mar 11 19:24 icudata.s
+-rw-r--r-- 1 runneradmin None      376 Mar 11 19:24 icudata_gas.S
+-rw-r--r-- 1 runneradmin None 10911568 Mar 11 19:24 icudt58l.dat
+-rw-r--r-- 1 runneradmin None     1159 Mar 11 19:25 moz.build
 + echo 'ICU obj dir: /d/a/bluegriffon/bluegriffon/gecko-dev/opt64/config/external/icu/data'
 ICU obj dir: /d/a/bluegriffon/bluegriffon/gecko-dev/opt64/config/external/icu/data
 + ls -la /d/a/bluegriffon/bluegriffon/gecko-dev/opt64/config/external/icu/data
@@ -1923,78 +1923,78 @@ ls: cannot access '/d/a/bluegriffon/bluegriffon/gecko-dev/opt64/config/external/
 ==== build end (exit 2) ==== 
 
 ==== artifact scan (bounded) ====
-==== artifact scan 2026-03-11T18:50:03.5523222+00:00 ====
+==== artifact scan 2026-03-11T19:25:30.7094822+00:00 ====
 
 ==== candidate runtime roots ====
 No runtime roots found under D:\a\bluegriffon\bluegriffon\gecko-dev
 
 ==== root report (bounded) ====
-==== bounded root report 2026-03-11T18:50:03.5523222+00:00 ====
+==== bounded root report 2026-03-11T19:25:30.7251154+00:00 ====
 workspace: D:\a\bluegriffon\bluegriffon
 -- workspace top-level entries --
 
 Mode   Length   LastWriteTime        FullName                                                       
 ----   ------   -------------        --------                                                       
-d-----          3/11/2026 6:34:13 PM D:\a\bluegriffon\bluegriffon\$dlDir                            
-d-----          3/11/2026 6:37:04 PM D:\a\bluegriffon\bluegriffon\.build-tools                      
-d-----          3/11/2026 6:34:13 PM D:\a\bluegriffon\bluegriffon\.build-tools-local                
-d--h--          3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\.git                              
-d-----          3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\.github                           
-d-----          3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\.tools                            
-d-----          3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\.venv                             
-d-----          3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\.windsurf                         
--a---- 9848     3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\_tmp_local_fix_13a.patch          
--a---- 514      3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\_tmp_local_installer_build.cmd    
--a---- 2185     3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\_tmp_local_installer_build.sh     
--a---- 12283    3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\AGENTS.md                         
-d-----          3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\app                               
--a---- 724      3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\app.mozbuild                      
--a---- 107      3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\app-rules.mk                      
-d-----          3/11/2026 6:50:03 PM D:\a\bluegriffon\bluegriffon\artifact                          
--a---- 59       3/11/2026 6:50:03 PM D:\a\bluegriffon\bluegriffon\artifact-scan.txt                 
-d-----          3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\base                              
--a---- 1244     3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\bluegriffon.code-workspace        
-d-----          3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\bluegriffon-3.1                   
-d-----          3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\branding                          
--a---- 4168646  3/11/2026 6:50:03 PM D:\a\bluegriffon\bluegriffon\build.log                         
--a---- 1357     3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\build.mk                          
--a---- 4        3/11/2026 6:50:03 PM D:\a\bluegriffon\bluegriffon\build-exit.txt                    
-d-----          3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\components                        
-d-----          3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\config                            
--a---- 2417     3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\confvars.sh                       
--a---- 30       3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\defs.mk                           
--a---- 7616     3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\dependency_reduction_report.md    
-d-----          3/11/2026 6:34:16 PM D:\a\bluegriffon\bluegriffon\extensions                        
-d-----          3/11/2026 6:50:00 PM D:\a\bluegriffon\bluegriffon\gecko-dev                         
--a---- 10912319 3/11/2026 6:34:17 PM D:\a\bluegriffon\bluegriffon\icudata_test.obj                  
--a---- 10912323 3/11/2026 6:34:17 PM D:\a\bluegriffon\bluegriffon\icudata_test2.obj                 
-d-----          3/11/2026 6:34:17 PM D:\a\bluegriffon\bluegriffon\installer                         
-d-----          3/11/2026 6:34:17 PM D:\a\bluegriffon\bluegriffon\langpacks                         
--a---- 16285    3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\LICENSE                           
--a---- 7239     3/11/2026 6:34:18 PM D:\a\bluegriffon\bluegriffon\local-build.log                   
--a---- 333012   3/11/2026 6:34:18 PM D:\a\bluegriffon\bluegriffon\local-build-for-installer.log     
-d-----          3/11/2026 6:34:18 PM D:\a\bluegriffon\bluegriffon\locales                           
--a---- 6277     3/11/2026 6:34:18 PM D:\a\bluegriffon\bluegriffon\local-package.log                 
--a---- 232452   3/11/2026 6:34:18 PM D:\a\bluegriffon\bluegriffon\local-rebuild-verify.log          
--a---- 2192     3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\Makefile.in                       
--a---- 2642     3/11/2026 6:34:19 PM D:\a\bluegriffon\bluegriffon\makefiles.sh                      
-d-----          3/11/2026 6:34:19 PM D:\a\bluegriffon\bluegriffon\modules                           
--a---- 539      3/11/2026 6:34:19 PM D:\a\bluegriffon\bluegriffon\moz.build                         
--a---- 351      3/11/2026 6:34:19 PM D:\a\bluegriffon\bluegriffon\moz.configure                     
--a---- 96436    3/11/2026 6:34:19 PM D:\a\bluegriffon\bluegriffon\package.log                       
-d-----          3/11/2026 6:34:19 PM D:\a\bluegriffon\bluegriffon\portable-run-dev                  
-d-----          3/11/2026 6:34:20 PM D:\a\bluegriffon\bluegriffon\portable-run-packaged-dev         
--a---- 6637     3/11/2026 6:34:14 PM D:\a\bluegriffon\bluegriffon\README.md                         
--a---- 141      3/11/2026 6:50:03 PM D:\a\bluegriffon\bluegriffon\root-recursive-report.txt         
--a---- 539      3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\run-icu-test.cmd                  
--a---- 924      3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\run-local-build-verify.cmd        
--a---- 296      3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\run-original-bluegriffon-clean.bat
-d-----          3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\sidebars                          
-d-----          3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\src                               
--a---- 73       3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\stltest.cpp                       
--a---- 3231     3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\stltest.obj                       
-d-----          3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\themes                            
--a---- 42       3/11/2026 6:34:22 PM D:\a\bluegriffon\bluegriffon\xtest.cpp                         
+d-----          3/11/2026 6:55:53 PM D:\a\bluegriffon\bluegriffon\$dlDir                            
+d-----          3/11/2026 6:59:25 PM D:\a\bluegriffon\bluegriffon\.build-tools                      
+d-----          3/11/2026 6:55:53 PM D:\a\bluegriffon\bluegriffon\.build-tools-local                
+d--h--          3/11/2026 6:56:03 PM D:\a\bluegriffon\bluegriffon\.git                              
+d-----          3/11/2026 6:55:53 PM D:\a\bluegriffon\bluegriffon\.github                           
+d-----          3/11/2026 6:55:53 PM D:\a\bluegriffon\bluegriffon\.tools                            
+d-----          3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\.venv                             
+d-----          3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\.windsurf                         
+-a---- 9848     3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\_tmp_local_fix_13a.patch          
+-a---- 514      3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\_tmp_local_installer_build.cmd    
+-a---- 2185     3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\_tmp_local_installer_build.sh     
+-a---- 12283    3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\AGENTS.md                         
+d-----          3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\app                               
+-a---- 724      3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\app.mozbuild                      
+-a---- 107      3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\app-rules.mk                      
+d-----          3/11/2026 7:25:30 PM D:\a\bluegriffon\bluegriffon\artifact                          
+-a---- 59       3/11/2026 7:25:30 PM D:\a\bluegriffon\bluegriffon\artifact-scan.txt                 
+d-----          3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\base                              
+-a---- 1244     3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\bluegriffon.code-workspace        
+d-----          3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\bluegriffon-3.1                   
+d-----          3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\branding                          
+-a---- 4182338  3/11/2026 7:25:30 PM D:\a\bluegriffon\bluegriffon\build.log                         
+-a---- 1357     3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\build.mk                          
+-a---- 4        3/11/2026 7:25:30 PM D:\a\bluegriffon\bluegriffon\build-exit.txt                    
+d-----          3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\components                        
+d-----          3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\config                            
+-a---- 2417     3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\confvars.sh                       
+-a---- 30       3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\defs.mk                           
+-a---- 7616     3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\dependency_reduction_report.md    
+d-----          3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\extensions                        
+d-----          3/11/2026 7:25:29 PM D:\a\bluegriffon\bluegriffon\gecko-dev                         
+-a---- 10912319 3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\icudata_test.obj                  
+-a---- 10912323 3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\icudata_test2.obj                 
+d-----          3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\installer                         
+d-----          3/11/2026 6:55:57 PM D:\a\bluegriffon\bluegriffon\langpacks                         
+-a---- 16285    3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\LICENSE                           
+-a---- 7239     3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\local-build.log                   
+-a---- 333012   3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\local-build-for-installer.log     
+d-----          3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\locales                           
+-a---- 6277     3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\local-package.log                 
+-a---- 232452   3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\local-rebuild-verify.log          
+-a---- 2192     3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\Makefile.in                       
+-a---- 2642     3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\makefiles.sh                      
+d-----          3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\modules                           
+-a---- 539      3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\moz.build                         
+-a---- 351      3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\moz.configure                     
+-a---- 96436    3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\package.log                       
+d-----          3/11/2026 6:55:59 PM D:\a\bluegriffon\bluegriffon\portable-run-dev                  
+d-----          3/11/2026 6:56:01 PM D:\a\bluegriffon\bluegriffon\portable-run-packaged-dev         
+-a---- 6637     3/11/2026 6:55:54 PM D:\a\bluegriffon\bluegriffon\README.md                         
+-a---- 141      3/11/2026 7:25:30 PM D:\a\bluegriffon\bluegriffon\root-recursive-report.txt         
+-a---- 539      3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\run-icu-test.cmd                  
+-a---- 924      3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\run-local-build-verify.cmd        
+-a---- 296      3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\run-original-bluegriffon-clean.bat
+d-----          3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\sidebars                          
+d-----          3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\src                               
+-a---- 73       3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\stltest.cpp                       
+-a---- 3231     3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\stltest.obj                       
+d-----          3/11/2026 6:56:02 PM D:\a\bluegriffon\bluegriffon\themes                            
+-a---- 42       3/11/2026 6:56:03 PM D:\a\bluegriffon\bluegriffon\xtest.cpp                         
 
 
 
