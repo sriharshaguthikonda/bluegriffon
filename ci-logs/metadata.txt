@@ -1,3 +1,3 @@
 source-sha: 0a91cd6cdf5311cb21aa3fcb14b63bb912140008
-branch: exp-mixed-features-ui
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22957427549
+branch: exp-mixed-features-ui-installer
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22957479253
