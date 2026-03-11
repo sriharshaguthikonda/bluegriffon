@@ -639,6 +639,8 @@
 
             var newBox = document.createElement("deck");
             newBox.setAttribute("anonid", "editorDeck");
+            if ("GetRememberedViewMode" in window)
+              newBox.setAttribute("previousMode", window.GetRememberedViewMode());
 
             var newEditorElement = document.createElement("editor");
             newEditorElement.setAttribute("context", "editorContextMenu");

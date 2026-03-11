@@ -240,7 +240,7 @@ var cmdCloseTab =
     switch (EditorUtils.getCurrentViewMode()) {
       case "source":
       case "liveview":
-        if (!ToggleViewMode(gDialog.wysiwygModeButton))
+        if (!ToggleViewMode(gDialog.wysiwygModeButton, false))
           return;
         break;
       default: break;

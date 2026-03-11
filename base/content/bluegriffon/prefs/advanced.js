@@ -69,7 +69,7 @@ function changeLocale() {
     }
     var main = EditorUtils.getCurrentEditorWindow();
     if (EditorUtils.getCurrentEditorElement())
-      if (!main.ToggleViewMode(main.gDialog.wysiwygModeButton))
+      if (!main.ToggleViewMode(main.gDialog.wysiwygModeButton, false))
         return;
     if (main.doSaveTabsBeforeQuit()) {
     // Restart application
@@ -115,4 +115,3 @@ function ResetPreviewers()
   for (var i = 0; i < handlers.length; i++)
     handlerSvc.remove(handlers[i]);
 }
-

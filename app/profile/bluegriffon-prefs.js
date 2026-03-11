@@ -144,6 +144,7 @@ pref("bluegriffon.ui.vertical_toolbar.position", "left");
 pref("bluegriffon.ui.titlebar.show", true);
 pref("bluegriffon.ui.statusbar.position", "bottom");
 pref("bluegriffon.ui.toolbar.layout", "mixed");
+pref("bluegriffon.ui.last_view_mode", "wysiwyg");
 
 // updates
 pref("bluegriffon.updates.check.enabled", true);

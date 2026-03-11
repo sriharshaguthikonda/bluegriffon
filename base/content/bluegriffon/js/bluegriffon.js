@@ -858,6 +858,35 @@ function OnKeyPressWhileChangingTag(event)
 
 /************ VIEW MODE ********/
 
+const kLAST_VIEW_MODE_PREF = "bluegriffon.ui.last_view_mode";
+const kLAST_VIEW_MODE_DEFAULT = "wysiwyg";
+
+function NormalizeLastViewMode(aMode)
+{
+  switch (aMode) {
+    case "liveview":
+    case "source":
+    case "wysiwyg":
+      return aMode;
+    default:
+      return kLAST_VIEW_MODE_DEFAULT;
+  }
+}
+
+function GetRememberedViewMode()
+{
+  return NormalizeLastViewMode(_getCharPref(kLAST_VIEW_MODE_PREF, kLAST_VIEW_MODE_DEFAULT));
+}
+
+function SaveRememberedViewMode(aMode)
+{
+  var mode = NormalizeLastViewMode(aMode);
+  if (mode != aMode)
+    return;
+  if (_getCharPref(kLAST_VIEW_MODE_PREF, kLAST_VIEW_MODE_DEFAULT) != mode)
+    Services.prefs.setCharPref(kLAST_VIEW_MODE_PREF, mode);
+}
+
 function GetSelectedViewModeButtonId()
 {
   var ids = ["liveViewModeButton",
@@ -907,7 +936,7 @@ function CycleViewMode()
   return ToggleViewMode(gDialog[nextId]);
 }
 
-function ToggleViewMode(aElement)
+function ToggleViewMode(aElement, aPersistMode)
 {
   if (!aElement) // sanity case
     return false;
@@ -916,6 +945,7 @@ function ToggleViewMode(aElement)
   if (!editorElement) // sanity case
     return false;
 
+  var persistMode = (aPersistMode !== false);
   var deck = editorElement.parentNode;
   var editor = EditorUtils.getCurrentEditor();
 
@@ -945,6 +975,8 @@ function ToggleViewMode(aElement)
       NotifierUtils.notify("modeSwitch");
       UpdateViewModeStatus();
     }
+    if (persistMode)
+      SaveRememberedViewMode(mode);
     return true;
   }
 
@@ -969,6 +1001,8 @@ function ToggleViewMode(aElement)
     sourceEditor.focus();
     NotifierUtils.notify("modeSwitch");
     UpdateViewModeStatus();
+    if (persistMode)
+      SaveRememberedViewMode(mode);
 
     return true;
   }
@@ -988,6 +1022,8 @@ function ToggleViewMode(aElement)
     sourceEditor.focus();
     NotifierUtils.notify("modeSwitch");
     UpdateViewModeStatus();
+    if (persistMode)
+      SaveRememberedViewMode(mode);
 
     return true;
   }
@@ -1014,6 +1050,8 @@ function ToggleViewMode(aElement)
     GetWindowContent().focus();
     NotifierUtils.notify("modeSwitch");
     UpdateViewModeStatus();
+    if (persistMode)
+      SaveRememberedViewMode(mode);
 
     return true;
   }
@@ -1219,6 +1257,8 @@ function ToggleViewMode(aElement)
   NotifierUtils.notify("afterLeavingSourceMode");
   NotifierUtils.notify("modeSwitch");
   UpdateViewModeStatus();
+  if (persistMode)
+    SaveRememberedViewMode(mode);
   return true;
 }
 
