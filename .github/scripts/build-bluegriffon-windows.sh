@@ -162,6 +162,22 @@ sanitize_path() {
   IFS=':'; echo "${out[*]}"
 }
 
+strip_ambient_mingw_path() {
+  local input="$1"
+  local out=()
+  IFS=':' read -r -a parts <<< "$input"
+  for p in "${parts[@]}"; do
+    [ -n "$p" ] || continue
+    case "$p" in
+      /c/mingw64/bin|/mingw64/bin)
+        continue
+        ;;
+    esac
+    out+=("$p")
+  done
+  IFS=':'; echo "${out[*]}"
+}
+
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
 for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw"; do
@@ -320,6 +336,9 @@ else
   fi
   if ! command -v yasm >/dev/null 2>&1; then
     download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg yasm || true
+  fi
+  if ! command -v mingw32-make >/dev/null 2>&1 && ! command -v gmake >/dev/null 2>&1 && ! command -v make >/dev/null 2>&1; then
+    download_msys2_pkg mingw-w64-x86_64-make || download_msys2_pkg make || true
   fi
 fi
 
@@ -544,6 +563,12 @@ fi
 echo "yasm on PATH: $(command -v yasm || true)"
 yasm --version || true
 
+make_smoke_test() {
+  local make_bin="$1"
+  [ -x "$make_bin" ] || return 1
+  "$make_bin" --version >/dev/null 2>&1
+}
+
 MOZMAKE_CAND=""
 is_untrusted_make_candidate() {
   case "$1" in
@@ -554,26 +579,38 @@ is_untrusted_make_candidate() {
   return 1
 }
 
+PATH="$(strip_ambient_mingw_path "$(sanitize_path "$PATH")")"
+export PATH
+echo "PATH (without ambient mingw64): $PATH"
+
 # Prefer MozillaBuild make binaries to avoid msys DLL mismatches from runner images.
 for p in /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
          /c/mozilla-build/msys2/usr/bin/mingw32-make \
+         /c/mozilla-build/msys2/usr/bin/gmake.exe \
+         /c/mozilla-build/msys2/usr/bin/gmake \
          /c/mozilla-build/msys2/usr/bin/make.exe \
          /c/mozilla-build/msys2/usr/bin/make \
          /c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe \
          /c/mozilla-build/msys2/mingw64/bin/mingw32-make \
+         /c/mozilla-build/msys2/mingw64/bin/gmake.exe \
+         /c/mozilla-build/msys2/mingw64/bin/gmake \
          /c/mozilla-build/msys2/mingw64/bin/make.exe \
          /c/mozilla-build/msys2/mingw64/bin/make \
          /c/mozilla-build/bin/mingw32-make.exe \
          /c/mozilla-build/bin/mingw32-make \
+         /c/mozilla-build/bin/gmake.exe \
+         /c/mozilla-build/bin/gmake \
          /c/mozilla-build/bin/make.exe \
          /c/mozilla-build/bin/make \
          "$pkg_root/mingw64/bin/mingw32-make.exe" \
          "$pkg_root/mingw64/bin/mingw32-make" \
+         "$pkg_root/mingw64/bin/gmake.exe" \
+         "$pkg_root/mingw64/bin/gmake" \
          "$pkg_root/mingw64/bin/make.exe" \
          "$pkg_root/mingw64/bin/make" \
          /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/mozmake; do
-  if [ -x "$p" ]; then
+  if make_smoke_test "$p"; then
     MOZMAKE_CAND="$p"
     break
   fi
@@ -581,6 +618,7 @@ done
 
 if [ -z "$MOZMAKE_CAND" ]; then
   for p in "$(command -v mingw32-make 2>/dev/null || true)" \
+           "$(command -v gmake 2>/dev/null || true)" \
            "$(command -v make 2>/dev/null || true)" \
            "$(command -v mozmake 2>/dev/null || true)" \
            /c/Program\ Files/Git/mingw64/bin/make.exe \
@@ -590,7 +628,7 @@ if [ -z "$MOZMAKE_CAND" ]; then
     if [[ "$p" =~ ^[A-Za-z]: ]]; then
       p="$(cygpath -u "$p" 2>/dev/null || echo "$p")"
     fi
-    [ -x "$p" ] || continue
+    make_smoke_test "$p" || continue
     if is_untrusted_make_candidate "$p"; then
       echo "Skipping untrusted make candidate: $p"
       continue
@@ -611,7 +649,13 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
   export GNUMAKE="$MOZMAKE_CAND"
   echo "Using make: $MOZMAKE_CAND"
 else
-  echo "WARNING: make/mozmake not found; mach may fail."
+  echo "ERROR: Trusted make/mozmake not found. Refusing ambient runner make."
+  for d in /c/mozilla-build/msys2/usr/bin /c/mozilla-build/msys2/mingw64/bin /c/mozilla-build/bin "$pkg_root/mingw64/bin" "$pkg_root/usr/bin"; do
+    [ -d "$d" ] || continue
+    echo "Listing make candidates in $d"
+    ls -la "$d" | grep -Ei '(^|[ /])(g?make|mingw32-make|mozmake)(\.exe)?$' || true
+  done
+  exit 14
 fi
 echo "PATH (after make selection): $PATH"
 
