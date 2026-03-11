@@ -195,8 +195,8 @@ Page custom preSummary leaveSummary
 ; Finish Page
 !define MUI_FINISHPAGE_TITLE_3LINES
 !define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_NOTCHECKED
 !define MUI_FINISHPAGE_RUN_FUNCTION LaunchApp
-!define MUI_FINISHPAGE_RUN_TEXT $(LAUNCH_TEXT)
 !define MUI_PAGE_CUSTOMFUNCTION_PRE preFinish
 !insertmacro MUI_PAGE_FINISH
 
