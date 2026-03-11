@@ -547,7 +547,7 @@ yasm --version || true
 MOZMAKE_CAND=""
 is_untrusted_make_candidate() {
   case "$1" in
-    /c/mingw64/bin/*|/mingw64/bin/*|"$pkg_root/"*)
+    /c/mingw64/bin/*|/mingw64/bin/*|"$pkg_root/usr/bin/make"|"$pkg_root/usr/bin/make.exe"|"$pkg_root/usr/bin/mingw32-make"|"$pkg_root/usr/bin/mingw32-make.exe")
       return 0
       ;;
   esac
@@ -559,10 +559,18 @@ for p in /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
          /c/mozilla-build/msys2/usr/bin/mingw32-make \
          /c/mozilla-build/msys2/usr/bin/make.exe \
          /c/mozilla-build/msys2/usr/bin/make \
+         /c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/mingw64/bin/mingw32-make \
+         /c/mozilla-build/msys2/mingw64/bin/make.exe \
+         /c/mozilla-build/msys2/mingw64/bin/make \
          /c/mozilla-build/bin/mingw32-make.exe \
          /c/mozilla-build/bin/mingw32-make \
          /c/mozilla-build/bin/make.exe \
          /c/mozilla-build/bin/make \
+         "$pkg_root/mingw64/bin/mingw32-make.exe" \
+         "$pkg_root/mingw64/bin/mingw32-make" \
+         "$pkg_root/mingw64/bin/make.exe" \
+         "$pkg_root/mingw64/bin/make" \
          /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/mozmake; do
   if [ -x "$p" ]; then
