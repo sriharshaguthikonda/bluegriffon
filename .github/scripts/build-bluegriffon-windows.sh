@@ -454,8 +454,21 @@ fi
 
 yasm_smoke_test() {
   local yasm_bin="$1"
+  local yasm_ver=""
+  local yasm_major=0
+  local yasm_minor=0
   local yasm_test_dir="$PWD/.build-tools/yasm-test"
   [ -x "$yasm_bin" ] || return 1
+  yasm_ver="$("$yasm_bin" --version 2>/dev/null | awk 'NR==1{print $2}')"
+  yasm_major="${yasm_ver%%.*}"
+  yasm_minor="${yasm_ver#*.}"
+  yasm_minor="${yasm_minor%%.*}"
+  if ! [[ "$yasm_major" =~ ^[0-9]+$ && "$yasm_minor" =~ ^[0-9]+$ ]]; then
+    return 1
+  fi
+  if [ "$yasm_major" -lt 1 ] || { [ "$yasm_major" -eq 1 ] && [ "$yasm_minor" -lt 3 ]; }; then
+    return 1
+  fi
   mkdir -p "$yasm_test_dir"
   cat >"$yasm_test_dir/test.asm" <<'EOF'
 global _bg_yasm_smoke
@@ -468,11 +481,11 @@ EOF
 }
 
 YASM_CAND=""
-for p in /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe \
-         /c/mozilla-build/msys2/mingw64/bin/yasm.exe \
+for p in /c/mozilla-build/msys2/mingw64/bin/yasm.exe \
          /c/mozilla-build/msys2/usr/bin/yasm.exe \
          "$pkg_root/mingw64/bin/yasm.exe" \
          "$pkg_root/usr/bin/yasm.exe" \
+         /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe \
          /c/ProgramData/chocolatey/bin/yasm.exe \
          /c/ProgramData/chocolatey/bin/yasm \
          "$(command -v yasm 2>/dev/null || true)"; do
