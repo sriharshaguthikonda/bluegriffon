@@ -682,6 +682,10 @@ git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
 patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
+# Gecko's Windows make validation rejects MSYS make explicitly.
+# CI runners in this workflow do not provide classic mozmake, so allow
+# the vetted fallback make candidate selected above.
+sed -i 's/\$(error MSYS make is not supported)/# allow MSYS make in CI/' config/baseconfig.mk
 
 cp bluegriffon/config/mozconfig.win .mozconfig
 # Keep YASM visible to old-configure sub-configures (e.g. js/src).
