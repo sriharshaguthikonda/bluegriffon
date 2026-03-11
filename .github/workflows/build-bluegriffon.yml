@@ -61,20 +61,23 @@ jobs:
             }
           }
 
-          $wherePy27 = @(where.exe python2.7 2>$null)
-          $wherePy2 = @(where.exe python2 2>$null)
-          $wherePy27 | ForEach-Object { Write-Host "python2.7: $_" }
-          $wherePy2 | ForEach-Object { Write-Host "python2: $_" }
-
           $candidates = @()
-          $candidates += $wherePy27
-          $candidates += $wherePy2
           $candidates += @(
-            "C:\Python27_18\python.exe",
             "C:\Python27\python.exe",
+            "C:\Python27_18\python.exe",
             "C:\Python27\python2.exe",
             "C:\Python27\python2.7.exe"
           )
+          $py2Cmd = Get-Command python2 -ErrorAction SilentlyContinue
+          if ($py2Cmd) {
+            $candidates += $py2Cmd.Source
+            Write-Host "python2 cmd: $($py2Cmd.Source)"
+          }
+          $py27Cmd = Get-Command python2.7 -ErrorAction SilentlyContinue
+          if ($py27Cmd) {
+            $candidates += $py27Cmd.Source
+            Write-Host "python2.7 cmd: $($py27Cmd.Source)"
+          }
 
           $py2 = $null
           foreach ($candidate in ($candidates | Select-Object -Unique)) {
