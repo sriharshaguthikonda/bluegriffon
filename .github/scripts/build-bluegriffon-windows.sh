@@ -338,6 +338,21 @@ for p in /c/mozilla-build/msys2/usr/bin/pacman.exe /c/mozilla-build/msys2/usr/bi
   fi
 done
 
+# Last-resort GNU make from Chocolatey (native Windows binary, avoids MSYS fork issues).
+choco_make="/c/ProgramData/chocolatey/bin/make.exe"
+if [ ! -x "$choco_make" ]; then
+  choco_bin=""
+  for p in /c/ProgramData/chocolatey/bin/choco.exe /c/ProgramData/chocolatey/bin/choco /c/ProgramData/Chocolatey/bin/choco.exe /c/ProgramData/Chocolatey/bin/choco; do
+    if [ -x "$p" ]; then
+      choco_bin="$p"
+      break
+    fi
+  done
+  if [ -n "$choco_bin" ]; then
+    "$choco_bin" install -y make --no-progress || true
+  fi
+fi
+
 if [ -n "$pacman_bin" ]; then
   "$pacman_bin" -Sy --noconfirm || true
   for pkg in \
@@ -636,6 +651,10 @@ for p in /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/bin/gmake \
          /c/mozilla-build/bin/make.exe \
          /c/mozilla-build/bin/make \
+         /c/ProgramData/chocolatey/bin/make.exe \
+         /c/ProgramData/chocolatey/bin/make \
+         /c/ProgramData/Chocolatey/bin/make.exe \
+         /c/ProgramData/Chocolatey/bin/make \
          /c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe \
          /c/mozilla-build/msys2/mingw64/bin/mingw32-make \
          /c/mozilla-build/msys2/mingw64/bin/gmake.exe \
