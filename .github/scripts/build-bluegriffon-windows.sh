@@ -169,7 +169,7 @@ strip_ambient_mingw_path() {
   for p in "${parts[@]}"; do
     [ -n "$p" ] || continue
     case "$p" in
-      /c/mingw64/bin|/mingw64/bin)
+      /c/mingw64/bin|/mingw64/bin|/c/mozilla-build/msys2/usr/bin|/c/mozilla-build/msys2/mingw64/bin)
         continue
         ;;
     esac
