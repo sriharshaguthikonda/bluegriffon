@@ -545,37 +545,58 @@ echo "yasm on PATH: $(command -v yasm || true)"
 yasm --version || true
 
 MOZMAKE_CAND=""
-if command -v mozmake >/dev/null 2>&1; then
-  MOZMAKE_CAND="$(command -v mozmake)"
-elif command -v make >/dev/null 2>&1; then
-  MOZMAKE_CAND="$(command -v make)"
-fi
+is_untrusted_make_candidate() {
+  case "$1" in
+    /c/mingw64/bin/*|/mingw64/bin/*|"$pkg_root/"*)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+# Prefer MozillaBuild make binaries to avoid msys DLL mismatches from runner images.
+for p in /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/usr/bin/make.exe \
+         /c/mozilla-build/bin/mingw32-make.exe \
+         /c/mozilla-build/bin/make.exe \
+         /c/mozilla-build/mozmake.exe \
+         /c/mozilla-build/mozmake; do
+  if [ -x "$p" ]; then
+    MOZMAKE_CAND="$p"
+    break
+  fi
+done
+
 if [ -z "$MOZMAKE_CAND" ]; then
-  for p in /c/mozilla-build/mozmake.exe \
-           /c/mozilla-build/mozmake \
-           /c/mozilla-build/bin/mozmake.exe \
-           /c/mozilla-build/bin/make.exe \
-           /c/mozilla-build/msys2/usr/bin/mozmake.exe \
-           /c/mozilla-build/msys2/usr/bin/make.exe \
-           /c/mozilla-build/msys2/mingw64/bin/make.exe \
-           /c/mingw64/bin/make.exe \
-           /c/mingw64/bin/mozmake.exe \
+  for p in "$(command -v mingw32-make 2>/dev/null || true)" \
+           "$(command -v make 2>/dev/null || true)" \
+           "$(command -v mozmake 2>/dev/null || true)" \
            /c/Program\ Files/Git/mingw64/bin/make.exe \
            /c/Program\ Files/Git/usr/bin/make.exe \
-           /usr/bin/make \
-           /mingw64/bin/make; do
-    if [ -x "$p" ]; then
-      MOZMAKE_CAND="$p"
-      break
+           /usr/bin/make; do
+    [ -n "$p" ] || continue
+    if [[ "$p" =~ ^[A-Za-z]: ]]; then
+      p="$(cygpath -u "$p" 2>/dev/null || echo "$p")"
     fi
+    [ -x "$p" ] || continue
+    if is_untrusted_make_candidate "$p"; then
+      echo "Skipping untrusted make candidate: $p"
+      continue
+    fi
+    MOZMAKE_CAND="$p"
+    break
   done
 fi
 if [[ "$MOZMAKE_CAND" =~ ^[A-Za-z]: ]]; then
   MOZMAKE_CAND="$(cygpath -u "$MOZMAKE_CAND" 2>/dev/null || true)"
 fi
 if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
+  make_dir="$(dirname "$MOZMAKE_CAND")"
+  PATH="$(sanitize_path "$make_dir:$PATH")"
+  export PATH
   export MOZBUILD_MOZMAKE="$MOZMAKE_CAND"
   export MAKE="$MOZMAKE_CAND"
+  export GNUMAKE="$MOZMAKE_CAND"
   echo "Using make: $MOZMAKE_CAND"
 else
   echo "WARNING: make/mozmake not found; mach may fail."
