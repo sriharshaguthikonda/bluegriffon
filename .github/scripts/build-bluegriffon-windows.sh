@@ -798,15 +798,35 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
   make_dir="$(dirname "$MOZMAKE_CAND")"
   git_bin="$(command -v git 2>/dev/null || true)"
   git_dir=""
-  rustc_bin="$(command -v rustc 2>/dev/null || true)"
-  cargo_bin="$(command -v cargo 2>/dev/null || true)"
+  rustup_bin="$(command -v rustup 2>/dev/null || true)"
+  rust_toolchain="${BLUEGRIFFON_RUST_TOOLCHAIN:-${RUSTUP_TOOLCHAIN:-1.19.0-x86_64-pc-windows-msvc}}"
+  rustc_bin=""
+  cargo_bin=""
+  if [ -n "$rustup_bin" ]; then
+    "$rustup_bin" toolchain install "$rust_toolchain" --profile minimal >/dev/null 2>&1 || true
+    rustc_bin="$("$rustup_bin" which --toolchain "$rust_toolchain" rustc 2>/dev/null || true)"
+    cargo_bin="$("$rustup_bin" which --toolchain "$rust_toolchain" cargo 2>/dev/null || true)"
+    export RUSTUP_TOOLCHAIN="$rust_toolchain"
+  fi
+  if [ -z "$rustc_bin" ]; then
+    rustc_bin="$(command -v rustc 2>/dev/null || true)"
+  fi
+  if [ -z "$cargo_bin" ]; then
+    cargo_bin="$(command -v cargo 2>/dev/null || true)"
+  fi
+  if [[ "$rustc_bin" =~ ^[A-Za-z]: ]]; then
+    rustc_bin="$(cygpath -u "$rustc_bin" 2>/dev/null || echo "$rustc_bin")"
+  fi
+  if [[ "$cargo_bin" =~ ^[A-Za-z]: ]]; then
+    cargo_bin="$(cygpath -u "$cargo_bin" 2>/dev/null || echo "$cargo_bin")"
+  fi
   rust_dir=""
   if [ -n "$git_bin" ]; then
     git_dir="$(dirname "$git_bin")"
   fi
-  if [ -n "$rustc_bin" ]; then
+  if [ -n "$rustc_bin" ] && [ -x "$rustc_bin" ]; then
     rust_dir="$(dirname "$rustc_bin")"
-  elif [ -n "$cargo_bin" ]; then
+  elif [ -n "$cargo_bin" ] && [ -x "$cargo_bin" ]; then
     rust_dir="$(dirname "$cargo_bin")"
   fi
   if [ -z "$rust_dir" ]; then
@@ -838,17 +858,32 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
     "$pkg_root/clang64/bin" \
     "$pkg_root/mingw32/bin")"
   export PATH
+  if [ -n "$rustc_bin" ] && [ -x "$rustc_bin" ]; then
+    export RUSTC="$rustc_bin"
+  fi
+  if [ -n "$cargo_bin" ] && [ -x "$cargo_bin" ]; then
+    export CARGO="$cargo_bin"
+  fi
   if [ -n "$rust_dir" ]; then
-    if [ -x "$rust_dir/rustc.exe" ]; then
+    if [ -z "${RUSTC:-}" ] && [ -x "$rust_dir/rustc.exe" ]; then
       export RUSTC="$rust_dir/rustc.exe"
-    elif [ -x "$rust_dir/rustc" ]; then
+    elif [ -z "${RUSTC:-}" ] && [ -x "$rust_dir/rustc" ]; then
       export RUSTC="$rust_dir/rustc"
     fi
-    if [ -x "$rust_dir/cargo.exe" ]; then
+    if [ -z "${CARGO:-}" ] && [ -x "$rust_dir/cargo.exe" ]; then
       export CARGO="$rust_dir/cargo.exe"
-    elif [ -x "$rust_dir/cargo" ]; then
+    elif [ -z "${CARGO:-}" ] && [ -x "$rust_dir/cargo" ]; then
       export CARGO="$rust_dir/cargo"
     fi
+  fi
+  echo "RUSTUP_TOOLCHAIN (selected): ${RUSTUP_TOOLCHAIN:-}"
+  echo "RUSTC (selected): ${RUSTC:-}"
+  echo "CARGO (selected): ${CARGO:-}"
+  if [ -n "${RUSTC:-}" ]; then
+    "$RUSTC" --version || true
+  fi
+  if [ -n "${CARGO:-}" ]; then
+    "$CARGO" --version || true
   fi
   MOZMAKE_FOR_MACH="$MOZMAKE_CAND"
   if [[ "$MOZMAKE_FOR_MACH" == /* ]]; then
