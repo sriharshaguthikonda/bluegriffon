@@ -1,3 +1,3 @@
-source-sha: c45bc74f7dd38926ded7d551c4d3759d3ba645f4
-branch: exp/portable-skip-a
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23002727010
+source-sha: 7ae7c9558e5dbc83480b9908f3e64f78e210b98d
+branch: exp/icudata-yasm-c
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23002673385
