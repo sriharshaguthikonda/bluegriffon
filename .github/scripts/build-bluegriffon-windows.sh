@@ -225,7 +225,7 @@ build_path_from_dirs() {
 
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
-for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$mt_dir_u" "$win_system32" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32"; do
+for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$mt_dir_u" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32" "$win_system32"; do
   if [ -n "$p" ] && [ -d "$p" ]; then
     if [ -z "$priority_path" ]; then
       priority_path="$p"
@@ -780,13 +780,13 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
     "$py_dir/Scripts" \
     "$msvc_bin_u" \
     "$mt_dir_u" \
-    "$win_system32" \
     "$moz_bin" \
     "$msys_usr" \
     "$msys_mingw" \
     "$msys_ucrt" \
     "$msys_clang" \
     "$msys_mingw32" \
+    "$win_system32" \
     "$git_dir" \
     "$pkg_root/mingw64/bin" \
     "$pkg_root/ucrt64/bin" \
