@@ -900,6 +900,31 @@ export CONFIG_SHELL="$SHELL"
 echo "SHELL: $SHELL"
 echo "CONFIG_SHELL: $CONFIG_SHELL"
 
+# Hypothesis A: pre-generate ICU assembly output so the fragile icudata rule is skipped.
+set +e
+./mach configure
+configure_rc=$?
+set -e
+if [ "$configure_rc" -ne 0 ]; then
+  echo "mach configure failed with exit code: $configure_rc"
+  exit "$configure_rc"
+fi
+
+icu_src="$PWD/config/external/icu/data"
+icu_obj="$objdir/config/external/icu/data"
+icu_data_file="$(basename "$(ls "$icu_src"/icudt*l.dat 2>/dev/null | head -1)")"
+icu_data_symbol="$(echo "$icu_data_file" | sed -E 's/^icudt([0-9]+)l\\.dat$/icudt\\1_dat/')"
+if [ -f "$icu_src/icudata.s" ] && [ -n "$icu_data_file" ] && [ -n "$icu_data_symbol" ]; then
+  mkdir -p "$icu_obj"
+  "$YASM_FOR_MOZCONFIG" \
+    -o "$icu_obj/icudata.obj" \
+    -f x64 -rnasm -pnasm -g cv8 \
+    "-DICU_DATA_FILE=\"$icu_data_file\"" \
+    "-DICU_DATA_SYMBOL=$icu_data_symbol" \
+    "$icu_src/icudata.s" || true
+  ls -la "$icu_obj/icudata.obj" || true
+fi
+
 set +e
 ./mach build
 build_rc=$?
@@ -921,33 +946,7 @@ if [ "$build_rc" -ne 0 ]; then
     echo "==== make -n icudata.obj (diagnostic) ===="
     make -C "$icu_obj" -n icudata.obj || true
   fi
-  build_log_path=""
-  if [ -n "${BUILD_LOG:-}" ]; then
-    build_log_path="$(cygpath -u "$BUILD_LOG" 2>/dev/null || echo "$BUILD_LOG")"
-  fi
-  if [ -n "$build_log_path" ] && [ -f "$build_log_path" ] && grep -q "yasm: No input files specified" "$build_log_path"; then
-    echo "Detected yasm missing-input failure; assembling icudata.obj manually and retrying once."
-    icu_data_file="$(basename "$(ls "$icu_src"/icudt*l.dat 2>/dev/null | head -1)")"
-    icu_data_symbol="$(echo "$icu_data_file" | sed -E 's/^icudt([0-9]+)l\\.dat$/icudt\\1_dat/')"
-    if [ -n "$icu_data_file" ] && [ -n "$icu_data_symbol" ] && [ -f "$icu_src/icudata.s" ]; then
-      mkdir -p "$icu_obj"
-      "$YASM_FOR_MOZCONFIG" \
-        -o "$icu_obj/icudata.obj" \
-        -f x64 -rnasm -pnasm -g cv8 \
-        "-DICU_DATA_FILE=\"$icu_data_file\"" \
-        "-DICU_DATA_SYMBOL=$icu_data_symbol" \
-        "$icu_src/icudata.s" || true
-      ls -la "$icu_obj/icudata.obj" || true
-      set +e
-      ./mach build
-      build_rc=$?
-      set -e
-      echo "mach retry exit code: $build_rc"
-    fi
-  fi
-  if [ "$build_rc" -ne 0 ]; then
-    exit "$build_rc"
-  fi
+  exit "$build_rc"
 fi
 
 dist_bin="$objdir/dist/bin"
