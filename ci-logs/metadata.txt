@@ -1,3 +1,3 @@
-source-sha: 7732e6f79af85c4dbd0710c163fdd9d1d5ebeeb6
-branch: exp/icudata-yasm-d
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23003337535
+source-sha: 34c9f68330eae6f0bc216f21b67f17cf8150ba08
+branch: exp/rust-toolchain-a
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23006378264
