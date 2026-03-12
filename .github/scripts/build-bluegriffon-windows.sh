@@ -669,7 +669,13 @@ PATH="$(strip_ambient_mingw_path "$(sanitize_path "$PATH")")"
 export PATH
 echo "PATH (without ambient mingw64): $PATH"
 
-# Prefer non-MSYS make binaries first; keep MSYS make only as final fallback.
+if make_smoke_test /c/mozilla-build/msys2/usr/bin/make.exe; then
+  MOZMAKE_CAND="/c/mozilla-build/msys2/usr/bin/make.exe"
+  echo "Preferring MSYS make: $MOZMAKE_CAND"
+fi
+
+# Prefer non-MSYS make binaries first when MSYS make is unavailable.
+if [ -z "$MOZMAKE_CAND" ]; then
 for p in /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/mozmake \
          /c/mozilla-build/bin/mingw32-make.exe \
@@ -741,6 +747,7 @@ for p in /c/mozilla-build/mozmake.exe \
     break
   fi
 done
+fi
 
 if [ -z "$MOZMAKE_CAND" ]; then
   for p in "$(command -v mingw32-make 2>/dev/null || true)" \
@@ -880,6 +887,8 @@ patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 sed -i 's/\$(error MSYS make is not supported)/# allow MSYS make in CI/' config/baseconfig.mk
 
 cp bluegriffon/config/mozconfig.win .mozconfig
+echo "mk_add_options MOZ_MAKE_FLAGS=-j1" >> .mozconfig
+echo "Injected into .mozconfig: mk_add_options MOZ_MAKE_FLAGS=-j1"
 # Keep YASM visible to old-configure sub-configures (e.g. js/src).
 echo "mk_add_options YASM=$YASM_FOR_MOZCONFIG" >> .mozconfig
 echo "Injected into .mozconfig: mk_add_options YASM=$YASM_FOR_MOZCONFIG"
