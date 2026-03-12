@@ -821,7 +821,21 @@ fi
 echo "PATH (after make selection): $PATH"
 
 # Avoid CRLF checkouts that break client.mk (force LF).
-git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
+clone_ok=0
+for attempt in 1 2 3 4 5; do
+  rm -rf gecko-dev || true
+  if git -c core.autocrlf=false -c core.eol=lf -c http.version=HTTP/1.1 -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=60 clone https://github.com/mozilla/gecko-dev gecko-dev; then
+    clone_ok=1
+    break
+  fi
+  sleep_seconds=$((attempt * 20))
+  echo "WARNING: gecko-dev clone attempt $attempt failed; retrying in ${sleep_seconds}s"
+  sleep "$sleep_seconds"
+done
+if [ "$clone_ok" -ne 1 ]; then
+  echo "ERROR: Unable to clone gecko-dev after retries."
+  exit 21
+fi
 git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
 
 cd gecko-dev
