@@ -39,14 +39,14 @@ jobs:
 
           $rustc = (& rustup which --toolchain $toolchain rustc).Trim()
           if (-not (Test-Path $rustc)) {
-            throw "rustc not found for toolchain $toolchain: $rustc"
+            throw "rustc not found for toolchain ${toolchain}: ${rustc}"
           }
           $cargo = Join-Path (Split-Path -Parent $rustc) "cargo.exe"
           if (-not (Test-Path $cargo)) {
             $cargo = (& rustup which --toolchain $toolchain cargo).Trim()
           }
           if (-not (Test-Path $cargo)) {
-            throw "cargo not found for toolchain $toolchain: $cargo"
+            throw "cargo not found for toolchain ${toolchain}: ${cargo}"
           }
 
           & $rustc --version
