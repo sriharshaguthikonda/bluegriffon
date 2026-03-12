@@ -1,3 +1,3 @@
-source-sha: 34c9f68330eae6f0bc216f21b67f17cf8150ba08
-branch: exp/rust-toolchain-a
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23006378264
+source-sha: fea2156adc5810d444d9150a4cdd00a47ef41995
+branch: exp/rust-toolchain-b
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23006321838
