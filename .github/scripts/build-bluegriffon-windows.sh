@@ -958,16 +958,30 @@ if [ "$build_rc" -ne 0 ]; then
   if [ -n "$build_log_path" ] && [ -f "$build_log_path" ] && grep -q "yasm: No input files specified" "$build_log_path"; then
     echo "Detected yasm missing-input failure; assembling icudata.obj manually and retrying once."
     icu_data_file="$(basename "$(ls "$icu_src"/icudt*l.dat 2>/dev/null | head -1)")"
-    icu_data_symbol="$(echo "$icu_data_file" | sed -E 's/^icudt([0-9]+)l\\.dat$/icudt\\1_dat/')"
-    if [ -n "$icu_data_file" ] && [ -n "$icu_data_symbol" ] && [ -f "$icu_src/icudata.s" ]; then
+    icu_data_symbol="$(echo "$icu_data_file" | sed -E 's/^icudt([0-9]+)[a-z]?\\.dat$/icudt\\1_dat/')"
+    if [ -z "$icu_data_symbol" ] || [ "$icu_data_symbol" = "$icu_data_file" ]; then
+      icu_digits="$(echo "$icu_data_file" | sed -E 's/[^0-9]//g')"
+      if [ -n "$icu_digits" ]; then
+        icu_data_symbol="icudt${icu_digits}_dat"
+      else
+        icu_data_symbol="icudt58_dat"
+      fi
+    fi
+    if [ -n "$icu_data_file" ] && [ -f "$icu_src/icudata.s" ]; then
+      echo "ICU fallback data file: $icu_data_file"
+      echo "ICU fallback symbol: $icu_data_symbol"
       mkdir -p "$icu_obj"
       "$YASM_FOR_MOZCONFIG" \
         -o "$icu_obj/icudata.obj" \
-        -f x64 -rnasm -pnasm -g cv8 \
+        -f win64 -rnasm -pnasm -g cv8 \
         "-DICU_DATA_FILE=\"$icu_data_file\"" \
         "-DICU_DATA_SYMBOL=$icu_data_symbol" \
         "$icu_src/icudata.s" || true
       ls -la "$icu_obj/icudata.obj" || true
+      if [ -f "$icu_obj/icudata.obj" ]; then
+        echo "==== icudata.obj symbol probe ===="
+        strings "$icu_obj/icudata.obj" | grep -E "icudt[0-9]+(_dat|l_dat)" | head -40 || true
+      fi
       set +e
       ./mach build
       build_rc=$?
