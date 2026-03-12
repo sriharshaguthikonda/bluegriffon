@@ -26,6 +26,35 @@ jobs:
           $py = (Get-Command python).Source
           "PYTHON_EXE=$py" >> $env:GITHUB_ENV
 
+      - name: Pin Rust toolchain 1.19.0
+        shell: powershell
+        run: |
+          $toolchain = "1.19.0-x86_64-pc-windows-msvc"
+          if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) {
+            choco install -y rustup.install --no-progress
+            $env:PATH += ";$env:USERPROFILE\.cargo\bin"
+          }
+          rustup set profile minimal
+          rustup toolchain install $toolchain
+
+          $rustc = (& rustup which --toolchain $toolchain rustc).Trim()
+          if (-not (Test-Path $rustc)) {
+            throw "rustc not found for toolchain $toolchain: $rustc"
+          }
+          $cargo = Join-Path (Split-Path -Parent $rustc) "cargo.exe"
+          if (-not (Test-Path $cargo)) {
+            $cargo = (& rustup which --toolchain $toolchain cargo).Trim()
+          }
+          if (-not (Test-Path $cargo)) {
+            throw "cargo not found for toolchain $toolchain: $cargo"
+          }
+
+          & $rustc --version
+          & $cargo --version
+          "RUSTUP_TOOLCHAIN=$toolchain" >> $env:GITHUB_ENV
+          "RUSTC=$rustc" >> $env:GITHUB_ENV
+          "CARGO=$cargo" >> $env:GITHUB_ENV
+
       - name: Install Python 2.7
         shell: powershell
         continue-on-error: true
@@ -123,6 +152,9 @@ jobs:
           dir "C:\mozilla-build\msys2\mingw64\bin" >> "%LOG%" 2>&1
           echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
           echo PYTHON3_EXE: %PYTHON3_EXE% >> "%LOG%"
+          echo RUSTUP_TOOLCHAIN: %RUSTUP_TOOLCHAIN% >> "%LOG%"
+          echo RUSTC: %RUSTC% >> "%LOG%"
+          echo CARGO: %CARGO% >> "%LOG%"
           echo PATH: %PATH% >> "%LOG%"
           where git >> "%LOG%" 2>&1
           where bash >> "%LOG%" 2>&1
