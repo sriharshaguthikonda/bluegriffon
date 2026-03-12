@@ -634,7 +634,27 @@ if [ -n "$YASM_CAND" ]; then
     cp -f "$yasm_real" "$pkg_root/mingw64/bin/yasm" || true
     chmod +x "$pkg_root/mingw64/bin/yasm" "$pkg_root/mingw64/bin/yasm.exe" || true
   fi
-  export YASM="$yasm_real"
+  yasm_wrapper="$shim_dir/yasm"
+  cat >"$yasm_wrapper" <<EOF
+#!/usr/bin/env bash
+set -e
+has_src=0
+for arg in "\$@"; do
+  case "\$arg" in
+    *.s|*.S|*.asm|*.ASM)
+      has_src=1
+      break
+      ;;
+  esac
+done
+if [ "\$has_src" -ne 1 ] && [ -f "icudata.s" ]; then
+  echo "yasm-wrapper: appending missing source icudata.s" >&2
+  set -- "\$@" "icudata.s"
+fi
+exec "$yasm_real" "\$@"
+EOF
+  chmod +x "$yasm_wrapper"
+  export YASM="$yasm_wrapper"
   YASM_FOR_MOZCONFIG="$YASM"
   if [[ "$YASM_FOR_MOZCONFIG" == /* ]]; then
     YASM_FOR_MOZCONFIG="$(cygpath -m "$YASM_FOR_MOZCONFIG" 2>/dev/null || echo "$YASM_FOR_MOZCONFIG")"
