@@ -634,8 +634,36 @@ if [ -n "$YASM_CAND" ]; then
     cp -f "$yasm_real" "$pkg_root/mingw64/bin/yasm" || true
     chmod +x "$pkg_root/mingw64/bin/yasm" "$pkg_root/mingw64/bin/yasm.exe" || true
   fi
+  yasm_wrapper_cmd="$shim_dir/yasm-wrapper.cmd"
+  cat >"$yasm_wrapper_cmd" <<'EOF'
+@echo off
+setlocal EnableExtensions EnableDelayedExpansion
+set "REAL_YASM=%~dp0yasm.exe"
+if not exist "%REAL_YASM%" (
+  echo ERROR: yasm wrapper cannot find "%REAL_YASM%"
+  exit /b 2
+)
+set "HAS_SRC=0"
+for %%I in (%*) do (
+  set "EXT=%%~xI"
+  if /I "!EXT!"==".s" set "HAS_SRC=1"
+  if /I "!EXT!"==".asm" set "HAS_SRC=1"
+)
+if "!HAS_SRC!"=="0" (
+  if exist "icudata.s" (
+    "%REAL_YASM%" %* icudata.s
+    exit /b %ERRORLEVEL%
+  )
+  if not "%BLUEGRIFFON_ICUDATA_SRC_WIN%"=="" if exist "%BLUEGRIFFON_ICUDATA_SRC_WIN%" (
+    "%REAL_YASM%" %* "%BLUEGRIFFON_ICUDATA_SRC_WIN%"
+    exit /b %ERRORLEVEL%
+  )
+)
+"%REAL_YASM%" %*
+exit /b %ERRORLEVEL%
+EOF
   export YASM="$yasm_real"
-  YASM_FOR_MOZCONFIG="$yasm_real"
+  YASM_FOR_MOZCONFIG="$yasm_wrapper_cmd"
   if [[ "$YASM_FOR_MOZCONFIG" == /* ]]; then
     YASM_FOR_MOZCONFIG="$(cygpath -m "$YASM_FOR_MOZCONFIG" 2>/dev/null || echo "$YASM_FOR_MOZCONFIG")"
   fi
@@ -870,6 +898,8 @@ git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
 cd gecko-dev
 git config core.autocrlf false
 git config core.eol lf
+export BLUEGRIFFON_ICUDATA_SRC_WIN="$(cygpath -m "$PWD/config/external/icu/data/icudata.s" 2>/dev/null || true)"
+echo "BLUEGRIFFON_ICUDATA_SRC_WIN: $BLUEGRIFFON_ICUDATA_SRC_WIN"
 git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
