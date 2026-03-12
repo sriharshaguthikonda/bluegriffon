@@ -1,10 +1,8 @@
-name: Build BlueGriffon (Windows)
+name: Build BlueGriffon Installer (Mirror)
 
 on:
   push:
-    branches: ["**"]
-  pull_request:
-    branches: ["**"]
+    branches: ["exp/python3-migrated-installer-only"]
   workflow_dispatch:
 
 jobs:
@@ -137,6 +135,9 @@ jobs:
         continue-on-error: true
         run: choco install -y yasm
 
+      - name: Install Inno Setup
+        run: choco install -y innosetup --no-progress
+
       - name: Build BlueGriffon executable
         shell: cmd
         continue-on-error: true
@@ -210,19 +211,20 @@ jobs:
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
 
-      - name: Collect executable and portable runtime
+      - name: Build installer artifact
         if: always()
         shell: powershell
         run: |
-          $ErrorActionPreference = "Continue"
+          $ErrorActionPreference = "Stop"
           $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
-          $portableDir = Join-Path $artifactDir "bluegriffon-portable"
-          New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
+          $runtimeDir = Join-Path $artifactDir "runtime"
+          $installerDir = Join-Path $artifactDir "installer"
+          New-Item -ItemType Directory -Force -Path $artifactDir,$runtimeDir,$installerDir | Out-Null
           $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
 
           $scanFile = Join-Path $env:GITHUB_WORKSPACE "artifact-scan.txt"
           $rootReport = Join-Path $env:GITHUB_WORKSPACE "root-recursive-report.txt"
-          "==== artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
+          "==== installer artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
           "==== bounded root report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
 
           Add-Content -Path $rootReport -Value ("workspace: {0}" -f $env:GITHUB_WORKSPACE)
@@ -254,8 +256,12 @@ jobs:
                 Select-Object -First 120 FullName,Length,LastWriteTime |
                 Format-Table -AutoSize |
                 Out-String -Width 500 |
-                Add-Content -Path $scanFile
+              Add-Content -Path $scanFile
             }
+          }
+
+          if ($candidateRoots.Count -eq 0) {
+            throw "No runtime roots found under $searchRoot."
           }
 
           $candidates = @()
@@ -267,46 +273,90 @@ jobs:
           if ($candidates.Count -gt 0) {
             $picked = $candidates[0]
             $binDir = Split-Path -Parent $picked.FullName
-            Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
 
-            if (Test-Path $portableDir) {
-              Remove-Item -Path $portableDir -Recurse -Force -ErrorAction SilentlyContinue
+            if (Test-Path $runtimeDir) {
+              Remove-Item -Path $runtimeDir -Recurse -Force -ErrorAction SilentlyContinue
             }
-            New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
+            New-Item -ItemType Directory -Force -Path $runtimeDir | Out-Null
 
             $copyLog = Join-Path $env:GITHUB_WORKSPACE "portable-copy.log"
             if (Test-Path $copyLog) { Remove-Item -Path $copyLog -Force -ErrorAction SilentlyContinue }
-            $null = robocopy $binDir $portableDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
+            $null = robocopy $binDir $runtimeDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
             $robocopyExit = $LASTEXITCODE
             Add-Content -Path $scanFile -Value ("robocopy exit code: {0}" -f $robocopyExit)
             if ($robocopyExit -gt 7) {
-              throw "Portable runtime copy failed with robocopy exit code $robocopyExit"
+              throw "Runtime copy failed with robocopy exit code $robocopyExit"
             }
             # Robocopy returns 0-7 for success/acceptable states; clear it so the step exit code stays green.
             $global:LASTEXITCODE = 0
 
-            $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
-            $launcherPath = Join-Path $portableDir $launcherName
-            $launcherContent = "@echo off`r`nsetlocal`r`ncd /d %~dp0`r`nstart """" ""%~dp0$($picked.Name)""`r`n"
-            Set-Content -Path $launcherPath -Encoding ASCII -Value $launcherContent
+            $isccCandidates = @(
+              "$env:ProgramFiles(x86)\Inno Setup 6\ISCC.exe",
+              "$env:ProgramFiles\Inno Setup 6\ISCC.exe"
+            )
+            $iscc = $isccCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
+            if (-not $iscc) {
+              throw "ISCC.exe not found. Inno Setup install failed."
+            }
 
-            $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
-            if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
-            Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
+            $issPath = Join-Path $env:GITHUB_WORKSPACE "ci-installer.iss"
+            $appExe = $picked.Name
+            $runtimeEscaped = $runtimeDir.Replace("\", "\\")
+            $installerEscaped = $installerDir.Replace("\", "\\")
+            $iss = @"
+[Setup]
+AppId={{A9015334-10BE-4D64-A776-203336EFE806}
+AppName=BlueGriffon
+AppVersion=3.1-dev
+DefaultDirName={autopf}\BlueGriffon
+DefaultGroupName=BlueGriffon
+AllowNoIcons=yes
+OutputDir=$installerEscaped
+OutputBaseFilename=bluegriffon-installer
+Compression=lzma2
+SolidCompression=yes
+ArchitecturesInstallIn64BitMode=x64compatible
+WizardStyle=modern
+
+[Languages]
+Name: "english"; MessagesFile: "compiler:Default.isl"
+
+[Tasks]
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+
+[Files]
+Source: "$runtimeEscaped\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
+[Icons]
+Name: "{group}\BlueGriffon"; Filename: "{app}\$appExe"
+Name: "{group}\{cm:UninstallProgram,BlueGriffon}"; Filename: "{uninstallexe}"
+Name: "{commondesktop}\BlueGriffon"; Filename: "{app}\$appExe"; Tasks: desktopicon
+
+[Run]
+Filename: "{app}\$appExe"; Description: "{cm:LaunchProgram,BlueGriffon}"; Flags: nowait postinstall skipifsilent
+"@
+            Set-Content -Path $issPath -Encoding ASCII -Value $iss
+
+            & $iscc $issPath
+            if ($LASTEXITCODE -ne 0) {
+              throw "ISCC failed with exit code $LASTEXITCODE"
+            }
 
             Add-Content -Path $scanFile -Value ""
-            Add-Content -Path $scanFile -Value "==== portable package sample (first 200 files) ===="
-            Get-ChildItem -Path $portableDir -File -Recurse -ErrorAction SilentlyContinue |
+            Add-Content -Path $scanFile -Value "==== installer output files ===="
+            Get-ChildItem -Path $installerDir -File -ErrorAction SilentlyContinue |
               Sort-Object FullName |
-              Select-Object -First 200 FullName,Length,LastWriteTime |
+              Select-Object FullName,Length,LastWriteTime |
               Format-Table -AutoSize |
               Out-String -Width 500 |
               Add-Content -Path $scanFile
 
             Write-Host "Collected executable: $($picked.FullName)"
-            Write-Host "Collected portable runtime from: $binDir"
+            Write-Host "Prepared runtime from: $binDir"
+            Write-Host "Built installer(s) into: $installerDir"
           } else {
             Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
+            throw "Cannot build installer without a built executable."
           }
 
           if (Test-Path build.log) {
@@ -320,20 +370,12 @@ jobs:
 
           Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
             Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
-      - name: Upload executable
+      - name: Upload installer
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: bluegriffon-exe
-          path: ${{ github.workspace }}\artifact\*.exe
-          if-no-files-found: warn
-
-      - name: Upload portable runtime
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: bluegriffon-portable
-          path: ${{ github.workspace }}\artifact\bluegriffon-portable.zip
+          name: bluegriffon-installer
+          path: ${{ github.workspace }}\artifact\installer\*.exe
           if-no-files-found: warn
 
       - name: Show build log tail
