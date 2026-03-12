@@ -303,38 +303,38 @@ jobs:
             $appExe = $picked.Name
             $runtimeEscaped = $runtimeDir.Replace("\", "\\")
             $installerEscaped = $installerDir.Replace("\", "\\")
-            $iss = @"
-[Setup]
-AppId={{A9015334-10BE-4D64-A776-203336EFE806}
-AppName=BlueGriffon
-AppVersion=3.1-dev
-DefaultDirName={autopf}\BlueGriffon
-DefaultGroupName=BlueGriffon
-AllowNoIcons=yes
-OutputDir=$installerEscaped
-OutputBaseFilename=bluegriffon-installer
-Compression=lzma2
-SolidCompression=yes
-ArchitecturesInstallIn64BitMode=x64compatible
-WizardStyle=modern
-
-[Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
-
-[Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-
-[Files]
-Source: "$runtimeEscaped\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
-
-[Icons]
-Name: "{group}\BlueGriffon"; Filename: "{app}\$appExe"
-Name: "{group}\{cm:UninstallProgram,BlueGriffon}"; Filename: "{uninstallexe}"
-Name: "{commondesktop}\BlueGriffon"; Filename: "{app}\$appExe"; Tasks: desktopicon
-
-[Run]
-Filename: "{app}\$appExe"; Description: "{cm:LaunchProgram,BlueGriffon}"; Flags: nowait postinstall skipifsilent
-"@
+            $iss = @(
+              "[Setup]"
+              "AppId={{A9015334-10BE-4D64-A776-203336EFE806}"
+              "AppName=BlueGriffon"
+              "AppVersion=3.1-dev"
+              "DefaultDirName={autopf}\\BlueGriffon"
+              "DefaultGroupName=BlueGriffon"
+              "AllowNoIcons=yes"
+              "OutputDir=$installerEscaped"
+              "OutputBaseFilename=bluegriffon-installer"
+              "Compression=lzma2"
+              "SolidCompression=yes"
+              "ArchitecturesInstallIn64BitMode=x64compatible"
+              "WizardStyle=modern"
+              ""
+              "[Languages]"
+              "Name: ""english""; MessagesFile: ""compiler:Default.isl"""
+              ""
+              "[Tasks]"
+              "Name: ""desktopicon""; Description: ""{cm:CreateDesktopIcon}""; GroupDescription: ""{cm:AdditionalIcons}""; Flags: unchecked"
+              ""
+              "[Files]"
+              "Source: ""$runtimeEscaped\\*""; DestDir: ""{app}""; Flags: ignoreversion recursesubdirs createallsubdirs"
+              ""
+              "[Icons]"
+              "Name: ""{group}\\BlueGriffon""; Filename: ""{app}\\$appExe"""
+              "Name: ""{group}\\{cm:UninstallProgram,BlueGriffon}""; Filename: ""{uninstallexe}"""
+              "Name: ""{commondesktop}\\BlueGriffon""; Filename: ""{app}\\$appExe""; Tasks: desktopicon"
+              ""
+              "[Run]"
+              "Filename: ""{app}\\$appExe""; Description: ""{cm:LaunchProgram,BlueGriffon}""; Flags: nowait postinstall skipifsilent"
+            )
             Set-Content -Path $issPath -Encoding ASCII -Value $iss
 
             & $iscc $issPath
