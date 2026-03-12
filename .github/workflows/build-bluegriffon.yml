@@ -11,6 +11,8 @@ jobs:
   build-windows:
     if: github.ref != 'refs/heads/ci-logs'
     runs-on: windows-2022
+    env:
+      ENABLE_PORTABLE_ARTIFACT: "0"
     steps:
       - name: Checkout BlueGriffon
         uses: actions/checkout@v4
@@ -183,6 +185,7 @@ jobs:
         shell: powershell
         run: |
           $ErrorActionPreference = "Continue"
+          $enablePortable = ($env:ENABLE_PORTABLE_ARTIFACT -eq "1")
           $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
           $portableDir = Join-Path $artifactDir "bluegriffon-portable"
           New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
@@ -194,6 +197,7 @@ jobs:
           "==== bounded root report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
 
           Add-Content -Path $rootReport -Value ("workspace: {0}" -f $env:GITHUB_WORKSPACE)
+          Add-Content -Path $rootReport -Value ("ENABLE_PORTABLE_ARTIFACT: {0}" -f $env:ENABLE_PORTABLE_ARTIFACT)
           if (Test-Path $env:GITHUB_WORKSPACE) {
             Add-Content -Path $rootReport -Value "-- workspace top-level entries --"
             Get-ChildItem -Path $env:GITHUB_WORKSPACE -Force -ErrorAction SilentlyContinue |
@@ -237,42 +241,48 @@ jobs:
             $binDir = Split-Path -Parent $picked.FullName
             Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
 
-            if (Test-Path $portableDir) {
-              Remove-Item -Path $portableDir -Recurse -Force -ErrorAction SilentlyContinue
+            if ($enablePortable) {
+              if (Test-Path $portableDir) {
+                Remove-Item -Path $portableDir -Recurse -Force -ErrorAction SilentlyContinue
+              }
+              New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
+
+              $copyLog = Join-Path $env:GITHUB_WORKSPACE "portable-copy.log"
+              if (Test-Path $copyLog) { Remove-Item -Path $copyLog -Force -ErrorAction SilentlyContinue }
+              $null = robocopy $binDir $portableDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
+              $robocopyExit = $LASTEXITCODE
+              Add-Content -Path $scanFile -Value ("robocopy exit code: {0}" -f $robocopyExit)
+              if ($robocopyExit -gt 7) {
+                throw "Portable runtime copy failed with robocopy exit code $robocopyExit"
+              }
+              # Robocopy returns 0-7 for success/acceptable states; clear it so the step exit code stays green.
+              $global:LASTEXITCODE = 0
+
+              $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
+              $launcherPath = Join-Path $portableDir $launcherName
+              $launcherContent = "@echo off`r`nsetlocal`r`ncd /d %~dp0`r`nstart """" ""%~dp0$($picked.Name)""`r`n"
+              Set-Content -Path $launcherPath -Encoding ASCII -Value $launcherContent
+
+              $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
+              if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
+              Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
+
+              Add-Content -Path $scanFile -Value ""
+              Add-Content -Path $scanFile -Value "==== portable package sample (first 200 files) ===="
+              Get-ChildItem -Path $portableDir -File -Recurse -ErrorAction SilentlyContinue |
+                Sort-Object FullName |
+                Select-Object -First 200 FullName,Length,LastWriteTime |
+                Format-Table -AutoSize |
+                Out-String -Width 500 |
+                Add-Content -Path $scanFile
+
+              Write-Host "Collected executable: $($picked.FullName)"
+              Write-Host "Collected portable runtime from: $binDir"
+            } else {
+              Add-Content -Path $scanFile -Value "Portable packaging disabled by ENABLE_PORTABLE_ARTIFACT=0"
+              Write-Host "Collected executable: $($picked.FullName)"
+              Write-Host "Skipping portable runtime packaging by configuration."
             }
-            New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
-
-            $copyLog = Join-Path $env:GITHUB_WORKSPACE "portable-copy.log"
-            if (Test-Path $copyLog) { Remove-Item -Path $copyLog -Force -ErrorAction SilentlyContinue }
-            $null = robocopy $binDir $portableDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
-            $robocopyExit = $LASTEXITCODE
-            Add-Content -Path $scanFile -Value ("robocopy exit code: {0}" -f $robocopyExit)
-            if ($robocopyExit -gt 7) {
-              throw "Portable runtime copy failed with robocopy exit code $robocopyExit"
-            }
-            # Robocopy returns 0-7 for success/acceptable states; clear it so the step exit code stays green.
-            $global:LASTEXITCODE = 0
-
-            $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
-            $launcherPath = Join-Path $portableDir $launcherName
-            $launcherContent = "@echo off`r`nsetlocal`r`ncd /d %~dp0`r`nstart """" ""%~dp0$($picked.Name)""`r`n"
-            Set-Content -Path $launcherPath -Encoding ASCII -Value $launcherContent
-
-            $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
-            if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
-            Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
-
-            Add-Content -Path $scanFile -Value ""
-            Add-Content -Path $scanFile -Value "==== portable package sample (first 200 files) ===="
-            Get-ChildItem -Path $portableDir -File -Recurse -ErrorAction SilentlyContinue |
-              Sort-Object FullName |
-              Select-Object -First 200 FullName,Length,LastWriteTime |
-              Format-Table -AutoSize |
-              Out-String -Width 500 |
-              Add-Content -Path $scanFile
-
-            Write-Host "Collected executable: $($picked.FullName)"
-            Write-Host "Collected portable runtime from: $binDir"
           } else {
             Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
           }
@@ -297,7 +307,7 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload portable runtime
-        if: always()
+        if: always() && env.ENABLE_PORTABLE_ARTIFACT == '1'
         uses: actions/upload-artifact@v4
         with:
           name: bluegriffon-portable
