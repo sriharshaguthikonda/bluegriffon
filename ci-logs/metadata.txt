@@ -1,3 +1,3 @@
-source-sha: 549030fcd4c9ea94114b02cca66c85840bfe5dce
-branch: exp/python3-migration
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23000883386
+source-sha: 08bba88e6889c3860e214a579f773b41926de7f5
+branch: exp/icudata-yasm-a
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23001738176
