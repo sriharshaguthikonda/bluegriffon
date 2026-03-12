@@ -908,6 +908,25 @@ patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
 # CI runners in this workflow do not provide classic mozmake, so allow
 # the vetted fallback make candidate selected above.
 sed -i 's/\$(error MSYS make is not supported)/# allow MSYS make in CI/' config/baseconfig.mk
+# Newer stable Rust toolchains removed legacy rustc-serialize derives used by
+# this frozen Gecko revision. Strip those derive markers in CI as a compatibility
+# workaround so the build can continue when the legacy toolchain is unavailable.
+euclid_src_dir="third_party/rust/euclid/src"
+if [ -d "$euclid_src_dir" ]; then
+  echo "Applying euclid derive compatibility rewrite in $euclid_src_dir"
+  while IFS= read -r -d '' euclid_file; do
+    sed -i -E \
+      -e 's/RustcDecodable[[:space:]]*,[[:space:]]*//g' \
+      -e 's/[[:space:]]*,[[:space:]]*RustcDecodable//g' \
+      -e 's/RustcEncodable[[:space:]]*,[[:space:]]*//g' \
+      -e 's/[[:space:]]*,[[:space:]]*RustcEncodable//g' \
+      -e 's/\([[:space:]]*,/\(/g' \
+      -e 's/,[[:space:]]*\)/)/g' \
+      -e '/#\[derive\([[:space:]]*\)\]/d' \
+      "$euclid_file"
+  done < <(find "$euclid_src_dir" -type f -name "*.rs" -print0)
+  grep -R --line-number "RustcDecodable\\|RustcEncodable" "$euclid_src_dir" || true
+fi
 
 cp bluegriffon/config/mozconfig.win .mozconfig
 echo "mk_add_options MOZ_MAKE_FLAGS=-j1" >> .mozconfig
