@@ -2,7 +2,7 @@ diff --git a/config/external/icu/data/moz.build b/config/external/icu/data/moz.b
 index 91aa52aabd31..9b9b352b8b6b 100644
 --- a/config/external/icu/data/moz.build
 +++ b/config/external/icu/data/moz.build
-@@ -18,10 +18,11 @@ if CONFIG['OS_ARCH'] == 'WINNT':
+@@ -18,10 +18,10 @@ if CONFIG['OS_ARCH'] == 'WINNT':
  elif CONFIG['OS_ARCH'] == 'Darwin':
      ASFLAGS += ['-DPREFIX']
  
@@ -10,11 +10,10 @@ index 91aa52aabd31..9b9b352b8b6b 100644
 -    '-DICU_DATA_FILE="%s"' % CONFIG['ICU_DATA_FILE'],
 -    '-DICU_DATA_SYMBOL=icudt%s_dat' % CONFIG['MOZ_ICU_VERSION'],
 -]
-+if CONFIG['OS_ARCH'] == 'WINNT':
-+    ASFLAGS += ['-DICU_DATA_FILE=\\"%s\\"' % CONFIG['ICU_DATA_FILE']]
-+else:
-+    ASFLAGS += ['-DICU_DATA_FILE="%s"' % CONFIG['ICU_DATA_FILE']]
-+ASFLAGS += ['-DICU_DATA_SYMBOL=icudt%s_dat' % CONFIG['MOZ_ICU_VERSION']]
++ASFLAGS += [
++    '-DICU_DATA_FILE="%s"' % CONFIG['ICU_DATA_FILE'],
++    '-DICU_DATA_SYMBOL=icudt%s_dat' % CONFIG['MOZ_ICU_VERSION'],
++]
  LOCAL_INCLUDES += ['.']
  
  if CONFIG['HAVE_YASM']:

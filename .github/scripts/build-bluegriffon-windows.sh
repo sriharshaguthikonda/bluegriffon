@@ -669,13 +669,7 @@ PATH="$(strip_ambient_mingw_path "$(sanitize_path "$PATH")")"
 export PATH
 echo "PATH (without ambient mingw64): $PATH"
 
-if make_smoke_test /c/mozilla-build/msys2/usr/bin/make.exe; then
-  MOZMAKE_CAND="/c/mozilla-build/msys2/usr/bin/make.exe"
-  echo "Preferring MSYS make: $MOZMAKE_CAND"
-fi
-
-# Prefer non-MSYS make binaries first when MSYS make is unavailable.
-if [ -z "$MOZMAKE_CAND" ]; then
+# Prefer non-MSYS make binaries first; keep MSYS make only as final fallback.
 for p in /c/mozilla-build/mozmake.exe \
          /c/mozilla-build/mozmake \
          /c/mozilla-build/bin/mingw32-make.exe \
@@ -747,7 +741,6 @@ for p in /c/mozilla-build/mozmake.exe \
     break
   fi
 done
-fi
 
 if [ -z "$MOZMAKE_CAND" ]; then
   for p in "$(command -v mingw32-make 2>/dev/null || true)" \
