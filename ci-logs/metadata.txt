@@ -1,3 +1,3 @@
-source-sha: fc23a118c73f9fd4ec57b1b82a55e550d504db2a
+source-sha: d961d5120cec2bb61186ece082a5928aaa383d19
 branch: exp/python3-migration
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22984165475
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/22999938771
