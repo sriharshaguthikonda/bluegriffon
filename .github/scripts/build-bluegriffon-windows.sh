@@ -770,8 +770,24 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
   make_dir="$(dirname "$MOZMAKE_CAND")"
   git_bin="$(command -v git 2>/dev/null || true)"
   git_dir=""
+  rustc_bin="$(command -v rustc 2>/dev/null || true)"
+  cargo_bin="$(command -v cargo 2>/dev/null || true)"
+  rust_dir=""
   if [ -n "$git_bin" ]; then
     git_dir="$(dirname "$git_bin")"
+  fi
+  if [ -n "$rustc_bin" ]; then
+    rust_dir="$(dirname "$rustc_bin")"
+  elif [ -n "$cargo_bin" ]; then
+    rust_dir="$(dirname "$cargo_bin")"
+  fi
+  if [ -z "$rust_dir" ]; then
+    for p in "$HOME/.cargo/bin" /c/Users/runneradmin/.cargo/bin; do
+      if [ -x "$p/rustc.exe" ] || [ -x "$p/rustc" ] || [ -x "$p/cargo.exe" ] || [ -x "$p/cargo" ]; then
+        rust_dir="$p"
+        break
+      fi
+    done
   fi
   PATH="$(build_path_from_dirs \
     "$make_dir" \
@@ -780,6 +796,7 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
     "$py_dir/Scripts" \
     "$msvc_bin_u" \
     "$mt_dir_u" \
+    "$rust_dir" \
     "$moz_bin" \
     "$msys_usr" \
     "$msys_mingw" \
@@ -793,6 +810,18 @@ if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
     "$pkg_root/clang64/bin" \
     "$pkg_root/mingw32/bin")"
   export PATH
+  if [ -n "$rust_dir" ]; then
+    if [ -x "$rust_dir/rustc.exe" ]; then
+      export RUSTC="$rust_dir/rustc.exe"
+    elif [ -x "$rust_dir/rustc" ]; then
+      export RUSTC="$rust_dir/rustc"
+    fi
+    if [ -x "$rust_dir/cargo.exe" ]; then
+      export CARGO="$rust_dir/cargo.exe"
+    elif [ -x "$rust_dir/cargo" ]; then
+      export CARGO="$rust_dir/cargo"
+    fi
+  fi
   MOZMAKE_FOR_MACH="$MOZMAKE_CAND"
   if [[ "$MOZMAKE_FOR_MACH" == /* ]]; then
     MOZMAKE_FOR_MACH="$(cygpath -m "$MOZMAKE_FOR_MACH" 2>/dev/null || echo "$MOZMAKE_FOR_MACH")"
