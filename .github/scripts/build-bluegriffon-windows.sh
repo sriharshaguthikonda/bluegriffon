@@ -644,22 +644,34 @@ if not exist "%REAL_YASM%" (
   exit /b 2
 )
 set "HAS_SRC=0"
+set "HAS_ICU_FILE=0"
+set "HAS_ICU_SYMBOL=0"
 for %%I in (%*) do (
+  set "ARG=%%~I"
   set "EXT=%%~xI"
   if /I "!EXT!"==".s" set "HAS_SRC=1"
   if /I "!EXT!"==".asm" set "HAS_SRC=1"
+  echo(!ARG!| findstr /I /C:"-DICU_DATA_FILE=" >nul && set "HAS_ICU_FILE=1"
+  echo(!ARG!| findstr /I /C:"-DICU_DATA_SYMBOL=" >nul && set "HAS_ICU_SYMBOL=1"
+)
+set "FALLBACK_ARGS="
+if "!HAS_ICU_FILE!"=="0" if not "%BLUEGRIFFON_ICU_DATA_FILE%"=="" (
+  set "FALLBACK_ARGS=!FALLBACK_ARGS! -DICU_DATA_FILE=\"%BLUEGRIFFON_ICU_DATA_FILE%\""
+)
+if "!HAS_ICU_SYMBOL!"=="0" if not "%BLUEGRIFFON_ICU_DATA_SYMBOL%"=="" (
+  set "FALLBACK_ARGS=!FALLBACK_ARGS! -DICU_DATA_SYMBOL=%BLUEGRIFFON_ICU_DATA_SYMBOL%"
 )
 if "!HAS_SRC!"=="0" (
   if exist "icudata.s" (
-    "%REAL_YASM%" %* icudata.s
+    "%REAL_YASM%" %* !FALLBACK_ARGS! icudata.s
     exit /b %ERRORLEVEL%
   )
   if not "%BLUEGRIFFON_ICUDATA_SRC_WIN%"=="" if exist "%BLUEGRIFFON_ICUDATA_SRC_WIN%" (
-    "%REAL_YASM%" %* "%BLUEGRIFFON_ICUDATA_SRC_WIN%"
+    "%REAL_YASM%" %* !FALLBACK_ARGS! "%BLUEGRIFFON_ICUDATA_SRC_WIN%"
     exit /b %ERRORLEVEL%
   )
 )
-"%REAL_YASM%" %*
+"%REAL_YASM%" %* !FALLBACK_ARGS!
 exit /b %ERRORLEVEL%
 EOF
   export YASM="$yasm_real"
@@ -899,7 +911,16 @@ cd gecko-dev
 git config core.autocrlf false
 git config core.eol lf
 export BLUEGRIFFON_ICUDATA_SRC_WIN="$(cygpath -m "$PWD/config/external/icu/data/icudata.s" 2>/dev/null || true)"
+icu_data_file="$(basename "$(ls "$PWD/config/external/icu/data"/icudt*l.dat 2>/dev/null | head -1)")"
+icu_data_symbol=""
+if [[ "$icu_data_file" =~ ^icudt([0-9]+)l\.dat$ ]]; then
+  icu_data_symbol="icudt${BASH_REMATCH[1]}_dat"
+fi
+export BLUEGRIFFON_ICU_DATA_FILE="$icu_data_file"
+export BLUEGRIFFON_ICU_DATA_SYMBOL="$icu_data_symbol"
 echo "BLUEGRIFFON_ICUDATA_SRC_WIN: $BLUEGRIFFON_ICUDATA_SRC_WIN"
+echo "BLUEGRIFFON_ICU_DATA_FILE: $BLUEGRIFFON_ICU_DATA_FILE"
+echo "BLUEGRIFFON_ICU_DATA_SYMBOL: $BLUEGRIFFON_ICU_DATA_SYMBOL"
 git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
