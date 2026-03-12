@@ -922,6 +922,24 @@ objdir="${objdir_line//@TOPSRCDIR@/$PWD}"
 if [ -z "$objdir" ]; then
   objdir="$PWD/obj"
 fi
+icu_src="$PWD/config/external/icu/data"
+icu_obj="$objdir/config/external/icu/data"
+icu_data_file="$(basename "$(ls "$icu_src"/icudt*l.dat 2>/dev/null | head -1)")"
+icu_data_symbol=""
+if [[ "$icu_data_file" =~ ^icudt([0-9]+)l\.dat$ ]]; then
+  icu_data_symbol="icudt${BASH_REMATCH[1]}_dat"
+fi
+if [ -n "$icu_data_file" ] && [ -n "$icu_data_symbol" ] && [ -f "$icu_src/icudata.s" ]; then
+  echo "Prebuilding icudata.obj with yasm before mach build."
+  mkdir -p "$icu_obj"
+  "$YASM_FOR_MOZCONFIG" \
+    -o "$icu_obj/icudata.obj" \
+    -f x64 -rnasm -pnasm -g cv8 \
+    "-DICU_DATA_FILE=\"$icu_data_file\"" \
+    "-DICU_DATA_SYMBOL=$icu_data_symbol" \
+    "$icu_src/icudata.s" || true
+  ls -la "$icu_obj/icudata.obj" || true
+fi
 
 export MOZ_PARALLEL_BUILD="${MOZ_PARALLEL_BUILD:-1}"
 echo "MOZ_PARALLEL_BUILD: $MOZ_PARALLEL_BUILD"
