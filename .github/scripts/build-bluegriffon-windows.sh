@@ -895,6 +895,10 @@ fi
 
 export MOZ_PARALLEL_BUILD="${MOZ_PARALLEL_BUILD:-1}"
 echo "MOZ_PARALLEL_BUILD: $MOZ_PARALLEL_BUILD"
+export SHELL="/c/mozilla-build/msys2/usr/bin/sh.exe"
+export CONFIG_SHELL="$SHELL"
+echo "SHELL: $SHELL"
+echo "CONFIG_SHELL: $CONFIG_SHELL"
 
 set +e
 ./mach build
