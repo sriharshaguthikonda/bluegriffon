@@ -1,3 +1,3 @@
-source-sha: a29ffb254253666f4a661ffa01e148c2c9ca1bcf
-branch: exp/python3-migrated-installer-only
-run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23026655330
+source-sha: 6ab013df1c2e44b8d7f486aba04888b79c0d3867
+branch: exp-mixed-features-ui
+run: https://github.com/sriharshaguthikonda/bluegriffon/actions/runs/23030294067
