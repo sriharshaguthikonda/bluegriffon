@@ -738,16 +738,34 @@ Name "BlueGriffonDev"
 OutFile "${OUTFILE}"
 InstallDir "$LOCALAPPDATA\BlueGriffonDev"
 SetCompressor /SOLID lzma
-Page directory
-Page instfiles
-UninstPage uninstConfirm
-UninstPage instfiles
+
+!include "MUI2.nsh"
+!define MUI_ABORTWARNING
+!define MUI_FINISHPAGE_TITLE_3LINES
+!define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_RUN_NOTCHECKED
+!define MUI_FINISHPAGE_RUN_TEXT "Launch BlueGriffonDev"
+!define MUI_FINISHPAGE_RUN_FUNCTION LaunchApp
+
+!insertmacro MUI_PAGE_WELCOME
+!insertmacro MUI_PAGE_DIRECTORY
+!insertmacro MUI_PAGE_INSTFILES
+!insertmacro MUI_PAGE_FINISH
+
+!insertmacro MUI_UNPAGE_CONFIRM
+!insertmacro MUI_UNPAGE_INSTFILES
+
+!insertmacro MUI_LANGUAGE "English"
 
 Section "Install"
   SetOutPath "$INSTDIR"
   File /r "${SRCDIR}\*.*"
   WriteUninstaller "$INSTDIR\uninstall-bluegriffondev.exe"
 SectionEnd
+
+Function LaunchApp
+  Exec "$INSTDIR\bluegriffondev.exe"
+FunctionEnd
 
 Section "Uninstall"
   RMDir /r "$INSTDIR"
@@ -816,14 +834,18 @@ find "$objdir" -maxdepth 6 -type f \( -name "*.exe" -o -name "*.msi" -o -name "*
 installer_path="$(find "$objdir" -type f \( -iname "*.exe" -o -iname "*.msi" \) \
   \( -path "*/dist/install/*" -o -path "*/installer/*" \) \
   ! -iname "*uninstall*.exe" ! -path "*/dist/bin/*" -print 2>/dev/null | head -n 1 || true)"
+installer_kind="none"
 
 if [ -z "$installer_path" ]; then
   echo "WARNING: Installer .exe/.msi not found under $objdir/dist/install or */installer/*."
   fallback_installer="$(create_fallback_installer "$dist_bin" "$objdir" || true)"
   if [ -n "$fallback_installer" ] && [ -f "$fallback_installer" ]; then
     installer_path="$fallback_installer"
+    installer_kind="fallback"
     echo "Found fallback installer: $installer_path"
   fi
 else
+  installer_kind="full"
   echo "Found installer: $installer_path"
 fi
+echo "INSTALLER_ARTIFACT_KIND=$installer_kind"
