@@ -59,9 +59,13 @@
 
     <content>
       <xul:tabbox anonid="EditorTabbox" flex="1" onselect="">
-        <xul:hbox style="min-height: 24px">
+        <xul:hbox anonid="TablineRow" class="tabline-row" style="min-height: 24px" align="center">
           <xul:tabs flex="1" anonid="EditorTabs" closebutton="true"
                     setfocus="false" onselect="onTabSelected(event, this.parentNode.parentNode)"/>
+          <xul:hbox anonid="TablineMenulistsInlineDock"
+                    class="tabline-menulists-inline-dock"
+                    align="center"
+                    hidden="true"/>
           <xul:vbox style="width: 24px" id="newDocumentButton">
             <xul:spacer flex="1"/>
             <xul:hbox>
@@ -75,6 +79,10 @@
             <xul:spacer flex="1"/>
           </xul:vbox>
         </xul:hbox>
+        <xul:hbox anonid="TablineMenulistsFallbackDock"
+                  class="tabline-menulists-fallback-dock"
+                  align="center"
+                  hidden="true"/>
         <children includes="vbox"/>
         <xul:grid flex="1">
           <xul:columns><xul:column /><xul:column flex="1"/></xul:columns>
