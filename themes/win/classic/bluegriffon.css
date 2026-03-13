@@ -195,11 +195,13 @@ menubar > menu:not([open="true"]) {
 
 #Bluegriffon[primarytoolbarposition="left"] #MainToolbar,
 #Bluegriffon[primarytoolbarposition="right"] #MainToolbar,
-#Bluegriffon[primarytoolbarposition="left"] #FormatMenulistsToolbar,
-#Bluegriffon[primarytoolbarposition="right"] #FormatMenulistsToolbar,
 #Bluegriffon[secondarytoolbarposition="left"] #FormatToolbar,
 #Bluegriffon[secondarytoolbarposition="right"] #FormatToolbar {
   -moz-box-orient: vertical;
+}
+
+#FormatMenulistsToolbar {
+  -moz-box-orient: horizontal !important;
 }
 
 #Bluegriffon[primarytoolbarposition="left"] #MainToolbox,
@@ -213,6 +215,30 @@ menubar > menu:not([open="true"]) {
 
 toolbar {
   -moz-appearance: none;
+}
+
+.tabline-menulists-inline-dock,
+.tabline-menulists-fallback-dock {
+  -moz-box-align: center;
+  overflow: hidden;
+}
+
+.tabline-menulists-inline-dock > #FormatMenulistsToolbox,
+.tabline-menulists-fallback-dock > #FormatMenulistsToolbox {
+  margin: 0;
+}
+
+.tabline-menulists-inline-dock #FormatMenulistsToolbar,
+.tabline-menulists-fallback-dock #FormatMenulistsToolbar {
+  border-top: none;
+  border-bottom: none;
+  padding-top: 0;
+  padding-bottom: 0;
+  min-height: 24px;
+}
+
+.tabline-menulists-fallback-dock {
+  border-bottom: thin solid var(--bg-dark-border);
 }
 
 tabeditor {

@@ -2677,6 +2677,12 @@ function ApplyVerticalToolbarPosition()
 
   var leftDock = gDialog.formatToolboxLeftDock;
   var rightDock = gDialog.formatToolboxRightDock;
+  var tablineInlineDock = null;
+  var tablineFallbackDock = null;
+  if (gDialog.tabeditor && "getChild" in gDialog.tabeditor) {
+    tablineInlineDock = gDialog.tabeditor.getChild("TablineMenulistsInlineDock");
+    tablineFallbackDock = gDialog.tabeditor.getChild("TablineMenulistsFallbackDock");
+  }
 
   function GetDockForPosition(aPosition, aTopDock)
   {
@@ -2690,15 +2696,47 @@ function ApplyVerticalToolbarPosition()
   var mainTargetDock = GetDockForPosition(primaryPosition, mainTopDock);
   var menulistsTargetDock = GetDockForPosition(primaryPosition, menulistsTopDock);
   var formatTargetDock = GetDockForPosition(secondaryPosition, formatTopDock);
+  var menulistsDockState = "toolbar";
+
+  if (showPrimaryToolbars && primaryPosition == "top" && tablineInlineDock && tablineFallbackDock) {
+    if (menulistsToolbox.parentNode != tablineInlineDock)
+      tablineInlineDock.appendChild(menulistsToolbox);
+
+    tablineInlineDock.removeAttribute("hidden");
+    tablineFallbackDock.setAttribute("hidden", "true");
+
+    var tabsOverflow = false;
+    if (gDialog.tabeditor && gDialog.tabeditor.mTabs)
+      tabsOverflow = (gDialog.tabeditor.mTabs.getAttribute("overflow") == "true");
+
+    if (tabsOverflow) {
+      if (menulistsToolbox.parentNode != tablineFallbackDock)
+        tablineFallbackDock.appendChild(menulistsToolbox);
+      tablineFallbackDock.removeAttribute("hidden");
+      tablineInlineDock.setAttribute("hidden", "true");
+      menulistsDockState = "tertiary";
+    }
+    else {
+      menulistsDockState = "inline";
+    }
+  }
+  else {
+    if (tablineInlineDock)
+      tablineInlineDock.setAttribute("hidden", "true");
+    if (tablineFallbackDock)
+      tablineFallbackDock.setAttribute("hidden", "true");
+  }
 
   if (mainToolbox.parentNode != mainTargetDock)
     mainTargetDock.appendChild(mainToolbox);
-  if (menulistsToolbox.parentNode != menulistsTargetDock)
+  if (menulistsDockState == "toolbar" && menulistsToolbox.parentNode != menulistsTargetDock)
     menulistsTargetDock.appendChild(menulistsToolbox);
   if (formatToolbox.parentNode != formatTargetDock)
     formatTargetDock.appendChild(formatToolbox);
 
-  if (mainTargetDock == menulistsTargetDock && menulistsToolbox.previousSibling != mainToolbox)
+  if (menulistsDockState == "toolbar" &&
+      mainTargetDock == menulistsTargetDock &&
+      menulistsToolbox.previousSibling != mainToolbox)
     mainTargetDock.insertBefore(menulistsToolbox, mainToolbox.nextSibling);
 
   if (formatTargetDock == mainTargetDock && formatToolbox.previousSibling != menulistsToolbox)
@@ -2723,7 +2761,7 @@ function ApplyVerticalToolbarPosition()
   else
     mainTopDock.setAttribute("hidden", "true");
 
-  if (showPrimaryToolbars && primaryPosition == "top")
+  if (showPrimaryToolbars && primaryPosition == "top" && menulistsDockState == "toolbar")
     menulistsTopDock.removeAttribute("hidden");
   else
     menulistsTopDock.setAttribute("hidden", "true");
@@ -2752,6 +2790,7 @@ function ApplyVerticalToolbarPosition()
   document.documentElement.setAttribute("secondarytoolbarposition", secondaryPosition);
   document.documentElement.setAttribute("verticaltoolbarposition", secondaryPosition);
   document.documentElement.setAttribute("toolbarlayout", layout);
+  document.documentElement.setAttribute("menulistsdock", menulistsDockState);
 }
 
 function SetHorizontalToolbarsPosition(aPosition)
@@ -2759,7 +2798,6 @@ function SetHorizontalToolbarsPosition(aPosition)
   var position = NormalizeToolbarPosition(aPosition, "top");
   if (_getCharPref("bluegriffon.ui.horizontal_toolbars.position", "top") != position)
     Services.prefs.setCharPref("bluegriffon.ui.horizontal_toolbars.position", position);
-  SyncToolbarLayoutPref();
   ApplyVerticalToolbarPosition();
 }
 
@@ -2768,7 +2806,6 @@ function SetVerticalToolbarPosition(aPosition)
   var position = NormalizeToolbarPosition(aPosition, "left");
   if (_getCharPref("bluegriffon.ui.vertical_toolbar.position", "left") != position)
     Services.prefs.setCharPref("bluegriffon.ui.vertical_toolbar.position", position);
-  SyncToolbarLayoutPref();
   ApplyVerticalToolbarPosition();
 }
 
@@ -2891,7 +2928,6 @@ function ToggleToolbar(aPrefInfix)
   Services.prefs.setBoolPref(prefName, !value);
 
   if (aPrefInfix == "horizontal_toolbars" || aPrefInfix == "vertical_toolbar") {
-    SyncToolbarLayoutPref();
     ApplyVerticalToolbarPosition();
   }
   else if (aPrefInfix == "statusbar")

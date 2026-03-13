@@ -34,7 +34,6 @@ function Startup()
   catch(e) { gURLArray = []; }
 
   GetUIElements();
-  ApplyToolbarLayoutPref();
   ApplyVerticalToolbarPosition();
   ApplyStatusbarPosition();
   ApplyTitlebarVisibility();

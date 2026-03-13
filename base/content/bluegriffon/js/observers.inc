@@ -132,8 +132,11 @@ var ResizeEventNotifier = {
 
   onResizeEvent: function ResizeEventNotifier_onResizeEvent(aEvent)
   {
-    if (aEvent.target.document.location.href == "chrome://bluegriffon/content/xul/bluegriffon.xul")
+    if (aEvent.target.document.location.href == "chrome://bluegriffon/content/xul/bluegriffon.xul") {
+      if ("ApplyVerticalToolbarPosition" in window)
+        ApplyVerticalToolbarPosition();
       this.doNotify();
+    }
   }
 };
 
@@ -270,12 +273,11 @@ var BlueGriffonPrefsObserver = {
         return;
       }
       if (prefName == "bluegriffon.ui.toolbar.layout") {
-        ApplyToolbarLayoutPref();
+        ApplyVerticalToolbarPosition();
         return;
       }
       if (prefName == "bluegriffon.ui.horizontal_toolbars.position"
           || prefName == "bluegriffon.ui.vertical_toolbar.position") {
-        SyncToolbarLayoutPref();
         ApplyVerticalToolbarPosition();
         return;
       }
@@ -326,9 +328,6 @@ var BlueGriffonPrefsObserver = {
         ApplyStatusbarPosition();
       else if (prefName == "bluegriffon.ui.titlebar.show")
         ApplyTitlebarVisibility();
-      else if (prefName == "bluegriffon.ui.horizontal_toolbars.show"
-               || prefName == "bluegriffon.ui.vertical_toolbar.show")
-        SyncToolbarLayoutPref();
       if (prefName == "bluegriffon.ui.vertical_toolbar.show"
           || prefName == "bluegriffon.ui.horizontal_toolbars.show")
         ApplyVerticalToolbarPosition();
