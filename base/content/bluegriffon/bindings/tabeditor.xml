@@ -639,8 +639,17 @@
 
             var newBox = document.createElement("deck");
             newBox.setAttribute("anonid", "editorDeck");
-            if ("GetRememberedViewMode" in window)
-              newBox.setAttribute("previousMode", window.GetRememberedViewMode());
+            var rememberedMode = "wysiwyg";
+            try {
+              rememberedMode = Components.classes["@mozilla.org/preferences-service;1"]
+                                       .getService(Components.interfaces.nsIPrefBranch)
+                                       .getCharPref("bluegriffon.ui.last_view_mode");
+            } catch (e) {}
+            if (rememberedMode != "liveview" &&
+                rememberedMode != "source" &&
+                rememberedMode != "wysiwyg")
+              rememberedMode = "wysiwyg";
+            newBox.setAttribute("previousMode", rememberedMode);
 
             var newEditorElement = document.createElement("editor");
             newEditorElement.setAttribute("context", "editorContextMenu");
