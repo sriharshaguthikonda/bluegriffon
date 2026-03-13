@@ -922,6 +922,48 @@ function UpdateViewModeStatus()
   gDialog.viewModeStatus.setAttribute("label", "Mode: " + GetSelectedViewModeLabel());
 }
 
+function ReapplyRememberedViewMode(aAttemptsRemaining)
+{
+  var attemptsRemaining = (typeof aAttemptsRemaining == "number") ? aAttemptsRemaining : 5;
+  if (!gDialog || !gDialog.tabeditor)
+    return;
+
+  var editorElement = gDialog.tabeditor.getCurrentEditorElement();
+  if (!editorElement) {
+    if (attemptsRemaining > 0) {
+      window.setTimeout(function() {
+        ReapplyRememberedViewMode(attemptsRemaining - 1);
+      }, 250);
+    }
+    return;
+  }
+
+  var deck = editorElement.parentNode;
+  if (!deck)
+    return;
+
+  var mode = GetRememberedViewMode();
+  deck.setAttribute("previousMode", mode);
+
+  var modeButton = gDialog.wysiwygModeButton;
+  if (mode == "source")
+    modeButton = gDialog.sourceModeButton;
+  else if (mode == "liveview")
+    modeButton = gDialog.liveViewModeButton;
+
+  try {
+    ToggleViewMode(modeButton, false);
+    UpdateViewModeStatus();
+  }
+  catch (e) {
+    if (attemptsRemaining > 0) {
+      window.setTimeout(function() {
+        ReapplyRememberedViewMode(attemptsRemaining - 1);
+      }, 250);
+    }
+  }
+}
+
 function CycleViewMode()
 {
   var order = ["liveViewModeButton",

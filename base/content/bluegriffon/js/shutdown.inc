@@ -13,6 +13,22 @@ function Shutdown()
   EditorScrolledNotifier.shutdown();
   BGZoomManager.shutdown();
 
+  try {
+    var currentMode = null;
+    if (EditorUtils.getCurrentEditorElement())
+      currentMode = EditorUtils.getCurrentViewMode();
+    if (!currentMode) {
+      var selectedViewModeButton = GetSelectedViewModeButtonId();
+      if (selectedViewModeButton == "sourceModeButton")
+        currentMode = "source";
+      else if (selectedViewModeButton == "liveViewModeButton")
+        currentMode = "liveview";
+      else
+        currentMode = "wysiwyg";
+    }
+    SaveRememberedViewMode(currentMode);
+  } catch(e) {}
+
   // persist floating panels' position
   var panels = document.querySelectorAll('panel[floating="true"]');
   for (var i = 0; i < panels.length; i++) {

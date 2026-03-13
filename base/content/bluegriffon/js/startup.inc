@@ -104,6 +104,11 @@ function _delayedStartup() {
     }
   }
   catch(e) {}
+
+  window.setTimeout(function() {
+    if ("ReapplyRememberedViewMode" in window)
+      ReapplyRememberedViewMode();
+  }, 0);
 }
 
 var gLookingForFileChangesTimeout = null;
