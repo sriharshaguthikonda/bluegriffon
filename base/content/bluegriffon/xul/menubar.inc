@@ -150,17 +150,41 @@
                           oncommand="SetToolbarLayout('none')"/>
               </menupopup>
             </menu>
-            <menu label="Vertical Toolbar Side">
+            <menu label="Primary Toolbar Position">
               <menupopup>
-                <menuitem label="Left"
-                          id="viewVerticalToolbarLeftMenuitem"
+                <menuitem label="Top"
+                          id="viewPrimaryToolbarTopMenuitem"
                           type="radio"
-                          name="vertical-toolbar-side-group"
+                          name="primary-toolbar-position-group"
+                          oncommand="SetHorizontalToolbarsPosition('top')"/>
+                <menuitem label="Left"
+                          id="viewPrimaryToolbarLeftMenuitem"
+                          type="radio"
+                          name="primary-toolbar-position-group"
+                          oncommand="SetHorizontalToolbarsPosition('left')"/>
+                <menuitem label="Right"
+                          id="viewPrimaryToolbarRightMenuitem"
+                          type="radio"
+                          name="primary-toolbar-position-group"
+                          oncommand="SetHorizontalToolbarsPosition('right')"/>
+              </menupopup>
+            </menu>
+            <menu label="Secondary Toolbar Position">
+              <menupopup>
+                <menuitem label="Top"
+                          id="viewSecondaryToolbarTopMenuitem"
+                          type="radio"
+                          name="secondary-toolbar-position-group"
+                          oncommand="SetVerticalToolbarPosition('top')"/>
+                <menuitem label="Left"
+                          id="viewSecondaryToolbarLeftMenuitem"
+                          type="radio"
+                          name="secondary-toolbar-position-group"
                           oncommand="SetVerticalToolbarPosition('left')"/>
                 <menuitem label="Right"
-                          id="viewVerticalToolbarRightMenuitem"
+                          id="viewSecondaryToolbarRightMenuitem"
                           type="radio"
-                          name="vertical-toolbar-side-group"
+                          name="secondary-toolbar-position-group"
                           oncommand="SetVerticalToolbarPosition('right')"/>
               </menupopup>
             </menu>
@@ -192,6 +216,29 @@
                       id="viewStatusbarMenuitem"
                       type="checkbox"
                       oncommand="ToggleToolbar('statusbar')"/>
+            <menuseparator/>
+            <menu label="Workbench Shell">
+              <menupopup>
+                <menuitem label="Classic"
+                          id="viewShellClassicMenuitem"
+                          type="radio"
+                          name="shell-mode-group"
+                          oncommand="SetShellMode('classic')"/>
+                <menuitem label="VSCode-like"
+                          id="viewShellVSCodeMenuitem"
+                          type="radio"
+                          name="shell-mode-group"
+                          oncommand="SetShellMode('vscode')"/>
+              </menupopup>
+            </menu>
+            <menuitem label="Activity Rail"
+                      id="viewActivityRailMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleActivityRailVisibility()"/>
+            <menuitem label="Sidebar"
+                      id="viewSidebarMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleSidebarVisibility()"/>
           </menupopup>
         </menu>
         <menu label="&source.label;" observes="cmd_renderedSourceEnabler">
@@ -477,6 +524,10 @@
     <menu id="toolsMenu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
       <menupopup id="toolsPopup">
         <menuitem id="menu_cleanup" command="cmd_cleanup"/>
+        <menuitem id="menu_commandPalette"
+                  label="Command Palette..."
+                  key="commandpalettekb"
+                  oncommand="OpenCommandPalette();"/>
         <menuseparator/>
         <menuitem label="&addonsMenu.label;"  oncommand="OpenExtensionsManager()"/>
         <!--menuseparator/-->

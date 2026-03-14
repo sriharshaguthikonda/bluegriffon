@@ -10,6 +10,7 @@
   <key id="findkb"              key="&findCmd.key;"          observes="cmd_bgfind"    modifiers="accel"/>
   <key id="findagainkb"         key="&findAgainCmd.key;"     observes="cmd_bgfindagain" modifiers="accel"/>
   <key id="replacekb"           key="&replaceCmd.key;"       observes="cmd_replace"   modifiers="accel"/>
+  <key id="commandpalettekb"    key="P"                      modifiers="accel,shift" oncommand="OpenCommandPalette();"/>
 
   <key id="strongkb"            key="&styleStrong.key;"      observes="cmd_strong"    modifiers="accel"/>
   <key id="emkb"                key="&styleEm.key;"          observes="cmd_em"        modifiers="accel"/>
@@ -301,4 +302,3 @@
 </stringbundleset>
 
 <stringbundleset id="otherBundles"/>
-

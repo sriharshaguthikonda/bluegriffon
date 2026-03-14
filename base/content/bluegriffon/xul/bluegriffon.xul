@@ -94,10 +94,11 @@
 
 #ifdef CAN_DRAW_IN_TITLEBAR
 <vbox id="titlebar">
-  <hbox id="titlebar-content" flex="1">
-    <spacer id="titlebar-spacer" flex="1"/>
-    <label id="titleInTitlebar" value="BlueGriffon" flex="1" crop="center"/>
-    <spacer id="titlebar-spacer2" flex="1"/>
+  <hbox id="titlebar-content" flex="1" align="center">
+    <hbox id="titlebar-menubar-host" align="center"/>
+    <hbox id="titlebar-title-host" flex="1" align="center" pack="center">
+      <label id="titleInTitlebar" value="BlueGriffon" crop="center"/>
+    </hbox>
     <hbox id="titlebar-buttonbox-container">
       <hbox id="titlebar-buttonbox">
         <toolbarbutton class="titlebar-button" id="titlebar-min" oncommand="window.minimize();"/>
@@ -117,8 +118,11 @@
 </vbox>
 #endif
 
+<hbox id="menubar-fallback-host" align="center">
 #include menubar.inc
+</hbox>
 
+  <vbox id="mainToolboxTopDock">
   <toolbox class="toolbox-top" id="MainToolbox" context="main-toolbar-context-menu">
 #include maintoolbarpalette.inc
     <toolbar id="MainToolbar" class="toolbar-primary chromeclass-toolbar" align="center"
@@ -134,7 +138,9 @@
 #endif
     <toolbarset id="customMainToolbars" context="main-toolbar-context-menu"/>
   </toolbox>
+  </vbox>
 
+  <vbox id="formatMenulistsTopDock">
   <toolbox id="FormatMenulistsToolbox" mode="full">
 #include formatmenulistsbarpalette.inc
     <toolbar id="FormatMenulistsToolbar"
@@ -148,7 +154,10 @@
              defaultset="spacer,ParagraphSelectBox,IdButtonsBox,ClassButtonsBox,FontFaceSelectBox,ARIARoleSelectBox"/>
     <toolbarset id="customFormatMenulistsToolbars" context="format-toolbar-context-menu"/>
   </toolbox>
+  </vbox>
+  <vbox id="formatToolboxTopDock" hidden="true"/>
   <hbox id="horizContainer" flex="1">
+  <vbox id="formatToolboxLeftDock">
   <toolbox id="FormatToolbox" mode="full">
 #include formatbarpalette.inc
     <toolbar id="FormatToolbar"
@@ -161,6 +170,7 @@
 	     fullscreenbutton="true"
              defaultset="EncapsulateSelect,separator,emButton,strongButton,codeButton,separator,ColorsBox,separator,boldButton,italicButton,underlineButton,separator,ulButton,olButton,dtButton,ddButton,separator,align-left-button,align-center-button,align-right-button,align-justify-button,separator,indentButton,outdentButton,separator,blockquoteButton,separator,dirLtrButton,dirRtlButton"/>
   </toolbox>
+  </vbox>
 
     <vbox flex="1" id="maincontainer">
       <vbox flex="1">
@@ -204,15 +214,13 @@
           </vbox>
           <vbox id="responsiveContainer" flex="1">
             <tabeditor flex="1" id="tabeditor" visibility="hidden" persist="tabmode">
-                <hbox id="modeTabbox" previousMode="wysiwyg">
-                  <spacer flex="1"/>
+                <hbox id="modeTabbox" previousMode="wysiwyg" hidden="true" collapsed="true">
                   <label class="multiButton"
                            id="liveViewModeButton"
                            value="&dualview.label;"
                            onclick="ToggleViewMode(this)"
                            mode="liveview"
                            observes="cmd_viewModeEnabler"/>
-                  <spacer style="width: 2em"/>
                   <label class="multiButton left"
                            selected="true"
                            id="wysiwygModeButton"
@@ -232,25 +240,6 @@
                            onclick="ToggleViewMode(this)"
                            mode="wysiwyg"
                            observes="cmd_viewModeEnabler"/>
-                  <spacer flex="1"/>
-                  <hbox id="zoomPanel">
-                    <spinbuttons onup="BGZoomManager.enlarge(this.nextSibling)"
-                                 ondown="BGZoomManager.reduce(this.nextSibling)"/>
-                    <menulist id="menulist-zoompanel"
-                              observes="cmd_renderedAllEnabler"
-                              editable="true"
-                              tooltiptext="&setZoomFactor.label;"
-                              value="100%"
-                              sizetopopup="none"
-                              onkeyup="BGZoomManager.onKeyUp(event, this)"
-                              oncommand="BGZoomManager.applyZoomValue(this)">
-                      <menupopup id="menupopup-zoompanel"
-                                 onpopupshowing="BGZoomManager.fillZoomValues(this)">
-                        <menuitem label="dummy"/>
-                      </menupopup>
-                    </menulist>
-          
-                  </hbox>
                 </hbox>
             </tabeditor>
           </vbox>
@@ -273,6 +262,8 @@
         <spacer id="structbarflexer" flex="1"/>
       </structurebar>
     </vbox>
+    <vbox id="formatToolboxRightDock" hidden="true"/>
+    <vbox id="statusbarSideDock" hidden="true"/>
 </hbox>
 #ifdef TOOLBAR_CUSTOMIZATION_SHEET
   <panel id="customizeToolbarSheetPopup" noautohide="true">
@@ -282,21 +273,57 @@
   </panel>
 #endif
 
+  <panel id="commandPalettePanel"
+         type="arrow"
+         noautohide="false"
+         onpopupshown="OnCommandPalettePopupShown()"
+         onpopuphidden="OnCommandPalettePopupHidden()">
+    <vbox id="commandPaletteBody">
+      <textbox id="commandPaletteInput"
+               oninput="UpdateCommandPaletteResults();"
+               onkeypress="OnCommandPaletteInputKeyPress(event);"/>
+      <listbox id="commandPaletteList"
+               rows="9"
+               onkeypress="OnCommandPaletteListKeyPress(event);"
+               ondblclick="RunCommandPaletteSelection();"/>
+    </vbox>
+  </panel>
+
   <panelset id="panels"/>
 
 #include autoInsertTable.inc
 
-  <statusbar id="statusbar" style="-moz-appearance: none">
-    <deck flex="1" id="statusbarDeck">
-      <hbox id="editorBar" align="center">
-        <spacer flex="1"/>
-      </hbox>
-      <hbox id="progressBar" align="center">
-        <statusbarpanel id="status" label="" crop="end" flex="1"/>
-        <spacer flex="1"/>
-        <progressmeter id="progress" mode="determined" value="0%" style="display: none"/>
-        <statusbarpanel id="security" label="" style="display: none"/>
-      </hbox>
-    </deck>
-  </statusbar>
+  <vbox id="statusbarBottomDock">
+    <statusbar id="statusbar" style="-moz-appearance: none">
+      <deck flex="1" id="statusbarDeck">
+        <hbox id="editorBar" align="center">
+          <statusbarpanel id="viewModeStatus" label="Mode: Wysiwyg" crop="end"/>
+          <spacer flex="1"/>
+          <hbox id="zoomPanel">
+            <spinbuttons onup="BGZoomManager.enlarge(this.nextSibling)"
+                         ondown="BGZoomManager.reduce(this.nextSibling)"/>
+            <menulist id="menulist-zoompanel"
+                      observes="cmd_renderedAllEnabler"
+                      editable="true"
+                      tooltiptext="&setZoomFactor.label;"
+                      value="100%"
+                      sizetopopup="none"
+                      onkeyup="BGZoomManager.onKeyUp(event, this)"
+                      oncommand="BGZoomManager.applyZoomValue(this)">
+              <menupopup id="menupopup-zoompanel"
+                         onpopupshowing="BGZoomManager.fillZoomValues(this)">
+                <menuitem label="dummy"/>
+              </menupopup>
+            </menulist>
+          </hbox>
+        </hbox>
+        <hbox id="progressBar" align="center">
+          <statusbarpanel id="status" label="" crop="end" flex="1"/>
+          <spacer flex="1"/>
+          <progressmeter id="progress" mode="determined" value="0%" style="display: none"/>
+          <statusbarpanel id="security" label="" style="display: none"/>
+        </hbox>
+      </deck>
+    </statusbar>
+  </vbox>
 </window>

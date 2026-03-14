@@ -34,7 +34,6 @@ function Startup()
   catch(e) { gURLArray = []; }
 
   GetUIElements();
-  ApplyToolbarLayoutPref();
   ApplyVerticalToolbarPosition();
   ApplyStatusbarPosition();
   ApplyTitlebarVisibility();
@@ -44,6 +43,8 @@ function Startup()
   window.updateCommands("style");
   RestoreShortcuts();
   RestorePanels();
+  ApplyShellLayoutPrefs();
+  SyncActivityRailState();
 
   InitializeARIARoleDropdown(gDialog.ARIARolePopup);
   InitializeARIARoleDropdown(gDialog.ARIARoleStructureBarPopup);
@@ -104,6 +105,13 @@ function _delayedStartup() {
     }
   }
   catch(e) {}
+
+  window.setTimeout(function() {
+    if ("ReapplyRememberedViewMode" in window)
+      ReapplyRememberedViewMode();
+    if ("ApplyShellLayoutPrefs" in window)
+      ApplyShellLayoutPrefs();
+  }, 0);
 }
 
 var gLookingForFileChangesTimeout = null;
