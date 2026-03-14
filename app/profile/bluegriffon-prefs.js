@@ -143,6 +143,11 @@ pref("bluegriffon.ui.vertical_toolbar.position", "left");
 pref("bluegriffon.ui.titlebar.show", true);
 pref("bluegriffon.ui.statusbar.position", "bottom");
 pref("bluegriffon.ui.toolbar.layout", "mixed");
+pref("bluegriffon.ui.shell.mode", "classic");
+pref("bluegriffon.ui.activity_rail.show", true);
+pref("bluegriffon.ui.activity_sidebar.show", true);
+pref("bluegriffon.ui.activity_sidebar.panel", "panel-domexplorer-menuitem");
+pref("bluegriffon.ui.last_view_mode", "wysiwyg");
 
 // updates
 pref("bluegriffon.updates.check.enabled", true);
