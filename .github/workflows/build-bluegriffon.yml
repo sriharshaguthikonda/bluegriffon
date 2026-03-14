@@ -1,8 +1,9 @@
-name: Build BlueGriffon Installer (Mirror)
+name: Build BlueGriffon Installer (Windows)
 
 on:
   push:
-    branches: ["exp/python3-migrated-installer-only"]
+    branches:
+      - "exp/python3-migrated-installer-only"
   workflow_dispatch:
 
 jobs:
@@ -23,35 +24,6 @@ jobs:
         run: |
           $py = (Get-Command python).Source
           "PYTHON_EXE=$py" >> $env:GITHUB_ENV
-
-      - name: Pin Rust toolchain 1.19.0
-        shell: powershell
-        run: |
-          $toolchain = "1.19.0-x86_64-pc-windows-msvc"
-          if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) {
-            choco install -y rustup.install --no-progress
-            $env:PATH += ";$env:USERPROFILE\.cargo\bin"
-          }
-          rustup set profile minimal
-          rustup toolchain install $toolchain
-
-          $rustc = (& rustup which --toolchain $toolchain rustc).Trim()
-          if (-not (Test-Path $rustc)) {
-            throw "rustc not found for toolchain ${toolchain}: ${rustc}"
-          }
-          $cargo = Join-Path (Split-Path -Parent $rustc) "cargo.exe"
-          if (-not (Test-Path $cargo)) {
-            $cargo = (& rustup which --toolchain $toolchain cargo).Trim()
-          }
-          if (-not (Test-Path $cargo)) {
-            throw "cargo not found for toolchain ${toolchain}: ${cargo}"
-          }
-
-          & $rustc --version
-          & $cargo --version
-          "RUSTUP_TOOLCHAIN=$toolchain" >> $env:GITHUB_ENV
-          "RUSTC=$rustc" >> $env:GITHUB_ENV
-          "CARGO=$cargo" >> $env:GITHUB_ENV
 
       - name: Install Python 2.7
         shell: powershell
@@ -88,23 +60,20 @@ jobs:
             }
           }
 
+          $wherePy27 = @(where.exe python2.7 2>$null)
+          $wherePy2 = @(where.exe python2 2>$null)
+          $wherePy27 | ForEach-Object { Write-Host "python2.7: $_" }
+          $wherePy2 | ForEach-Object { Write-Host "python2: $_" }
+
           $candidates = @()
+          $candidates += $wherePy27
+          $candidates += $wherePy2
           $candidates += @(
-            "C:\Python27\python.exe",
             "C:\Python27_18\python.exe",
+            "C:\Python27\python.exe",
             "C:\Python27\python2.exe",
             "C:\Python27\python2.7.exe"
           )
-          $py2Cmd = Get-Command python2 -ErrorAction SilentlyContinue
-          if ($py2Cmd) {
-            $candidates += $py2Cmd.Source
-            Write-Host "python2 cmd: $($py2Cmd.Source)"
-          }
-          $py27Cmd = Get-Command python2.7 -ErrorAction SilentlyContinue
-          if ($py27Cmd) {
-            $candidates += $py27Cmd.Source
-            Write-Host "python2.7 cmd: $($py27Cmd.Source)"
-          }
 
           $py2 = $null
           foreach ($candidate in ($candidates | Select-Object -Unique)) {
@@ -129,14 +98,107 @@ jobs:
           $global:LASTEXITCODE = 0
 
       - name: Install MozillaBuild
-        run: choco install -y mozillabuild
+        shell: powershell
+        continue-on-error: true
+        run: |
+          if (Test-Path "C:\mozilla-build\start-shell.bat") {
+            Write-Host "MozillaBuild already present at C:\mozilla-build."
+            exit 0
+          }
+
+          $installed = $false
+          for ($i = 1; $i -le 3; $i++) {
+            Write-Host "Attempt $i: install mozillabuild via Chocolatey"
+            choco install -y mozillabuild --no-progress
+            if ($LASTEXITCODE -eq 0 -and (Test-Path "C:\mozilla-build\start-shell.bat")) {
+              $installed = $true
+              break
+            }
+            Start-Sleep -Seconds (10 * $i)
+          }
+
+          if (-not $installed -and (Get-Command winget -ErrorAction SilentlyContinue)) {
+            Write-Host "Chocolatey path failed; trying winget fallback."
+            winget install --id Mozilla.MozillaBuild -e --accept-package-agreements --accept-source-agreements --silent
+            if (Test-Path "C:\mozilla-build\start-shell.bat") {
+              $installed = $true
+            }
+          }
+
+          if (-not $installed) {
+            $dlUrl = "https://ftp.mozilla.org/pub/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe"
+            $dlPath = Join-Path $env:RUNNER_TEMP "MozillaBuildSetup-Latest.exe"
+            for ($i = 1; $i -le 3; $i++) {
+              Write-Host "Attempt $i: direct MozillaBuild download/install from $dlUrl"
+              try {
+                Invoke-WebRequest -Uri $dlUrl -OutFile $dlPath
+                if (Test-Path $dlPath) {
+                  $size = (Get-Item $dlPath).Length
+                  Write-Host "Downloaded installer size: $size"
+                }
+                Start-Process -FilePath $dlPath -ArgumentList "/S" -Wait -NoNewWindow
+              } catch {
+                Write-Host "Direct installer attempt failed: $($_.Exception.Message)"
+              }
+              if (Test-Path "C:\mozilla-build\start-shell.bat") {
+                $installed = $true
+                break
+              }
+              Start-Sleep -Seconds (15 * $i)
+            }
+          }
+
+          if ($installed) {
+            Write-Host "MozillaBuild installation verified."
+          } else {
+            Write-Host "WARNING: MozillaBuild is still missing after choco/winget/direct fallbacks."
+          }
+          $global:LASTEXITCODE = 0
 
       - name: Install Yasm
         continue-on-error: true
         run: choco install -y yasm
 
-      - name: Install Inno Setup
-        run: choco install -y innosetup --no-progress
+      - name: Install NSIS
+        continue-on-error: true
+        run: choco install -y nsis
+
+      - name: Ensure Rust 1.19 toolchain
+        shell: powershell
+        continue-on-error: true
+        run: |
+          $cargoBin = Join-Path $env:USERPROFILE ".cargo\bin"
+          if (Test-Path $cargoBin) {
+            $cargoBin | Out-File -FilePath $env:GITHUB_PATH -Append -Encoding utf8
+          }
+
+          if (-not (Get-Command rustup -ErrorAction SilentlyContinue)) {
+            Write-Host "rustup not found; installing rustup-init."
+            $rustupInit = Join-Path $env:RUNNER_TEMP "rustup-init.exe"
+            Invoke-WebRequest -Uri "https://static.rust-lang.org/rustup/dist/x86_64-pc-windows-msvc/rustup-init.exe" -OutFile $rustupInit
+            & $rustupInit -y --profile minimal --default-toolchain none
+          }
+
+          if (Get-Command rustup -ErrorAction SilentlyContinue) {
+            $selected = $null
+            $candidates = @("1.19.0-x86_64-pc-windows-msvc", "1.19.0")
+            foreach ($tc in $candidates) {
+              rustup toolchain install $tc --profile minimal
+              if ($LASTEXITCODE -eq 0) {
+                $selected = $tc
+                break
+              }
+            }
+            rustup toolchain list
+            if ($selected) {
+              "RUST_TOOLCHAIN=$selected" >> $env:GITHUB_ENV
+              Write-Host "Using Rust toolchain candidate: $selected"
+            } else {
+              Write-Host "Rust 1.19 toolchain install failed; build script will retry/fallback."
+            }
+          } else {
+            Write-Host "rustup still unavailable; build script will fallback to system rust."
+          }
 
       - name: Build BlueGriffon executable
         shell: cmd
@@ -152,24 +214,47 @@ jobs:
           dir "C:\mozilla-build\bin" >> "%LOG%" 2>&1
           dir "C:\mozilla-build\msys2\mingw64\bin" >> "%LOG%" 2>&1
           echo PYTHON_EXE: %PYTHON_EXE% >> "%LOG%"
-          echo PYTHON3_EXE: %PYTHON3_EXE% >> "%LOG%"
-          echo RUSTUP_TOOLCHAIN: %RUSTUP_TOOLCHAIN% >> "%LOG%"
-          echo RUSTC: %RUSTC% >> "%LOG%"
-          echo CARGO: %CARGO% >> "%LOG%"
+          echo PYTHON2_EXE: %PYTHON2_EXE% >> "%LOG%"
+          echo RUST_TOOLCHAIN: %RUST_TOOLCHAIN% >> "%LOG%"
           echo PATH: %PATH% >> "%LOG%"
           where git >> "%LOG%" 2>&1
           where bash >> "%LOG%" 2>&1
           where python >> "%LOG%" 2>&1
-          where python3 >> "%LOG%" 2>&1
+          where python2 >> "%LOG%" 2>&1
+          where python2.7 >> "%LOG%" 2>&1
+          where makensis >> "%LOG%" 2>&1
           where pkg-config >> "%LOG%" 2>&1
           where make >> "%LOG%" 2>&1
           where mozmake >> "%LOG%" 2>&1
-          if not exist "C:\mozilla-build\msys2\usr\bin\bash.exe" (
-            echo ERROR: MozillaBuild bash.exe not found. >> "%LOG%"
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27_18\python.exe" set "PYTHON2_EXE=C:\Python27_18\python.exe"
+          )
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27\python.exe" set "PYTHON2_EXE=C:\Python27\python.exe"
+          )
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27\python2.7.exe" set "PYTHON2_EXE=C:\Python27\python2.7.exe"
+          )
+          if not defined PYTHON2_EXE (
+            if exist "C:\Python27\python2.exe" set "PYTHON2_EXE=C:\Python27\python2.exe"
+          )
+          if not "%PYTHON2_EXE%"=="" (
+            echo PYTHON2_EXE fallback applied: %PYTHON2_EXE% >> "%LOG%"
+          )
+
+          set "BASH_EXE=C:\mozilla-build\msys2\usr\bin\bash.exe"
+          if not exist "%BASH_EXE%" (
+            if exist "C:\Program Files\Git\bin\bash.exe" set "BASH_EXE=C:\Program Files\Git\bin\bash.exe"
+          )
+          if not exist "%BASH_EXE%" (
+            if exist "C:\Program Files\Git\usr\bin\bash.exe" set "BASH_EXE=C:\Program Files\Git\usr\bin\bash.exe"
+          )
+          if not exist "%BASH_EXE%" (
+            echo ERROR: no suitable bash.exe found; checked MozillaBuild and Git Bash. >> "%LOG%"
             echo 2 > "%EXIT_FILE%"
             exit /b 0
           )
-          echo Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe >> "%LOG%"
+          echo Using bash: %BASH_EXE% >> "%LOG%"
 
           set "VSINSTALL="
           set "VCVARS="
@@ -199,183 +284,202 @@ jobs:
             )
           )
 
-          set "BUILD_LOG=%LOG%"
+          set "WORKER_LOG=%GITHUB_WORKSPACE%\build-worker.log"
+          if exist "%WORKER_LOG%" del /f /q "%WORKER_LOG%" >nul 2>&1
+          set "BUILD_LOG=%WORKER_LOG%"
           set "BUILD_WORKDIR=%GITHUB_WORKSPACE%"
+          set "BLUEGRIFFON_BUILD_TARGET=installer"
           set "CHERE_INVOKING=1"
           set "MSYSTEM=MINGW64"
           set "MSYS2_PATH_TYPE=inherit"
+          echo BLUEGRIFFON_BUILD_TARGET: %BLUEGRIFFON_BUILD_TARGET% >> "%LOG%"
           echo MSYS2_PATH_TYPE: %MSYS2_PATH_TYPE% >> "%LOG%"
-          "C:\mozilla-build\msys2\usr\bin\bash.exe" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
+          "%BASH_EXE%" -lc "bash .github/scripts/build-bluegriffon-windows.sh"
           set "ERR=%ERRORLEVEL%"
+          if "%ERR%"=="0" (
+            set "FOUND_EXE="
+            for /f "delims=" %%F in ('dir /s /b "%GITHUB_WORKSPACE%\gecko-dev\*griffon*.exe" 2^>nul ^| findstr /i /c:"\\dist\\bin\\"') do set "FOUND_EXE=1"
+            if not defined FOUND_EXE (
+              echo ERROR: Build returned 0 but no *griffon*.exe under gecko-dev\\**\\dist\\bin\\. >> "%LOG%"
+              set "ERR=98"
+            )
+          )
+          if exist "%WORKER_LOG%" (
+            echo ==== appended build-worker.log ==== >> "%LOG%"
+            type "%WORKER_LOG%" >> "%LOG%" 2>&1
+          ) else (
+            echo WARNING: build-worker.log not found at %WORKER_LOG% >> "%LOG%"
+          )
           echo ==== build end (exit %ERR%) ==== >> "%LOG%"
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
 
-      - name: Build installer artifact
+      - name: Collect executable and installer artifacts
         if: always()
         shell: powershell
         run: |
-          $ErrorActionPreference = "Stop"
           $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
-          $runtimeDir = Join-Path $artifactDir "runtime"
-          $installerDir = Join-Path $artifactDir "installer"
-          New-Item -ItemType Directory -Force -Path $artifactDir,$runtimeDir,$installerDir | Out-Null
+          New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
           $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
 
           $scanFile = Join-Path $env:GITHUB_WORKSPACE "artifact-scan.txt"
           $rootReport = Join-Path $env:GITHUB_WORKSPACE "root-recursive-report.txt"
-          "==== installer artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
-          "==== bounded root report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
+          "==== artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
+          "==== root recursive report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
 
-          Add-Content -Path $rootReport -Value ("workspace: {0}" -f $env:GITHUB_WORKSPACE)
-          if (Test-Path $env:GITHUB_WORKSPACE) {
-            Add-Content -Path $rootReport -Value "-- workspace top-level entries --"
-            Get-ChildItem -Path $env:GITHUB_WORKSPACE -Force -ErrorAction SilentlyContinue |
-              Select-Object Mode,Length,LastWriteTime,FullName |
-              Sort-Object FullName |
+          $rootsToProbe = @($env:GITHUB_WORKSPACE)
+          foreach ($root in $rootsToProbe) {
+            Add-Content -Path $rootReport -Value ""
+            Add-Content -Path $rootReport -Value ("==== root: {0} ====" -f $root)
+            if (-not (Test-Path $root)) {
+              Add-Content -Path $rootReport -Value ("MISSING: {0}" -f $root)
+              continue
+            }
+
+            $dirs = Get-ChildItem -Path $root -Directory -Recurse -ErrorAction SilentlyContinue
+            $files = Get-ChildItem -Path $root -File -Recurse -ErrorAction SilentlyContinue
+            Add-Content -Path $rootReport -Value ("dir_count: {0}" -f $dirs.Count)
+            Add-Content -Path $rootReport -Value ("file_count: {0}" -f $files.Count)
+
+            Add-Content -Path $rootReport -Value "-- directories (recursive) --"
+            ($dirs | Select-Object -ExpandProperty FullName | Sort-Object) | Add-Content -Path $rootReport
+
+            Add-Content -Path $rootReport -Value "-- extension histogram (top 60) --"
+            $files |
+              Group-Object Extension |
+              Sort-Object Count -Descending |
+              Select-Object -First 60 Name,Count |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $rootReport
+
+            Add-Content -Path $rootReport -Value "-- installer/binary candidates (full recursive) --"
+            $files |
+              Where-Object { $_.Extension -in @(".exe", ".msi", ".zip", ".7z") } |
+              Sort-Object LastWriteTime -Descending |
+              Select-Object FullName,Length,LastWriteTime |
               Format-Table -AutoSize |
               Out-String -Width 500 |
               Add-Content -Path $rootReport
           }
 
-          $candidateRoots = @(
-            (Join-Path $searchRoot "opt64\\dist\\bin"),
-            (Join-Path $searchRoot "dist\\bin")
-          ) | Where-Object { Test-Path $_ } | Select-Object -Unique
+          if (Test-Path $searchRoot) {
+            $scanCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
+              Where-Object {
+                $_.Extension -in @(".exe", ".msi", ".zip", ".7z") -and
+                ($_.FullName -match "\\dist\\|\\installer\\|griffon")
+              } |
+              Sort-Object LastWriteTime -Descending
 
-          Add-Content -Path $scanFile -Value ""
-          Add-Content -Path $scanFile -Value "==== candidate runtime roots ===="
-          if ($candidateRoots.Count -eq 0) {
-            Add-Content -Path $scanFile -Value ("No runtime roots found under {0}" -f $searchRoot)
-          } else {
-            foreach ($root in $candidateRoots) {
-              Add-Content -Path $scanFile -Value ("root: {0}" -f $root)
-              Get-ChildItem -Path $root -File -ErrorAction SilentlyContinue |
-                Where-Object { $_.Extension -in @(".exe", ".dll", ".xpt", ".manifest", ".ini") } |
-                Sort-Object LastWriteTime -Descending |
-                Select-Object -First 120 FullName,Length,LastWriteTime |
-                Format-Table -AutoSize |
-                Out-String -Width 500 |
-              Add-Content -Path $scanFile
-            }
-          }
-
-          if ($candidateRoots.Count -eq 0) {
-            throw "No runtime roots found under $searchRoot."
-          }
-
-          $candidates = @()
-          foreach ($root in $candidateRoots) {
-            $candidates += Get-ChildItem -Path $root -File -Filter "*griffon*.exe" -ErrorAction SilentlyContinue
-          }
-          $candidates = $candidates | Sort-Object LastWriteTime -Descending
-
-          if ($candidates.Count -gt 0) {
-            $picked = $candidates[0]
-            $binDir = Split-Path -Parent $picked.FullName
-
-            if (Test-Path $runtimeDir) {
-              Remove-Item -Path $runtimeDir -Recurse -Force -ErrorAction SilentlyContinue
-            }
-            New-Item -ItemType Directory -Force -Path $runtimeDir | Out-Null
-
-            $copyLog = Join-Path $env:GITHUB_WORKSPACE "portable-copy.log"
-            if (Test-Path $copyLog) { Remove-Item -Path $copyLog -Force -ErrorAction SilentlyContinue }
-            $null = robocopy $binDir $runtimeDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
-            $robocopyExit = $LASTEXITCODE
-            Add-Content -Path $scanFile -Value ("robocopy exit code: {0}" -f $robocopyExit)
-            if ($robocopyExit -gt 7) {
-              throw "Runtime copy failed with robocopy exit code $robocopyExit"
-            }
-            # Robocopy returns 0-7 for success/acceptable states; clear it so the step exit code stays green.
-            $global:LASTEXITCODE = 0
-
-            $isccCandidates = @(
-              "$env:ProgramFiles(x86)\Inno Setup 6\ISCC.exe",
-              "$env:ProgramFiles\Inno Setup 6\ISCC.exe"
-            )
-            $iscc = $isccCandidates | Where-Object { Test-Path $_ } | Select-Object -First 1
-            if (-not $iscc) {
-              throw "ISCC.exe not found. Inno Setup install failed."
-            }
-
-            $issPath = Join-Path $env:GITHUB_WORKSPACE "ci-installer.iss"
-            $appExe = $picked.Name
-            $runtimeEscaped = $runtimeDir.Replace("\", "\\")
-            $installerEscaped = $installerDir.Replace("\", "\\")
-            $iss = @(
-              "[Setup]"
-              "AppId={{A9015334-10BE-4D64-A776-203336EFE806}"
-              "AppName=BlueGriffon"
-              "AppVersion=3.1-dev"
-              "DefaultDirName={autopf}\\BlueGriffon"
-              "DefaultGroupName=BlueGriffon"
-              "AllowNoIcons=yes"
-              "OutputDir=$installerEscaped"
-              "OutputBaseFilename=bluegriffon-installer"
-              "Compression=lzma2"
-              "SolidCompression=yes"
-              "ArchitecturesInstallIn64BitMode=x64compatible"
-              "WizardStyle=modern"
-              ""
-              "[Languages]"
-              "Name: ""english""; MessagesFile: ""compiler:Default.isl"""
-              ""
-              "[Tasks]"
-              "Name: ""desktopicon""; Description: ""{cm:CreateDesktopIcon}""; GroupDescription: ""{cm:AdditionalIcons}""; Flags: unchecked"
-              ""
-              "[Files]"
-              "Source: ""$runtimeEscaped\\*""; DestDir: ""{app}""; Flags: ignoreversion recursesubdirs createallsubdirs"
-              ""
-              "[Icons]"
-              "Name: ""{group}\\BlueGriffon""; Filename: ""{app}\\$appExe"""
-              "Name: ""{group}\\{cm:UninstallProgram,BlueGriffon}""; Filename: ""{uninstallexe}"""
-              "Name: ""{commondesktop}\\BlueGriffon""; Filename: ""{app}\\$appExe""; Tasks: desktopicon"
-              ""
-              "[Run]"
-              "Filename: ""{app}\\$appExe""; Description: ""{cm:LaunchProgram,BlueGriffon}""; Flags: nowait postinstall skipifsilent"
-            )
-            Set-Content -Path $issPath -Encoding ASCII -Value $iss
-
-            & $iscc $issPath
-            if ($LASTEXITCODE -ne 0) {
-              throw "ISCC failed with exit code $LASTEXITCODE"
-            }
-
-            Add-Content -Path $scanFile -Value ""
-            Add-Content -Path $scanFile -Value "==== installer output files ===="
-            Get-ChildItem -Path $installerDir -File -ErrorAction SilentlyContinue |
-              Sort-Object FullName |
-              Select-Object FullName,Length,LastWriteTime |
+            $scanCandidates |
+              Select-Object -First 500 FullName,Length,LastWriteTime |
               Format-Table -AutoSize |
               Out-String -Width 500 |
               Add-Content -Path $scanFile
 
-            Write-Host "Collected executable: $($picked.FullName)"
-            Write-Host "Prepared runtime from: $binDir"
-            Write-Host "Built installer(s) into: $installerDir"
+            Add-Content -Path $scanFile -Value ""
+            Add-Content -Path $scanFile -Value "==== key installer path probe ===="
+            $keyPaths = @(
+              (Join-Path $searchRoot "opt64\\dist\\install"),
+              (Join-Path $searchRoot "opt64\\dist\\install\\sea"),
+              (Join-Path $searchRoot "opt64\\dist"),
+              (Join-Path $searchRoot "opt64\\bluegriffon\\installer"),
+              (Join-Path $searchRoot "opt64\\bluegriffon\\installer\\windows"),
+              (Join-Path $searchRoot "opt64\\bluegriffon\\app")
+            )
+            foreach ($kp in $keyPaths) {
+              if (Test-Path $kp) {
+                $files = Get-ChildItem -Path $kp -Recurse -File -ErrorAction SilentlyContinue
+                Add-Content -Path $scanFile -Value ("FOUND: {0} (files={1})" -f $kp, $files.Count)
+                $binaryLike = $files | Where-Object { $_.Extension -in @(".exe", ".msi", ".zip", ".7z") }
+                if ($binaryLike.Count -gt 0) {
+                  $binaryLike |
+                    Sort-Object LastWriteTime -Descending |
+                    Select-Object -First 20 FullName,Length,LastWriteTime |
+                    Format-Table -AutoSize |
+                    Out-String -Width 500 |
+                    Add-Content -Path $scanFile
+                } else {
+                  $files |
+                    Sort-Object LastWriteTime -Descending |
+                    Select-Object -First 20 FullName,Length,LastWriteTime |
+                    Format-Table -AutoSize |
+                    Out-String -Width 500 |
+                    Add-Content -Path $scanFile
+                }
+              } else {
+                Add-Content -Path $scanFile -Value ("MISSING: {0}" -f $kp)
+              }
+            }
           } else {
-            Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
-            throw "Cannot build installer without a built executable."
+            "search root missing: $searchRoot" | Add-Content -Path $scanFile
           }
-
           if (Test-Path build.log) {
             Add-Content -Path build.log -Value ""
-            Add-Content -Path build.log -Value "==== artifact scan (bounded) ===="
-            Get-Content -Path $scanFile | Select-Object -First 600 | Add-Content -Path build.log
+            Add-Content -Path build.log -Value "==== artifact scan ===="
+            Get-Content -Path $scanFile | Add-Content -Path build.log
             Add-Content -Path build.log -Value ""
-            Add-Content -Path build.log -Value "==== root report (bounded) ===="
-            Get-Content -Path $rootReport | Select-Object -First 250 | Add-Content -Path build.log
+            Add-Content -Path build.log -Value "==== root recursive report summary ===="
+            Get-Content -Path $rootReport | Select-Object -First 220 | Add-Content -Path build.log
+          }
+          $candidates = @()
+          if (Test-Path $searchRoot) {
+            $candidates = Get-ChildItem -Path $searchRoot -Recurse -Filter "*griffon*.exe" -ErrorAction SilentlyContinue |
+              Where-Object { $_.FullName -match "\\dist\\bin\\" } |
+              Sort-Object LastWriteTime -Descending
+          }
+          if ($candidates.Count -gt 0) {
+            $picked = $candidates[0]
+            Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
+            Write-Host "Collected executable: $($picked.FullName)"
+          } else {
+            Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
           }
 
+          $installerDir = Join-Path $artifactDir "installer"
+          New-Item -ItemType Directory -Force -Path $installerDir | Out-Null
+
+          $installerCandidates = @()
+          if (Test-Path $searchRoot) {
+            $installerCandidates = Get-ChildItem -Path $searchRoot -Recurse -File -ErrorAction SilentlyContinue |
+              Where-Object {
+                $_.Extension -in @(".exe", ".msi") -and
+                (
+                  $_.FullName -match "(\\dist\\install\\|\\installer\\)" -or
+                  ($_.FullName -match "\\dist\\" -and $_.Name -match "(installer|setup)")
+                ) -and
+                $_.FullName -notmatch "\\dist\\bin\\"
+              } |
+              Sort-Object LastWriteTime -Descending |
+              Select-Object -Unique
+          }
+
+          if ($installerCandidates.Count -gt 0) {
+            foreach ($candidate in $installerCandidates | Select-Object -First 10) {
+              Copy-Item -Path $candidate.FullName -Destination (Join-Path $installerDir $candidate.Name) -Force
+            }
+            Write-Host "Collected installer candidates:"
+            $installerCandidates | Select-Object -First 10 FullName,Length,LastWriteTime | Format-Table -AutoSize
+          } else {
+            Write-Host "No installer candidates found."
+          }
           Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
             Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
+
+      - name: Upload executable
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-exe-installer
+          path: ${{ github.workspace }}\artifact\*.exe
+          if-no-files-found: warn
+
       - name: Upload installer
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bluegriffon-installer
-          path: ${{ github.workspace }}\artifact\installer\*.exe
+          path: ${{ github.workspace }}\artifact\installer\*
           if-no-files-found: warn
 
       - name: Show build log tail
@@ -383,13 +487,6 @@ jobs:
         shell: powershell
         run: |
           if (Test-Path build.log) { Get-Content build.log -Tail 200 }
-          if (Test-Path build-worker.log) {
-            Write-Host "==== build-worker.log tail ===="
-            Get-Content build-worker.log -Tail 200
-          } elseif (Test-Path gecko-dev\build-worker.log) {
-            Write-Host "==== gecko-dev\\build-worker.log tail ===="
-            Get-Content gecko-dev\build-worker.log -Tail 200
-          }
 
       - name: Upload build log
         if: always()
@@ -414,7 +511,6 @@ jobs:
         with:
           name: build-artifact-scan
           path: ${{ github.workspace }}\artifact-scan.txt
-          if-no-files-found: warn
 
       - name: Upload root recursive report
         if: always()
@@ -422,7 +518,6 @@ jobs:
         with:
           name: build-root-recursive-report
           path: ${{ github.workspace }}\root-recursive-report.txt
-          if-no-files-found: warn
 
       - name: Upload build exit code
         if: always()
@@ -442,87 +537,44 @@ jobs:
 
           $tempLog = Join-Path $env:RUNNER_TEMP "build.log"
           Copy-Item build.log $tempLog -Force
-          $tempWorker = Join-Path $env:RUNNER_TEMP "build-worker.log"
-          $hasWorker = $false
-          if (Test-Path build-worker.log) {
-            Copy-Item build-worker.log $tempWorker -Force
-            $hasWorker = $true
-          } elseif (Test-Path gecko-dev\build-worker.log) {
-            Copy-Item gecko-dev\build-worker.log $tempWorker -Force
-            $hasWorker = $true
-          }
           $tempExit = Join-Path $env:RUNNER_TEMP "build-exit.txt"
           $hasExit = Test-Path build-exit.txt
           if ($hasExit) {
             Copy-Item build-exit.txt $tempExit -Force
           }
 
-          $tempWorktree = Join-Path $env:RUNNER_TEMP "ci-logs-worktree"
-          if (Test-Path $tempWorktree) {
-            Remove-Item -Path $tempWorktree -Recurse -Force -ErrorAction SilentlyContinue
-          }
-
           git fetch origin ci-logs --depth=1
-          $ciLogsExists = ($LASTEXITCODE -eq 0)
-          if ($ciLogsExists) {
-            git worktree add --detach $tempWorktree origin/ci-logs
-          } else {
-            git worktree add --detach $tempWorktree HEAD
-          }
           if ($LASTEXITCODE -ne 0) {
-            Write-Host "WARNING: Unable to prepare ci-logs worktree; skipping ci-logs commit."
-            exit 0
+            git checkout --orphan ci-logs
+            git clean -fdx
+          } else {
+            git checkout -B ci-logs origin/ci-logs
           }
 
-          Push-Location $tempWorktree
-          try {
-            if ($ciLogsExists) {
-              git checkout -B ci-logs origin/ci-logs
-            } else {
-              git checkout --orphan ci-logs
-              git rm -rf . --ignore-unmatch
-            }
-
-            New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
-            Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
-            if ($hasWorker) {
-              Add-Content -Path ci-logs\build.log -Value ""
-              Add-Content -Path ci-logs\build.log -Value "==== worker build log tail ===="
-              Get-Content $tempWorker -Tail 5000 | Add-Content -Path ci-logs\build.log
-            }
-            if ($hasExit) {
-              Copy-Item $tempExit ci-logs\build-exit.txt -Force
-            } elseif (Test-Path ci-logs\build-exit.txt) {
-              Remove-Item ci-logs\build-exit.txt -Force
-            }
-
-            $sha = "${{ github.sha }}"
-            $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-            $branch = "${{ github.ref_name }}"
-            Set-Content ci-logs\metadata.txt "source-sha: $sha"
-            Add-Content ci-logs\metadata.txt "branch: $branch"
-            Add-Content ci-logs\metadata.txt "run: $runUrl"
-
-            git add ci-logs/build.log ci-logs/metadata.txt
-            if ($hasExit) {
-              git add ci-logs/build-exit.txt
-            }
-
-            if (-not (git diff --cached --quiet)) {
-              git config user.name "github-actions"
-              git config user.email "github-actions@github.com"
-              git commit -m "ci logs for $sha [skip ci]"
-              git push origin HEAD:ci-logs
-              if ($LASTEXITCODE -ne 0) {
-                Write-Host "WARNING: Failed to push ci-logs update; continuing."
-              }
-            } else {
-              Write-Host "No log changes to commit."
-            }
+          New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
+          Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
+          if ($hasExit) {
+            Copy-Item $tempExit ci-logs\build-exit.txt -Force
           }
-          finally {
-            Pop-Location
-            git worktree remove $tempWorktree --force | Out-Null
+
+          $sha = "${{ github.sha }}"
+          $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          $branch = "${{ github.ref_name }}"
+          Set-Content ci-logs\metadata.txt "source-sha: $sha"
+          Add-Content ci-logs\metadata.txt "branch: $branch"
+          Add-Content ci-logs\metadata.txt "run: $runUrl"
+
+          git add ci-logs/build.log ci-logs/metadata.txt
+          if ($hasExit) {
+            git add ci-logs/build-exit.txt
+          }
+          if (-not (git diff --cached --quiet)) {
+            git config user.name "github-actions"
+            git config user.email "github-actions@github.com"
+            git commit -m "ci logs for $sha [skip ci]"
+            git push origin ci-logs
+          } else {
+            Write-Host "No log changes to commit."
           }
 
       - name: Fail if build failed
