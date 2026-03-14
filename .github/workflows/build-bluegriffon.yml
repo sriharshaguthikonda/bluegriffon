@@ -9,7 +9,7 @@ on:
 
 jobs:
   build-windows:
-    if: github.ref != 'refs/heads/ci-logs'
+    if: github.ref != 'refs/heads/ci-logs' && github.ref != 'refs/heads/exp-mixed-features-ui'
     runs-on: windows-2022
     steps:
       - name: Checkout BlueGriffon

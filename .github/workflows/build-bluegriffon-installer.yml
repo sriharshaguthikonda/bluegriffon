@@ -3,6 +3,7 @@ name: Build BlueGriffon Installer (Windows)
 on:
   push:
     branches:
+      - "exp-mixed-features-ui"
       - "Remote-build-portable-and-installer"
       - "exp-installer-*"
       - "installer-*"
