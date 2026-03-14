@@ -169,6 +169,39 @@
           <splitter id="ebm_splitter" hidden="true" collapse="before">
             <grippy/>
           </splitter>
+          <vbox id="activityRail" hidden="true">
+            <toolbarbutton id="activityDomButton"
+                           class="activity-rail-button"
+                           label="DOM"
+                           tooltiptext="DOM Explorer"
+                           oncommand="OpenActivityPanel('panel-domexplorer-menuitem')"/>
+            <toolbarbutton id="activityCssButton"
+                           class="activity-rail-button"
+                           label="CSS"
+                           tooltiptext="CSS Properties"
+                           oncommand="OpenActivityPanel('panel-cssproperties-menuitem')"/>
+            <toolbarbutton id="activitySheetsButton"
+                           class="activity-rail-button"
+                           label="S"
+                           tooltiptext="Stylesheets"
+                           oncommand="OpenActivityPanel('panel-stylesheets-menuitem')"/>
+            <toolbarbutton id="activityScriptButton"
+                           class="activity-rail-button"
+                           label="JS"
+                           tooltiptext="Script Editor"
+                           oncommand="OpenActivityPanel('panel-scripteditor-menuitem')"/>
+            <toolbarbutton id="activityAriaButton"
+                           class="activity-rail-button"
+                           label="A11Y"
+                           tooltiptext="ARIA Panel"
+                           oncommand="OpenActivityPanel('panel-aria-menuitem')"/>
+            <spacer flex="1"/>
+            <toolbarbutton id="activitySidebarToggleButton"
+                           class="activity-rail-button"
+                           label="SB"
+                           tooltiptext="Toggle Sidebar"
+                           oncommand="ToggleSidebarVisibility()"/>
+          </vbox>
           <vbox id="responsiveContainer" flex="1">
             <tabeditor flex="1" id="tabeditor" visibility="hidden" persist="tabmode">
                 <hbox id="modeTabbox" previousMode="wysiwyg">
