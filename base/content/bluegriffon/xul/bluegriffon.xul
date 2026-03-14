@@ -273,6 +273,22 @@
   </panel>
 #endif
 
+  <panel id="commandPalettePanel"
+         type="arrow"
+         noautohide="false"
+         onpopupshown="OnCommandPalettePopupShown()"
+         onpopuphidden="OnCommandPalettePopupHidden()">
+    <vbox id="commandPaletteBody">
+      <textbox id="commandPaletteInput"
+               oninput="UpdateCommandPaletteResults();"
+               onkeypress="OnCommandPaletteInputKeyPress(event);"/>
+      <listbox id="commandPaletteList"
+               rows="9"
+               onkeypress="OnCommandPaletteListKeyPress(event);"
+               ondblclick="RunCommandPaletteSelection();"/>
+    </vbox>
+  </panel>
+
   <panelset id="panels"/>
 
 #include autoInsertTable.inc

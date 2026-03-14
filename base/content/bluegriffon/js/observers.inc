@@ -281,6 +281,13 @@ var BlueGriffonPrefsObserver = {
         ApplyVerticalToolbarPosition();
         return;
       }
+      if (prefName == kShellModePref
+          || prefName == kActivityRailPref
+          || prefName == kActivitySidebarPref
+          || prefName == kActivityPanelPref) {
+        ApplyShellLayoutPrefs();
+        return;
+      }
 
       var xulElements = [];
       /*Services.prompt.alert(null, "foo",

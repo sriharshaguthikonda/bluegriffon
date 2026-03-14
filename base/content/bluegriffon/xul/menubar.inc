@@ -216,6 +216,29 @@
                       id="viewStatusbarMenuitem"
                       type="checkbox"
                       oncommand="ToggleToolbar('statusbar')"/>
+            <menuseparator/>
+            <menu label="Workbench Shell">
+              <menupopup>
+                <menuitem label="Classic"
+                          id="viewShellClassicMenuitem"
+                          type="radio"
+                          name="shell-mode-group"
+                          oncommand="SetShellMode('classic')"/>
+                <menuitem label="VSCode-like"
+                          id="viewShellVSCodeMenuitem"
+                          type="radio"
+                          name="shell-mode-group"
+                          oncommand="SetShellMode('vscode')"/>
+              </menupopup>
+            </menu>
+            <menuitem label="Activity Rail"
+                      id="viewActivityRailMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleActivityRailVisibility()"/>
+            <menuitem label="Sidebar"
+                      id="viewSidebarMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleSidebarVisibility()"/>
           </menupopup>
         </menu>
         <menu label="&source.label;" observes="cmd_renderedSourceEnabler">
@@ -501,6 +524,10 @@
     <menu id="toolsMenu" label="&toolsMenu.label;" accesskey="&toolsMenu.accesskey;">
       <menupopup id="toolsPopup">
         <menuitem id="menu_cleanup" command="cmd_cleanup"/>
+        <menuitem id="menu_commandPalette"
+                  label="Command Palette..."
+                  key="commandpalettekb"
+                  oncommand="OpenCommandPalette();"/>
         <menuseparator/>
         <menuitem label="&addonsMenu.label;"  oncommand="OpenExtensionsManager()"/>
         <!--menuseparator/-->

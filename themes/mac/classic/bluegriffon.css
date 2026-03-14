@@ -170,6 +170,35 @@
   padding-top: 0;
 }
 
+#commandPalettePanel {
+  -moz-appearance: none;
+  border: 1px solid #365075;
+  border-radius: 8px;
+  background: #1b2230;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+#commandPaletteBody {
+  min-width: 480px;
+  padding: 10px;
+}
+
+#commandPaletteInput {
+  margin-bottom: 8px;
+}
+
+#commandPaletteList {
+  min-height: 220px;
+  border: 1px solid #334a69;
+  background: #111722;
+  color: var(--bg-main-foreground-color);
+}
+
+#commandPaletteList > listitem[selected="true"] {
+  background: #0d4f9e;
+  color: #ffffff;
+}
+
 toolbar {
   -moz-appearance: none;
 }

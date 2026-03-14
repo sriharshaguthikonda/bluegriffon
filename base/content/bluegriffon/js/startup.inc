@@ -43,6 +43,8 @@ function Startup()
   window.updateCommands("style");
   RestoreShortcuts();
   RestorePanels();
+  ApplyShellLayoutPrefs();
+  SyncActivityRailState();
 
   InitializeARIARoleDropdown(gDialog.ARIARolePopup);
   InitializeARIARoleDropdown(gDialog.ARIARoleStructureBarPopup);
@@ -107,6 +109,8 @@ function _delayedStartup() {
   window.setTimeout(function() {
     if ("ReapplyRememberedViewMode" in window)
       ReapplyRememberedViewMode();
+    if ("ApplyShellLayoutPrefs" in window)
+      ApplyShellLayoutPrefs();
   }, 0);
 }
 
