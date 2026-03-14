@@ -46,6 +46,15 @@
 @namespace svg url("http://www.w3.org/2000/svg");
 @namespace html url("http://www.w3.org/1999/xhtml");
 
+:root {
+  --workbench-rail-bg: #1b1f27;
+  --workbench-rail-border: #2a3340;
+  --workbench-rail-button-bg: #202734;
+  --workbench-rail-button-active: #0d4f9e;
+  --workbench-sidebar-bg: #1f252e;
+  --workbench-sidebar-border: #2c3645;
+}
+
 #FormatToolbox toolbar {
   -moz-box-orient: vertical;
 }
@@ -76,6 +85,89 @@
 
 .tabline-menulists-fallback-dock {
   border-bottom: thin solid var(--bg-dark-border);
+}
+
+#activityRail {
+  width: 48px;
+  min-width: 48px;
+  padding: 6px 4px;
+  border-right: thin solid var(--workbench-rail-border);
+  background-color: var(--workbench-rail-bg);
+  background-image: linear-gradient(to bottom, #202633 0%, #161b23 100%);
+}
+
+#activityRail > .activity-rail-button {
+  -moz-appearance: none;
+  margin: 2px 0;
+  min-height: 34px;
+  min-width: 38px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  background-color: transparent;
+  color: var(--bg-main-foreground-color);
+  font-size: 10px;
+  font-weight: 600;
+}
+
+#activityRail > .activity-rail-button:hover {
+  border-color: var(--workbench-rail-border);
+  background-color: var(--workbench-rail-button-bg);
+}
+
+#activityRail > .activity-rail-button[selected="true"] {
+  border-color: #1b72d2;
+  background-color: var(--workbench-rail-button-active);
+  color: #ffffff;
+}
+
+#Bluegriffon[shellmode="classic"] #activityRail {
+  display: none;
+}
+
+#Bluegriffon[shellmode="classic"] #responsiveContainer {
+  -moz-box-ordinal-group: 1;
+}
+
+#Bluegriffon[shellmode="classic"] #deckedPanelsSplitter {
+  -moz-box-ordinal-group: 2;
+}
+
+#Bluegriffon[shellmode="classic"] #deckedPanels {
+  -moz-box-ordinal-group: 3;
+}
+
+#Bluegriffon[shellmode="vscode"] #activityRail {
+  -moz-box-ordinal-group: 1;
+}
+
+#Bluegriffon[shellmode="vscode"] #deckedPanels {
+  -moz-box-ordinal-group: 2;
+  min-width: 210px;
+  border-right: thin solid var(--workbench-sidebar-border);
+  background: var(--workbench-sidebar-bg);
+}
+
+#Bluegriffon[shellmode="vscode"] #deckedPanelsSplitter {
+  -moz-box-ordinal-group: 3;
+}
+
+#Bluegriffon[shellmode="vscode"] #responsiveContainer {
+  -moz-box-ordinal-group: 4;
+}
+
+#Bluegriffon[shellmode="vscode"][activitysidebar="hidden"] #deckedPanels,
+#Bluegriffon[shellmode="vscode"][activitysidebar="hidden"] #deckedPanelsSplitter {
+  display: none;
+}
+
+#Bluegriffon[shellmode="vscode"] deckedPanelsTabs {
+  border-bottom: thin solid var(--workbench-sidebar-border);
+  background: #26303d;
+}
+
+#Bluegriffon[shellmode="vscode"] #maincontainer {
+  border-left: none;
+  padding-top: 0;
 }
 
 toolbar {
