@@ -485,6 +485,7 @@ jobs:
       - name: Commit build log to ci-logs branch
         if: always() && github.event_name == 'push'
         shell: powershell
+        continue-on-error: true
         run: |
           if (-not (Test-Path build.log)) {
             Write-Host "build.log not found; skipping log commit."
