@@ -1,6 +1,7 @@
 function Shutdown()
 {
   NotifierUtils.removeNotifierCallback("selection_strict", BlueGriffon_lookForFileChanges, this);
+  window.removeEventListener("blur", AutoSaveOnWindowBlur, false);
 
   try {
     var pbi = Services.prefs.QueryInterface(Components.interfaces.nsIPrefBranchInternal);

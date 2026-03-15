@@ -74,6 +74,7 @@ var kShellModePref = "bluegriffon.ui.shell.mode";
 var kActivityRailPref = "bluegriffon.ui.activity_rail.show";
 var kActivitySidebarPref = "bluegriffon.ui.activity_sidebar.show";
 var kActivityPanelPref = "bluegriffon.ui.activity_sidebar.panel";
+var kAutoSaveOnWindowBlurPref = "bluegriffon.files.autosave.on_window_blur";
 
 var gActivityRailPanelMap = [
   { buttonId: "activityDomButton", menuitemId: "panel-domexplorer-menuitem" },
@@ -610,6 +611,99 @@ function OnBlurFromClassMenulist(aEvent)
     // be kind with the rest of the world
     NotifierUtils.notify("selection_strict", node, true);
   }  
+}
+
+var gClassTransferPickerActive = false;
+var gClassTransferSourceClass = "";
+var gClassTransferAwaitingTarget = false;
+
+function SetClassTransferPickerMenuState(aEnabled)
+{
+  if (gDialog && gDialog.menu_classTransferPicker) {
+    if (aEnabled)
+      gDialog.menu_classTransferPicker.setAttribute("checked", "true");
+    else
+      gDialog.menu_classTransferPicker.removeAttribute("checked");
+  }
+}
+
+function SetStatusMessage(aMessage)
+{
+  if (gDialog && gDialog.status)
+    gDialog.status.setAttribute("label", aMessage || "");
+}
+
+function StopClassTransferPicker(aStatusMessage)
+{
+  gClassTransferPickerActive = false;
+  gClassTransferSourceClass = "";
+  gClassTransferAwaitingTarget = false;
+  SetClassTransferPickerMenuState(false);
+  if (typeof aStatusMessage == "string")
+    SetStatusMessage(aStatusMessage);
+}
+
+function ToggleClassTransferPicker()
+{
+  if (gClassTransferPickerActive) {
+    StopClassTransferPicker("Class transfer picker cancelled.");
+    return;
+  }
+
+  if (!EditorUtils.getCurrentEditor())
+    return;
+
+  gClassTransferPickerActive = true;
+  gClassTransferSourceClass = "";
+  gClassTransferAwaitingTarget = false;
+  SetClassTransferPickerMenuState(true);
+  SetStatusMessage("Class transfer: click source element to pick class.");
+}
+
+function GetClassTransferTargetNode(aEvent)
+{
+  var node = aEvent.explicitOriginalTarget || aEvent.target;
+  while (node && node.nodeType != Node.ELEMENT_NODE)
+    node = node.parentNode;
+  return node;
+}
+
+function HandleClassTransferPickerClick(aEvent)
+{
+  if (!gClassTransferPickerActive)
+    return false;
+
+  var node = GetClassTransferTargetNode(aEvent);
+  if (!node)
+    return true;
+
+  var editor = EditorUtils.getCurrentEditor();
+  if (!editor) {
+    StopClassTransferPicker("Class transfer picker stopped.");
+    return true;
+  }
+  try {
+    editor.selectElement(node);
+  } catch (e) {}
+
+  if (!gClassTransferAwaitingTarget) {
+    gClassTransferSourceClass = node.getAttribute("class") || "";
+    gClassTransferAwaitingTarget = true;
+    if (gClassTransferSourceClass)
+      SetStatusMessage("Class picked. Click target element to apply.");
+    else
+      SetStatusMessage("Source has no class. Click target element to clear class.");
+    return true;
+  }
+
+  if (gClassTransferSourceClass)
+    editor.setAttribute(node, "class", gClassTransferSourceClass);
+  else
+    editor.removeAttribute(node, "class");
+
+  NotifierUtils.notify("selection_strict", node, true);
+  StopClassTransferPicker("Class transferred.");
+  return true;
 }
 
 /************** ID MANAGEMENT **************/
@@ -1549,6 +1643,74 @@ function GetDBConn()
   return storageService.openDatabase(file);
 }
 
+function AutoSaveCurrentDocumentOnWindowBlur()
+{
+  try {
+    if (!EditorUtils.getCurrentEditor() || !EditorUtils.isDocumentEditable())
+      return false;
+
+    var docUrl = EditorUtils.getDocumentUrl();
+    if (!docUrl || UrlUtils.isUrlOfBlankDocument(docUrl))
+      return false;
+
+    var tabeditor = EditorUtils.getCurrentTabEditor();
+    if (tabeditor && tabeditor.selectedTab && !tabeditor.selectedTab.hasAttribute("modified"))
+      return false;
+
+    return !!cmdSave.doCommand();
+  }
+  catch (e) {}
+  return false;
+}
+
+function AutoSaveAllModifiedTabsOnWindowBlur()
+{
+  var tabeditor = EditorUtils.getCurrentTabEditor();
+  if (!tabeditor || !tabeditor.mTabs)
+    return;
+
+  var tabs = tabeditor.mTabs.childNodes;
+  if (!tabs || !tabs.length)
+    return;
+
+  var originalIndex = tabeditor.selectedIndex;
+
+  for (var i = 0; i < tabs.length; i++) {
+    var tab = tabs.item(i);
+    if (!tab || !tab.hasAttribute("modified"))
+      continue;
+
+    tabeditor.selectedIndex = i;
+    AutoSaveCurrentDocumentOnWindowBlur();
+  }
+
+  if (originalIndex >= 0 && originalIndex < tabs.length)
+    tabeditor.selectedIndex = originalIndex;
+}
+
+function AutoSaveOnWindowBlur(aEvent)
+{
+  if (!_getBoolPref(kAutoSaveOnWindowBlurPref, true))
+    return;
+
+  var now = Date.now();
+  if ((now - gLastAutoSaveOnWindowBlurAt) < 350)
+    return;
+
+  if (gAutoSaveOnBlurInProgress)
+    return;
+
+  gAutoSaveOnBlurInProgress = true;
+  gLastAutoSaveOnWindowBlurAt = now;
+
+  try {
+    AutoSaveAllModifiedTabsOnWindowBlur();
+  }
+  finally {
+    gAutoSaveOnBlurInProgress = false;
+  }
+}
+
 function doSaveTabsBeforeQuit()
 {
   var tabeditor = EditorUtils.getCurrentTabEditor();
@@ -1859,6 +2021,9 @@ function start_panel(aElt)
 
 function OnClick(aEvent)
 {
+  if (HandleClassTransferPickerClick(aEvent))
+    return;
+
   // this is necessary to be able to select for instance video elements
   var target = aEvent.explicitOriginalTarget;
   if (target && (target instanceof HTMLVideoElement
@@ -3146,6 +3311,7 @@ function BuildCommandPaletteEntries()
     { label: "Panel: Stylesheets", run: function() { OpenActivityPanel("panel-stylesheets-menuitem"); } },
     { label: "Panel: Script Editor", run: function() { OpenActivityPanel("panel-scripteditor-menuitem"); } },
     { label: "Panel: ARIA", run: function() { OpenActivityPanel("panel-aria-menuitem"); } },
+    { label: "Tools: Class Transfer Picker", run: function() { ToggleClassTransferPicker(); } },
     { label: "Tools: Preferences", run: function() { OpenPreferences(); } }
   ];
 }
