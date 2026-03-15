@@ -528,6 +528,11 @@
                   label="Command Palette..."
                   key="commandpalettekb"
                   oncommand="OpenCommandPalette();"/>
+        <menuitem id="menu_classTransferPicker"
+                  label="Class Transfer Picker"
+                  type="checkbox"
+                  autocheck="false"
+                  oncommand="ToggleClassTransferPicker();"/>
         <menuseparator/>
         <menuitem label="&addonsMenu.label;"  oncommand="OpenExtensionsManager()"/>
         <!--menuseparator/-->

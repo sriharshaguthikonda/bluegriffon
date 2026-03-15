@@ -149,6 +149,7 @@ pref("bluegriffon.ui.activity_rail.show", true);
 pref("bluegriffon.ui.activity_sidebar.show", true);
 pref("bluegriffon.ui.activity_sidebar.panel", "panel-domexplorer-menuitem");
 pref("bluegriffon.ui.last_view_mode", "wysiwyg");
+pref("bluegriffon.files.autosave.on_window_blur", true);
 
 // updates
 pref("bluegriffon.updates.check.enabled", true);

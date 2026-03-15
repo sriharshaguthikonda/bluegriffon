@@ -2,6 +2,8 @@
 var gContentWindow = null;
 var gURLArray = [];
 var gBoundDelayedStartup = null;
+var gAutoSaveOnBlurInProgress = false;
+var gLastAutoSaveOnWindowBlurAt = 0;
 
 function Startup()
 {
@@ -71,6 +73,7 @@ function Startup()
   NotifierUtils.addNotifierCallback("selection",        UpdateSourceLiveView, this);
 
   window.addEventListener("sizemodechange", onSizeModeChange, false);
+  window.addEventListener("blur", AutoSaveOnWindowBlur, false);
 
   if ("ActiveViewManager" in window)
     ActiveViewManager.init();
