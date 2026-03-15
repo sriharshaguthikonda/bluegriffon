@@ -399,7 +399,7 @@
                   command="cmd_span"
                   accesskey="&spanCmd.accesskey;"/>
         <menuseparator/>
-        <menuitem label="&styleBoldCmd.label;"        accesskey="&stylebold.accesskey;"         observes="cmd_bold"          type="checkbox">
+        <menuitem label="&styleBoldCmd.label;"        accesskey="&stylebold.accesskey;"         observes="cmd_bold"          type="checkbox" key="boldkb">
           <observes element="cmd_renderedHTMLEnabler" attribute="disabled"/>
         </menuitem>
         <menuitem label="&styleItalicCmd.label;"      accesskey="&styleitalic.accesskey;"       observes="cmd_italic"        type="checkbox">
