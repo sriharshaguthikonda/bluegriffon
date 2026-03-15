@@ -80,6 +80,8 @@ gather logs, and iterate until the Windows x64 build succeeds.
 ## Notes
 - Always build Windows x64.
 - Do not build locally unless explicitly requested.
+- For faster routine CI on dedicated portable/installer branches, diagnostic log-tail/artifact-scan/ci-logs upload steps may stay disabled.
+- If a run fails or triage needs more context, re-enable those diagnostic steps temporarily, re-run, and collect evidence before applying fixes.
 
 ## Local build workflow (Windows)
 Use this when the user asks to build locally.

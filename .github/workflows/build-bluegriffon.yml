@@ -483,20 +483,20 @@ jobs:
           if-no-files-found: warn
 
       - name: Show build log tail
-        if: always()
+        if: false
         shell: powershell
         run: |
           if (Test-Path build.log) { Get-Content build.log -Tail 200 }
 
       - name: Upload build log
-        if: always()
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: build-log
           path: ${{ github.workspace }}\build.log
 
       - name: Upload worker build logs
-        if: always()
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: build-worker-log
@@ -506,28 +506,28 @@ jobs:
           if-no-files-found: warn
 
       - name: Upload artifact scan
-        if: always()
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: build-artifact-scan
           path: ${{ github.workspace }}\artifact-scan.txt
 
       - name: Upload root recursive report
-        if: always()
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: build-root-recursive-report
           path: ${{ github.workspace }}\root-recursive-report.txt
 
       - name: Upload build exit code
-        if: always()
+        if: false
         uses: actions/upload-artifact@v4
         with:
           name: build-exit
           path: ${{ github.workspace }}\build-exit.txt
 
       - name: Commit build log to ci-logs branch
-        if: always() && github.event_name == 'push'
+        if: false
         shell: powershell
         continue-on-error: true
         run: |
