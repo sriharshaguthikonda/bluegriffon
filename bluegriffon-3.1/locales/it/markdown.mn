@@ -1,5 +1,0 @@
-markdown-it.jar:
-%   locale  markdown              it    %locale/it/markdown/
-   locale/it/markdown/markdownOverlay.dtd  (locale/it/markdownOverlay.dtd)
-   locale/it/markdown/markdown.dtd         (locale/it/markdown.dtd)
-   

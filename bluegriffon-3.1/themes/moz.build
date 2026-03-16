@@ -1,7 +1,0 @@
-toolkit = CONFIG['MOZ_WIDGET_TOOLKIT']
-
-if toolkit == 'cocoa':
-    DIRS += ['mac']
-else:
-    DIRS += ['win']
-

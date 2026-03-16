@@ -1,8 +1,0 @@
-DIRS += [
-    'aria',
-    'cssproperties',
-    'domexplorer',
-    'scripteditor',
-    'stylesheets',
-    'its20'
-]
