@@ -1,9 +1,0 @@
-/*.app/***
-/*.dylib
-/certutil
-/bluegriffon-bin
-/gtest/***
-/pk12util
-/ssltunnel
-/xpcshell
-/XUL
