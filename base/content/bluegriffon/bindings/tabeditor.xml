@@ -736,6 +736,15 @@
            NotifierUtils.notify("tabSelected");
            var deck = this.getCurrentEditorElement().parentNode;
            var mode = deck.getAttribute("previousMode") || "wysiwyg";
+           if ("IsSupportedViewMode" in window && !window.IsSupportedViewMode(mode)) {
+             if ("GetRememberedViewMode" in window)
+               mode = window.GetRememberedViewMode();
+             else
+               mode = "wysiwyg";
+             deck.setAttribute("previousMode", mode);
+           }
+           if ("SaveRememberedViewMode" in window)
+             window.SaveRememberedViewMode(mode);
            deck.selectedIndex = (mode == "source") ? 1 : 0;
            gDialog.bespinToolbox1.hidden = true;
            gDialog.bespinToolbox2.hidden = true;

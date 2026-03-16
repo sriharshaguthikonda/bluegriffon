@@ -86,6 +86,10 @@ var gActivityRailPanelMap = [
 
 var gCommandPaletteEntries = [];
 var gCommandPaletteFilteredEntries = [];
+var gCommandPaletteSettingsSelectors = [
+  "#viewMenuPopup menuitem",
+  "#menu_preferences"
+];
 
 function OpenLocation(aEvent, type)
 {
@@ -983,6 +987,11 @@ function NormalizeLastViewMode(aMode)
   }
 }
 
+function IsSupportedViewMode(aMode)
+{
+  return (aMode == "liveview" || aMode == "source" || aMode == "wysiwyg");
+}
+
 function GetRememberedViewMode()
 {
   return NormalizeLastViewMode(_getCharPref(kLAST_VIEW_MODE_PREF, kLAST_VIEW_MODE_DEFAULT));
@@ -1034,7 +1043,7 @@ function UpdateViewModeStatus()
 
 function ReapplyRememberedViewMode(aAttemptsRemaining)
 {
-  var attemptsRemaining = (typeof aAttemptsRemaining == "number") ? aAttemptsRemaining : 5;
+  var attemptsRemaining = (typeof aAttemptsRemaining == "number") ? aAttemptsRemaining : 20;
   if (!gDialog || !gDialog.tabeditor)
     return;
 
@@ -1078,14 +1087,22 @@ function CycleViewMode()
 {
   var order = ["liveViewModeButton",
                "wysiwygModeButton",
-               "sourceModeButton",
-               "printPreviewModeButton"];
+               "sourceModeButton"];
   var currentId = GetSelectedViewModeButtonId();
   var index = order.indexOf(currentId);
   if (index < 0)
     index = 0;
   var nextId = order[(index + 1) % order.length];
   return ToggleViewMode(gDialog[nextId]);
+}
+
+function TogglePrintPreviewMode()
+{
+  if (!gDialog || !gDialog.printPreviewModeButton || !gDialog.wysiwygModeButton)
+    return false;
+  if (gDialog.printPreviewModeButton.getAttribute("selected") == "true")
+    return ToggleViewMode(gDialog.wysiwygModeButton);
+  return ToggleViewMode(gDialog.printPreviewModeButton);
 }
 
 function ToggleViewMode(aElement, aPersistMode)
@@ -2619,9 +2636,127 @@ function onFontColorChange()
   }
 }
 
+function GetTabFromPopupNode()
+{
+  var node = document.popupNode;
+  while (node && node.nodeType == Node.ELEMENT_NODE && node.localName != "tab")
+    node = node.parentNode;
+  return node;
+}
+
+function IsTabPinned(aTab)
+{
+  return !!(aTab && aTab.getAttribute("pinned") == "true");
+}
+
+function MovePinnedTabToPinnedRegion(aTab)
+{
+  if (!aTab || !aTab.parentNode)
+    return;
+
+  var tabs = aTab.parentNode;
+  var child = tabs.firstChild;
+  var beforeNode = null;
+  while (child) {
+    if (child != aTab && !IsTabPinned(child)) {
+      beforeNode = child;
+      break;
+    }
+    child = child.nextSibling;
+  }
+
+  if (beforeNode)
+    tabs.insertBefore(aTab, beforeNode);
+  else
+    tabs.appendChild(aTab);
+}
+
+function MoveTabToUnpinnedRegion(aTab)
+{
+  if (!aTab || !aTab.parentNode)
+    return;
+
+  var tabs = aTab.parentNode;
+  var child = tabs.firstChild;
+  while (child) {
+    if (child != aTab && !IsTabPinned(child))
+      break;
+    child = child.nextSibling;
+  }
+
+  if (child)
+    tabs.insertBefore(aTab, child);
+  else
+    tabs.appendChild(aTab);
+}
+
+function OnTabContextPopupShowing()
+{
+  var tab = GetTabFromPopupNode();
+  var pinItem = document.getElementById("pinTabTabContextMenu");
+  var closeTabItem = document.getElementById("closeTabTabContextMenu");
+  var closeOtherItem = document.getElementById("closeOtherTabsTabContextMenu");
+  var revertItem = document.getElementById("revertTabContextMenu");
+
+  if (!tab) {
+    if (pinItem)
+      pinItem.setAttribute("disabled", "true");
+    if (closeTabItem)
+      closeTabItem.setAttribute("disabled", "true");
+    if (closeOtherItem)
+      closeOtherItem.setAttribute("disabled", "true");
+    if (revertItem)
+      revertItem.setAttribute("disabled", "true");
+    return;
+  }
+
+  if (pinItem) {
+    pinItem.removeAttribute("disabled");
+    pinItem.setAttribute("label", IsTabPinned(tab) ? "Unpin Tab" : "Pin Tab");
+  }
+
+  if (closeTabItem)
+    closeTabItem.removeAttribute("disabled");
+  if (revertItem)
+    revertItem.removeAttribute("disabled");
+
+  if (closeOtherItem) {
+    var closable = 0;
+    var child = tab.parentNode ? tab.parentNode.firstElementChild : null;
+    while (child) {
+      if (child != tab && !IsTabPinned(child))
+        closable++;
+      child = child.nextElementSibling;
+    }
+    if (closable > 0)
+      closeOtherItem.removeAttribute("disabled");
+    else
+      closeOtherItem.setAttribute("disabled", "true");
+  }
+}
+
+function TogglePinTab()
+{
+  var tab = GetTabFromPopupNode();
+  if (!tab)
+    return;
+
+  if (IsTabPinned(tab))
+  {
+    tab.removeAttribute("pinned");
+    MoveTabToUnpinnedRegion(tab);
+  }
+  else {
+    tab.setAttribute("pinned", "true");
+    MovePinnedTabToPinnedRegion(tab);
+  }
+}
+
 function RevertTab()
 {
-  var tab = document.popupNode;
+  var tab = GetTabFromPopupNode();
+  if (!tab)
+    return;
 
   if (gDialog.tabeditor.selectedTab != tab) {
     // not the current tab, make sure to select it
@@ -2664,7 +2799,9 @@ function RevertTab()
 
 function CloseOneTab()
 {
-  var tab = document.popupNode;
+  var tab = GetTabFromPopupNode();
+  if (!tab)
+    return;
 
   if (gDialog.tabeditor.selectedTab != tab) {
     // not the current tab, make sure to select it
@@ -2682,13 +2819,15 @@ function CloseOneTab()
 
 function CloseAllTabsButOne()
 {
-  var tab = document.popupNode;
+  var tab = GetTabFromPopupNode();
+  if (!tab)
+    return;
 
   var child = tab.parentNode.firstElementChild;
   while (child) {
     var tmp = child.nextElementSibling;
 
-    if (child != tab) {
+    if (child != tab && !IsTabPinned(child)) {
       var index = 0;
       var child2 = child;
       while (child2.previousElementSibling) {
@@ -3295,25 +3434,75 @@ function ToggleToolbar(aPrefInfix)
     ApplyTitlebarVisibility();
 }
 
+function AppendCommandPaletteEntry(aEntries, aSeen, aLabel, aRun)
+{
+  if (!aLabel || !aRun)
+    return;
+  if (aSeen[aLabel])
+    return;
+  aSeen[aLabel] = true;
+  aEntries.push({ label: aLabel, run: aRun });
+}
+
+function BuildMenuCommandPaletteEntry(aMenuitem, aPrefix)
+{
+  if (!aMenuitem)
+    return null;
+  var label = aMenuitem.getAttribute("label");
+  if (!label)
+    return null;
+
+  var fullLabel = aPrefix ? (aPrefix + ": " + label) : label;
+  var menuitemId = aMenuitem.id;
+  return {
+    label: fullLabel,
+    run: function() {
+      var item = menuitemId ? document.getElementById(menuitemId) : aMenuitem;
+      if (!item)
+        return;
+      if (item.getAttribute("hidden") == "true" ||
+          item.getAttribute("collapsed") == "true")
+        return;
+      if (item.getAttribute("disabled") == "true")
+        return;
+      item.doCommand();
+    }
+  };
+}
+
+function AppendSettingsCommandPaletteEntries(aEntries, aSeen)
+{
+  for (var i = 0; i < gCommandPaletteSettingsSelectors.length; i++) {
+    var selector = gCommandPaletteSettingsSelectors[i];
+    var items = document.querySelectorAll(selector);
+    for (var j = 0; j < items.length; j++) {
+      var entry = BuildMenuCommandPaletteEntry(items[j], "Settings");
+      if (!entry)
+        continue;
+      AppendCommandPaletteEntry(aEntries, aSeen, entry.label, entry.run);
+    }
+  }
+}
+
 function BuildCommandPaletteEntries()
 {
-  return [
-    { label: "File: New Document", run: function() { NewDocument(null); } },
-    { label: "File: Open File", run: function() { goDoCommand("cmd_openFile"); } },
-    { label: "File: Save", run: function() { goDoCommand("cmd_save"); } },
-    { label: "View: Toggle View Mode", run: function() { CycleViewMode(); } },
-    { label: "View: Shell Mode - Classic", run: function() { SetShellMode("classic"); } },
-    { label: "View: Shell Mode - VSCode-like", run: function() { SetShellMode("vscode"); } },
-    { label: "View: Toggle Activity Rail", run: function() { ToggleActivityRailVisibility(); } },
-    { label: "View: Toggle Sidebar", run: function() { ToggleSidebarVisibility(); } },
-    { label: "Panel: DOM Explorer", run: function() { OpenActivityPanel("panel-domexplorer-menuitem"); } },
-    { label: "Panel: CSS Properties", run: function() { OpenActivityPanel("panel-cssproperties-menuitem"); } },
-    { label: "Panel: Stylesheets", run: function() { OpenActivityPanel("panel-stylesheets-menuitem"); } },
-    { label: "Panel: Script Editor", run: function() { OpenActivityPanel("panel-scripteditor-menuitem"); } },
-    { label: "Panel: ARIA", run: function() { OpenActivityPanel("panel-aria-menuitem"); } },
-    { label: "Tools: Class Transfer Picker", run: function() { ToggleClassTransferPicker(); } },
-    { label: "Tools: Preferences", run: function() { OpenPreferences(); } }
-  ];
+  var entries = [];
+  var seen = {};
+
+  AppendCommandPaletteEntry(entries, seen, "File: New Document", function() { NewDocument(null); });
+  AppendCommandPaletteEntry(entries, seen, "File: Open File", function() { goDoCommand("cmd_openFile"); });
+  AppendCommandPaletteEntry(entries, seen, "File: Save", function() { goDoCommand("cmd_save"); });
+  AppendCommandPaletteEntry(entries, seen, "View: Toggle View Mode", function() { CycleViewMode(); });
+  AppendCommandPaletteEntry(entries, seen, "View: Toggle Print Preview", function() { TogglePrintPreviewMode(); });
+  AppendCommandPaletteEntry(entries, seen, "Panel: DOM Explorer", function() { OpenActivityPanel("panel-domexplorer-menuitem"); });
+  AppendCommandPaletteEntry(entries, seen, "Panel: CSS Properties", function() { OpenActivityPanel("panel-cssproperties-menuitem"); });
+  AppendCommandPaletteEntry(entries, seen, "Panel: Stylesheets", function() { OpenActivityPanel("panel-stylesheets-menuitem"); });
+  AppendCommandPaletteEntry(entries, seen, "Panel: Script Editor", function() { OpenActivityPanel("panel-scripteditor-menuitem"); });
+  AppendCommandPaletteEntry(entries, seen, "Panel: ARIA", function() { OpenActivityPanel("panel-aria-menuitem"); });
+  AppendCommandPaletteEntry(entries, seen, "Tools: Class Transfer Picker", function() { ToggleClassTransferPicker(); });
+
+  AppendSettingsCommandPaletteEntries(entries, seen);
+  return entries;
 }
 
 function OpenCommandPalette()

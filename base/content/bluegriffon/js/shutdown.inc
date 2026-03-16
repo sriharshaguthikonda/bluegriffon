@@ -1,5 +1,30 @@
-function Shutdown()
+var gBlueGriffonShutdownDone = false;
+
+function CaptureStableModeForShutdown()
 {
+  try {
+    var editorElement = EditorUtils.getCurrentEditorElement();
+    if (editorElement && editorElement.parentNode) {
+      var deckMode = editorElement.parentNode.getAttribute("previousMode");
+      if ("IsSupportedViewMode" in window && window.IsSupportedViewMode(deckMode))
+        return deckMode;
+    }
+  } catch(e) {}
+
+  try {
+    if ("GetRememberedViewMode" in window)
+      return GetRememberedViewMode();
+  } catch(e) {}
+
+  return "wysiwyg";
+}
+
+function Shutdown(aModeHint)
+{
+  if (gBlueGriffonShutdownDone)
+    return;
+  gBlueGriffonShutdownDone = true;
+
   NotifierUtils.removeNotifierCallback("selection_strict", BlueGriffon_lookForFileChanges, this);
   window.removeEventListener("blur", AutoSaveOnWindowBlur, false);
 
@@ -15,19 +40,11 @@ function Shutdown()
   BGZoomManager.shutdown();
 
   try {
-    var currentMode = null;
-    if (EditorUtils.getCurrentEditorElement())
-      currentMode = EditorUtils.getCurrentViewMode();
-    if (!currentMode) {
-      var selectedViewModeButton = GetSelectedViewModeButtonId();
-      if (selectedViewModeButton == "sourceModeButton")
-        currentMode = "source";
-      else if (selectedViewModeButton == "liveViewModeButton")
-        currentMode = "liveview";
-      else
-        currentMode = "wysiwyg";
-    }
-    SaveRememberedViewMode(currentMode);
+    var modeToSave = aModeHint;
+    if (!("IsSupportedViewMode" in window) || !window.IsSupportedViewMode(modeToSave))
+      modeToSave = CaptureStableModeForShutdown();
+    if ("IsSupportedViewMode" in window && window.IsSupportedViewMode(modeToSave))
+      SaveRememberedViewMode(modeToSave);
   } catch(e) {}
 
   // persist floating panels' position
@@ -47,8 +64,9 @@ function Shutdown()
 
 function onClose()
 {
+  var modeHint = CaptureStableModeForShutdown();
   if (doSaveTabsBeforeQuit()) {
-    Shutdown();
+    Shutdown(modeHint);
     return true;
   }
   return false;
