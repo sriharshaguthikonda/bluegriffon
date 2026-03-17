@@ -10,18 +10,20 @@
   <key id="findkb"              key="&findCmd.key;"          observes="cmd_bgfind"    modifiers="accel"/>
   <key id="findagainkb"         key="&findAgainCmd.key;"     observes="cmd_bgfindagain" modifiers="accel"/>
   <key id="replacekb"           key="&replaceCmd.key;"       observes="cmd_replace"   modifiers="accel"/>
+  <key id="commandpalettekb"    key="P"                      modifiers="accel,shift" oncommand="OpenCommandPalette();"/>
 
-  <key id="strongkb"            key="&styleStrong.key;"      observes="cmd_strong"    modifiers="accel"/>
-  <key id="emkb"                key="&styleEm.key;"          observes="cmd_em"        modifiers="accel"/>
+  <key id="boldkb"              key="B"                      observes="cmd_bold"      modifiers="accel"/>
+  <key id="strongkb"            key="E"                      observes="cmd_strong"    modifiers="accel,shift"/>
+  <key id="emkb"                key="E"                      observes="cmd_em"        modifiers="accel"/>
   <key id="codekb"              key="&styleCode.key;"        observes="cmd_code"      modifiers="accel,shift"/>
   <key id="underlinekb"         key="&styleUnderline.key;"   observes="cmd_underline" modifiers="accel"/>
 
   <key keycode="VK_ESCAPE"      observes="cmd_structureClimb" />
   <key id="structureclimbkb"      keycode="VK_F2"              observes="cmd_structureClimb"/>
   <key id="structurefirstchildkb" keycode="VK_F2"              observes="cmd_structureFirstChild" modifiers="shift"/>
-  <key id="structurenextkb"       keycode="VK_F4"              observes="cmd_structureNext"/>
-  <key id="structurepreviousbkb"  keycode="VK_F4"              observes="cmd_structurePrevious" modifiers="shift"/>
-
+  <key id="structurenextkb"       keycode="VK_F6"              observes="cmd_structureNext"/>
+  <key id="structurepreviousbkb"  keycode="VK_F6"              observes="cmd_structurePrevious" modifiers="shift"/>
+  <key id="browsekb"             keycode="VK_F4"              observes="cmd_browse"/>
   <key id="toggleviewkb"          keycode="VK_F8"              observes="cmd_toggleView"/>
 
 #ifdef XP_MACOSX
@@ -301,4 +303,3 @@
 </stringbundleset>
 
 <stringbundleset id="otherBundles"/>
-
