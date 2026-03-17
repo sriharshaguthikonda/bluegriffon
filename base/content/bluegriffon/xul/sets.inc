@@ -23,8 +23,8 @@
   <key id="structurefirstchildkb" keycode="VK_F2"              observes="cmd_structureFirstChild" modifiers="shift"/>
   <key id="structurenextkb"       keycode="VK_F6"              observes="cmd_structureNext"/>
   <key id="structurepreviousbkb"  keycode="VK_F6"              observes="cmd_structurePrevious" modifiers="shift"/>
-
-  <key id="toggleviewkb"          keycode="VK_F4"              observes="cmd_toggleView"/>
+  <key id="browsekb"             keycode="VK_F4"              observes="cmd_browse"/>
+  <key id="toggleviewkb"          keycode="VK_F8"              observes="cmd_toggleView"/>
 
 #ifdef XP_MACOSX
   <key id="key_preferencesCmdMac" key="&preferencesCmdMac.commandkey;" modifiers="accel"/>
