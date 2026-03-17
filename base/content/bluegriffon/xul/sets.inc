@@ -25,6 +25,7 @@
   <key id="structurepreviousbkb"  keycode="VK_F6"              observes="cmd_structurePrevious" modifiers="shift"/>
   <key id="browsekb"             keycode="VK_F4"              observes="cmd_browse"/>
   <key id="toggleviewkb"          keycode="VK_F8"              observes="cmd_toggleView"/>
+  <key id="viewmodeenablerkb"     keycode="VK_F9"              observes="cmd_viewModeEnabler"/>
 
 #ifdef XP_MACOSX
   <key id="key_preferencesCmdMac" key="&preferencesCmdMac.commandkey;" modifiers="accel"/>
