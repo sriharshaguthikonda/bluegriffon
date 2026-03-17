@@ -21,7 +21,7 @@ pref("toolkit.telemetry.enabled", false);
 pref("toolkit.telemetry.archive.enabled", false);
 
 /* main theme */
-pref("bluegriffon.wysiwyg.theme", "black");
+pref("bluegriffon.wysiwyg.theme", "system");
 
 /* debugging prefs */
 pref("browser.dom.window.dump.enabled", false);
@@ -139,6 +139,10 @@ pref("bluegriffon.ui.structurebar.show", true);
 pref("bluegriffon.ui.statusbar.show", true);
 pref("bluegriffon.ui.vertical_toolbar.show", true);
 pref("bluegriffon.ui.horizontal_toolbars.show", true);
+pref("bluegriffon.ui.vertical_toolbar.position", "left");
+pref("bluegriffon.ui.titlebar.show", true);
+pref("bluegriffon.ui.statusbar.position", "bottom");
+pref("bluegriffon.ui.toolbar.layout", "mixed");
 
 // updates
 pref("bluegriffon.updates.check.enabled", true);

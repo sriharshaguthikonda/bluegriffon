@@ -2,9 +2,9 @@ name: Build BlueGriffon (Windows)
 
 on:
   push:
-    branches: ["*"]
+    branches: ["**"]
   pull_request:
-    branches: ["*"]
+    branches: ["**"]
   workflow_dispatch:
 
 jobs:
@@ -25,6 +25,81 @@ jobs:
         run: |
           $py = (Get-Command python).Source
           "PYTHON_EXE=$py" >> $env:GITHUB_ENV
+
+      - name: Install Python 2.7
+        shell: powershell
+        continue-on-error: true
+        run: |
+          $py2Installed = $false
+          Write-Host "Attempting python2 install via Chocolatey..."
+          try {
+            choco install -y python2 --no-progress
+            if ($LASTEXITCODE -eq 0) {
+              $py2Installed = $true
+            } else {
+              Write-Host "Chocolatey python2 install failed with exit code $LASTEXITCODE."
+            }
+          } catch {
+            Write-Host "Chocolatey python2 install threw: $($_.Exception.Message)"
+          }
+
+          if (-not $py2Installed) {
+            $msiUrl = "https://www.python.org/ftp/python/2.7.18/python-2.7.18.amd64.msi"
+            $msiPath = Join-Path $env:RUNNER_TEMP "python-2.7.18.amd64.msi"
+            try {
+              Write-Host "Downloading Python 2.7.18 MSI from $msiUrl"
+              Invoke-WebRequest -Uri $msiUrl -OutFile $msiPath
+              Write-Host "Installing Python 2.7.18 MSI..."
+              Start-Process msiexec.exe -ArgumentList "/i `"$msiPath`" /qn /norestart" -Wait -NoNewWindow
+              if ($LASTEXITCODE -eq 0) {
+                $py2Installed = $true
+              } else {
+                Write-Host "MSI install returned exit code $LASTEXITCODE."
+              }
+            } catch {
+              Write-Host "Python 2.7 MSI fallback failed: $($_.Exception.Message)"
+            }
+          }
+
+          $candidates = @()
+          $candidates += @(
+            "C:\Python27\python.exe",
+            "C:\Python27_18\python.exe",
+            "C:\Python27\python2.exe",
+            "C:\Python27\python2.7.exe"
+          )
+          $py2Cmd = Get-Command python2 -ErrorAction SilentlyContinue
+          if ($py2Cmd) {
+            $candidates += $py2Cmd.Source
+            Write-Host "python2 cmd: $($py2Cmd.Source)"
+          }
+          $py27Cmd = Get-Command python2.7 -ErrorAction SilentlyContinue
+          if ($py27Cmd) {
+            $candidates += $py27Cmd.Source
+            Write-Host "python2.7 cmd: $($py27Cmd.Source)"
+          }
+
+          $py2 = $null
+          foreach ($candidate in ($candidates | Select-Object -Unique)) {
+            if (-not (Test-Path $candidate)) { continue }
+            try {
+              & $candidate -c "import __builtin__"
+              if ($LASTEXITCODE -eq 0) {
+                $py2 = $candidate
+                break
+              }
+            } catch {
+              Write-Host "Python2 probe failed for $candidate"
+            }
+          }
+
+          if ($py2) {
+            "PYTHON2_EXE=$py2" >> $env:GITHUB_ENV
+            Write-Host "Python2 resolved and verified: $py2"
+          } else {
+            Write-Host "Python2 not found or not compatible (__builtin__ probe failed)."
+          }
+          $global:LASTEXITCODE = 0
 
       - name: Install MozillaBuild
         run: choco install -y mozillabuild
@@ -103,19 +178,144 @@ jobs:
           echo %ERR% > "%EXIT_FILE%"
           exit /b 0
 
+      - name: Collect executable and portable runtime
+        if: always()
+        shell: powershell
+        run: |
+          $ErrorActionPreference = "Continue"
+          $artifactDir = Join-Path $env:GITHUB_WORKSPACE "artifact"
+          $portableDir = Join-Path $artifactDir "bluegriffon-portable"
+          New-Item -ItemType Directory -Force -Path $artifactDir | Out-Null
+          $searchRoot = Join-Path $env:GITHUB_WORKSPACE "gecko-dev"
+
+          $scanFile = Join-Path $env:GITHUB_WORKSPACE "artifact-scan.txt"
+          $rootReport = Join-Path $env:GITHUB_WORKSPACE "root-recursive-report.txt"
+          "==== artifact scan $(Get-Date -Format o) ====" | Set-Content -Path $scanFile
+          "==== bounded root report $(Get-Date -Format o) ====" | Set-Content -Path $rootReport
+
+          Add-Content -Path $rootReport -Value ("workspace: {0}" -f $env:GITHUB_WORKSPACE)
+          if (Test-Path $env:GITHUB_WORKSPACE) {
+            Add-Content -Path $rootReport -Value "-- workspace top-level entries --"
+            Get-ChildItem -Path $env:GITHUB_WORKSPACE -Force -ErrorAction SilentlyContinue |
+              Select-Object Mode,Length,LastWriteTime,FullName |
+              Sort-Object FullName |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $rootReport
+          }
+
+          $candidateRoots = @(
+            (Join-Path $searchRoot "opt64\\dist\\bin"),
+            (Join-Path $searchRoot "dist\\bin")
+          ) | Where-Object { Test-Path $_ } | Select-Object -Unique
+
+          Add-Content -Path $scanFile -Value ""
+          Add-Content -Path $scanFile -Value "==== candidate runtime roots ===="
+          if ($candidateRoots.Count -eq 0) {
+            Add-Content -Path $scanFile -Value ("No runtime roots found under {0}" -f $searchRoot)
+          } else {
+            foreach ($root in $candidateRoots) {
+              Add-Content -Path $scanFile -Value ("root: {0}" -f $root)
+              Get-ChildItem -Path $root -File -ErrorAction SilentlyContinue |
+                Where-Object { $_.Extension -in @(".exe", ".dll", ".xpt", ".manifest", ".ini") } |
+                Sort-Object LastWriteTime -Descending |
+                Select-Object -First 120 FullName,Length,LastWriteTime |
+                Format-Table -AutoSize |
+                Out-String -Width 500 |
+                Add-Content -Path $scanFile
+            }
+          }
+
+          $candidates = @()
+          foreach ($root in $candidateRoots) {
+            $candidates += Get-ChildItem -Path $root -File -Filter "*griffon*.exe" -ErrorAction SilentlyContinue
+          }
+          $candidates = $candidates | Sort-Object LastWriteTime -Descending
+
+          if ($candidates.Count -gt 0) {
+            $picked = $candidates[0]
+            $binDir = Split-Path -Parent $picked.FullName
+            Copy-Item -Path $picked.FullName -Destination (Join-Path $artifactDir $picked.Name) -Force
+
+            if (Test-Path $portableDir) {
+              Remove-Item -Path $portableDir -Recurse -Force -ErrorAction SilentlyContinue
+            }
+            New-Item -ItemType Directory -Force -Path $portableDir | Out-Null
+
+            $copyLog = Join-Path $env:GITHUB_WORKSPACE "portable-copy.log"
+            if (Test-Path $copyLog) { Remove-Item -Path $copyLog -Force -ErrorAction SilentlyContinue }
+            $null = robocopy $binDir $portableDir *.* /E /R:1 /W:1 /XJ /SL /COPY:DAT /DCOPY:DAT /NFL /NDL /NP /MT:8 /LOG:$copyLog
+            $robocopyExit = $LASTEXITCODE
+            Add-Content -Path $scanFile -Value ("robocopy exit code: {0}" -f $robocopyExit)
+            if ($robocopyExit -gt 7) {
+              throw "Portable runtime copy failed with robocopy exit code $robocopyExit"
+            }
+            # Robocopy returns 0-7 for success/acceptable states; clear it so the step exit code stays green.
+            $global:LASTEXITCODE = 0
+
+            $launcherName = "run-{0}.bat" -f ([IO.Path]::GetFileNameWithoutExtension($picked.Name))
+            $launcherPath = Join-Path $portableDir $launcherName
+            $launcherContent = "@echo off`r`nsetlocal`r`ncd /d %~dp0`r`nstart """" ""%~dp0$($picked.Name)""`r`n"
+            Set-Content -Path $launcherPath -Encoding ASCII -Value $launcherContent
+
+            $zipPath = Join-Path $artifactDir "bluegriffon-portable.zip"
+            if (Test-Path $zipPath) { Remove-Item -Path $zipPath -Force }
+            Compress-Archive -Path (Join-Path $portableDir '*') -DestinationPath $zipPath -CompressionLevel Optimal
+
+            Add-Content -Path $scanFile -Value ""
+            Add-Content -Path $scanFile -Value "==== portable package sample (first 200 files) ===="
+            Get-ChildItem -Path $portableDir -File -Recurse -ErrorAction SilentlyContinue |
+              Sort-Object FullName |
+              Select-Object -First 200 FullName,Length,LastWriteTime |
+              Format-Table -AutoSize |
+              Out-String -Width 500 |
+              Add-Content -Path $scanFile
+
+            Write-Host "Collected executable: $($picked.FullName)"
+            Write-Host "Collected portable runtime from: $binDir"
+          } else {
+            Write-Host "No executable candidate found under gecko-dev/**/dist/bin."
+          }
+
+          if (Test-Path build.log) {
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== artifact scan (bounded) ===="
+            Get-Content -Path $scanFile | Select-Object -First 600 | Add-Content -Path build.log
+            Add-Content -Path build.log -Value ""
+            Add-Content -Path build.log -Value "==== root report (bounded) ===="
+            Get-Content -Path $rootReport | Select-Object -First 250 | Add-Content -Path build.log
+          }
+
+          Get-ChildItem -Path $artifactDir -Recurse -File -ErrorAction SilentlyContinue |
+            Select-Object FullName,Length,LastWriteTime | Format-Table -AutoSize
       - name: Upload executable
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: bluegriffon-exe
-          path: |
-            gecko-dev/**/dist/bin/*griffon*.exe
+          path: ${{ github.workspace }}\artifact\*.exe
+          if-no-files-found: warn
+
+      - name: Upload portable runtime
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-portable
+          path: ${{ github.workspace }}\artifact\bluegriffon-portable.zip
+          if-no-files-found: warn
 
       - name: Show build log tail
         if: always()
         shell: powershell
         run: |
           if (Test-Path build.log) { Get-Content build.log -Tail 200 }
+          if (Test-Path build-worker.log) {
+            Write-Host "==== build-worker.log tail ===="
+            Get-Content build-worker.log -Tail 200
+          } elseif (Test-Path gecko-dev\build-worker.log) {
+            Write-Host "==== gecko-dev\\build-worker.log tail ===="
+            Get-Content gecko-dev\build-worker.log -Tail 200
+          }
 
       - name: Upload build log
         if: always()
@@ -123,6 +323,32 @@ jobs:
         with:
           name: build-log
           path: ${{ github.workspace }}\build.log
+
+      - name: Upload worker build logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-worker-log
+          path: |
+            ${{ github.workspace }}\build-worker.log
+            ${{ github.workspace }}\gecko-dev\build-worker.log
+          if-no-files-found: warn
+
+      - name: Upload artifact scan
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-artifact-scan
+          path: ${{ github.workspace }}\artifact-scan.txt
+          if-no-files-found: warn
+
+      - name: Upload root recursive report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-root-recursive-report
+          path: ${{ github.workspace }}\root-recursive-report.txt
+          if-no-files-found: warn
 
       - name: Upload build exit code
         if: always()
@@ -142,44 +368,87 @@ jobs:
 
           $tempLog = Join-Path $env:RUNNER_TEMP "build.log"
           Copy-Item build.log $tempLog -Force
+          $tempWorker = Join-Path $env:RUNNER_TEMP "build-worker.log"
+          $hasWorker = $false
+          if (Test-Path build-worker.log) {
+            Copy-Item build-worker.log $tempWorker -Force
+            $hasWorker = $true
+          } elseif (Test-Path gecko-dev\build-worker.log) {
+            Copy-Item gecko-dev\build-worker.log $tempWorker -Force
+            $hasWorker = $true
+          }
           $tempExit = Join-Path $env:RUNNER_TEMP "build-exit.txt"
           $hasExit = Test-Path build-exit.txt
           if ($hasExit) {
             Copy-Item build-exit.txt $tempExit -Force
           }
 
+          $tempWorktree = Join-Path $env:RUNNER_TEMP "ci-logs-worktree"
+          if (Test-Path $tempWorktree) {
+            Remove-Item -Path $tempWorktree -Recurse -Force -ErrorAction SilentlyContinue
+          }
+
           git fetch origin ci-logs --depth=1
+          $ciLogsExists = ($LASTEXITCODE -eq 0)
+          if ($ciLogsExists) {
+            git worktree add --detach $tempWorktree origin/ci-logs
+          } else {
+            git worktree add --detach $tempWorktree HEAD
+          }
           if ($LASTEXITCODE -ne 0) {
-            git checkout --orphan ci-logs
-            git clean -fdx
-          } else {
-            git checkout -B ci-logs origin/ci-logs
+            Write-Host "WARNING: Unable to prepare ci-logs worktree; skipping ci-logs commit."
+            exit 0
           }
 
-          New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
-          Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
-          if ($hasExit) {
-            Copy-Item $tempExit ci-logs\build-exit.txt -Force
-          }
+          Push-Location $tempWorktree
+          try {
+            if ($ciLogsExists) {
+              git checkout -B ci-logs origin/ci-logs
+            } else {
+              git checkout --orphan ci-logs
+              git rm -rf . --ignore-unmatch
+            }
 
-          $sha = "${{ github.sha }}"
-          $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          $branch = "${{ github.ref_name }}"
-          Set-Content ci-logs\metadata.txt "source-sha: $sha"
-          Add-Content ci-logs\metadata.txt "branch: $branch"
-          Add-Content ci-logs\metadata.txt "run: $runUrl"
+            New-Item -ItemType Directory -Force -Path ci-logs | Out-Null
+            Get-Content $tempLog -Tail 2000 | Set-Content ci-logs\build.log
+            if ($hasWorker) {
+              Add-Content -Path ci-logs\build.log -Value ""
+              Add-Content -Path ci-logs\build.log -Value "==== worker build log tail ===="
+              Get-Content $tempWorker -Tail 5000 | Add-Content -Path ci-logs\build.log
+            }
+            if ($hasExit) {
+              Copy-Item $tempExit ci-logs\build-exit.txt -Force
+            } elseif (Test-Path ci-logs\build-exit.txt) {
+              Remove-Item ci-logs\build-exit.txt -Force
+            }
 
-          git add ci-logs/build.log ci-logs/metadata.txt
-          if ($hasExit) {
-            git add ci-logs/build-exit.txt
+            $sha = "${{ github.sha }}"
+            $runUrl = "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+            $branch = "${{ github.ref_name }}"
+            Set-Content ci-logs\metadata.txt "source-sha: $sha"
+            Add-Content ci-logs\metadata.txt "branch: $branch"
+            Add-Content ci-logs\metadata.txt "run: $runUrl"
+
+            git add ci-logs/build.log ci-logs/metadata.txt
+            if ($hasExit) {
+              git add ci-logs/build-exit.txt
+            }
+
+            if (-not (git diff --cached --quiet)) {
+              git config user.name "github-actions"
+              git config user.email "github-actions@github.com"
+              git commit -m "ci logs for $sha [skip ci]"
+              git push origin HEAD:ci-logs
+              if ($LASTEXITCODE -ne 0) {
+                Write-Host "WARNING: Failed to push ci-logs update; continuing."
+              }
+            } else {
+              Write-Host "No log changes to commit."
+            }
           }
-          if (-not (git diff --cached --quiet)) {
-            git config user.name "github-actions"
-            git config user.email "github-actions@github.com"
-            git commit -m "ci logs for $sha [skip ci]"
-            git push origin ci-logs
-          } else {
-            Write-Host "No log changes to commit."
+          finally {
+            Pop-Location
+            git worktree remove $tempWorktree --force | Out-Null
           }
 
       - name: Fail if build failed

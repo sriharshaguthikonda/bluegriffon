@@ -96,4 +96,3 @@ var cmdToggleView =
     ToggleViewMode(gDialog[nextMode + 'ModeButton']);
   }
 };
-

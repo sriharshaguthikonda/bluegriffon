@@ -66,15 +66,57 @@ then
   exit 12
 fi
 if [ -x "$PYTHON_EXE_CAND" ]; then
+  # Legacy Gecko scripts may still resolve python2/python2.7 names.
+  # Prefer a verified Python 2.7 interpreter and use it for mach.
+  PYTHON2_EXE_CAND=""
+  PYTHON2_ENV_CAND="${PYTHON2_EXE:-}"
+  if [[ "$PYTHON2_ENV_CAND" =~ ^[A-Za-z]:\\ ]]; then
+    PYTHON2_ENV_CAND="$(cygpath -u "$PYTHON2_ENV_CAND" 2>/dev/null || true)"
+  fi
+  echo "PYTHON2_EXE (env): ${PYTHON2_EXE:-}"
+  for p in "$PYTHON2_ENV_CAND" \
+           "$shim_dir/msys2-root/usr/bin/python2.7.exe" \
+           /c/mozilla-build/python2/python.exe \
+           /c/mozilla-build/python27/python.exe \
+           "$(command -v python2.7 2>/dev/null || true)" \
+           "$(command -v python2 2>/dev/null || true)"; do
+    [ -n "$p" ] || continue
+    if [ -x "$p" ]; then
+      if "$p" - <<'PY' >/dev/null 2>&1
+import __builtin__
+PY
+      then
+        PYTHON2_EXE_CAND="$p"
+        break
+      fi
+    fi
+  done
+
+  MACH_PYTHON_EXE_CAND="$PYTHON_EXE_CAND"
+  if [ -z "$PYTHON2_EXE_CAND" ]; then
+    PYTHON2_EXE_CAND="$PYTHON_EXE_CAND"
+    echo "WARNING: Python 2.7 interpreter not found/usable; shims will use Python 3."
+  else
+    echo "Using python2 shim target: $PYTHON2_EXE_CAND"
+    MACH_PYTHON_EXE_CAND="$PYTHON2_EXE_CAND"
+  fi
+
   cat >"$shim_dir/python" <<EOF
 #!/usr/bin/env bash
-exec "$PYTHON_EXE_CAND" "\$@"
+exec "$MACH_PYTHON_EXE_CAND" "\$@"
 EOF
   chmod +x "$shim_dir/python"
+  for legacy_py in python2 python2.7; do
+    cat >"$shim_dir/$legacy_py" <<EOF
+#!/usr/bin/env bash
+exec "$PYTHON2_EXE_CAND" "\$@"
+EOF
+    chmod +x "$shim_dir/$legacy_py"
+  done
   py_dir="$(dirname "$PYTHON_EXE_CAND")"
   export PATH="$shim_dir:$py_dir:$py_dir/Scripts:$PATH"
-  export PYTHON="$PYTHON_EXE_CAND"
-  echo "Using python: $PYTHON_EXE_CAND"
+  export PYTHON="$MACH_PYTHON_EXE_CAND"
+  echo "Using mach python: $MACH_PYTHON_EXE_CAND"
 fi
 echo "python on PATH: $(command -v python || true)"
 python --version || true
@@ -97,9 +139,39 @@ else
   echo "MSVC_BIN not found (env or cl): ${MSVC_BIN:-}"
 fi
 
+mt_bin_u=""
+for p in /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/*/x64/mt.exe \
+         /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/x64/mt.exe \
+         /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/*/x86/mt.exe \
+         /c/Program\ Files\ \(x86\)/Windows\ Kits/10/bin/x86/mt.exe; do
+  if [ -x "$p" ]; then
+    mt_bin_u="$p"
+    break
+  fi
+done
+mt_dir_u=""
+if [ -n "$mt_bin_u" ]; then
+  mt_dir_u="$(dirname "$mt_bin_u")"
+  export MT="$mt_bin_u"
+  echo "MT_BIN (path): $mt_bin_u"
+else
+  echo "WARNING: mt.exe not found in Windows SDK default locations."
+fi
+
+win_system32="/c/Windows/System32"
+if [ -x "$win_system32/makecab.exe" ]; then
+  export MAKECAB="$win_system32/makecab.exe"
+  echo "MAKECAB (path): $MAKECAB"
+else
+  echo "WARNING: makecab.exe not found at $win_system32/makecab.exe"
+fi
+
 # Prefer MSYS2 tools over Strawberry Perl (without breaking MSVC link).
 msys_usr="/c/mozilla-build/msys2/usr/bin"
 msys_mingw="/c/mozilla-build/msys2/mingw64/bin"
+msys_ucrt="/c/mozilla-build/msys2/ucrt64/bin"
+msys_clang="/c/mozilla-build/msys2/clang64/bin"
+msys_mingw32="/c/mozilla-build/msys2/mingw32/bin"
 moz_bin="/c/mozilla-build/bin"
 
 sanitize_path() {
@@ -120,9 +192,40 @@ sanitize_path() {
   IFS=':'; echo "${out[*]}"
 }
 
+strip_ambient_mingw_path() {
+  local input="$1"
+  local out=()
+  IFS=':' read -r -a parts <<< "$input"
+  for p in "${parts[@]}"; do
+    [ -n "$p" ] || continue
+    case "$p" in
+      /c/mingw64/bin|/mingw64/bin|/c/mozilla-build/msys2/usr/bin|/c/mozilla-build/msys2/mingw64/bin|/c/mozilla-build/msys2/ucrt64/bin|/c/mozilla-build/msys2/clang64/bin|/c/mozilla-build/msys2/mingw32/bin)
+        continue
+        ;;
+    esac
+    out+=("$p")
+  done
+  IFS=':'; echo "${out[*]}"
+}
+
+build_path_from_dirs() {
+  local out=""
+  local p=""
+  for p in "$@"; do
+    [ -n "$p" ] || continue
+    [ -d "$p" ] || continue
+    if [ -z "$out" ]; then
+      out="$p"
+    else
+      out="$out:$p"
+    fi
+  done
+  sanitize_path "$out"
+}
+
 base_path="$(sanitize_path "$PATH")"
 priority_path=""
-for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$moz_bin" "$msys_usr" "$msys_mingw"; do
+for p in "$shim_dir" "$py_dir" "$py_dir/Scripts" "$msvc_bin_u" "$mt_dir_u" "$moz_bin" "$msys_usr" "$msys_mingw" "$msys_ucrt" "$msys_clang" "$msys_mingw32" "$win_system32"; do
   if [ -n "$p" ] && [ -d "$p" ]; then
     if [ -z "$priority_path" ]; then
       priority_path="$p"
@@ -136,6 +239,8 @@ export PATH
 echo "PATH (sanitized): $PATH"
 
 export MSYS2_PATH_TYPE=inherit
+export MSYS2_FORK_RETRY="${MSYS2_FORK_RETRY:-20}"
+echo "MSYS2_FORK_RETRY: $MSYS2_FORK_RETRY"
 
 if [ -n "$msvc_bin_u" ] && [ -x "$msvc_bin_u/link.exe" ]; then
   cat >"$shim_dir/link" <<EOF
@@ -184,6 +289,11 @@ extract_pkg_tar() {
 download_msys2_pkg() {
   local pkg="$1"
   local url=""
+  local mirror_url=""
+  local downloaded=0
+  local pkg_file=""
+  local candidate=""
+  local paths_seen=":"
   local py3="/c/mozilla-build/python3/python.exe"
   if [ ! -x "$py3" ]; then
     py3="$(command -v python3 || true)"
@@ -220,10 +330,28 @@ PY
     echo "WARNING: Could not resolve MSYS2 package URL for $pkg via API"
     return 1
   fi
-  local pkg_file="$pkg_cache/$(basename "$url")"
+  if [[ "$url" == https://mirror.msys2.org/* ]]; then
+    mirror_url="https://repo.msys2.org/${url#https://mirror.msys2.org/}"
+  fi
+  pkg_file="$pkg_cache/$(basename "$url")"
   if [ ! -f "$pkg_file" ]; then
-    echo "Downloading $pkg from $url"
-    curl -fsSL -o "$pkg_file" "$url" || return 1
+    for candidate in "$url" "$mirror_url"; do
+      [ -n "$candidate" ] || continue
+      if [[ "$paths_seen" == *":$candidate:"* ]]; then
+        continue
+      fi
+      paths_seen="$paths_seen$candidate:"
+      echo "Downloading $pkg from $candidate"
+      if curl -fL --retry 6 --retry-delay 5 --retry-all-errors --connect-timeout 20 --max-time 300 -o "$pkg_file" "$candidate"; then
+        downloaded=1
+        break
+      fi
+      rm -f "$pkg_file" || true
+      echo "WARNING: Download failed for $candidate"
+    done
+    if [ "$downloaded" -ne 1 ]; then
+      return 1
+    fi
   fi
   extract_pkg_tar "$pkg_file" "$pkg_root" || return 1
   return 0
@@ -237,14 +365,32 @@ for p in /c/mozilla-build/msys2/usr/bin/pacman.exe /c/mozilla-build/msys2/usr/bi
   fi
 done
 
+# Last-resort GNU make from Chocolatey (native Windows binary, avoids MSYS fork issues).
+choco_make="/c/ProgramData/chocolatey/bin/make.exe"
+if [ ! -x "$choco_make" ]; then
+  choco_bin=""
+  for p in /c/ProgramData/chocolatey/bin/choco.exe /c/ProgramData/chocolatey/bin/choco /c/ProgramData/Chocolatey/bin/choco.exe /c/ProgramData/Chocolatey/bin/choco; do
+    if [ -x "$p" ]; then
+      choco_bin="$p"
+      break
+    fi
+  done
+  if [ -n "$choco_bin" ]; then
+    "$choco_bin" install -y make --no-progress || true
+  fi
+fi
+
 if [ -n "$pacman_bin" ]; then
   "$pacman_bin" -Sy --noconfirm || true
-  "$pacman_bin" -S --noconfirm --needed \
-    pkgconf mingw-w64-x86_64-pkgconf \
-    yasm mingw-w64-x86_64-yasm \
-    zip mingw-w64-x86_64-zip \
-    autoconf2.13 || true
-  "$pacman_bin" -Q pkgconf mingw-w64-x86_64-pkgconf yasm mingw-w64-x86_64-yasm zip mingw-w64-x86_64-zip autoconf2.13 || true
+  for pkg in \
+    mingw-w64-x86_64-make mingw-w64-ucrt-x86_64-make mingw-w64-clang-x86_64-make mingw-w64-i686-make \
+    pkgconf mingw-w64-x86_64-pkgconf mingw-w64-ucrt-x86_64-pkgconf mingw-w64-clang-x86_64-pkgconf \
+    yasm mingw-w64-x86_64-yasm mingw-w64-ucrt-x86_64-yasm mingw-w64-clang-x86_64-yasm \
+    zip mingw-w64-x86_64-zip mingw-w64-ucrt-x86_64-zip mingw-w64-clang-x86_64-zip \
+    autoconf2.13; do
+    "$pacman_bin" -S --noconfirm --needed "$pkg" || true
+  done
+  "$pacman_bin" -Q | grep -E '(^| )(mingw-w64-.*-(make|pkgconf|yasm|zip)|pkgconf|yasm|zip|autoconf2.13)( |$)' || true
 else
   echo "WARNING: pacman not found; downloading MSYS2 packages directly."
   if ! command -v autoconf-2.13 >/dev/null 2>&1 && ! command -v autoconf213 >/dev/null 2>&1; then
@@ -254,22 +400,45 @@ else
     download_msys2_pkg pkgconf || true
   fi
   if ! command -v yasm >/dev/null 2>&1; then
-    download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg yasm || true
+    download_msys2_pkg mingw-w64-x86_64-yasm || download_msys2_pkg mingw-w64-yasm || download_msys2_pkg yasm || true
+  fi
+  if [ ! -x /c/mozilla-build/msys2/usr/bin/make.exe ] && [ ! -x /c/mozilla-build/msys2/usr/bin/make ]; then
+    if download_msys2_pkg make; then
+      make_pkg="$(ls -t "$pkg_cache"/make-*.pkg.tar.zst 2>/dev/null | head -1 || true)"
+      if [ -n "$make_pkg" ] && [ -d /c/mozilla-build/msys2 ]; then
+        extract_pkg_tar "$make_pkg" /c/mozilla-build/msys2 || true
+      fi
+    fi
+  fi
+  pkg_make_found=0
+  for p in \
+    "$pkg_root/mingw64/bin/mingw32-make.exe" "$pkg_root/mingw64/bin/mingw32-make" \
+    "$pkg_root/ucrt64/bin/mingw32-make.exe" "$pkg_root/ucrt64/bin/mingw32-make" \
+    "$pkg_root/clang64/bin/mingw32-make.exe" "$pkg_root/clang64/bin/mingw32-make" \
+    "$pkg_root/mingw32/bin/mingw32-make.exe" "$pkg_root/mingw32/bin/mingw32-make"; do
+    if [ -x "$p" ]; then
+      pkg_make_found=1
+      break
+    fi
+  done
+  if [ "$pkg_make_found" -ne 1 ]; then
+    download_msys2_pkg mingw-w64-x86_64-make || \
+      download_msys2_pkg mingw-w64-ucrt-x86_64-make || \
+      download_msys2_pkg mingw-w64-clang-x86_64-make || \
+      download_msys2_pkg mingw-w64-i686-make || \
+      download_msys2_pkg mingw-w64-make || \
+      download_msys2_pkg make || true
   fi
 fi
 
-if [ -d "$pkg_root/mingw64/bin" ]; then
-  # Prefer mingw64 tools over msys variants when both are present.
-  PATH="$(sanitize_path "$PATH:$pkg_root/mingw64/bin")"
+for tool_dir in "$pkg_root/mingw64/bin" "$pkg_root/ucrt64/bin" "$pkg_root/clang64/bin" "$pkg_root/mingw32/bin"; do
+  [ -d "$tool_dir" ] || continue
+  # Prefer downloaded mingw-family tools over msys variants when both are present.
+  PATH="$(sanitize_path "$PATH:$tool_dir")"
   export PATH
-  echo "Added msys2-root mingw64/bin to PATH (fallback): $pkg_root/mingw64/bin"
-fi
-if [ -d "$pkg_root/usr/bin" ]; then
-  # Keep bundled MozillaBuild tools first; use extracted tools only as fallback.
-  PATH="$(sanitize_path "$PATH:$pkg_root/usr/bin")"
-  export PATH
-  echo "Added msys2-root usr/bin to PATH (fallback): $pkg_root/usr/bin"
-fi
+  echo "Added msys2-root tool bin to PATH (fallback): $tool_dir"
+  ls -la "$tool_dir" | grep -Ei '(^|[ /])((mingw32-)?g?make|mozmake)(\.exe)?$' || true
+done
 PATH="$(sanitize_path "$shim_dir:$PATH")"
 export PATH
 
@@ -354,6 +523,7 @@ echo "gcc on PATH: $(command -v gcc || true)"
 echo "link on PATH: $(command -v link || true)"
 
 echo "make on PATH: $(command -v make || true)"
+echo "mingw32-make on PATH: $(command -v mingw32-make || true)"
 echo "mozmake on PATH: $(command -v mozmake || true)"
 echo "zip on PATH: $(command -v zip || true)"
 if ! command -v zip >/dev/null 2>&1 && [ -x "$moz_bin/zip.exe" ]; then
@@ -361,11 +531,49 @@ if ! command -v zip >/dev/null 2>&1 && [ -x "$moz_bin/zip.exe" ]; then
   echo "Added mozilla-build zip to PATH"
   echo "zip on PATH (after): $(command -v zip || true)"
 fi
+if ! command -v zip >/dev/null 2>&1; then
+  ZIP_CAND=""
+  for p in "$pkg_root/usr/bin/zip.exe" \
+           "$pkg_root/usr/bin/zip" \
+           /c/Program\ Files/Git/usr/bin/zip.exe \
+           /c/Program\ Files/Git/mingw64/bin/zip.exe \
+           /c/ProgramData/chocolatey/bin/zip.exe \
+           /c/ProgramData/chocolatey/bin/zip; do
+    if [ -x "$p" ]; then
+      ZIP_CAND="$p"
+      break
+    fi
+  done
+  if [ -n "$ZIP_CAND" ]; then
+    cat >"$shim_dir/zip" <<EOF
+#!/usr/bin/env bash
+exec "$ZIP_CAND" "\$@"
+EOF
+    chmod +x "$shim_dir/zip"
+    cp -f "$ZIP_CAND" "$shim_dir/zip.exe" || true
+    export PATH="$shim_dir:$PATH"
+    echo "zip shim: $shim_dir/zip -> $ZIP_CAND"
+    echo "zip on PATH (after shim): $(command -v zip || true)"
+  fi
+fi
 
 yasm_smoke_test() {
   local yasm_bin="$1"
+  local yasm_ver=""
+  local yasm_major=0
+  local yasm_minor=0
   local yasm_test_dir="$PWD/.build-tools/yasm-test"
   [ -x "$yasm_bin" ] || return 1
+  yasm_ver="$("$yasm_bin" --version 2>/dev/null | awk 'NR==1{print $2}')"
+  yasm_major="${yasm_ver%%.*}"
+  yasm_minor="${yasm_ver#*.}"
+  yasm_minor="${yasm_minor%%.*}"
+  if ! [[ "$yasm_major" =~ ^[0-9]+$ && "$yasm_minor" =~ ^[0-9]+$ ]]; then
+    return 1
+  fi
+  if [ "$yasm_major" -lt 1 ] || { [ "$yasm_major" -eq 1 ] && [ "$yasm_minor" -lt 3 ]; }; then
+    return 1
+  fi
   mkdir -p "$yasm_test_dir"
   cat >"$yasm_test_dir/test.asm" <<'EOF'
 global _bg_yasm_smoke
@@ -378,11 +586,11 @@ EOF
 }
 
 YASM_CAND=""
-for p in /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe \
-         /c/mozilla-build/msys2/mingw64/bin/yasm.exe \
+for p in /c/mozilla-build/msys2/mingw64/bin/yasm.exe \
          /c/mozilla-build/msys2/usr/bin/yasm.exe \
          "$pkg_root/mingw64/bin/yasm.exe" \
          "$pkg_root/usr/bin/yasm.exe" \
+         /c/ProgramData/chocolatey/lib/yasm/tools/yasm.exe \
          /c/ProgramData/chocolatey/bin/yasm.exe \
          /c/ProgramData/chocolatey/bin/yasm \
          "$(command -v yasm 2>/dev/null || true)"; do
@@ -416,9 +624,24 @@ if [ -n "$YASM_CAND" ]; then
     cp -f "$yasm_real" /c/mozilla-build/msys2/usr/bin/yasm || true
     chmod +x /c/mozilla-build/msys2/usr/bin/yasm /c/mozilla-build/msys2/usr/bin/yasm.exe || true
   fi
-  export YASM="$shim_dir/yasm.exe"
+  if [ -d "$pkg_root/usr/bin" ]; then
+    cp -f "$yasm_real" "$pkg_root/usr/bin/yasm.exe" || true
+    cp -f "$yasm_real" "$pkg_root/usr/bin/yasm" || true
+    chmod +x "$pkg_root/usr/bin/yasm" "$pkg_root/usr/bin/yasm.exe" || true
+  fi
+  if [ -d "$pkg_root/mingw64/bin" ]; then
+    cp -f "$yasm_real" "$pkg_root/mingw64/bin/yasm.exe" || true
+    cp -f "$yasm_real" "$pkg_root/mingw64/bin/yasm" || true
+    chmod +x "$pkg_root/mingw64/bin/yasm" "$pkg_root/mingw64/bin/yasm.exe" || true
+  fi
+  export YASM="$yasm_real"
+  YASM_FOR_MOZCONFIG="$yasm_real"
+  if [[ "$YASM_FOR_MOZCONFIG" == /* ]]; then
+    YASM_FOR_MOZCONFIG="$(cygpath -m "$YASM_FOR_MOZCONFIG" 2>/dev/null || echo "$YASM_FOR_MOZCONFIG")"
+  fi
   echo "Using yasm: $yasm_real"
   echo "YASM env: $YASM"
+  echo "YASM mozconfig: $YASM_FOR_MOZCONFIG"
 else
   echo "ERROR: No working yasm binary found."
   exit 13
@@ -426,46 +649,222 @@ fi
 echo "yasm on PATH: $(command -v yasm || true)"
 yasm --version || true
 
+make_smoke_test() {
+  local make_bin="$1"
+  [ -x "$make_bin" ] || return 1
+  "$make_bin" --version >/dev/null 2>&1
+}
+
 MOZMAKE_CAND=""
-if command -v mozmake >/dev/null 2>&1; then
-  MOZMAKE_CAND="$(command -v mozmake)"
-elif command -v make >/dev/null 2>&1; then
-  MOZMAKE_CAND="$(command -v make)"
-fi
+is_untrusted_make_candidate() {
+  case "$1" in
+    /c/mingw64/bin/*|/mingw64/bin/*)
+      return 0
+      ;;
+  esac
+  return 1
+}
+
+PATH="$(strip_ambient_mingw_path "$(sanitize_path "$PATH")")"
+export PATH
+echo "PATH (without ambient mingw64): $PATH"
+
+# Prefer non-MSYS make binaries first; keep MSYS make only as final fallback.
+for p in /c/mozilla-build/mozmake.exe \
+         /c/mozilla-build/mozmake \
+         /c/mozilla-build/bin/mingw32-make.exe \
+         /c/mozilla-build/bin/mingw32-make \
+         /c/mozilla-build/bin/gmake.exe \
+         /c/mozilla-build/bin/gmake \
+         /c/mozilla-build/bin/make.exe \
+         /c/mozilla-build/bin/make \
+         /c/ProgramData/chocolatey/bin/make.exe \
+         /c/ProgramData/chocolatey/bin/make \
+         /c/ProgramData/Chocolatey/bin/make.exe \
+         /c/ProgramData/Chocolatey/bin/make \
+         /c/mozilla-build/msys2/mingw64/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/mingw64/bin/mingw32-make \
+         /c/mozilla-build/msys2/mingw64/bin/gmake.exe \
+         /c/mozilla-build/msys2/mingw64/bin/gmake \
+         /c/mozilla-build/msys2/mingw64/bin/make.exe \
+         /c/mozilla-build/msys2/mingw64/bin/make \
+         /c/mozilla-build/msys2/ucrt64/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/ucrt64/bin/mingw32-make \
+         /c/mozilla-build/msys2/ucrt64/bin/gmake.exe \
+         /c/mozilla-build/msys2/ucrt64/bin/gmake \
+         /c/mozilla-build/msys2/ucrt64/bin/make.exe \
+         /c/mozilla-build/msys2/ucrt64/bin/make \
+         /c/mozilla-build/msys2/clang64/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/clang64/bin/mingw32-make \
+         /c/mozilla-build/msys2/clang64/bin/gmake.exe \
+         /c/mozilla-build/msys2/clang64/bin/gmake \
+         /c/mozilla-build/msys2/clang64/bin/make.exe \
+         /c/mozilla-build/msys2/clang64/bin/make \
+         /c/mozilla-build/msys2/mingw32/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/mingw32/bin/mingw32-make \
+         /c/mozilla-build/msys2/mingw32/bin/gmake.exe \
+         /c/mozilla-build/msys2/mingw32/bin/gmake \
+         /c/mozilla-build/msys2/mingw32/bin/make.exe \
+         /c/mozilla-build/msys2/mingw32/bin/make \
+         "$pkg_root/mingw64/bin/mingw32-make.exe" \
+         "$pkg_root/mingw64/bin/mingw32-make" \
+         "$pkg_root/mingw64/bin/gmake.exe" \
+         "$pkg_root/mingw64/bin/gmake" \
+         "$pkg_root/mingw64/bin/make.exe" \
+         "$pkg_root/mingw64/bin/make" \
+         "$pkg_root/ucrt64/bin/mingw32-make.exe" \
+         "$pkg_root/ucrt64/bin/mingw32-make" \
+         "$pkg_root/ucrt64/bin/gmake.exe" \
+         "$pkg_root/ucrt64/bin/gmake" \
+         "$pkg_root/ucrt64/bin/make.exe" \
+         "$pkg_root/ucrt64/bin/make" \
+         "$pkg_root/clang64/bin/mingw32-make.exe" \
+         "$pkg_root/clang64/bin/mingw32-make" \
+         "$pkg_root/clang64/bin/gmake.exe" \
+         "$pkg_root/clang64/bin/gmake" \
+         "$pkg_root/clang64/bin/make.exe" \
+         "$pkg_root/clang64/bin/make" \
+         "$pkg_root/mingw32/bin/mingw32-make.exe" \
+         "$pkg_root/mingw32/bin/mingw32-make" \
+         "$pkg_root/mingw32/bin/gmake.exe" \
+         "$pkg_root/mingw32/bin/gmake" \
+         "$pkg_root/mingw32/bin/make.exe" \
+         "$pkg_root/mingw32/bin/make" \
+         /c/mozilla-build/msys2/usr/bin/mingw32-make.exe \
+         /c/mozilla-build/msys2/usr/bin/mingw32-make \
+         /c/mozilla-build/msys2/usr/bin/gmake.exe \
+         /c/mozilla-build/msys2/usr/bin/gmake \
+         /c/mozilla-build/msys2/usr/bin/make.exe \
+         /c/mozilla-build/msys2/usr/bin/make; do
+  if make_smoke_test "$p"; then
+    MOZMAKE_CAND="$p"
+    break
+  fi
+done
+
 if [ -z "$MOZMAKE_CAND" ]; then
-  for p in /c/mozilla-build/mozmake.exe \
-           /c/mozilla-build/mozmake \
-           /c/mozilla-build/bin/mozmake.exe \
-           /c/mozilla-build/bin/make.exe \
-           /c/mozilla-build/msys2/usr/bin/mozmake.exe \
-           /c/mozilla-build/msys2/usr/bin/make.exe \
-           /c/mozilla-build/msys2/mingw64/bin/make.exe \
-           /c/mingw64/bin/make.exe \
-           /c/mingw64/bin/mozmake.exe \
+  for p in "$(command -v mingw32-make 2>/dev/null || true)" \
+           "$(command -v gmake 2>/dev/null || true)" \
+           "$(command -v make 2>/dev/null || true)" \
+           "$(command -v mozmake 2>/dev/null || true)" \
            /c/Program\ Files/Git/mingw64/bin/make.exe \
            /c/Program\ Files/Git/usr/bin/make.exe \
-           /usr/bin/make \
-           /mingw64/bin/make; do
-    if [ -x "$p" ]; then
-      MOZMAKE_CAND="$p"
-      break
+           /usr/bin/make; do
+    [ -n "$p" ] || continue
+    if [[ "$p" =~ ^[A-Za-z]: ]]; then
+      p="$(cygpath -u "$p" 2>/dev/null || echo "$p")"
     fi
+    make_smoke_test "$p" || continue
+    if is_untrusted_make_candidate "$p"; then
+      echo "Skipping untrusted make candidate: $p"
+      continue
+    fi
+    MOZMAKE_CAND="$p"
+    break
   done
 fi
 if [[ "$MOZMAKE_CAND" =~ ^[A-Za-z]: ]]; then
   MOZMAKE_CAND="$(cygpath -u "$MOZMAKE_CAND" 2>/dev/null || true)"
 fi
 if [ -n "$MOZMAKE_CAND" ] && [ -x "$MOZMAKE_CAND" ]; then
-  export MOZBUILD_MOZMAKE="$MOZMAKE_CAND"
-  export MAKE="$MOZMAKE_CAND"
+  make_dir="$(dirname "$MOZMAKE_CAND")"
+  git_bin="$(command -v git 2>/dev/null || true)"
+  git_dir=""
+  rustc_bin="$(command -v rustc 2>/dev/null || true)"
+  cargo_bin="$(command -v cargo 2>/dev/null || true)"
+  rust_dir=""
+  if [ -n "$git_bin" ]; then
+    git_dir="$(dirname "$git_bin")"
+  fi
+  if [ -n "$rustc_bin" ]; then
+    rust_dir="$(dirname "$rustc_bin")"
+  elif [ -n "$cargo_bin" ]; then
+    rust_dir="$(dirname "$cargo_bin")"
+  fi
+  if [ -z "$rust_dir" ]; then
+    for p in "$HOME/.cargo/bin" /c/Users/runneradmin/.cargo/bin; do
+      if [ -x "$p/rustc.exe" ] || [ -x "$p/rustc" ] || [ -x "$p/cargo.exe" ] || [ -x "$p/cargo" ]; then
+        rust_dir="$p"
+        break
+      fi
+    done
+  fi
+  PATH="$(build_path_from_dirs \
+    "$make_dir" \
+    "$shim_dir" \
+    "$py_dir" \
+    "$py_dir/Scripts" \
+    "$msvc_bin_u" \
+    "$mt_dir_u" \
+    "$rust_dir" \
+    "$moz_bin" \
+    "$msys_usr" \
+    "$msys_mingw" \
+    "$msys_ucrt" \
+    "$msys_clang" \
+    "$msys_mingw32" \
+    "$win_system32" \
+    "$git_dir" \
+    "$pkg_root/mingw64/bin" \
+    "$pkg_root/ucrt64/bin" \
+    "$pkg_root/clang64/bin" \
+    "$pkg_root/mingw32/bin")"
+  export PATH
+  if [ -n "$rust_dir" ]; then
+    if [ -x "$rust_dir/rustc.exe" ]; then
+      export RUSTC="$rust_dir/rustc.exe"
+    elif [ -x "$rust_dir/rustc" ]; then
+      export RUSTC="$rust_dir/rustc"
+    fi
+    if [ -x "$rust_dir/cargo.exe" ]; then
+      export CARGO="$rust_dir/cargo.exe"
+    elif [ -x "$rust_dir/cargo" ]; then
+      export CARGO="$rust_dir/cargo"
+    fi
+  fi
+  MOZMAKE_FOR_MACH="$MOZMAKE_CAND"
+  if [[ "$MOZMAKE_FOR_MACH" == /* ]]; then
+    MOZMAKE_FOR_MACH="$(cygpath -m "$MOZMAKE_FOR_MACH" 2>/dev/null || echo "$MOZMAKE_FOR_MACH")"
+  fi
+  export MOZBUILD_MOZMAKE="$MOZMAKE_FOR_MACH"
+  export MAKE="$MOZMAKE_FOR_MACH"
+  export GNUMAKE="$MOZMAKE_FOR_MACH"
+  export MOZ_MAKE="$MOZMAKE_FOR_MACH"
+  # Mach on Windows may only probe command names (mozmake/make/gmake) from PATH.
+  # Mirror the selected trusted binary to those names in our shim directory.
+  for make_name in mozmake make gmake mingw32-make; do
+    cp -f "$MOZMAKE_CAND" "$shim_dir/$make_name.exe" || true
+    cp -f "$MOZMAKE_CAND" "$shim_dir/$make_name" || true
+    chmod +x "$shim_dir/$make_name" "$shim_dir/$make_name.exe" || true
+  done
   echo "Using make: $MOZMAKE_CAND"
 else
-  echo "WARNING: make/mozmake not found; mach may fail."
+  echo "ERROR: Trusted make/mozmake not found. Refusing ambient runner make."
+  for d in /c/mozilla-build/msys2/usr/bin /c/mozilla-build/msys2/mingw64/bin /c/mozilla-build/bin "$pkg_root/mingw64/bin" "$pkg_root/usr/bin"; do
+    [ -d "$d" ] || continue
+    echo "Listing make candidates in $d"
+    ls -la "$d" | grep -Ei '(^|[ /])(g?make|mingw32-make|mozmake)(\.exe)?$' || true
+  done
+  exit 14
 fi
 echo "PATH (after make selection): $PATH"
 
 # Avoid CRLF checkouts that break client.mk (force LF).
-git -c core.autocrlf=false -c core.eol=lf clone https://github.com/mozilla/gecko-dev gecko-dev
+clone_ok=0
+for attempt in 1 2 3 4 5; do
+  rm -rf gecko-dev || true
+  if git -c core.autocrlf=false -c core.eol=lf -c http.version=HTTP/1.1 -c http.lowSpeedLimit=1000 -c http.lowSpeedTime=60 clone https://github.com/mozilla/gecko-dev gecko-dev; then
+    clone_ok=1
+    break
+  fi
+  sleep_seconds=$((attempt * 20))
+  echo "WARNING: gecko-dev clone attempt $attempt failed; retrying in ${sleep_seconds}s"
+  sleep "$sleep_seconds"
+done
+if [ "$clone_ok" -ne 1 ]; then
+  echo "ERROR: Unable to clone gecko-dev after retries."
+  exit 21
+fi
 git -c core.autocrlf=false -c core.eol=lf clone --local . gecko-dev/bluegriffon
 
 cd gecko-dev
@@ -475,18 +874,31 @@ git reset --hard "$(cat bluegriffon/config/gecko_dev_revision.txt)"
 patch -p1 < bluegriffon/config/gecko_dev_content.patch
 patch -p1 < bluegriffon/config/gecko_dev_idl.patch
 patch -p1 < bluegriffon/config/gecko_dev_local_build_fixes.patch
+# Gecko's Windows make validation rejects MSYS make explicitly.
+# CI runners in this workflow do not provide classic mozmake, so allow
+# the vetted fallback make candidate selected above.
+sed -i 's/\$(error MSYS make is not supported)/# allow MSYS make in CI/' config/baseconfig.mk
 
 cp bluegriffon/config/mozconfig.win .mozconfig
+echo "mk_add_options MOZ_MAKE_FLAGS=-j1" >> .mozconfig
+echo "Injected into .mozconfig: mk_add_options MOZ_MAKE_FLAGS=-j1"
 # Keep YASM visible to old-configure sub-configures (e.g. js/src).
-echo "mk_add_options YASM=$YASM" >> .mozconfig
-echo "Injected into .mozconfig: mk_add_options YASM=$YASM"
-export BLUEGRIFFON_YASM="$YASM"
+echo "mk_add_options YASM=$YASM_FOR_MOZCONFIG" >> .mozconfig
+echo "Injected into .mozconfig: mk_add_options YASM=$YASM_FOR_MOZCONFIG"
+export BLUEGRIFFON_YASM="$YASM_FOR_MOZCONFIG"
 echo "BLUEGRIFFON_YASM: $BLUEGRIFFON_YASM"
 objdir_line="$(awk -F= '/^mk_add_options MOZ_OBJDIR=/{print $2}' .mozconfig | tail -1 | tr -d '\"')"
 objdir="${objdir_line//@TOPSRCDIR@/$PWD}"
 if [ -z "$objdir" ]; then
   objdir="$PWD/obj"
 fi
+
+export MOZ_PARALLEL_BUILD="${MOZ_PARALLEL_BUILD:-1}"
+echo "MOZ_PARALLEL_BUILD: $MOZ_PARALLEL_BUILD"
+export SHELL="/c/mozilla-build/msys2/usr/bin/sh.exe"
+export CONFIG_SHELL="$SHELL"
+echo "SHELL: $SHELL"
+echo "CONFIG_SHELL: $CONFIG_SHELL"
 
 set +e
 ./mach build
@@ -509,7 +921,33 @@ if [ "$build_rc" -ne 0 ]; then
     echo "==== make -n icudata.obj (diagnostic) ===="
     make -C "$icu_obj" -n icudata.obj || true
   fi
-  exit "$build_rc"
+  build_log_path=""
+  if [ -n "${BUILD_LOG:-}" ]; then
+    build_log_path="$(cygpath -u "$BUILD_LOG" 2>/dev/null || echo "$BUILD_LOG")"
+  fi
+  if [ -n "$build_log_path" ] && [ -f "$build_log_path" ] && grep -q "yasm: No input files specified" "$build_log_path"; then
+    echo "Detected yasm missing-input failure; assembling icudata.obj manually and retrying once."
+    icu_data_file="$(basename "$(ls "$icu_src"/icudt*l.dat 2>/dev/null | head -1)")"
+    icu_data_symbol="$(echo "$icu_data_file" | sed -E 's/^icudt([0-9]+)l\\.dat$/icudt\\1_dat/')"
+    if [ -n "$icu_data_file" ] && [ -n "$icu_data_symbol" ] && [ -f "$icu_src/icudata.s" ]; then
+      mkdir -p "$icu_obj"
+      "$YASM_FOR_MOZCONFIG" \
+        -o "$icu_obj/icudata.obj" \
+        -f x64 -rnasm -pnasm -g cv8 \
+        "-DICU_DATA_FILE=\"$icu_data_file\"" \
+        "-DICU_DATA_SYMBOL=$icu_data_symbol" \
+        "$icu_src/icudata.s" || true
+      ls -la "$icu_obj/icudata.obj" || true
+      set +e
+      ./mach build
+      build_rc=$?
+      set -e
+      echo "mach retry exit code: $build_rc"
+    fi
+  fi
+  if [ "$build_rc" -ne 0 ]; then
+    exit "$build_rc"
+  fi
 fi
 
 dist_bin="$objdir/dist/bin"

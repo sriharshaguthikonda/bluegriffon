@@ -213,17 +213,7 @@ var BlueGriffonPrefsObserver = {
     }
 
     else if (prefName == "bluegriffon.wysiwyg.theme") {
-      var value = Services.prefs.getCharPref("bluegriffon.wysiwyg.theme");
-      var root = document.documentElement;
-      if (value == "black" &&
-          root.getAttribute("forcecleartheme") != "true")
-        root.removeAttribute("cleartheme");
-      else
-        root.setAttribute("cleartheme", "true");
-      if (root.id)
-        document.persist(root.id, "cleartheme");
-
-      ApplyWysiwygThemeChange(document, value);
+      ApplyWysiwygThemeFromPrefs(document);
     }
 
     else if (prefName == "bluegriffon.source.theme") {
@@ -275,6 +265,19 @@ var BlueGriffonPrefsObserver = {
     }
 
     else if (prefName.substr(0, kUI_PREFS.length) == kUI_PREFS) {
+      if (prefName == "bluegriffon.ui.statusbar.position") {
+        ApplyStatusbarPosition();
+        return;
+      }
+      if (prefName == "bluegriffon.ui.toolbar.layout") {
+        ApplyToolbarLayoutPref();
+        return;
+      }
+      if (prefName == "bluegriffon.ui.vertical_toolbar.position") {
+        ApplyVerticalToolbarPosition();
+        return;
+      }
+
       var xulElements = [];
       /*Services.prompt.alert(null, "foo",
         gDialog.structurebar + " "+ gDialog.statusbar + " " +
@@ -292,6 +295,10 @@ var BlueGriffonPrefsObserver = {
           break;
         case "bluegriffon.ui.horizontal_toolbars.show":
           xulElements = [ gDialog.MainToolbox, gDialog.FormatMenulistsToolbox ];
+          break;
+        case "bluegriffon.ui.titlebar.show":
+          if (gDialog.titlebar)
+            xulElements = [ gDialog.titlebar ];
           break;
         default: break;
       }
@@ -313,6 +320,16 @@ var BlueGriffonPrefsObserver = {
         document.persist(elt.id, "hidden");
         document.persist(elt.id, "height");
       }
+      if (prefName == "bluegriffon.ui.statusbar.show")
+        ApplyStatusbarPosition();
+      else if (prefName == "bluegriffon.ui.titlebar.show")
+        ApplyTitlebarVisibility();
+      else if (prefName == "bluegriffon.ui.horizontal_toolbars.show"
+               || prefName == "bluegriffon.ui.vertical_toolbar.show")
+        SyncToolbarLayoutPref();
+      if (prefName == "bluegriffon.ui.vertical_toolbar.show"
+          || prefName == "bluegriffon.ui.horizontal_toolbars.show")
+        ApplyVerticalToolbarPosition();
     }
 
     else if (prefName == "bluegriffon.display.anchors") {
@@ -339,6 +356,9 @@ var gLastWindowState = -1;
 
 function onSizeModeChange()
 {
+  if ("ApplyMenubarPlacement" in window)
+    ApplyMenubarPlacement();
+
   var badger = Components.classes["@disruptive-innovations.com/osintegration/badger;1"]
                          .createInstance(Components.interfaces.diIOSIntegration);
   var wm = Services.wm;
@@ -383,4 +403,3 @@ function onSizeModeChange()
       break;
   }
 }
-

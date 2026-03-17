@@ -34,6 +34,11 @@ function Startup()
   catch(e) { gURLArray = []; }
 
   GetUIElements();
+  ApplyToolbarLayoutPref();
+  ApplyVerticalToolbarPosition();
+  ApplyStatusbarPosition();
+  ApplyTitlebarVisibility();
+  UpdateViewModeStatus();
 
   ComposerCommands.setupMainCommands();
   window.updateCommands("style");
