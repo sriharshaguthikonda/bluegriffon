@@ -1,0 +1,322 @@
+==== build start Wed 03/11/2026 21:43:12.95 ==== 
+Workspace: D:\a\bluegriffon\bluegriffon 
+ Volume in drive D is Temporary Storage
+ Volume Serial Number is 521A-2888
+
+ Directory of D:\a\bluegriffon\bluegriffon
+
+03/11/2026  09:43 PM    <DIR>          .
+03/11/2026  09:41 PM    <DIR>          ..
+03/11/2026  09:41 PM    <DIR>          $dlDir
+03/11/2026  09:41 PM    <DIR>          .build-tools
+03/11/2026  09:41 PM    <DIR>          .build-tools-local
+03/11/2026  09:41 PM    <DIR>          .github
+03/11/2026  09:41 PM    <DIR>          .tools
+03/11/2026  09:41 PM    <DIR>          .venv
+03/11/2026  09:41 PM    <DIR>          .windsurf
+03/11/2026  09:41 PM            12,283 AGENTS.md
+03/11/2026  09:41 PM    <DIR>          app
+03/11/2026  09:41 PM               107 app-rules.mk
+03/11/2026  09:41 PM               724 app.mozbuild
+03/11/2026  09:41 PM    <DIR>          base
+03/11/2026  09:41 PM    <DIR>          bluegriffon-3.1
+03/11/2026  09:41 PM             1,244 bluegriffon.code-workspace
+03/11/2026  09:41 PM    <DIR>          branding
+03/11/2026  09:43 PM                93 build.log
+03/11/2026  09:41 PM             1,357 build.mk
+03/11/2026  09:41 PM    <DIR>          components
+03/11/2026  09:41 PM    <DIR>          config
+03/11/2026  09:41 PM             2,417 confvars.sh
+03/11/2026  09:41 PM                30 defs.mk
+03/11/2026  09:41 PM             7,616 dependency_reduction_report.md
+03/11/2026  09:41 PM    <DIR>          extensions
+03/11/2026  09:41 PM    <DIR>          gecko-dev
+03/11/2026  09:41 PM        10,912,319 icudata_test.obj
+03/11/2026  09:41 PM        10,912,323 icudata_test2.obj
+03/11/2026  09:41 PM    <DIR>          installer
+03/11/2026  09:41 PM    <DIR>          langpacks
+03/11/2026  09:41 PM            16,285 LICENSE
+03/11/2026  09:41 PM           333,012 local-build-for-installer.log
+03/11/2026  09:41 PM             7,239 local-build.log
+03/11/2026  09:41 PM             6,277 local-package.log
+03/11/2026  09:41 PM           232,452 local-rebuild-verify.log
+03/11/2026  09:41 PM    <DIR>          locales
+03/11/2026  09:41 PM             2,192 Makefile.in
+03/11/2026  09:41 PM             2,642 makefiles.sh
+03/11/2026  09:41 PM    <DIR>          modules
+03/11/2026  09:41 PM               539 moz.build
+03/11/2026  09:41 PM               351 moz.configure
+03/11/2026  09:41 PM            96,436 package.log
+03/11/2026  09:41 PM    <DIR>          portable-run-dev
+03/11/2026  09:41 PM    <DIR>          portable-run-packaged-dev
+03/11/2026  09:41 PM             6,637 README.md
+03/11/2026  09:41 PM               539 run-icu-test.cmd
+03/11/2026  09:41 PM               924 run-local-build-verify.cmd
+03/11/2026  09:41 PM               296 run-original-bluegriffon-clean.bat
+03/11/2026  09:41 PM    <DIR>          sidebars
+03/11/2026  09:41 PM    <DIR>          src
+03/11/2026  09:41 PM                73 stltest.cpp
+03/11/2026  09:41 PM             3,231 stltest.obj
+03/11/2026  09:41 PM    <DIR>          themes
+03/11/2026  09:41 PM                42 xtest.cpp
+03/11/2026  09:41 PM             9,848 _tmp_local_fix_13a.patch
+03/11/2026  09:41 PM               514 _tmp_local_installer_build.cmd
+03/11/2026  09:41 PM             2,185 _tmp_local_installer_build.sh
+              31 File(s)     22,572,227 bytes
+              26 Dir(s)  157,161,803,776 bytes free
+ Volume in drive D is Temporary Storage
+ Volume Serial Number is 521A-2888
+
+ Directory of D:\a\bluegriffon\bluegriffon\.github\scripts
+
+03/11/2026  09:41 PM    <DIR>          .
+03/11/2026  09:41 PM    <DIR>          ..
+03/11/2026  09:41 PM            30,840 build-bluegriffon-windows.sh
+               1 File(s)         30,840 bytes
+               2 Dir(s)  157,161,803,776 bytes free
+ Volume in drive C is Windows
+ Volume Serial Number is 808A-844D
+
+ Directory of C:\mozilla-build
+
+03/11/2026  09:42 PM    <DIR>          .
+03/11/2026  09:42 PM    <DIR>          bin
+03/11/2026  09:42 PM    <DIR>          kdiff3
+03/11/2026  09:42 PM    <DIR>          msys2
+03/11/2026  09:43 PM    <DIR>          python3
+10/16/2025  07:57 PM               914 start-shell.bat
+10/16/2025  07:57 PM                 7 VERSION
+               2 File(s)            921 bytes
+               5 Dir(s)  92,838,903,808 bytes free
+ Volume in drive C is Windows
+ Volume Serial Number is 808A-844D
+
+ Directory of C:\mozilla-build\bin
+
+03/11/2026  09:42 PM    <DIR>          .
+03/11/2026  09:42 PM    <DIR>          ..
+10/16/2025  07:55 PM         1,906,176 7z.dll
+10/16/2025  07:55 PM           575,488 7z.exe
+03/11/2026  09:42 PM    <DIR>          7zip
+10/16/2025  07:56 PM           818,176 eledo-pty-bridge.exe
+10/16/2025  07:56 PM           251,904 gflags.dll
+10/16/2025  07:56 PM           261,120 glog.dll
+03/11/2026  09:42 PM    <DIR>          info-zip
+10/16/2025  07:56 PM         5,249,536 libcrypto-3.dll
+10/16/2025  07:56 PM               519 mozillabuild
+10/16/2025  07:56 PM            17,522 nsinstall.exe
+10/16/2025  07:56 PM           204,800 unzip.exe
+03/11/2026  09:42 PM    <DIR>          upx-3.95-win64
+10/16/2025  07:56 PM           406,528 upx.exe
+10/16/2025  07:56 PM           428,224 vswhere.exe
+10/16/2025  07:56 PM           122,280 watchman-diag.exe
+10/16/2025  07:56 PM             1,107 watchman-LICENSE
+10/16/2025  07:56 PM           118,293 watchman-make.exe
+10/16/2025  07:56 PM           121,416 watchman-replicate-subscription.exe
+10/16/2025  07:56 PM           117,286 watchman-wait.exe
+10/16/2025  07:56 PM        27,666,944 watchman.exe
+10/16/2025  07:56 PM         2,710,016 watchmanctl.exe
+10/16/2025  07:56 PM           290,816 zip.exe
+              19 File(s)     41,268,151 bytes
+               5 Dir(s)  92,838,903,808 bytes free
+ Volume in drive C is Windows
+ Volume Serial Number is 808A-844D
+
+ Directory of C:\mozilla-build\msys2\mingw64\bin
+
+03/11/2026  09:42 PM    <DIR>          .
+03/11/2026  09:42 PM    <DIR>          ..
+06/03/2025  12:08 AM           114,256 Atlassian.Bitbucket.dll
+06/03/2025  12:08 AM         1,927,760 Avalonia.Base.dll
+06/03/2025  12:08 AM         1,036,880 Avalonia.Controls.dll
+06/03/2025  12:08 AM           223,312 Avalonia.DesignerSupport.dll
+06/03/2025  12:08 AM           257,616 Avalonia.Dialogs.dll
+06/03/2025  12:08 AM            19,024 Avalonia.dll
+06/03/2025  12:08 AM            75,856 Avalonia.Markup.dll
+06/03/2025  12:08 AM            97,872 Avalonia.Markup.Xaml.dll
+06/03/2025  12:08 AM            30,016 Avalonia.Metal.dll
+06/03/2025  12:08 AM            31,040 Avalonia.MicroCom.dll
+06/03/2025  12:08 AM           111,936 Avalonia.OpenGL.dll
+06/03/2025  12:08 AM            88,384 Avalonia.Remote.Protocol.dll
+06/03/2025  12:08 AM           139,072 Avalonia.Skia.dll
+06/03/2025  12:08 AM           584,784 Avalonia.Themes.Fluent.dll
+06/03/2025  12:08 AM           191,936 Avalonia.Vulkan.dll
+06/03/2025  12:08 AM           751,424 Avalonia.Win32.dll
+06/03/2025  12:08 AM         3,340,880 av_libglesv2.dll
+06/03/2025  12:08 AM            46,592 blocked-file-util.exe
+06/03/2025  12:08 AM            62,464 brotli.exe
+06/03/2025  12:08 AM           459,200 gcmcore.dll
+06/03/2025  12:08 AM            44,032 git-askpass.exe
+06/03/2025  12:08 AM            16,384 git-askyesno.exe
+06/03/2025  12:08 AM            59,392 git-credential-helper-selector.exe
+06/03/2025  12:08 AM           123,904 git-credential-manager.exe
+06/03/2025  12:08 AM             2,225 git-credential-manager.exe.config
+06/03/2025  12:08 AM            50,364 git-credential-wincred.exe
+06/03/2025  12:08 AM         2,497,692 git-http-fetch.exe
+06/03/2025  12:08 AM         2,507,932 git-http-push.exe
+06/03/2025  12:08 AM            31,900 git-receive-pack.exe
+06/03/2025  12:08 AM            31,900 git-remote-http.exe
+06/03/2025  12:08 AM         2,514,588 git-remote-https.exe
+06/03/2025  12:08 AM         2,438,300 git-sh-i18n--envsubst.exe
+06/03/2025  12:08 AM            10,313 git-update-git-for-windows
+06/03/2025  12:08 AM            31,900 git-upload-pack.exe
+06/03/2025  12:08 AM         4,174,988 git.exe
+06/03/2025  12:08 AM           167,504 GitHub.dll
+06/03/2025  12:08 AM            80,320 GitLab.dll
+06/03/2025  12:08 AM           220,992 HarfBuzzSharp.dll
+06/03/2025  12:08 AM            19,612 headless-git.exe
+06/03/2025  12:08 AM           143,397 libbrotlicommon.dll
+06/03/2025  12:08 AM            61,436 libbrotlidec.dll
+06/03/2025  12:08 AM           753,547 libbrotlienc.dll
+06/03/2025  12:08 AM         5,122,716 libcrypto-3-x64.dll
+06/03/2025  12:08 AM           762,028 libcurl-4.dll
+06/03/2025  12:08 AM           867,500 libcurl-openssl-4.dll
+06/03/2025  12:08 AM           193,035 libexpat-1.dll
+06/03/2025  12:08 AM         1,368,144 libHarfBuzzSharp.dll
+06/03/2025  12:08 AM         1,136,529 libiconv-2.dll
+06/03/2025  12:08 AM           242,965 libidn2-0.dll
+06/03/2025  12:08 AM           213,489 libintl-8.dll
+06/03/2025  12:08 AM           207,286 libnghttp2-14.dll
+06/03/2025  12:08 AM           706,178 libpcre2-8-0.dll
+06/03/2025  12:08 AM           105,304 libpsl-5.dll
+06/03/2025  12:08 AM         7,985,232 libSkiaSharp.dll
+06/03/2025  12:08 AM           268,670 libssh2-1.dll
+06/03/2025  12:08 AM           930,460 libssl-3-x64.dll
+06/03/2025  12:08 AM         2,226,615 libunistring-5.dll
+06/03/2025  12:08 AM            60,790 libwinpthread-1.dll
+06/03/2025  12:08 AM         1,196,744 libzstd.dll
+06/03/2025  12:08 AM            29,264 MicroCom.Runtime.dll
+06/03/2025  12:08 AM            73,296 Microsoft.AzureRepos.dll
+06/03/2025  12:08 AM            31,312 Microsoft.Bcl.AsyncInterfaces.dll
+06/03/2025  12:08 AM            72,272 Microsoft.Identity.Client.Broker.dll
+06/03/2025  12:08 AM         1,648,720 Microsoft.Identity.Client.dll
+06/03/2025  12:08 AM            70,976 Microsoft.Identity.Client.Extensions.Msal.dll
+06/03/2025  12:08 AM            96,192 Microsoft.Identity.Client.NativeInterop.dll
+06/03/2025  12:08 AM            24,512 Microsoft.IdentityModel.Abstractions.dll
+06/03/2025  12:08 AM         2,549,328 msalruntime_x86.dll
+06/03/2025  12:08 AM            43,008 proxy-lookup.exe
+06/03/2025  12:08 AM            51,712 psl.exe
+06/03/2025  12:08 AM        14,154,240 scalar.exe
+06/03/2025  12:08 AM           810,576 SkiaSharp.dll
+06/03/2025  12:08 AM            26,704 System.Buffers.dll
+06/03/2025  12:08 AM           211,536 System.CommandLine.dll
+06/03/2025  12:08 AM            42,944 System.ComponentModel.Annotations.dll
+06/03/2025  12:08 AM           172,624 System.Diagnostics.DiagnosticSource.dll
+06/03/2025  12:08 AM            35,264 System.IO.FileSystem.AccessControl.dll
+06/03/2025  12:08 AM           147,904 System.Memory.dll
+06/03/2025  12:08 AM           115,648 System.Numerics.Vectors.dll
+06/03/2025  12:08 AM            24,512 System.Runtime.CompilerServices.Unsafe.dll
+06/03/2025  12:08 AM            40,384 System.Security.AccessControl.dll
+06/03/2025  12:08 AM            22,608 System.Security.Cryptography.ProtectedData.dll
+06/03/2025  12:08 AM            24,144 System.Security.Principal.Windows.dll
+06/03/2025  12:08 AM            83,536 System.Text.Encodings.Web.dll
+06/03/2025  12:08 AM           648,272 System.Text.Json.dll
+06/03/2025  12:08 AM            32,704 System.Threading.Tasks.Extensions.dll
+06/03/2025  12:08 AM            25,024 System.ValueTuple.dll
+06/03/2025  12:08 AM           120,814 zlib1.dll
+              88 File(s)     70,596,641 bytes
+               2 Dir(s)  92,838,907,904 bytes free
+PYTHON_EXE: C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe 
+PYTHON3_EXE:  
+PATH: C:\Users\runneradmin\AppData\Roaming\Python\Python311\Scripts;C:\hostedtoolcache\windows\Python\3.11.9\x64\Scripts;C:\hostedtoolcache\windows\Python\3.11.9\x64;C:\Program Files\MongoDB\Server\7.0\bin;C:\aliyun-cli;C:\vcpkg;C:\Program Files (x86)\NSIS\;C:\tools\zstd;C:\Program Files\Mercurial\;C:\hostedtoolcache\windows\stack\3.9.3\x64;C:\cabal\bin;C:\\ghcup\bin;C:\mingw64\bin;C:\Program Files\dotnet;C:\Program Files\MySQL\MySQL Server 8.0\bin;C:\Program Files\R\R-4.5.2\bin\x64;C:\SeleniumWebDrivers\GeckoDriver;C:\SeleniumWebDrivers\EdgeDriver\;C:\SeleniumWebDrivers\ChromeDriver;C:\Program Files (x86)\sbt\bin;C:\Program Files (x86)\GitHub CLI;C:\Program Files\Git\bin;C:\Program Files (x86)\pipx_bin;C:\npm\prefix;C:\hostedtoolcache\windows\go\1.24.13\x64\bin;C:\hostedtoolcache\windows\Python\3.12.10\x64\Scripts;C:\hostedtoolcache\windows\Python\3.12.10\x64;C:\hostedtoolcache\windows\Ruby\3.3.10\x64\bin;C:\Program Files\OpenSSL\bin;C:\tools\kotlinc\bin;C:\hostedtoolcache\windows\Java_Temurin-Hotspot_jdk\8.0.482-8\x64\bin;C:\Program Files\ImageMagick-7.1.2-Q16-HDRI;C:\Program Files\Microsoft SDKs\Azure\CLI2\wbin;C:\ProgramData\kind;C:\ProgramData\Chocolatey\bin;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Program Files\dotnet\;C:\Program Files\PowerShell\7\;C:\Program Files\Microsoft\Web Platform Installer\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files (x86)\Windows Kits\10\Windows Performance Toolkit\;C:\Program Files (x86)\WiX Toolset v3.14\bin;C:\Program Files\Microsoft SQL Server\130\DTS\Binn\;C:\Program Files\Microsoft SQL Server\140\DTS\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files\Microsoft SQL Server\170\DTS\Binn\;C:\Strawberry\c\bin;C:\Strawberry\perl\site\bin;C:\Strawberry\perl\bin;C:\ProgramData\chocolatey\lib\pulumi\tools\Pulumi\bin;C:\Program Files\CMake\bin;C:\ProgramData\chocolatey\lib\maven\apache-maven-3.9.12\bin;C:\Program Files\Microsoft Service Fabric\bin\Fabric\Fabric.Code;C:\Program Files\Microsoft SDKs\Service Fabric\Tools\ServiceFabricLocalClusterManager;C:\Program Files\nodejs\;C:\Program Files\Git\cmd;C:\Program Files\Git\mingw64\bin;C:\Program Files\Git\usr\bin;C:\Program Files\GitHub CLI\;c:\tools\php;C:\Program Files (x86)\sbt\bin;C:\Program Files\Amazon\AWSCLIV2\;C:\Program Files\Amazon\SessionManagerPlugin\bin\;C:\Program Files\Amazon\AWSSAMCLI\bin\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\mongosh\;C:\Program Files\LLVM\bin;C:\Program Files (x86)\LLVM\bin;C:\Users\runneradmin\.dotnet\tools;C:\Users\runneradmin\.cargo\bin;C:\Users\runneradmin\AppData\Local\Microsoft\WindowsApps 
+C:\Program Files\Git\bin\git.exe
+C:\Program Files\Git\cmd\git.exe
+C:\Program Files\Git\mingw64\bin\git.exe
+C:\Program Files\Git\bin\bash.exe
+C:\Windows\System32\bash.exe
+C:\Program Files\Git\usr\bin\bash.exe
+C:\hostedtoolcache\windows\Python\3.11.9\x64\python.exe
+C:\hostedtoolcache\windows\Python\3.12.10\x64\python.exe
+C:\hostedtoolcache\windows\Python\3.11.9\x64\python3.exe
+C:\hostedtoolcache\windows\Python\3.12.10\x64\python3.exe
+C:\Strawberry\perl\bin\pkg-config
+C:\Strawberry\perl\bin\pkg-config.bat
+C:\mingw64\bin\make.exe
+INFO: Could not find files for the given pattern(s).
+Using bash: C:\mozilla-build\msys2\usr\bin\bash.exe 
+VSINSTALL from vswhere:  
+Using vcvars: C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat 
+**********************************************************************
+** Visual Studio 2022 Developer Command Prompt v17.14.27
+** Copyright (c) 2025 Microsoft Corporation
+**********************************************************************
+[vcvarsall.bat] Environment initialized for: 'x64'
+==== build end (exit 2) ==== 
+
+==== artifact scan (bounded) ====
+==== artifact scan 2026-03-11T21:58:01.5816131+00:00 ====
+
+==== candidate runtime roots ====
+No runtime roots found under D:\a\bluegriffon\bluegriffon\gecko-dev
+
+==== root report (bounded) ====
+==== bounded root report 2026-03-11T21:58:01.5972309+00:00 ====
+workspace: D:\a\bluegriffon\bluegriffon
+-- workspace top-level entries --
+
+Mode   Length   LastWriteTime        FullName                                                       
+----   ------   -------------        --------                                                       
+d-----          3/11/2026 9:41:17 PM D:\a\bluegriffon\bluegriffon\$dlDir                            
+d-----          3/11/2026 9:44:48 PM D:\a\bluegriffon\bluegriffon\.build-tools                      
+d-----          3/11/2026 9:41:17 PM D:\a\bluegriffon\bluegriffon\.build-tools-local                
+d--h--          3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\.git                              
+d-----          3/11/2026 9:41:17 PM D:\a\bluegriffon\bluegriffon\.github                           
+d-----          3/11/2026 9:41:17 PM D:\a\bluegriffon\bluegriffon\.tools                            
+d-----          3/11/2026 9:41:17 PM D:\a\bluegriffon\bluegriffon\.venv                             
+d-----          3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\.windsurf                         
+-a---- 9848     3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\_tmp_local_fix_13a.patch          
+-a---- 514      3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\_tmp_local_installer_build.cmd    
+-a---- 2185     3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\_tmp_local_installer_build.sh     
+-a---- 12283    3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\AGENTS.md                         
+d-----          3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\app                               
+-a---- 724      3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\app.mozbuild                      
+-a---- 107      3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\app-rules.mk                      
+d-----          3/11/2026 9:58:01 PM D:\a\bluegriffon\bluegriffon\artifact                          
+-a---- 59       3/11/2026 9:58:01 PM D:\a\bluegriffon\bluegriffon\artifact-scan.txt                 
+d-----          3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\base                              
+-a---- 1244     3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\bluegriffon.code-workspace        
+d-----          3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\bluegriffon-3.1                   
+d-----          3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\branding                          
+-a---- 15662    3/11/2026 9:58:01 PM D:\a\bluegriffon\bluegriffon\build.log                         
+-a---- 1357     3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\build.mk                          
+-a---- 4        3/11/2026 9:58:01 PM D:\a\bluegriffon\bluegriffon\build-exit.txt                    
+-a---- 3204578  3/11/2026 9:58:01 PM D:\a\bluegriffon\bluegriffon\build-worker.log                  
+d-----          3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\components                        
+d-----          3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\config                            
+-a---- 2417     3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\confvars.sh                       
+-a---- 30       3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\defs.mk                           
+-a---- 7616     3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\dependency_reduction_report.md    
+d-----          3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\extensions                        
+d-----          3/11/2026 9:57:53 PM D:\a\bluegriffon\bluegriffon\gecko-dev                         
+-a---- 10912319 3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\icudata_test.obj                  
+-a---- 10912323 3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\icudata_test2.obj                 
+d-----          3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\installer                         
+d-----          3/11/2026 9:41:21 PM D:\a\bluegriffon\bluegriffon\langpacks                         
+-a---- 16285    3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\LICENSE                           
+-a---- 7239     3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\local-build.log                   
+-a---- 333012   3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\local-build-for-installer.log     
+d-----          3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\locales                           
+-a---- 6277     3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\local-package.log                 
+-a---- 232452   3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\local-rebuild-verify.log          
+-a---- 2192     3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\Makefile.in                       
+-a---- 2642     3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\makefiles.sh                      
+d-----          3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\modules                           
+-a---- 539      3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\moz.build                         
+-a---- 351      3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\moz.configure                     
+-a---- 96436    3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\package.log                       
+d-----          3/11/2026 9:41:23 PM D:\a\bluegriffon\bluegriffon\portable-run-dev                  
+d-----          3/11/2026 9:41:25 PM D:\a\bluegriffon\bluegriffon\portable-run-packaged-dev         
+-a---- 6637     3/11/2026 9:41:18 PM D:\a\bluegriffon\bluegriffon\README.md                         
+-a---- 141      3/11/2026 9:58:01 PM D:\a\bluegriffon\bluegriffon\root-recursive-report.txt         
+-a---- 539      3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\run-icu-test.cmd                  
+-a---- 924      3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\run-local-build-verify.cmd        
+-a---- 296      3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\run-original-bluegriffon-clean.bat
+d-----          3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\sidebars                          
+d-----          3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\src                               
+-a---- 73       3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\stltest.cpp                       
+-a---- 3231     3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\stltest.obj                       
+d-----          3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\themes                            
+-a---- 42       3/11/2026 9:41:26 PM D:\a\bluegriffon\bluegriffon\xtest.cpp                         
+
+
+

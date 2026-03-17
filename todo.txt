@@ -1,0 +1,8 @@
+pinning means it should open the same file even after close and opening
+
+
+
+
+looks like it remembers the toggle state!
+
+

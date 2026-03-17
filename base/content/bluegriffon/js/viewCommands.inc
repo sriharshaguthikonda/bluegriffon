@@ -67,9 +67,32 @@ var cmdToggleView =
 
   doCommand: function(aCommand)
   {
-    var nextMode = EditorUtils.isWysiwygMode()
-                   ? 'source'
-                   : 'wysiwyg';
+    var editorElement = EditorUtils.getCurrentEditorElement();
+    if (!editorElement) // sanity case
+      return false;
+
+    var deck = editorElement.parentNode;
+    var currentMode = EditorUtils.getCurrentViewMode();
+    var wysiwygMedium = deck.getAttribute("wysiwygmedium");
+    
+    // Determine next mode in cycle: wysiwyg -> live -> print -> wysiwyg
+    var nextMode;
+    if (currentMode === "wysiwyg") {
+      if (wysiwygMedium === "screen") {
+        nextMode = "live";  // wysiwyg -> live
+      } else if (wysiwygMedium === "print") {
+        nextMode = "wysiwyg";  // print -> wysiwyg
+      } else {
+        nextMode = "live";  // default to live if unknown
+      }
+    } else if (currentMode === "source") {
+      nextMode = "wysiwyg";  // source -> wysiwyg
+    } else if (currentMode === "live") {
+      nextMode = "print";  // live -> print
+    } else {
+      nextMode = "wysiwyg";  // default to wysiwyg if unknown
+    }
+    
     ToggleViewMode(gDialog[nextMode + 'ModeButton']);
   }
 };
