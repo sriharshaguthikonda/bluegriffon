@@ -1,6 +1,11 @@
 <popupset id="editorPopupSet">
 
-  <menupopup id="tabContextPopup">
+  <menupopup id="tabContextPopup"
+             onpopupshowing="OnTabContextPopupShowing();">
+    <menuitem id="pinTabTabContextMenu"
+              label="Pin Tab"
+              oncommand="TogglePinTab()"/>
+    <menuseparator />
     <menuitem id="closeTabTabContextMenu"         label="&closeTab.label;"       oncommand="CloseOneTab()" />
     <menuitem id="closeOtherTabsTabContextMenu"   label="&closeOtherTabs.label;" oncommand="CloseAllTabsButOne()" />
     <menuseparator />
@@ -201,4 +206,3 @@
     </grid>
   </tooltip>
 </popupset>
-

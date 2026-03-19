@@ -14,6 +14,10 @@ function Shutdown()
   EditorScrolledNotifier.shutdown();
   BGZoomManager.shutdown();
 
+  try {
+    if ("SavePinnedTabsState" in window)
+      SavePinnedTabsState();
+  } catch(e) {}
   // persist floating panels' position
   var panels = document.querySelectorAll('panel[floating="true"]');
   for (var i = 0; i < panels.length; i++) {
@@ -31,6 +35,10 @@ function Shutdown()
 
 function onClose()
 {
+  try {
+    if ("SavePinnedTabsState" in window)
+      SavePinnedTabsState();
+  } catch(e) {}
   if (doSaveTabsBeforeQuit()) {
     Shutdown();
     return true;
