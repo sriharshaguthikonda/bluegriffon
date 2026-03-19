@@ -104,6 +104,11 @@ function _delayedStartup() {
   }
   catch(e) {}
 
+  try {
+    if ("RestorePinnedTabsOnStartup" in window)
+      RestorePinnedTabsOnStartup();
+  } catch(e) {}
+
   window.setTimeout(function() {
     if ("ReapplyRememberedViewMode" in window)
       ReapplyRememberedViewMode();
