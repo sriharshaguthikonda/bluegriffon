@@ -43,6 +43,7 @@ var BGZoomManager = {
   kZOOM_VALUES:         "toolkit.zoomManager.zoomValues",
   kDEFAULT_ZOOM:        "bluegriffon.zoom.default",
   kDEFAULT_SOURCE_ZOOM: "bluegriffon.source.zoom.default",
+  mBoundZoomWheelListener: null,
 
   zoomValues: function BGZoomManager_zoomValues()
   {
@@ -223,6 +224,90 @@ var BGZoomManager = {
     }
   },
 
+  isZoomWheelEvent: function BGZoomManager_isZoomWheelEvent(aEvent)
+  {
+    if (!aEvent || !aEvent.ctrlKey)
+      return false;
+
+    if ("axis" in aEvent &&
+        "HORIZONTAL_AXIS" in aEvent &&
+        aEvent.axis == aEvent.HORIZONTAL_AXIS)
+      return false;
+
+    var target = aEvent.originalTarget || aEvent.target;
+    if (!target)
+      return false;
+
+    try {
+      var editorElement = EditorUtils.getCurrentEditorElement();
+      if (editorElement) {
+        if (target == editorElement ||
+            (editorElement.contains && editorElement.contains(target)))
+          return true;
+
+        if (editorElement.contentDocument &&
+            target.ownerDocument == editorElement.contentDocument)
+          return true;
+
+        if (editorElement.contentWindow &&
+            target.ownerDocument &&
+            target.ownerDocument.defaultView == editorElement.contentWindow)
+          return true;
+      }
+    } catch(e) {}
+
+    try {
+      var sourceIframe = EditorUtils.getCurrentSourceEditorElement();
+      if (sourceIframe) {
+        if (target == sourceIframe ||
+            (sourceIframe.contains && sourceIframe.contains(target)))
+          return true;
+
+        if (sourceIframe.contentDocument &&
+            target.ownerDocument == sourceIframe.contentDocument)
+          return true;
+
+        if (sourceIframe.contentWindow &&
+            target.ownerDocument &&
+            target.ownerDocument.defaultView == sourceIframe.contentWindow)
+          return true;
+      }
+    } catch(e) {}
+
+    return false;
+  },
+
+  onZoomWheel: function BGZoomManager_onZoomWheel(aEvent)
+  {
+    if (!this.isZoomWheelEvent(aEvent))
+      return;
+
+    var delta = 0;
+    if ("deltaY" in aEvent && aEvent.deltaY)
+      delta = aEvent.deltaY;
+    else if ("detail" in aEvent && aEvent.detail)
+      delta = aEvent.detail;
+    else if ("wheelDelta" in aEvent && aEvent.wheelDelta)
+      delta = -aEvent.wheelDelta;
+
+    if (!delta)
+      return;
+
+    var zoomMenulist = gDialog["menulist-zoompanel"];
+    if (!zoomMenulist)
+      return;
+
+    aEvent.preventDefault();
+    aEvent.stopPropagation();
+
+    if (delta < 0)
+      this.enlarge(zoomMenulist);
+    else
+      this.reduce(zoomMenulist);
+
+    this.focus();
+  },
+
   onModeSwitch: function()
   {
     gDialog["menulist-zoompanel"].value = Math.floor(this.getCurrentZoom() * 100) + "%"; 
@@ -237,6 +322,12 @@ var BGZoomManager = {
       function() { _self.onTabCreated(); }, this);
     NotifierUtils.addNotifierCallback("modeSwitch",
       function() { _self.onModeSwitch(); }, this);
+
+    if (!this.mBoundZoomWheelListener)
+      this.mBoundZoomWheelListener = this.onZoomWheel.bind(this);
+
+    window.addEventListener("wheel", this.mBoundZoomWheelListener, true);
+    window.addEventListener("DOMMouseScroll", this.mBoundZoomWheelListener, true);
   },
 
   shutdown: function BGZoomManager_shutdown()
@@ -248,6 +339,12 @@ var BGZoomManager = {
       function() { _self.onTabCreated(); }, this);
     NotifierUtils.removeNotifierCallback("modeSwitch",
       function() { _self.onModeSwitch(); }, this);
+
+    if (this.mBoundZoomWheelListener) {
+      window.removeEventListener("wheel", this.mBoundZoomWheelListener, true);
+      window.removeEventListener("DOMMouseScroll", this.mBoundZoomWheelListener, true);
+      this.mBoundZoomWheelListener = null;
+    }
   },
 
   onTabSelected: function BGZoomManager_onTabSelect()
@@ -271,4 +368,3 @@ var BGZoomManager = {
     gDialog["menulist-zoompanel"].value = Math.floor(defaultZoom * 100) + "%"; 
   }
 };
-
