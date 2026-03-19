@@ -47,6 +47,11 @@ function Shutdown(aModeHint)
       SaveRememberedViewMode(modeToSave);
   } catch(e) {}
 
+  try {
+    if ("SavePinnedTabsState" in window)
+      SavePinnedTabsState();
+  } catch(e) {}
+
   // persist floating panels' position
   var panels = document.querySelectorAll('panel[floating="true"]');
   for (var i = 0; i < panels.length; i++) {
@@ -65,6 +70,10 @@ function Shutdown(aModeHint)
 function onClose()
 {
   var modeHint = CaptureStableModeForShutdown();
+  try {
+    if ("SavePinnedTabsState" in window)
+      SavePinnedTabsState();
+  } catch(e) {}
   if (doSaveTabsBeforeQuit()) {
     Shutdown(modeHint);
     return true;

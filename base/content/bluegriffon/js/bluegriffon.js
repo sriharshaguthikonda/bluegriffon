@@ -75,6 +75,7 @@ var kActivityRailPref = "bluegriffon.ui.activity_rail.show";
 var kActivitySidebarPref = "bluegriffon.ui.activity_sidebar.show";
 var kActivityPanelPref = "bluegriffon.ui.activity_sidebar.panel";
 var kAutoSaveOnWindowBlurPref = "bluegriffon.files.autosave.on_window_blur";
+var kPinnedTabsPref = "bluegriffon.tabs.pinned_urls";
 
 var gActivityRailPanelMap = [
   { buttonId: "activityDomButton", menuitemId: "panel-domexplorer-menuitem" },
@@ -90,6 +91,8 @@ var gCommandPaletteSettingsSelectors = [
   "#viewMenuPopup menuitem",
   "#menu_preferences"
 ];
+var gPinnedTabsRestored = false;
+var gSuppressPinnedTabsStateWrites = false;
 
 function OpenLocation(aEvent, type)
 {
@@ -1633,6 +1636,8 @@ function doCloseTab(aTab)
   }
   window.updateCommands("style");
   NotifierUtils.notify("tabClosed");
+  if (!gSuppressPinnedTabsStateWrites)
+    SavePinnedTabsState();
 #ifdef XP_MACOSX
   if (gDialog.tabeditor)
     gDialog.tabeditor.updateOSXCloseButton();
@@ -1733,21 +1738,28 @@ function doSaveTabsBeforeQuit()
   var tabeditor = EditorUtils.getCurrentTabEditor();
   if (!tabeditor)
     return true;
-  var tabs = tabeditor.mTabs.childNodes;
-  var l = tabs.length;
-  for (var i = l-1; i >= 0; i--) {
-    var tab = tabs.item(i);
-    tabeditor.selectedIndex = i;
-    var closed = cmdCloseTab.doCommand();
-    if (1 == closed)
-      return false;
-  }
 
-  var ebook = document.querySelector("epub2,epub3,epub31");
-  if (ebook) {
-    if ("deleteTempDir" in ebook)
-      ebook.deleteTempDir();
-    ebook.parentNode.removeChild(ebook);
+  gSuppressPinnedTabsStateWrites = true;
+  try {
+    var tabs = tabeditor.mTabs.childNodes;
+    var l = tabs.length;
+    for (var i = l-1; i >= 0; i--) {
+      var tab = tabs.item(i);
+      tabeditor.selectedIndex = i;
+      var closed = cmdCloseTab.doCommand();
+      if (1 == closed)
+        return false;
+    }
+
+    var ebook = document.querySelector("epub2,epub3,epub31");
+    if (ebook) {
+      if ("deleteTempDir" in ebook)
+        ebook.deleteTempDir();
+      ebook.parentNode.removeChild(ebook);
+    }
+  }
+  finally {
+    gSuppressPinnedTabsStateWrites = false;
   }
 
   return true;
@@ -2649,6 +2661,159 @@ function IsTabPinned(aTab)
   return !!(aTab && aTab.getAttribute("pinned") == "true");
 }
 
+function GetTabIndex(aTab)
+{
+  if (!aTab || !aTab.parentNode)
+    return -1;
+
+  var index = 0;
+  var child = aTab;
+  while (child.previousElementSibling) {
+    index++;
+    child = child.previousElementSibling;
+  }
+  return index;
+}
+
+function GetEditorElementForTab(aTab)
+{
+  if (!gDialog || !gDialog.tabeditor || !gDialog.tabeditor.mTabpanels)
+    return null;
+
+  var index = GetTabIndex(aTab);
+  if (index < 0 || index >= gDialog.tabeditor.mTabpanels.childNodes.length)
+    return null;
+
+  var panel = gDialog.tabeditor.mTabpanels.childNodes.item(index);
+  if (!panel)
+    return null;
+
+  return panel.firstChild;
+}
+
+function GetPersistableTabUrl(aTab)
+{
+  var editorElement = GetEditorElementForTab(aTab);
+  if (!editorElement)
+    return null;
+
+  var url = "";
+  try {
+    var editor = editorElement.getEditor(editorElement.contentWindow);
+    if (editor && editor.document)
+      url = editor.document.URL || "";
+  } catch(e) {}
+
+  if (!url) {
+    try {
+      url = editorElement.getAttribute("src") || "";
+    } catch(e) {}
+  }
+
+  if (!url || url == "about:blank")
+    return null;
+  if (UrlUtils.isUrlOfBlankDocument(url))
+    return null;
+
+  return UrlUtils.stripUsernamePassword(url, null, null);
+}
+
+function GetSavedPinnedTabUrls()
+{
+  var raw = _getCharPref(kPinnedTabsPref, "[]");
+  if (!raw)
+    return [];
+
+  try {
+    var parsed = JSON.parse(raw);
+    if (!parsed || !(parsed instanceof Array))
+      return [];
+
+    var urls = [];
+    var seen = {};
+    for (var i = 0; i < parsed.length; i++) {
+      var url = parsed[i];
+      if (!url || typeof url != "string" || seen[url])
+        continue;
+      seen[url] = true;
+      urls.push(url);
+    }
+    return urls;
+  } catch(e) {}
+
+  return [];
+}
+
+function SavePinnedTabsState()
+{
+  var urls = [];
+  var seen = {};
+
+  try {
+    if (gDialog && gDialog.tabeditor && gDialog.tabeditor.mTabs) {
+      var tabs = gDialog.tabeditor.mTabs.childNodes;
+      for (var i = 0; i < tabs.length; i++) {
+        var tab = tabs.item(i);
+        if (!IsTabPinned(tab))
+          continue;
+
+        var url = GetPersistableTabUrl(tab);
+        if (!url || seen[url])
+          continue;
+
+        seen[url] = true;
+        urls.push(url);
+      }
+    }
+  } catch(e) {}
+
+  try {
+    Services.prefs.setCharPref(kPinnedTabsPref, JSON.stringify(urls));
+  } catch(e) {}
+}
+
+function RestorePinnedTabsOnStartup()
+{
+  if (gPinnedTabsRestored)
+    return;
+  gPinnedTabsRestored = true;
+
+  try {
+    var windowEnumerator = Services.wm.getEnumerator("bluegriffon");
+    var count = 0;
+    while (windowEnumerator.hasMoreElements()) {
+      windowEnumerator.getNext();
+      count++;
+      if (count > 1)
+        return;
+    }
+  } catch(e) {}
+
+  var urls = GetSavedPinnedTabUrls();
+  if (!urls.length)
+    return;
+
+  if (!gDialog || !gDialog.tabeditor)
+    return;
+
+  var selectedIndex = gDialog.tabeditor.selectedIndex;
+  for (var i = 0; i < urls.length; i++) {
+    OpenFile(urls[i], true);
+    var tab = gDialog.tabeditor.selectedTab;
+    if (!tab)
+      continue;
+
+    tab.setAttribute("pinned", "true");
+    MovePinnedTabToPinnedRegion(tab);
+  }
+
+  if (selectedIndex >= 0 &&
+      selectedIndex < gDialog.tabeditor.mTabpanels.childNodes.length)
+    gDialog.tabeditor.selectedIndex = selectedIndex;
+
+  SavePinnedTabsState();
+}
+
 function MovePinnedTabToPinnedRegion(aTab)
 {
   if (!aTab || !aTab.parentNode)
@@ -2750,6 +2915,8 @@ function TogglePinTab()
     tab.setAttribute("pinned", "true");
     MovePinnedTabToPinnedRegion(tab);
   }
+
+  SavePinnedTabsState();
 }
 
 function RevertTab()
