@@ -125,6 +125,10 @@
                       id="viewFormatToolbar2Menuitem"
                       type="checkbox"
                       oncommand="ToggleToolbar('vertical_toolbar')"/>
+            <menuitem label="Tertiary Toolbar (Dropdowns)"
+                      id="viewFormatMenulistsToolbarMenuitem"
+                      type="checkbox"
+                      oncommand="ToggleToolbar('tertiary_toolbar')"/>
             <menuseparator/>
             <menu label="Toolbar Layout">
               <menupopup>

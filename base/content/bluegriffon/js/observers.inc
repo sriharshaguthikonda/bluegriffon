@@ -298,7 +298,10 @@ var BlueGriffonPrefsObserver = {
           xulElements = [ gDialog.FormatToolbox ];
           break;
         case "bluegriffon.ui.horizontal_toolbars.show":
-          xulElements = [ gDialog.MainToolbox, gDialog.FormatMenulistsToolbox ];
+          xulElements = [ gDialog.MainToolbox ];
+          break;
+        case "bluegriffon.ui.tertiary_toolbar.show":
+          xulElements = [ gDialog.FormatMenulistsToolbox ];
           break;
         case "bluegriffon.ui.titlebar.show":
           if (gDialog.titlebar)
@@ -329,7 +332,8 @@ var BlueGriffonPrefsObserver = {
       else if (prefName == "bluegriffon.ui.titlebar.show")
         ApplyTitlebarVisibility();
       if (prefName == "bluegriffon.ui.vertical_toolbar.show"
-          || prefName == "bluegriffon.ui.horizontal_toolbars.show")
+          || prefName == "bluegriffon.ui.horizontal_toolbars.show"
+          || prefName == "bluegriffon.ui.tertiary_toolbar.show")
         ApplyVerticalToolbarPosition();
     }
 

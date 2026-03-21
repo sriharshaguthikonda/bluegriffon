@@ -3030,18 +3030,22 @@ function ApplyToolbarLayoutPref()
     case "vertical":
       _setBoolPrefIfNeeded("bluegriffon.ui.horizontal_toolbars.show", true);
       _setBoolPrefIfNeeded("bluegriffon.ui.vertical_toolbar.show", true);
+      _setBoolPrefIfNeeded("bluegriffon.ui.tertiary_toolbar.show", false);
       break;
     case "horizontal":
       _setBoolPrefIfNeeded("bluegriffon.ui.horizontal_toolbars.show", true);
       _setBoolPrefIfNeeded("bluegriffon.ui.vertical_toolbar.show", false);
+      _setBoolPrefIfNeeded("bluegriffon.ui.tertiary_toolbar.show", true);
       break;
     case "none":
       _setBoolPrefIfNeeded("bluegriffon.ui.horizontal_toolbars.show", false);
       _setBoolPrefIfNeeded("bluegriffon.ui.vertical_toolbar.show", false);
+      _setBoolPrefIfNeeded("bluegriffon.ui.tertiary_toolbar.show", false);
       break;
     default:
       _setBoolPrefIfNeeded("bluegriffon.ui.horizontal_toolbars.show", true);
       _setBoolPrefIfNeeded("bluegriffon.ui.vertical_toolbar.show", true);
+      _setBoolPrefIfNeeded("bluegriffon.ui.tertiary_toolbar.show", true);
       break;
   }
   ApplyVerticalToolbarPosition();
@@ -3084,6 +3088,7 @@ function ApplyVerticalToolbarPosition()
   var secondaryPosition = NormalizeToolbarPosition(_getCharPref("bluegriffon.ui.vertical_toolbar.position", "left"), "left");
   var showSecondaryToolbar = _getBoolPref("bluegriffon.ui.vertical_toolbar.show", true);
   var showPrimaryToolbars = _getBoolPref("bluegriffon.ui.horizontal_toolbars.show", true);
+  var showTertiaryToolbar = _getBoolPref("bluegriffon.ui.tertiary_toolbar.show", true);
 
   var mainToolbox = gDialog.MainToolbox;
   var menulistsToolbox = gDialog.FormatMenulistsToolbox;
@@ -3112,11 +3117,10 @@ function ApplyVerticalToolbarPosition()
   }
 
   var mainTargetDock = GetDockForPosition(primaryPosition, mainTopDock);
-  var menulistsTargetDock = GetDockForPosition(primaryPosition, menulistsTopDock);
   var formatTargetDock = GetDockForPosition(secondaryPosition, formatTopDock);
   var menulistsDockState = "toolbar";
 
-  if (showPrimaryToolbars && primaryPosition == "top" && tablineInlineDock && tablineFallbackDock) {
+  if (showTertiaryToolbar && tablineInlineDock && tablineFallbackDock) {
     if (menulistsToolbox.parentNode != tablineInlineDock)
       tablineInlineDock.appendChild(menulistsToolbox);
 
@@ -3143,31 +3147,28 @@ function ApplyVerticalToolbarPosition()
       tablineInlineDock.setAttribute("hidden", "true");
     if (tablineFallbackDock)
       tablineFallbackDock.setAttribute("hidden", "true");
+    if (menulistsToolbox.parentNode != menulistsTopDock)
+      menulistsTopDock.appendChild(menulistsToolbox);
+    menulistsDockState = showTertiaryToolbar ? "toolbar" : "hidden";
   }
 
   if (mainToolbox.parentNode != mainTargetDock)
     mainTargetDock.appendChild(mainToolbox);
-  if (menulistsDockState == "toolbar" && menulistsToolbox.parentNode != menulistsTargetDock)
-    menulistsTargetDock.appendChild(menulistsToolbox);
   if (formatToolbox.parentNode != formatTargetDock)
     formatTargetDock.appendChild(formatToolbox);
-
-  if (menulistsDockState == "toolbar" &&
-      mainTargetDock == menulistsTargetDock &&
-      menulistsToolbox.previousSibling != mainToolbox)
-    mainTargetDock.insertBefore(menulistsToolbox, mainToolbox.nextSibling);
 
   if (formatTargetDock == mainTargetDock && formatToolbox.previousSibling != menulistsToolbox)
     formatTargetDock.appendChild(formatToolbox);
 
-  if (showPrimaryToolbars) {
+  if (showPrimaryToolbars)
     mainToolbox.removeAttribute("hidden");
-    menulistsToolbox.removeAttribute("hidden");
-  }
-  else {
+  else
     mainToolbox.setAttribute("hidden", "true");
+
+  if (showTertiaryToolbar)
+    menulistsToolbox.removeAttribute("hidden");
+  else
     menulistsToolbox.setAttribute("hidden", "true");
-  }
 
   if (showSecondaryToolbar)
     formatToolbox.removeAttribute("hidden");
@@ -3179,7 +3180,7 @@ function ApplyVerticalToolbarPosition()
   else
     mainTopDock.setAttribute("hidden", "true");
 
-  if (showPrimaryToolbars && primaryPosition == "top" && menulistsDockState == "toolbar")
+  if (showTertiaryToolbar && menulistsDockState == "toolbar")
     menulistsTopDock.removeAttribute("hidden");
   else
     menulistsTopDock.setAttribute("hidden", "true");
@@ -3314,6 +3315,7 @@ function onViewToolbarsPopupShowing()
   var statusbar = _getBoolPref("bluegriffon.ui.statusbar.show", true);
   var vertical_toolbar = _getBoolPref("bluegriffon.ui.vertical_toolbar.show", true);
   var horizontal_toolbars = _getBoolPref("bluegriffon.ui.horizontal_toolbars.show", true);
+  var tertiary_toolbar = _getBoolPref("bluegriffon.ui.tertiary_toolbar.show", true);
   var titlebar = _getBoolPref("bluegriffon.ui.titlebar.show", true);
   var statusbarPosition = NormalizeStatusbarPosition(_getCharPref("bluegriffon.ui.statusbar.position", "bottom"));
   var toolbarLayout = NormalizeToolbarLayout(_getCharPref("bluegriffon.ui.toolbar.layout", "mixed"));
@@ -3324,6 +3326,7 @@ function onViewToolbarsPopupShowing()
   gDialog.viewStatusbarMenuitem.setAttribute("checked", statusbar);
   gDialog.viewFormatToolbarMenuitem.setAttribute("checked", horizontal_toolbars);
   gDialog.viewFormatToolbar2Menuitem.setAttribute("checked", vertical_toolbar);
+  gDialog.viewFormatMenulistsToolbarMenuitem.setAttribute("checked", tertiary_toolbar);
   gDialog.viewTitlebarMenuitem.setAttribute("checked", titlebar);
   gDialog.viewStatusbarBottomMenuitem.setAttribute("checked", statusbarPosition == "bottom");
   gDialog.viewStatusbarRightMenuitem.setAttribute("checked", statusbarPosition == "right");
@@ -3345,7 +3348,7 @@ function ToggleToolbar(aPrefInfix)
   var value = _getBoolPref(prefName, true);
   Services.prefs.setBoolPref(prefName, !value);
 
-  if (aPrefInfix == "horizontal_toolbars" || aPrefInfix == "vertical_toolbar") {
+  if (aPrefInfix == "horizontal_toolbars" || aPrefInfix == "vertical_toolbar" || aPrefInfix == "tertiary_toolbar") {
     ApplyVerticalToolbarPosition();
   }
   else if (aPrefInfix == "statusbar")
