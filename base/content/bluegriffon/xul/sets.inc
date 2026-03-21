@@ -23,8 +23,8 @@
   <key id="structurefirstchildkb" keycode="VK_F2"              observes="cmd_structureFirstChild" modifiers="shift"/>
   <key id="structurenextkb"       keycode="VK_F6"              observes="cmd_structureNext"/>
   <key id="structurepreviousbkb"  keycode="VK_F6"              observes="cmd_structurePrevious" modifiers="shift"/>
-
   <key id="previewkb"             keycode="VK_F4"              oncommand="TogglePrintPreviewMode();"/>
+  <key id="reloadcurrenttabkb"    keycode="VK_F5"              oncommand="ReloadCurrentTabFromDisk();"/>
   <key id="toggleviewkb"          keycode="VK_F8"              observes="cmd_toggleView"/>
 
 #ifdef XP_MACOSX
