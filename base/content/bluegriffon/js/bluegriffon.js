@@ -2036,6 +2036,15 @@ function OnClick(aEvent)
   if (HandleClassTransferPickerClick(aEvent))
     return;
 
+  if (ShouldOpenClickedLinkInNewTab(aEvent)) {
+    var link = GetClickedLinkElement(aEvent);
+    if (link && OpenLinkElementInNewTab(link)) {
+      aEvent.preventDefault();
+      aEvent.stopPropagation();
+      return;
+    }
+  }
+
   // this is necessary to be able to select for instance video elements
   var target = aEvent.explicitOriginalTarget;
   if (target && (target instanceof HTMLVideoElement
@@ -2043,6 +2052,80 @@ function OnClick(aEvent)
                  || target instanceof Components.interfaces.nsIDOMHTMLSelectElement)) {
     EditorUtils.getCurrentEditor().selectElement(target);
   }
+}
+
+function IsAccelModifierDown(aEvent)
+{
+  if ("MACOSX" == gSYSTEM)
+    return !!aEvent.metaKey;
+  return !!aEvent.ctrlKey;
+}
+
+function GetClickedLinkElement(aEvent)
+{
+  if (!aEvent)
+    return null;
+
+  var node = aEvent.explicitOriginalTarget || aEvent.target;
+  while (node && node.nodeType != Node.ELEMENT_NODE)
+    node = node.parentNode;
+
+  while (node && node.nodeType == Node.ELEMENT_NODE) {
+    if (node.localName && node.localName.toLowerCase() == "a" && node.hasAttribute("href"))
+      return node;
+    node = node.parentNode;
+  }
+  return null;
+}
+
+function ShouldOpenLinkElementInNewTab(aLink)
+{
+  if (!aLink || !aLink.hasAttribute("href"))
+    return false;
+
+  var href = aLink.getAttribute("href");
+  if (!href)
+    return false;
+
+  var url = UrlUtils.makeAbsoluteUrl(href);
+  if (!url)
+    return false;
+
+  try {
+    var uri = Components.classes["@mozilla.org/network/io-service;1"]
+                        .getService(Components.interfaces.nsIIOService)
+                        .newURI(url, null, null);
+    if (uri.specIgnoringRef == EditorUtils.getDocumentUrl())
+      return false;
+  }
+  catch(e) {
+    return false;
+  }
+
+  return true;
+}
+
+function ShouldOpenClickedLinkInNewTab(aEvent)
+{
+  if (!aEvent || !IsAccelModifierDown(aEvent))
+    return false;
+  if (aEvent.altKey)
+    return false;
+
+  return ShouldOpenLinkElementInNewTab(GetClickedLinkElement(aEvent));
+}
+
+function OpenLinkElementInNewTab(aLink)
+{
+  if (!ShouldOpenLinkElementInNewTab(aLink))
+    return false;
+
+  var target = UrlUtils.makeAbsoluteUrl(aLink.getAttribute("href"));
+  if (!target)
+    return false;
+
+  OpenFile(target, true);
+  return true;
 }
 
 // LINUX ONLY :-(
@@ -2900,6 +2983,52 @@ function TogglePinTab()
   }
 
   SavePinnedTabsState();
+}
+
+function ReloadCurrentTabFromDisk()
+{
+  if (!EditorUtils.getCurrentEditorElement())
+    return;
+
+  if (!EditorUtils.isWysiwygMode()) {
+    if (!ToggleViewMode(gDialog.wysiwygModeButton))
+      return;
+  }
+
+  var url = EditorUtils.getDocumentUrl();
+  if (!url || url == "about:blank" || UrlUtils.isUrlOfBlankDocument(url))
+    return;
+
+  var rv = 0;
+  if (EditorUtils.isDocumentModified()) {
+    rv = PromptUtils.confirmWithTitle(
+                    L10NUtils.getString("FileNotSaved"),
+                    L10NUtils.getString("SaveFileBeforeClosing"),
+                    L10NUtils.getString("YesSaveFile"),
+                    L10NUtils.getString("DontCloseTab"),
+                    L10NUtils.getString("NoDiscardChanges"));
+    switch(rv) {
+      case 1:
+        return;
+      case 0:
+        if (!cmdSave.doCommand()) {
+          return;
+        }
+        break;
+      default:
+        break;
+    }
+  }
+
+  try {
+    FileChangeUtils.lookForChanges();
+  } catch(e) {}
+
+  var editorElt = EditorUtils.getCurrentEditorElement();
+  if (!editorElt)
+    return;
+  editorElt.setAttribute("src", "about:blank");
+  editorElt.setAttribute("src", url);
 }
 
 function RevertTab()
