@@ -1,0 +1,35 @@
+name: Build BlueGriffon
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Clone Gecko sources
+        run: git clone --depth 1 https://github.com/mozilla/gecko-dev gecko
+
+      - name: Copy BlueGriffon into Gecko tree
+        run: |
+          mkdir gecko/bluegriffon
+          rsync -a --exclude=gecko --exclude='.git' ./ gecko/bluegriffon/
+
+      - name: Apply patches and build
+        working-directory: gecko
+        run: |
+          git reset --hard $(cat bluegriffon/config/gecko_dev_revision.txt)
+          patch -p1 < bluegriffon/config/gecko_dev_content.patch
+          patch -p1 < bluegriffon/config/gecko_dev_idl.patch
+          cp bluegriffon/config/mozconfig.ubuntu64 .mozconfig
+          ./mach build
+          ./mach package
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-build
+          path: gecko/opt/dist/

@@ -76,3 +76,9 @@ There are two ways to contribute:
 
 1. Contribute code. That's just another OSS project, we're waiting for your Pull Requests!
 2. Contribute L10N. All happens only in the 'locales' directory. You can review the existing locales and proposed changes/fixes or submit a new locale in a Pull Request. In that case, you need to translate everything from en-US into a new locale beforeI can accept the PR.
+
+## Continuous Integration
+
+A GitHub Actions workflow defined in `.github/workflows/build.yml` builds BlueGriffon automatically.
+It clones the Gecko sources, applies the required patches and runs `./mach build` and `./mach package`.
+The packaged build is uploaded as an artifact on each push and pull request.
