@@ -1,0 +1,37 @@
+name: Build BlueGriffon
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 360
+    steps:
+      - name: Checkout BlueGriffon
+        uses: actions/checkout@v4
+        with:
+          path: bluegriffon
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Clone Gecko Source
+        run: |
+          git clone https://github.com/mozilla/gecko-dev gecko
+          cd gecko
+          git reset --hard $(cat ../bluegriffon/config/gecko_dev_revision.txt)
+          patch -p 1 < ../bluegriffon/config/gecko_dev_content.patch
+          patch -p 1 < ../bluegriffon/config/gecko_dev_idl.patch
+          cp ../bluegriffon/config/mozconfig.ubuntu64 .mozconfig
+          ./mach build
+          ./mach package
+
+      - name: Upload package
+        uses: actions/upload-artifact@v4
+        with:
+          name: bluegriffon-package
+          path: gecko/obj*/dist/*.tar.*
